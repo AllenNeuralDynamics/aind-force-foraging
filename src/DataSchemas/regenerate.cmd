@@ -1,0 +1,1 @@
+powershell -ExecutionPolicy Bypass -File .\src\DataSchemas\regenerate.ps1
