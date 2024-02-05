@@ -27,5 +27,6 @@ class AindForceForagingTaskLogic(AindBehaviorTaskLogicModel):
     describedBy: str = Field("")
     schema_version: Literal[__version__] = __version__
 
+
 def schema() -> BaseModel:
     return AindForceForagingTaskLogic
