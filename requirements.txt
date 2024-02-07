@@ -1,2 +1,0 @@
-aind-data-schema==0.19.0
-datamodel-code-generator==0.25.1
