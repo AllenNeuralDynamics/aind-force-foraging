@@ -42,12 +42,12 @@ class LeftHarvestAction(HarvestActionBase):
     label: Literal['LeftHarvestAction'] = 'LeftHarvestAction'
 
 
-class HarvestAction(HarvestActionBase):
-    label: Literal['HarvestAction'] = 'HarvestAction'
+class GenericHarvestAction(HarvestActionBase):
+    label: Literal['GenericHarvestAction'] = 'GenericHarvestAction'
 
 
-class HarvestActionType(RootModel):
-    root: Union[LeftHarvestAction, RightHarvestAction, HarvestAction]
+class HarvestAction(RootModel):
+    root: Annotated[Union[LeftHarvestAction, RightHarvestAction, GenericHarvestAction], Field(discriminator='label')]
 
 
 class Trial(BaseModel):

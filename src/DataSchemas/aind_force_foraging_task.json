@@ -76,11 +76,11 @@
       "title": "EnvironmentMode",
       "type": "string"
     },
-    "HarvestAction": {
+    "GenericHarvestAction": {
       "properties": {
         "label": {
-          "const": "HarvestAction",
-          "default": "HarvestAction",
+          "const": "GenericHarvestAction",
+          "default": "GenericHarvestAction",
           "title": "Label",
           "type": "string"
         },
@@ -115,7 +115,71 @@
           "type": "number"
         }
       },
-      "title": "HarvestAction",
+      "title": "GenericHarvestAction",
+      "type": "object"
+    },
+    "HarvestAction": {
+      "discriminator": {
+        "mapping": {
+          "GenericHarvestAction": "#/definitions/GenericHarvestAction",
+          "LeftHarvestAction": "#/definitions/LeftHarvestAction",
+          "RightHarvestAction": "#/definitions/RightHarvestAction"
+        },
+        "propertyName": "label"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/definitions/LeftHarvestAction"
+        },
+        {
+          "$ref": "#/definitions/RightHarvestAction"
+        },
+        {
+          "$ref": "#/definitions/GenericHarvestAction"
+        }
+      ],
+      "title": "HarvestAction"
+    },
+    "LeftHarvestAction": {
+      "properties": {
+        "label": {
+          "const": "LeftHarvestAction",
+          "default": "LeftHarvestAction",
+          "title": "Label",
+          "type": "string"
+        },
+        "probability": {
+          "default": 1,
+          "description": "Probability of reward",
+          "title": "Probability",
+          "type": "number"
+        },
+        "amount": {
+          "default": 1,
+          "description": "Amount of reward to be delivered",
+          "title": "Amount",
+          "type": "number"
+        },
+        "delay": {
+          "default": 0,
+          "description": "Delay between sucessful harvest and reward delivery",
+          "title": "Delay",
+          "type": "number"
+        },
+        "press_duration": {
+          "default": 5,
+          "description": "Duration that the force much stay above threshold",
+          "title": "Press Duration",
+          "type": "number"
+        },
+        "press_force_threshold": {
+          "default": 5000,
+          "description": "Force to be applied",
+          "title": "Press Force Threshold",
+          "type": "number"
+        }
+      },
+      "title": "LeftHarvestAction",
       "type": "object"
     },
     "NumericalUpdater": {
@@ -195,6 +259,48 @@
         }
       },
       "title": "NumericalUpdaterParameters",
+      "type": "object"
+    },
+    "RightHarvestAction": {
+      "properties": {
+        "label": {
+          "const": "RightHarvestAction",
+          "default": "RightHarvestAction",
+          "title": "Label",
+          "type": "string"
+        },
+        "probability": {
+          "default": 1,
+          "description": "Probability of reward",
+          "title": "Probability",
+          "type": "number"
+        },
+        "amount": {
+          "default": 1,
+          "description": "Amount of reward to be delivered",
+          "title": "Amount",
+          "type": "number"
+        },
+        "delay": {
+          "default": 0,
+          "description": "Delay between sucessful harvest and reward delivery",
+          "title": "Delay",
+          "type": "number"
+        },
+        "press_duration": {
+          "default": 5,
+          "description": "Duration that the force much stay above threshold",
+          "title": "Press Duration",
+          "type": "number"
+        },
+        "press_force_threshold": {
+          "default": 5000,
+          "description": "Force to be applied",
+          "title": "Press Force Threshold",
+          "type": "number"
+        }
+      },
+      "title": "RightHarvestAction",
       "type": "object"
     },
     "Trial": {
