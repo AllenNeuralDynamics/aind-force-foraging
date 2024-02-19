@@ -1460,7 +1460,7 @@ namespace AindForceForagingDataSchema.AindForceForagingRig
     
         private HarpBehavior _harpBehavior = new HarpBehavior();
     
-        private HarpOlfactometer _harpOlfactometer = new HarpOlfactometer();
+        private HarpOlfactometer _harpOlfactometer;
     
         private HarpLickometer _harpLickometer = new HarpLickometer();
     

@@ -522,12 +522,15 @@
       "description": "Harp behavior"
     },
     "harp_olfactometer": {
-      "allOf": [
+      "description": "Harp olfactometer",
+      "oneOf": [
         {
           "$ref": "#/definitions/HarpOlfactometer"
+        },
+        {
+          "type": "null"
         }
-      ],
-      "description": "Harp olfactometer"
+      ]
     },
     "harp_lickometer": {
       "allOf": [

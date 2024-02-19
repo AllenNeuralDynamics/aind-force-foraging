@@ -17,7 +17,7 @@ class AindForceForagingRig(AindBehaviorRigModel):
     auxiliary_camera0: Optional[rig.WebCamera] = Field(default=rig.WebCamera(), description="Auxiliary camera 0")
     auxiliary_camera1: Optional[rig.WebCamera] = Field(default=rig.WebCamera(), description="Auxiliary camera 1")
     harp_behavior: rig.HarpBehavior = Field(..., description="Harp behavior")
-    harp_olfactometer: rig.HarpOlfactometer = Field(..., description="Harp olfactometer")
+    harp_olfactometer: Optional[rig.HarpOlfactometer] = Field(..., description="Harp olfactometer")
     harp_lickometer: rig.HarpLickometer = Field(..., description="Harp lickometer")
     harp_load_cells: rig.HarpLoadCells = Field(..., description="Harp load cells")
     harp_clock_generator: rig.HarpClockGenerator = Field(..., description="Harp clock generator")
