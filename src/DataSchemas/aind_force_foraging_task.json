@@ -34,94 +34,84 @@
       "title": "Block",
       "type": "object"
     },
-    "Environment": {
+    "BlockedStatistics": {
       "properties": {
         "mode": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/EnvironmentMode"
-            }
-          ],
-          "description": "Mode of the environment"
+          "const": "Block",
+          "default": "Block",
+          "title": "Mode",
+          "type": "string"
         },
         "blocks": {
-          "default": null,
+          "default": [],
           "description": "List of blocks in the environment",
+          "items": {
+            "$ref": "#/definitions/Block"
+          },
+          "title": "Blocks",
+          "type": "array"
+        },
+        "shuffle": {
+          "default": false,
+          "description": "Whether to shuffle the blocks in the environment",
+          "title": "Shuffle",
+          "type": "boolean"
+        },
+        "repeat_count": {
+          "default": 0,
+          "description": "Number of times to repeat the environment. If null, the environment will be repeated indefinitely",
           "oneOf": [
             {
-              "items": {
-                "$ref": "#/definitions/Block"
-              },
-              "type": "array"
+              "type": "integer"
             },
             {
               "type": "null"
             }
           ],
-          "title": "Blocks"
+          "title": "Repeat Count"
+        }
+      },
+      "title": "BlockedStatistics",
+      "type": "object"
+    },
+    "Environment": {
+      "properties": {
+        "statistics": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/EnvironmentStatistics"
+            }
+          ],
+          "description": "Statistics of the environment"
         }
       },
       "required": [
-        "mode"
+        "statistics"
       ],
       "title": "Environment",
       "type": "object"
     },
-    "EnvironmentMode": {
-      "description": "Defines the mode of the environment",
-      "enum": [
-        "Block",
-        "RandomWalk"
-      ],
-      "title": "EnvironmentMode",
-      "type": "string"
-    },
-    "GenericHarvestAction": {
-      "properties": {
-        "label": {
-          "const": "GenericHarvestAction",
-          "default": "GenericHarvestAction",
-          "title": "Label",
-          "type": "string"
+    "EnvironmentStatistics": {
+      "discriminator": {
+        "mapping": {
+          "Block": "#/definitions/BlockedStatistics",
+          "RandomWalk": "#/definitions/RandomWalkStatistics"
         },
-        "probability": {
-          "default": 1,
-          "description": "Probability of reward",
-          "title": "Probability",
-          "type": "number"
-        },
-        "amount": {
-          "default": 1,
-          "description": "Amount of reward to be delivered",
-          "title": "Amount",
-          "type": "number"
-        },
-        "delay": {
-          "default": 0,
-          "description": "Delay between sucessful harvest and reward delivery",
-          "title": "Delay",
-          "type": "number"
-        },
-        "press_duration": {
-          "default": 5,
-          "description": "Duration that the force much stay above threshold",
-          "title": "Press Duration",
-          "type": "number"
-        },
-        "press_force_threshold": {
-          "default": 5000,
-          "description": "Force to be applied",
-          "title": "Press Force Threshold",
-          "type": "number"
-        }
+        "propertyName": "mode"
       },
-      "title": "GenericHarvestAction",
-      "type": "object"
+      "oneOf": [
+        {
+          "$ref": "#/definitions/BlockedStatistics"
+        },
+        {
+          "$ref": "#/definitions/RandomWalkStatistics"
+        }
+      ],
+      "title": "EnvironmentStatistics"
     },
     "HarvestAction": {
       "discriminator": {
         "mapping": {
-          "GenericHarvestAction": "#/definitions/GenericHarvestAction",
           "LeftHarvestAction": "#/definitions/LeftHarvestAction",
           "RightHarvestAction": "#/definitions/RightHarvestAction"
         },
@@ -133,9 +123,6 @@
         },
         {
           "$ref": "#/definitions/RightHarvestAction"
-        },
-        {
-          "$ref": "#/definitions/GenericHarvestAction"
         }
       ],
       "title": "HarvestAction"
@@ -259,6 +246,18 @@
         }
       },
       "title": "NumericalUpdaterParameters",
+      "type": "object"
+    },
+    "RandomWalkStatistics": {
+      "properties": {
+        "mode": {
+          "const": "RandomWalk",
+          "default": "RandomWalk",
+          "title": "Mode",
+          "type": "string"
+        }
+      },
+      "title": "RandomWalkStatistics",
       "type": "object"
     },
     "RightHarvestAction": {

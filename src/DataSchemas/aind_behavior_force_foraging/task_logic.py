@@ -7,7 +7,7 @@ import aind_behavior_services.task_logic.distributions as distributions
 from aind_behavior_services.task_logic import AindBehaviorTaskLogicModel
 from aind_behavior_force_foraging import __version__
 from aind_data_schema.base import AindModel
-from pydantic import BaseModel, Field, RootModel
+from pydantic import BaseModel, Field, RootModel, ConfigDict
 
 
 def scalar_value(value: float) -> distributions.Scalar:
@@ -42,12 +42,8 @@ class LeftHarvestAction(HarvestActionBase):
     label: Literal['LeftHarvestAction'] = 'LeftHarvestAction'
 
 
-class GenericHarvestAction(HarvestActionBase):
-    label: Literal['GenericHarvestAction'] = 'GenericHarvestAction'
-
-
 class HarvestAction(RootModel):
-    root: Annotated[Union[LeftHarvestAction, RightHarvestAction, GenericHarvestAction], Field(discriminator='label')]
+    root: Annotated[Union[LeftHarvestAction, RightHarvestAction], Field(discriminator='label')]
 
 
 class Trial(BaseModel):
@@ -64,20 +60,29 @@ class Block(BaseModel):
     repeat_count: Optional[int] = Field(default=0, description="Number of times to repeat the block. If null, the block will be repeated indefinitely")
 
 
-class EnvironmentMode(str, Enum):
+class EnvironmentStatisticsMode(str, Enum):
     '''Defines the mode of the environment'''
     BLOCK = "Block"
     RANDOMWALK = "RandomWalk"
 
 
-class Environment(BaseModel):
-    mode: EnvironmentMode = Field(..., description="Mode of the environment")
-    blocks: Optional[List[Block]] = Field(default=None, description="List of blocks in the environment")
+class BlockedStatistics(BaseModel):
+    mode: Literal[EnvironmentStatisticsMode.BLOCK] = EnvironmentStatisticsMode.BLOCK
+    blocks: List[Block] = Field(default=[], description="List of blocks in the environment")
+    shuffle: bool = Field(default=False, description="Whether to shuffle the blocks in the environment")
+    repeat_count: Optional[int] = Field(default=0, description="Number of times to repeat the environment. If null, the environment will be repeated indefinitely")
 
-    class EnvironmentMode(str, Enum):
-        '''Defines the mode of the environment'''
-        BLOCK = "Block"
-        RANDOMWALK = "RandomWalk"
+
+class RandomWalkStatistics(BaseModel):
+    mode: Literal[EnvironmentStatisticsMode.RANDOMWALK] = EnvironmentStatisticsMode.RANDOMWALK
+
+
+class EnvironmentStatistics(RootModel):
+    root: Annotated[Union[BlockedStatistics, RandomWalkStatistics], Field(discriminator='mode')]
+
+
+class Environment(BaseModel):
+    statistics: EnvironmentStatistics = Field(..., description="Statistics of the environment")
 
 
 # Updaters

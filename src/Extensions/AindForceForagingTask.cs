@@ -122,39 +122,25 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
-    public partial class Environment
+    public partial class BlockedStatistics : EnvironmentStatistics
     {
     
-        private EnvironmentMode _mode;
+        private System.Collections.Generic.List<Block> _blocks = new System.Collections.Generic.List<Block>();
     
-        private System.Collections.Generic.List<Block> _blocks;
+        private bool _shuffle = false;
     
-        public Environment()
+        private int? _repeatCount;
+    
+        public BlockedStatistics()
         {
         }
     
-        protected Environment(Environment other)
+        protected BlockedStatistics(BlockedStatistics other) : 
+                base(other)
         {
-            _mode = other._mode;
             _blocks = other._blocks;
-        }
-    
-        /// <summary>
-        /// Mode of the environment
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("mode", Required=Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DescriptionAttribute("Mode of the environment")]
-        public EnvironmentMode Mode
-        {
-            get
-            {
-                return _mode;
-            }
-            set
-            {
-                _mode = value;
-            }
+            _shuffle = other._shuffle;
+            _repeatCount = other._repeatCount;
         }
     
         /// <summary>
@@ -175,6 +161,101 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             }
         }
     
+        /// <summary>
+        /// Whether to shuffle the blocks in the environment
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("shuffle")]
+        [System.ComponentModel.DescriptionAttribute("Whether to shuffle the blocks in the environment")]
+        public bool Shuffle
+        {
+            get
+            {
+                return _shuffle;
+            }
+            set
+            {
+                _shuffle = value;
+            }
+        }
+    
+        /// <summary>
+        /// Number of times to repeat the environment. If null, the environment will be repeated indefinitely
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("repeat_count")]
+        [System.ComponentModel.DescriptionAttribute("Number of times to repeat the environment. If null, the environment will be repea" +
+            "ted indefinitely")]
+        public int? RepeatCount
+        {
+            get
+            {
+                return _repeatCount;
+            }
+            set
+            {
+                _repeatCount = value;
+            }
+        }
+    
+        public System.IObservable<BlockedStatistics> Process()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new BlockedStatistics(this)));
+        }
+    
+        public System.IObservable<BlockedStatistics> Process<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new BlockedStatistics(this));
+        }
+    
+        protected override bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            if (base.PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(", ");
+            }
+            stringBuilder.Append("blocks = " + _blocks + ", ");
+            stringBuilder.Append("shuffle = " + _shuffle + ", ");
+            stringBuilder.Append("repeat_count = " + _repeatCount);
+            return true;
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Bonsai.CombinatorAttribute()]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    public partial class Environment
+    {
+    
+        private EnvironmentStatistics _statistics;
+    
+        public Environment()
+        {
+        }
+    
+        protected Environment(Environment other)
+        {
+            _statistics = other._statistics;
+        }
+    
+        /// <summary>
+        /// Statistics of the environment
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("statistics", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("Statistics of the environment")]
+        public EnvironmentStatistics Statistics
+        {
+            get
+            {
+                return _statistics;
+            }
+            set
+            {
+                _statistics = value;
+            }
+        }
+    
         public System.IObservable<Environment> Process()
         {
             return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new Environment(this)));
@@ -187,8 +268,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
-            stringBuilder.Append("mode = " + _mode + ", ");
-            stringBuilder.Append("blocks = " + _blocks);
+            stringBuilder.Append("statistics = " + _statistics);
             return true;
         }
     
@@ -207,159 +287,49 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     }
 
 
-    /// <summary>
-    /// Defines the mode of the environment
-    /// </summary>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
-    [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-    public enum EnvironmentMode
-    {
-    
-        [System.Runtime.Serialization.EnumMemberAttribute(Value="Block")]
-        Block = 0,
-    
-        [System.Runtime.Serialization.EnumMemberAttribute(Value="RandomWalk")]
-        RandomWalk = 1,
-    }
-
-
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Newtonsoft.Json.JsonConverter(typeof(JsonInheritanceConverter), "mode")]
+    [JsonInheritanceAttribute("Block", typeof(BlockedStatistics))]
+    [JsonInheritanceAttribute("RandomWalk", typeof(RandomWalkStatistics))]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
-    public partial class GenericHarvestAction : HarvestAction
+    public partial class EnvironmentStatistics
     {
     
-        private double _probability = 1D;
-    
-        private double _amount = 1D;
-    
-        private double _delay = 0D;
-    
-        private double _pressDuration = 5D;
-    
-        private double _pressForceThreshold = 5000D;
-    
-        public GenericHarvestAction()
+        public EnvironmentStatistics()
         {
         }
     
-        protected GenericHarvestAction(GenericHarvestAction other) : 
-                base(other)
+        protected EnvironmentStatistics(EnvironmentStatistics other)
         {
-            _probability = other._probability;
-            _amount = other._amount;
-            _delay = other._delay;
-            _pressDuration = other._pressDuration;
-            _pressForceThreshold = other._pressForceThreshold;
         }
     
-        /// <summary>
-        /// Probability of reward
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("probability")]
-        [System.ComponentModel.DescriptionAttribute("Probability of reward")]
-        public double Probability
+        public System.IObservable<EnvironmentStatistics> Process()
         {
-            get
-            {
-                return _probability;
-            }
-            set
-            {
-                _probability = value;
-            }
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new EnvironmentStatistics(this)));
         }
     
-        /// <summary>
-        /// Amount of reward to be delivered
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("amount")]
-        [System.ComponentModel.DescriptionAttribute("Amount of reward to be delivered")]
-        public double Amount
+        public System.IObservable<EnvironmentStatistics> Process<TSource>(System.IObservable<TSource> source)
         {
-            get
-            {
-                return _amount;
-            }
-            set
-            {
-                _amount = value;
-            }
+            return System.Reactive.Linq.Observable.Select(source, _ => new EnvironmentStatistics(this));
         }
     
-        /// <summary>
-        /// Delay between sucessful harvest and reward delivery
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("delay")]
-        [System.ComponentModel.DescriptionAttribute("Delay between sucessful harvest and reward delivery")]
-        public double Delay
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
-            get
-            {
-                return _delay;
-            }
-            set
-            {
-                _delay = value;
-            }
+            return false;
         }
     
-        /// <summary>
-        /// Duration that the force much stay above threshold
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("press_duration")]
-        [System.ComponentModel.DescriptionAttribute("Duration that the force much stay above threshold")]
-        public double PressDuration
+        public override string ToString()
         {
-            get
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
             {
-                return _pressDuration;
+                stringBuilder.Append(" ");
             }
-            set
-            {
-                _pressDuration = value;
-            }
-        }
-    
-        /// <summary>
-        /// Force to be applied
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("press_force_threshold")]
-        [System.ComponentModel.DescriptionAttribute("Force to be applied")]
-        public double PressForceThreshold
-        {
-            get
-            {
-                return _pressForceThreshold;
-            }
-            set
-            {
-                _pressForceThreshold = value;
-            }
-        }
-    
-        public System.IObservable<GenericHarvestAction> Process()
-        {
-            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new GenericHarvestAction(this)));
-        }
-    
-        public System.IObservable<GenericHarvestAction> Process<TSource>(System.IObservable<TSource> source)
-        {
-            return System.Reactive.Linq.Observable.Select(source, _ => new GenericHarvestAction(this));
-        }
-    
-        protected override bool PrintMembers(System.Text.StringBuilder stringBuilder)
-        {
-            if (base.PrintMembers(stringBuilder))
-            {
-                stringBuilder.Append(", ");
-            }
-            stringBuilder.Append("probability = " + _probability + ", ");
-            stringBuilder.Append("amount = " + _amount + ", ");
-            stringBuilder.Append("delay = " + _delay + ", ");
-            stringBuilder.Append("press_duration = " + _pressDuration + ", ");
-            stringBuilder.Append("press_force_threshold = " + _pressForceThreshold);
-            return true;
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
         }
     }
 
@@ -368,7 +338,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [Newtonsoft.Json.JsonConverter(typeof(JsonInheritanceConverter), "label")]
     [JsonInheritanceAttribute("LeftHarvestAction", typeof(LeftHarvestAction))]
     [JsonInheritanceAttribute("RightHarvestAction", typeof(RightHarvestAction))]
-    [JsonInheritanceAttribute("GenericHarvestAction", typeof(GenericHarvestAction))]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     public partial class HarvestAction
@@ -808,6 +777,38 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             }
             stringBuilder.Append("}");
             return stringBuilder.ToString();
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Bonsai.CombinatorAttribute()]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    public partial class RandomWalkStatistics : EnvironmentStatistics
+    {
+    
+        public RandomWalkStatistics()
+        {
+        }
+    
+        protected RandomWalkStatistics(RandomWalkStatistics other) : 
+                base(other)
+        {
+        }
+    
+        public System.IObservable<RandomWalkStatistics> Process()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new RandomWalkStatistics(this)));
+        }
+    
+        public System.IObservable<RandomWalkStatistics> Process<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new RandomWalkStatistics(this));
+        }
+    
+        protected override bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            return base.PrintMembers(stringBuilder);
         }
     }
 
@@ -1349,9 +1350,49 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [System.ComponentModel.DefaultPropertyAttribute("Type")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Combinator)]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BlockedStatistics>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<RandomWalkStatistics>))]
+    public partial class MatchEnvironmentStatistics : Bonsai.Expressions.SingleArgumentExpressionBuilder
+    {
+    
+        public Bonsai.Expressions.TypeMapping Type { get; set; }
+
+        public override System.Linq.Expressions.Expression Build(System.Collections.Generic.IEnumerable<System.Linq.Expressions.Expression> arguments)
+        {
+            var typeMapping = Type;
+            var returnType = typeMapping != null ? typeMapping.GetType().GetGenericArguments()[0] : typeof(EnvironmentStatistics);
+            return System.Linq.Expressions.Expression.Call(
+                typeof(MatchEnvironmentStatistics),
+                "Process",
+                new System.Type[] { returnType },
+                System.Linq.Enumerable.Single(arguments));
+        }
+
+    
+        private static System.IObservable<TResult> Process<TResult>(System.IObservable<EnvironmentStatistics> source)
+            where TResult : EnvironmentStatistics
+        {
+            return System.Reactive.Linq.Observable.Create<TResult>(observer =>
+            {
+                var sourceObserver = System.Reactive.Observer.Create<EnvironmentStatistics>(
+                    value =>
+                    {
+                        var match = value as TResult;
+                        if (match != null) observer.OnNext(match);
+                    },
+                    observer.OnError,
+                    observer.OnCompleted);
+                return System.ObservableExtensions.SubscribeSafe(source, sourceObserver);
+            });
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.ComponentModel.DefaultPropertyAttribute("Type")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Combinator)]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LeftHarvestAction>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<RightHarvestAction>))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<GenericHarvestAction>))]
     public partial class MatchHarvestAction : Bonsai.Expressions.SingleArgumentExpressionBuilder
     {
     
@@ -1408,14 +1449,19 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             return Process<Block>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<BlockedStatistics> source)
+        {
+            return Process<BlockedStatistics>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<Environment> source)
         {
             return Process<Environment>(source);
         }
 
-        public System.IObservable<string> Process(System.IObservable<GenericHarvestAction> source)
+        public System.IObservable<string> Process(System.IObservable<EnvironmentStatistics> source)
         {
-            return Process<GenericHarvestAction>(source);
+            return Process<EnvironmentStatistics>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<HarvestAction> source)
@@ -1436,6 +1482,11 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         public System.IObservable<string> Process(System.IObservable<NumericalUpdaterParameters> source)
         {
             return Process<NumericalUpdaterParameters>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<RandomWalkStatistics> source)
+        {
+            return Process<RandomWalkStatistics>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<RightHarvestAction> source)
@@ -1463,12 +1514,14 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.ComponentModel.DefaultPropertyAttribute("Type")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Transform)]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Block>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BlockedStatistics>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Environment>))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<GenericHarvestAction>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<EnvironmentStatistics>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<HarvestAction>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LeftHarvestAction>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NumericalUpdater>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NumericalUpdaterParameters>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<RandomWalkStatistics>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<RightHarvestAction>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Trial>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AindForceForagingTaskLogic>))]
