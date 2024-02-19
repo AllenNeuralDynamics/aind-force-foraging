@@ -23,68 +23,61 @@ def scalar_value(value: float) -> distributions.Scalar:
     return distributions.Scalar(distribution_parameters=distributions.ScalarDistributionParameter(value=value))
 
 
-class UpdateTrigger(str, Enum):
-    TIME = 'Time'
-    TRIAL = 'Trial'
-    REWARD = 'Reward'
+## Available actions
+class HarvestActionBase(BaseModel):
+    '''Defines an abstract class for an harvest action'''
+    label: str = Field(default='HarvestAction', description="Label of the action")
+    probability: float = Field(default=1, description="Probability of reward")
+    amount: float = Field(default=1, description="Amount of reward to be delivered")
+    delay: float = Field(default=0, description="Delay between sucessful harvest and reward delivery")
+    press_duration: float = Field(default=5, description="Duration that the force much stay above threshold")
+    press_force_threshold: float = Field(default=5000, description="Force to be applied")
 
 
-class _UpdateFunction(AindModel):
-    function_type: str
-    update_on: UpdateTrigger = Field(default=UpdateTrigger.TRIAL)
-class PowerFunction(_UpdateFunction):
-    function_type: Literal["PowerFunction"] = "PowerFunction"
-    mininum: float = Field(default=0, description="Minimum value of the function")
-    maximum: float = Field(default=1, description="Maximum value of the function")
-    a: float = Field(default=1, description="Coefficient a of the function: value = a * pow(b, c * x) + d")
-    b: float = Field(
-        default=2.718281828459045, description="Coefficient b of the function: value = a * pow(b, c * x) + d"
-    )
-    c: float = Field(default=-1, description="Coefficient c of the function: value = a * pow(b, c * x) + d")
-    d: float = Field(default=0, description="Coefficient d of the function: value = a * pow(b, c * x) + d")
+class RightHarvestAction(HarvestActionBase):
+    label: Literal['RightHarvestAction'] = 'RightHarvestAction'
 
 
-class LinearFunction(_UpdateFunction):
-    function_type: Literal["LinearFunction"] = "LinearFunction"
-    mininum: float = Field(default=0, description="Minimum value of the function")
-    maximum: float = Field(default=9999, description="Maximum value of the function")
-    a: float = Field(default=1, description="Coefficient a of the function: value = a * x + b")
-    b: float = Field(default=0, description="Coefficient b of the function: value = a * x + b")
+class LeftHarvestAction(HarvestActionBase):
+    label: Literal['LeftHarvestAction'] = 'LeftHarvestAction'
 
 
-class ConstantFunction(_UpdateFunction):
-    function_type: Literal["ConstantFunction"] = "ConstantFunction"
-    value: float = Field(default=1, description="Value of the function")
-
-class LookUpTable(_UpdateFunction):
-    function_type: Literal["LookUpTable"] = "LookUpTable"
-    values: List[float] = Field(..., min_length=1)
-    is_repeat: bool = Field(default=False)
-    is_shuffle: bool = Field(default=False)
-
-class UpdateFunction(RootModel):
-    root: Annotated[Union[ConstantFunction, LinearFunction, PowerFunction, LookUpTable], Field(discriminator="function_type")]
+class HarvestAction(HarvestActionBase):
+    label: Literal['HarvestAction'] = 'HarvestAction'
 
 
+class HarvestActionType(RootModel):
+    root: Union[LeftHarvestAction, RightHarvestAction, HarvestAction]
 
-class HarvestAction(BaseModel):
-    probability: UpdateFunction = Field(default=ConstantFunction(value=1), description="Probability of reward", validate_default=True)
-    amount: UpdateFunction = Field(default=ConstantFunction(value=1), description="Amount of reward to be delivered", validate_default=True)
-    delay: UpdateFunction = Field(default=ConstantFunction(value=0), description="Delay between sucessful harvest and reward delivery", validate_default=True)
-    press_duration: UpdateFunction = Field(default=ConstantFunction(value=1), description="Duration that the force much stay above threshold", validate_default=True)
-    press_force_threshold: UpdateFunction = Field(default=ConstantFunction(value=10_000), description="Force to be applied", validate_default=True)
+
+class Trial(BaseModel):
+    '''Defines a trial'''
+    left_action: HarvestAction = Field(default=LeftHarvestAction(), validate_default=True, description="Specification of the left action")
+    right_action: HarvestAction = Field(default=RightHarvestAction(), validate_default=True, description="Specification of the right action")
+    inter_trial_interval: float = Field(default=0, ge=0, description="Time between trials")
+    time_out: float = Field(default=0, ge=0, description="Time out for the trial")
 
 
 class Block(BaseModel):
-    left_action: HarvestAction = Field(..., validate_default=True, description="Specification of the left action")
-    right_action: HarvestAction = Field(..., validate_default=True, description="Specification of the right action")
-    block_size: distributions.Distribution = scalar_value(20)
+    trials: List[Trial] = Field(default=[], description="List of trials in the block")
+    shuffle: bool = Field(default=False, description="Whether to shuffle the trials in the block")
+    repeat_count: Optional[int] = Field(default=0, description="Number of times to repeat the block. If null, the block will be repeated indefinitely")
 
 
+class EnvironmentMode(str, Enum):
+    '''Defines the mode of the environment'''
+    BLOCK = "Block"
+    RANDOMWALK = "RandomWalk"
 
 
-class EnvironmentStatistics(BaseModel):
-    pass
+class Environment(BaseModel):
+    mode: EnvironmentMode = Field(..., description="Mode of the environment")
+    blocks: Optional[List[Block]] = Field(default=None, description="List of blocks in the environment")
+
+    class EnvironmentMode(str, Enum):
+        '''Defines the mode of the environment'''
+        BLOCK = "Block"
+        RANDOMWALK = "RandomWalk"
 
 
 # Updaters
@@ -116,8 +109,9 @@ class NumericalUpdater(AindModel):
 class AindForceForagingTaskLogic(AindBehaviorTaskLogicModel):
     describedBy: str = Field("")
     schema_version: Literal[__version__] = __version__
-    block: List[Block] = Field(default=[], description="Block settings")
+    environment: Environment = Field(..., description="Environment settings")
     updaters: Dict[str, NumericalUpdater] = Field(default_factory=dict, description="List of numerical updaters")
+
 
 def schema() -> BaseModel:
     return AindForceForagingTaskLogic

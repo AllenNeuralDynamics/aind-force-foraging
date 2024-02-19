@@ -1,729 +1,121 @@
 {
   "definitions": {
-    "BetaDistribution": {
-      "additionalProperties": false,
-      "properties": {
-        "family": {
-          "const": "Beta",
-          "default": "Beta",
-          "title": "Family",
-          "type": "string"
-        },
-        "distribution_parameters": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/BetaDistributionParameters"
-            }
-          ],
-          "default": {
-            "family": "Beta",
-            "alpha": 5.0,
-            "beta": 5.0
-          },
-          "description": "Parameters of the distribution"
-        },
-        "truncation_parameters": {
-          "default": null,
-          "description": "Truncation parameters of the distribution",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/TruncationParameters"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "scaling_parameters": {
-          "default": null,
-          "description": "Scaling parameters of the distribution",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/ScalingParameters"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        }
-      },
-      "title": "BetaDistribution",
-      "type": "object"
-    },
-    "BetaDistributionParameters": {
-      "additionalProperties": false,
-      "properties": {
-        "family": {
-          "const": "Beta",
-          "default": "Beta",
-          "title": "Family",
-          "type": "string"
-        },
-        "alpha": {
-          "default": 5,
-          "description": "Alpha parameter of the distribution",
-          "minimum": 0.0,
-          "title": "Alpha",
-          "type": "number"
-        },
-        "beta": {
-          "default": 5,
-          "description": "Beta parameter of the distribution",
-          "minimum": 0.0,
-          "title": "Beta",
-          "type": "number"
-        }
-      },
-      "title": "BetaDistributionParameters",
-      "type": "object"
-    },
-    "BinomialDistribution": {
-      "additionalProperties": false,
-      "properties": {
-        "family": {
-          "const": "Binomial",
-          "default": "Binomial",
-          "title": "Family",
-          "type": "string"
-        },
-        "distribution_parameters": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/BinomialDistributionParameters"
-            }
-          ],
-          "default": {
-            "family": "Binomial",
-            "n": 1,
-            "p": 0.5
-          },
-          "description": "Parameters of the distribution"
-        },
-        "truncation_parameters": {
-          "default": null,
-          "description": "Truncation parameters of the distribution",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/TruncationParameters"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "scaling_parameters": {
-          "default": null,
-          "description": "Scaling parameters of the distribution",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/ScalingParameters"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        }
-      },
-      "title": "BinomialDistribution",
-      "type": "object"
-    },
-    "BinomialDistributionParameters": {
-      "additionalProperties": false,
-      "properties": {
-        "family": {
-          "const": "Binomial",
-          "default": "Binomial",
-          "title": "Family",
-          "type": "string"
-        },
-        "n": {
-          "default": 1,
-          "description": "Number of trials",
-          "minimum": 0,
-          "title": "N",
-          "type": "integer"
-        },
-        "p": {
-          "default": 0.5,
-          "description": "Probability of success",
-          "maximum": 1.0,
-          "minimum": 0.0,
-          "title": "P",
-          "type": "number"
-        }
-      },
-      "title": "BinomialDistributionParameters",
-      "type": "object"
-    },
     "Block": {
       "properties": {
-        "left_action": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/HarvestAction"
-            }
-          ],
-          "description": "Specification of the left action"
+        "trials": {
+          "default": [],
+          "description": "List of trials in the block",
+          "items": {
+            "$ref": "#/definitions/Trial"
+          },
+          "title": "Trials",
+          "type": "array"
         },
-        "right_action": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/HarvestAction"
-            }
-          ],
-          "description": "Specification of the right action"
+        "shuffle": {
+          "default": false,
+          "description": "Whether to shuffle the trials in the block",
+          "title": "Shuffle",
+          "type": "boolean"
         },
-        "block_size": {
-          "allOf": [
+        "repeat_count": {
+          "default": 0,
+          "description": "Number of times to repeat the block. If null, the block will be repeated indefinitely",
+          "oneOf": [
             {
-              "$ref": "#/definitions/Distribution"
-            }
-          ],
-          "default": {
-            "family": "Scalar",
-            "distribution_parameters": {
-              "family": "Scalar",
-              "scaling_parameters": null,
-              "truncation_parameters": null,
-              "value": 20.0
+              "type": "integer"
             },
-            "truncation_parameters": null,
-            "scaling_parameters": null
-          }
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Repeat Count"
         }
       },
-      "required": [
-        "left_action",
-        "right_action"
-      ],
       "title": "Block",
       "type": "object"
     },
-    "ConstantFunction": {
-      "additionalProperties": false,
+    "Environment": {
       "properties": {
-        "function_type": {
-          "const": "ConstantFunction",
-          "default": "ConstantFunction",
-          "title": "Function Type",
-          "type": "string"
-        },
-        "update_on": {
+        "mode": {
           "allOf": [
             {
-              "$ref": "#/definitions/UpdateTrigger"
+              "$ref": "#/definitions/EnvironmentMode"
             }
           ],
-          "default": "Trial"
+          "description": "Mode of the environment"
         },
-        "value": {
-          "default": 1,
-          "description": "Value of the function",
-          "title": "Value",
-          "type": "number"
-        }
-      },
-      "title": "ConstantFunction",
-      "type": "object"
-    },
-    "Distribution": {
-      "discriminator": {
-        "mapping": {
-          "Beta": "#/definitions/BetaDistribution",
-          "Binomial": "#/definitions/BinomialDistribution",
-          "Exponential": "#/definitions/ExponentialDistribution",
-          "Gamma": "#/definitions/GammaDistribution",
-          "LogNormal": "#/definitions/LogNormalDistribution",
-          "Normal": "#/definitions/NormalDistribution",
-          "Poisson": "#/definitions/PoissonDistribution",
-          "Scalar": "#/definitions/Scalar",
-          "Uniform": "#/definitions/UniformDistribution"
-        },
-        "propertyName": "family"
-      },
-      "oneOf": [
-        {
-          "$ref": "#/definitions/Scalar"
-        },
-        {
-          "$ref": "#/definitions/NormalDistribution"
-        },
-        {
-          "$ref": "#/definitions/LogNormalDistribution"
-        },
-        {
-          "$ref": "#/definitions/ExponentialDistribution"
-        },
-        {
-          "$ref": "#/definitions/UniformDistribution"
-        },
-        {
-          "$ref": "#/definitions/PoissonDistribution"
-        },
-        {
-          "$ref": "#/definitions/BinomialDistribution"
-        },
-        {
-          "$ref": "#/definitions/BetaDistribution"
-        },
-        {
-          "$ref": "#/definitions/GammaDistribution"
-        }
-      ],
-      "title": "Distribution"
-    },
-    "ExponentialDistribution": {
-      "additionalProperties": false,
-      "properties": {
-        "family": {
-          "const": "Exponential",
-          "default": "Exponential",
-          "title": "Family",
-          "type": "string"
-        },
-        "distribution_parameters": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/ExponentialDistributionParameters"
-            }
-          ],
-          "default": {
-            "family": "Exponential",
-            "rate": 0.0
-          },
-          "description": "Parameters of the distribution"
-        },
-        "truncation_parameters": {
+        "blocks": {
           "default": null,
-          "description": "Truncation parameters of the distribution",
+          "description": "List of blocks in the environment",
           "oneOf": [
             {
-              "$ref": "#/definitions/TruncationParameters"
+              "items": {
+                "$ref": "#/definitions/Block"
+              },
+              "type": "array"
             },
             {
               "type": "null"
             }
-          ]
-        },
-        "scaling_parameters": {
-          "default": null,
-          "description": "Scaling parameters of the distribution",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/ScalingParameters"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        }
-      },
-      "title": "ExponentialDistribution",
-      "type": "object"
-    },
-    "ExponentialDistributionParameters": {
-      "additionalProperties": false,
-      "properties": {
-        "family": {
-          "const": "Exponential",
-          "default": "Exponential",
-          "title": "Family",
-          "type": "string"
-        },
-        "rate": {
-          "default": 0,
-          "description": "Rate parameter of the distribution",
-          "minimum": 0.0,
-          "title": "Rate",
-          "type": "number"
-        }
-      },
-      "title": "ExponentialDistributionParameters",
-      "type": "object"
-    },
-    "GammaDistribution": {
-      "additionalProperties": false,
-      "properties": {
-        "family": {
-          "const": "Gamma",
-          "default": "Gamma",
-          "title": "Family",
-          "type": "string"
-        },
-        "distribution_parameters": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/GammaDistributionParameters"
-            }
           ],
-          "default": {
-            "family": "Gamma",
-            "shape": 1.0,
-            "rate": 1.0
-          },
-          "description": "Parameters of the distribution"
-        },
-        "truncation_parameters": {
-          "default": null,
-          "description": "Truncation parameters of the distribution",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/TruncationParameters"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "scaling_parameters": {
-          "default": null,
-          "description": "Scaling parameters of the distribution",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/ScalingParameters"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        }
-      },
-      "title": "GammaDistribution",
-      "type": "object"
-    },
-    "GammaDistributionParameters": {
-      "additionalProperties": false,
-      "properties": {
-        "family": {
-          "const": "Gamma",
-          "default": "Gamma",
-          "title": "Family",
-          "type": "string"
-        },
-        "shape": {
-          "default": 1,
-          "description": "Shape parameter of the distribution",
-          "minimum": 0.0,
-          "title": "Shape",
-          "type": "number"
-        },
-        "rate": {
-          "default": 1,
-          "description": "Rate parameter of the distribution",
-          "minimum": 0.0,
-          "title": "Rate",
-          "type": "number"
-        }
-      },
-      "title": "GammaDistributionParameters",
-      "type": "object"
-    },
-    "HarvestAction": {
-      "properties": {
-        "probability": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/UpdateFunction"
-            }
-          ],
-          "default": {
-            "function_type": "ConstantFunction",
-            "update_on": "Trial",
-            "value": 1.0
-          },
-          "description": "Probability of reward"
-        },
-        "amount": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/UpdateFunction"
-            }
-          ],
-          "default": {
-            "function_type": "ConstantFunction",
-            "update_on": "Trial",
-            "value": 1.0
-          },
-          "description": "Amount of reward to be delivered"
-        },
-        "delay": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/UpdateFunction"
-            }
-          ],
-          "default": {
-            "function_type": "ConstantFunction",
-            "update_on": "Trial",
-            "value": 0.0
-          },
-          "description": "Delay between sucessful harvest and reward delivery"
-        },
-        "press_duration": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/UpdateFunction"
-            }
-          ],
-          "default": {
-            "function_type": "ConstantFunction",
-            "update_on": "Trial",
-            "value": 1.0
-          },
-          "description": "Duration that the force much stay above threshold"
-        },
-        "press_force_threshold": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/UpdateFunction"
-            }
-          ],
-          "default": {
-            "function_type": "ConstantFunction",
-            "update_on": "Trial",
-            "value": 10000.0
-          },
-          "description": "Force to be applied"
-        }
-      },
-      "title": "HarvestAction",
-      "type": "object"
-    },
-    "LinearFunction": {
-      "additionalProperties": false,
-      "properties": {
-        "function_type": {
-          "const": "LinearFunction",
-          "default": "LinearFunction",
-          "title": "Function Type",
-          "type": "string"
-        },
-        "update_on": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/UpdateTrigger"
-            }
-          ],
-          "default": "Trial"
-        },
-        "mininum": {
-          "default": 0,
-          "description": "Minimum value of the function",
-          "title": "Mininum",
-          "type": "number"
-        },
-        "maximum": {
-          "default": 9999,
-          "description": "Maximum value of the function",
-          "title": "Maximum",
-          "type": "number"
-        },
-        "a": {
-          "default": 1,
-          "description": "Coefficient a of the function: value = a * x + b",
-          "title": "A",
-          "type": "number"
-        },
-        "b": {
-          "default": 0,
-          "description": "Coefficient b of the function: value = a * x + b",
-          "title": "B",
-          "type": "number"
-        }
-      },
-      "title": "LinearFunction",
-      "type": "object"
-    },
-    "LogNormalDistribution": {
-      "additionalProperties": false,
-      "properties": {
-        "family": {
-          "const": "LogNormal",
-          "default": "LogNormal",
-          "title": "Family",
-          "type": "string"
-        },
-        "distribution_parameters": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/LogNormalDistributionParameters"
-            }
-          ],
-          "default": {
-            "family": "LogNormal",
-            "mean": 0.0,
-            "std": 0.0
-          },
-          "description": "Parameters of the distribution"
-        },
-        "truncation_parameters": {
-          "default": null,
-          "description": "Truncation parameters of the distribution",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/TruncationParameters"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "scaling_parameters": {
-          "default": null,
-          "description": "Scaling parameters of the distribution",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/ScalingParameters"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        }
-      },
-      "title": "LogNormalDistribution",
-      "type": "object"
-    },
-    "LogNormalDistributionParameters": {
-      "additionalProperties": false,
-      "properties": {
-        "family": {
-          "const": "LogNormal",
-          "default": "LogNormal",
-          "title": "Family",
-          "type": "string"
-        },
-        "mean": {
-          "default": 0,
-          "description": "Mean of the distribution",
-          "title": "Mean",
-          "type": "number"
-        },
-        "std": {
-          "default": 0,
-          "description": "Standard deviation of the distribution",
-          "title": "Std",
-          "type": "number"
-        }
-      },
-      "title": "LogNormalDistributionParameters",
-      "type": "object"
-    },
-    "LookUpTable": {
-      "additionalProperties": false,
-      "properties": {
-        "function_type": {
-          "const": "LookUpTable",
-          "default": "LookUpTable",
-          "title": "Function Type",
-          "type": "string"
-        },
-        "update_on": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/UpdateTrigger"
-            }
-          ],
-          "default": "Trial"
-        },
-        "values": {
-          "items": {
-            "type": "number"
-          },
-          "minItems": 1,
-          "title": "Values",
-          "type": "array"
-        },
-        "is_repeat": {
-          "default": false,
-          "title": "Is Repeat",
-          "type": "boolean"
-        },
-        "is_shuffle": {
-          "default": false,
-          "title": "Is Shuffle",
-          "type": "boolean"
+          "title": "Blocks"
         }
       },
       "required": [
-        "values"
+        "mode"
       ],
-      "title": "LookUpTable",
+      "title": "Environment",
       "type": "object"
     },
-    "NormalDistribution": {
-      "additionalProperties": false,
-      "properties": {
-        "family": {
-          "const": "Normal",
-          "default": "Normal",
-          "title": "Family",
-          "type": "string"
-        },
-        "distribution_parameters": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/NormalDistributionParameters"
-            }
-          ],
-          "default": {
-            "family": "Normal",
-            "mean": 0.0,
-            "std": 0.0
-          },
-          "description": "Parameters of the distribution"
-        },
-        "truncation_parameters": {
-          "default": null,
-          "description": "Truncation parameters of the distribution",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/TruncationParameters"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "scaling_parameters": {
-          "default": null,
-          "description": "Scaling parameters of the distribution",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/ScalingParameters"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        }
-      },
-      "title": "NormalDistribution",
-      "type": "object"
+    "EnvironmentMode": {
+      "description": "Defines the mode of the environment",
+      "enum": [
+        "Block",
+        "RandomWalk"
+      ],
+      "title": "EnvironmentMode",
+      "type": "string"
     },
-    "NormalDistributionParameters": {
-      "additionalProperties": false,
+    "HarvestAction": {
       "properties": {
-        "family": {
-          "const": "Normal",
-          "default": "Normal",
-          "title": "Family",
+        "label": {
+          "const": "HarvestAction",
+          "default": "HarvestAction",
+          "title": "Label",
           "type": "string"
         },
-        "mean": {
-          "default": 0,
-          "description": "Mean of the distribution",
-          "title": "Mean",
+        "probability": {
+          "default": 1,
+          "description": "Probability of reward",
+          "title": "Probability",
           "type": "number"
         },
-        "std": {
+        "amount": {
+          "default": 1,
+          "description": "Amount of reward to be delivered",
+          "title": "Amount",
+          "type": "number"
+        },
+        "delay": {
           "default": 0,
-          "description": "Standard deviation of the distribution",
-          "title": "Std",
+          "description": "Delay between sucessful harvest and reward delivery",
+          "title": "Delay",
+          "type": "number"
+        },
+        "press_duration": {
+          "default": 5,
+          "description": "Duration that the force much stay above threshold",
+          "title": "Press Duration",
+          "type": "number"
+        },
+        "press_force_threshold": {
+          "default": 5000,
+          "description": "Force to be applied",
+          "title": "Press Force Threshold",
           "type": "number"
         }
       },
-      "title": "NormalDistributionParameters",
+      "title": "HarvestAction",
       "type": "object"
     },
     "NumericalUpdater": {
@@ -805,367 +197,58 @@
       "title": "NumericalUpdaterParameters",
       "type": "object"
     },
-    "PoissonDistribution": {
-      "additionalProperties": false,
+    "Trial": {
+      "description": "Defines a trial",
       "properties": {
-        "family": {
-          "const": "Poisson",
-          "default": "Poisson",
-          "title": "Family",
-          "type": "string"
-        },
-        "distribution_parameters": {
+        "left_action": {
           "allOf": [
             {
-              "$ref": "#/definitions/PoissonDistributionParameters"
+              "$ref": "#/definitions/HarvestAction"
             }
           ],
           "default": {
-            "family": "Poisson",
-            "rate": 1.0
+            "label": "LeftHarvestAction",
+            "probability": 1.0,
+            "amount": 1.0,
+            "delay": 0.0,
+            "press_duration": 5.0,
+            "press_force_threshold": 5000.0
           },
-          "description": "Parameters of the distribution"
+          "description": "Specification of the left action"
         },
-        "truncation_parameters": {
-          "default": null,
-          "description": "Truncation parameters of the distribution",
-          "oneOf": [
+        "right_action": {
+          "allOf": [
             {
-              "$ref": "#/definitions/TruncationParameters"
-            },
-            {
-              "type": "null"
+              "$ref": "#/definitions/HarvestAction"
             }
-          ]
+          ],
+          "default": {
+            "label": "RightHarvestAction",
+            "probability": 1.0,
+            "amount": 1.0,
+            "delay": 0.0,
+            "press_duration": 5.0,
+            "press_force_threshold": 5000.0
+          },
+          "description": "Specification of the right action"
         },
-        "scaling_parameters": {
-          "default": null,
-          "description": "Scaling parameters of the distribution",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/ScalingParameters"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        }
-      },
-      "title": "PoissonDistribution",
-      "type": "object"
-    },
-    "PoissonDistributionParameters": {
-      "additionalProperties": false,
-      "properties": {
-        "family": {
-          "const": "Poisson",
-          "default": "Poisson",
-          "title": "Family",
-          "type": "string"
-        },
-        "rate": {
-          "default": 1,
-          "description": "Rate parameter of the Poisson process that generates the distribution",
+        "inter_trial_interval": {
+          "default": 0,
+          "description": "Time between trials",
           "minimum": 0.0,
-          "title": "Rate",
+          "title": "Inter Trial Interval",
           "type": "number"
-        }
-      },
-      "title": "PoissonDistributionParameters",
-      "type": "object"
-    },
-    "PowerFunction": {
-      "additionalProperties": false,
-      "properties": {
-        "function_type": {
-          "const": "PowerFunction",
-          "default": "PowerFunction",
-          "title": "Function Type",
-          "type": "string"
         },
-        "update_on": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/UpdateTrigger"
-            }
-          ],
-          "default": "Trial"
-        },
-        "mininum": {
+        "time_out": {
           "default": 0,
-          "description": "Minimum value of the function",
-          "title": "Mininum",
-          "type": "number"
-        },
-        "maximum": {
-          "default": 1,
-          "description": "Maximum value of the function",
-          "title": "Maximum",
-          "type": "number"
-        },
-        "a": {
-          "default": 1,
-          "description": "Coefficient a of the function: value = a * pow(b, c * x) + d",
-          "title": "A",
-          "type": "number"
-        },
-        "b": {
-          "default": 2.718281828459045,
-          "description": "Coefficient b of the function: value = a * pow(b, c * x) + d",
-          "title": "B",
-          "type": "number"
-        },
-        "c": {
-          "default": -1,
-          "description": "Coefficient c of the function: value = a * pow(b, c * x) + d",
-          "title": "C",
-          "type": "number"
-        },
-        "d": {
-          "default": 0,
-          "description": "Coefficient d of the function: value = a * pow(b, c * x) + d",
-          "title": "D",
+          "description": "Time out for the trial",
+          "minimum": 0.0,
+          "title": "Time Out",
           "type": "number"
         }
       },
-      "title": "PowerFunction",
+      "title": "Trial",
       "type": "object"
-    },
-    "Scalar": {
-      "additionalProperties": false,
-      "properties": {
-        "family": {
-          "const": "Scalar",
-          "default": "Scalar",
-          "title": "Family",
-          "type": "string"
-        },
-        "distribution_parameters": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/ScalarDistributionParameter"
-            }
-          ],
-          "default": {
-            "family": "Scalar",
-            "value": 0.0,
-            "truncation_parameters": null,
-            "scaling_parameters": null
-          },
-          "description": "Parameters of the distribution"
-        },
-        "truncation_parameters": {
-          "default": null,
-          "description": "Truncation parameters of the distribution",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/TruncationParameters"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "scaling_parameters": {
-          "default": null,
-          "description": "Scaling parameters of the distribution",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/ScalingParameters"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        }
-      },
-      "title": "Scalar",
-      "type": "object"
-    },
-    "ScalarDistributionParameter": {
-      "additionalProperties": false,
-      "properties": {
-        "family": {
-          "const": "Scalar",
-          "default": "Scalar",
-          "title": "Family",
-          "type": "string"
-        },
-        "value": {
-          "default": 0,
-          "description": "The static value of the distribution",
-          "title": "Value",
-          "type": "number"
-        },
-        "truncation_parameters": {
-          "const": null,
-          "default": null,
-          "title": "Truncation Parameters",
-          "type": "null"
-        },
-        "scaling_parameters": {
-          "const": null,
-          "default": null,
-          "title": "Scaling Parameters",
-          "type": "null"
-        }
-      },
-      "title": "ScalarDistributionParameter",
-      "type": "object"
-    },
-    "ScalingParameters": {
-      "additionalProperties": false,
-      "properties": {
-        "scale": {
-          "default": 1,
-          "description": "Scaling factor to apply on the sampled distribution",
-          "title": "Scale",
-          "type": "number"
-        },
-        "offset": {
-          "default": 0,
-          "description": "Offset factor to apply on the sampled distribution",
-          "title": "Offset",
-          "type": "number"
-        }
-      },
-      "title": "ScalingParameters",
-      "type": "object"
-    },
-    "TruncationParameters": {
-      "additionalProperties": false,
-      "properties": {
-        "is_truncated": {
-          "default": false,
-          "description": "Whether the distribution is truncated",
-          "title": "Is Truncated",
-          "type": "boolean"
-        },
-        "min": {
-          "default": 0,
-          "description": "Minimum value of the sampled distribution",
-          "title": "Min",
-          "type": "number"
-        },
-        "max": {
-          "default": 0,
-          "description": "Maximum value of the sampled distribution",
-          "title": "Max",
-          "type": "number"
-        }
-      },
-      "title": "TruncationParameters",
-      "type": "object"
-    },
-    "UniformDistribution": {
-      "additionalProperties": false,
-      "properties": {
-        "family": {
-          "const": "Uniform",
-          "default": "Uniform",
-          "title": "Family",
-          "type": "string"
-        },
-        "distribution_parameters": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/UniformDistributionParameters"
-            }
-          ],
-          "default": {
-            "family": "Uniform",
-            "min": 0.0,
-            "max": 0.0
-          },
-          "description": "Parameters of the distribution"
-        },
-        "truncation_parameters": {
-          "default": null,
-          "description": "Truncation parameters of the distribution",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/TruncationParameters"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "scaling_parameters": {
-          "default": null,
-          "description": "Scaling parameters of the distribution",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/ScalingParameters"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        }
-      },
-      "title": "UniformDistribution",
-      "type": "object"
-    },
-    "UniformDistributionParameters": {
-      "additionalProperties": false,
-      "properties": {
-        "family": {
-          "const": "Uniform",
-          "default": "Uniform",
-          "title": "Family",
-          "type": "string"
-        },
-        "min": {
-          "default": 0,
-          "description": "Minimum value of the distribution",
-          "title": "Min",
-          "type": "number"
-        },
-        "max": {
-          "default": 0,
-          "description": "Maximum value of the distribution",
-          "title": "Max",
-          "type": "number"
-        }
-      },
-      "title": "UniformDistributionParameters",
-      "type": "object"
-    },
-    "UpdateFunction": {
-      "discriminator": {
-        "mapping": {
-          "ConstantFunction": "#/definitions/ConstantFunction",
-          "LinearFunction": "#/definitions/LinearFunction",
-          "LookUpTable": "#/definitions/LookUpTable",
-          "PowerFunction": "#/definitions/PowerFunction"
-        },
-        "propertyName": "function_type"
-      },
-      "oneOf": [
-        {
-          "$ref": "#/definitions/ConstantFunction"
-        },
-        {
-          "$ref": "#/definitions/LinearFunction"
-        },
-        {
-          "$ref": "#/definitions/PowerFunction"
-        },
-        {
-          "$ref": "#/definitions/LookUpTable"
-        }
-      ],
-      "title": "UpdateFunction"
-    },
-    "UpdateTrigger": {
-      "enum": [
-        "Time",
-        "Trial",
-        "Reward"
-      ],
-      "title": "UpdateTrigger",
-      "type": "string"
     }
   },
   "additionalProperties": false,
@@ -1181,14 +264,13 @@
       "title": "Schema Version",
       "type": "string"
     },
-    "block": {
-      "default": [],
-      "description": "Block settings",
-      "items": {
-        "$ref": "#/definitions/Block"
-      },
-      "title": "Block",
-      "type": "array"
+    "environment": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Environment"
+        }
+      ],
+      "description": "Environment settings"
     },
     "updaters": {
       "additionalProperties": {
@@ -1199,6 +281,9 @@
       "type": "object"
     }
   },
+  "required": [
+    "environment"
+  ],
   "title": "AindForceForagingTaskLogic",
   "type": "object"
 }
