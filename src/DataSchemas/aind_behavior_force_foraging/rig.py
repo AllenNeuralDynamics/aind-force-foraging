@@ -10,6 +10,7 @@ from pydantic import BaseModel, Field
 
 __version__ = "0.1.0"
 
+
 class AindForceForagingRig(AindBehaviorRigModel):
     describedBy: str = Field("")
     schema_version: Literal[__version__] = __version__
@@ -18,6 +19,7 @@ class AindForceForagingRig(AindBehaviorRigModel):
     harp_behavior: rig.HarpBehavior = Field(..., description="Harp behavior")
     harp_olfactometer: rig.HarpOlfactometer = Field(..., description="Harp olfactometer")
     harp_lickometer: rig.HarpLickometer = Field(..., description="Harp lickometer")
+    harp_load_cells: rig.HarpLoadCells = Field(..., description="Harp load cells")
     harp_clock_generator: rig.HarpClockGenerator = Field(..., description="Harp clock generator")
     harp_analog_input: Optional[rig.HarpAnalogInput] = Field(default=None, description="Harp analog input")
     face_camera: rig.SpinnakerCamera = Field(..., description="Face camera")

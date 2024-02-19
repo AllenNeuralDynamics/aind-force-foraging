@@ -84,13 +84,13 @@ class Block(BaseModel):
 
 
 class EnvironmentStatistics(BaseModel):
-
+    pass
 
 
 class AindForceForagingTaskLogic(AindBehaviorTaskLogicModel):
     describedBy: str = Field("")
     schema_version: Literal[__version__] = __version__
-
+    block: List[Block] = Field(default=[], description="Block settings")
 
 def schema() -> BaseModel:
     return AindForceForagingTaskLogic
