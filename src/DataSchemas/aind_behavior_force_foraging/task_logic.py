@@ -87,10 +87,37 @@ class EnvironmentStatistics(BaseModel):
     pass
 
 
+# Updaters
+class NumericalUpdaterOperation(str, Enum):
+    NONE = "None"
+    OFFSET = "Offset"
+    GAIN = "Gain"
+    SET = "Set"
+    OFFSETPERCENTAGE = "OffsetPercentage"
+
+
+class NumericalUpdaterParameters(AindModel):
+    initial_value: float = Field(default=0.0, description="Initial value of the parameter")
+    increment: float = Field(default=0.0, description="Value to increment the parameter by")
+    decrement: float = Field(default=0.0, description="Value to decrement the parameter by")
+    minimum: float = Field(default=0.0, description="Minimum value of the parameter")
+    maximum: float = Field(default=0.0, description="Minimum value of the parameter")
+
+
+class NumericalUpdater(AindModel):
+    operation: NumericalUpdaterOperation = Field(
+        default=NumericalUpdaterOperation.NONE, description="Operation to perform on the parameter"
+    )
+    parameters: NumericalUpdaterParameters = Field(
+        NumericalUpdaterParameters(), description="Parameters of the updater"
+    )
+
+
 class AindForceForagingTaskLogic(AindBehaviorTaskLogicModel):
     describedBy: str = Field("")
     schema_version: Literal[__version__] = __version__
     block: List[Block] = Field(default=[], description="Block settings")
+    updaters: Dict[str, NumericalUpdater] = Field(default_factory=dict, description="List of numerical updaters")
 
 def schema() -> BaseModel:
     return AindForceForagingTaskLogic

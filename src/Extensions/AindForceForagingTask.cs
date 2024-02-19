@@ -1854,6 +1854,265 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    public partial class NumericalUpdater
+    {
+    
+        private NumericalUpdaterOperation _operation = AindForceForagingDataSchema.AindForceForagingTask.NumericalUpdaterOperation.None;
+    
+        private NumericalUpdaterParameters _parameters;
+    
+        public NumericalUpdater()
+        {
+        }
+    
+        protected NumericalUpdater(NumericalUpdater other)
+        {
+            _operation = other._operation;
+            _parameters = other._parameters;
+        }
+    
+        /// <summary>
+        /// Operation to perform on the parameter
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("operation")]
+        [System.ComponentModel.DescriptionAttribute("Operation to perform on the parameter")]
+        public NumericalUpdaterOperation Operation
+        {
+            get
+            {
+                return _operation;
+            }
+            set
+            {
+                _operation = value;
+            }
+        }
+    
+        /// <summary>
+        /// Parameters of the updater
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("parameters")]
+        [System.ComponentModel.DescriptionAttribute("Parameters of the updater")]
+        public NumericalUpdaterParameters Parameters
+        {
+            get
+            {
+                return _parameters;
+            }
+            set
+            {
+                _parameters = value;
+            }
+        }
+    
+        public System.IObservable<NumericalUpdater> Process()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new NumericalUpdater(this)));
+        }
+    
+        public System.IObservable<NumericalUpdater> Process<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new NumericalUpdater(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("operation = " + _operation + ", ");
+            stringBuilder.Append("parameters = " + _parameters);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+    public enum NumericalUpdaterOperation
+    {
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="None")]
+        None = 0,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="Offset")]
+        Offset = 1,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="Gain")]
+        Gain = 2,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="Set")]
+        Set = 3,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="OffsetPercentage")]
+        OffsetPercentage = 4,
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Bonsai.CombinatorAttribute()]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    public partial class NumericalUpdaterParameters
+    {
+    
+        private double _initialValue = 0D;
+    
+        private double _increment = 0D;
+    
+        private double _decrement = 0D;
+    
+        private double _minimum = 0D;
+    
+        private double _maximum = 0D;
+    
+        public NumericalUpdaterParameters()
+        {
+        }
+    
+        protected NumericalUpdaterParameters(NumericalUpdaterParameters other)
+        {
+            _initialValue = other._initialValue;
+            _increment = other._increment;
+            _decrement = other._decrement;
+            _minimum = other._minimum;
+            _maximum = other._maximum;
+        }
+    
+        /// <summary>
+        /// Initial value of the parameter
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("initial_value")]
+        [System.ComponentModel.DescriptionAttribute("Initial value of the parameter")]
+        public double InitialValue
+        {
+            get
+            {
+                return _initialValue;
+            }
+            set
+            {
+                _initialValue = value;
+            }
+        }
+    
+        /// <summary>
+        /// Value to increment the parameter by
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("increment")]
+        [System.ComponentModel.DescriptionAttribute("Value to increment the parameter by")]
+        public double Increment
+        {
+            get
+            {
+                return _increment;
+            }
+            set
+            {
+                _increment = value;
+            }
+        }
+    
+        /// <summary>
+        /// Value to decrement the parameter by
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("decrement")]
+        [System.ComponentModel.DescriptionAttribute("Value to decrement the parameter by")]
+        public double Decrement
+        {
+            get
+            {
+                return _decrement;
+            }
+            set
+            {
+                _decrement = value;
+            }
+        }
+    
+        /// <summary>
+        /// Minimum value of the parameter
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("minimum")]
+        [System.ComponentModel.DescriptionAttribute("Minimum value of the parameter")]
+        public double Minimum
+        {
+            get
+            {
+                return _minimum;
+            }
+            set
+            {
+                _minimum = value;
+            }
+        }
+    
+        /// <summary>
+        /// Minimum value of the parameter
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("maximum")]
+        [System.ComponentModel.DescriptionAttribute("Minimum value of the parameter")]
+        public double Maximum
+        {
+            get
+            {
+                return _maximum;
+            }
+            set
+            {
+                _maximum = value;
+            }
+        }
+    
+        public System.IObservable<NumericalUpdaterParameters> Process()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new NumericalUpdaterParameters(this)));
+        }
+    
+        public System.IObservable<NumericalUpdaterParameters> Process<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new NumericalUpdaterParameters(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("initial_value = " + _initialValue + ", ");
+            stringBuilder.Append("increment = " + _increment + ", ");
+            stringBuilder.Append("decrement = " + _decrement + ", ");
+            stringBuilder.Append("minimum = " + _minimum + ", ");
+            stringBuilder.Append("maximum = " + _maximum);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Bonsai.CombinatorAttribute()]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     public partial class PoissonDistribution : Distribution
     {
     
@@ -2910,6 +3169,8 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         private System.Collections.Generic.List<Block> _block = new System.Collections.Generic.List<Block>();
     
+        private System.Collections.Generic.IDictionary<string, NumericalUpdater> _updaters;
+    
         public AindForceForagingTaskLogic()
         {
         }
@@ -2919,6 +3180,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             _describedBy = other._describedBy;
             _schemaVersion = other._schemaVersion;
             _block = other._block;
+            _updaters = other._updaters;
         }
     
         [Newtonsoft.Json.JsonPropertyAttribute("describedBy")]
@@ -2965,6 +3227,24 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             }
         }
     
+        /// <summary>
+        /// List of numerical updaters
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("updaters")]
+        [System.ComponentModel.DescriptionAttribute("List of numerical updaters")]
+        public System.Collections.Generic.IDictionary<string, NumericalUpdater> Updaters
+        {
+            get
+            {
+                return _updaters;
+            }
+            set
+            {
+                _updaters = value;
+            }
+        }
+    
         public System.IObservable<AindForceForagingTaskLogic> Process()
         {
             return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new AindForceForagingTaskLogic(this)));
@@ -2979,7 +3259,8 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         {
             stringBuilder.Append("describedBy = " + _describedBy + ", ");
             stringBuilder.Append("schema_version = " + _schemaVersion + ", ");
-            stringBuilder.Append("block = " + _block);
+            stringBuilder.Append("block = " + _block + ", ");
+            stringBuilder.Append("updaters = " + _updaters);
             return true;
         }
     
@@ -3419,6 +3700,16 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             return Process<NormalDistributionParameters>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<NumericalUpdater> source)
+        {
+            return Process<NumericalUpdater>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<NumericalUpdaterParameters> source)
+        {
+            return Process<NumericalUpdaterParameters>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<PoissonDistribution> source)
         {
             return Process<PoissonDistribution>(source);
@@ -3511,6 +3802,8 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LookUpTable>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NormalDistribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NormalDistributionParameters>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NumericalUpdater>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NumericalUpdaterParameters>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PoissonDistribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PoissonDistributionParameters>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PowerFunction>))]
