@@ -2,6 +2,12 @@
   "definitions": {
     "Block": {
       "properties": {
+        "mode": {
+          "const": "Block",
+          "default": "Block",
+          "title": "Mode",
+          "type": "string"
+        },
         "trials": {
           "default": [],
           "description": "List of trials in the block",
@@ -34,26 +40,19 @@
       "title": "Block",
       "type": "object"
     },
-    "BlockedStatistics": {
+    "Environment": {
       "properties": {
-        "mode": {
-          "const": "Block",
-          "default": "Block",
-          "title": "Mode",
-          "type": "string"
-        },
-        "blocks": {
-          "default": [],
-          "description": "List of blocks in the environment",
+        "block_statistics": {
+          "description": "Statistics of the environment",
           "items": {
-            "$ref": "#/definitions/Block"
+            "$ref": "#/definitions/EnvironmentStatistics"
           },
-          "title": "Blocks",
+          "title": "Block Statistics",
           "type": "array"
         },
         "shuffle": {
           "default": false,
-          "description": "Whether to shuffle the blocks in the environment",
+          "description": "Whether to shuffle the blocks",
           "title": "Shuffle",
           "type": "boolean"
         },
@@ -71,22 +70,8 @@
           "title": "Repeat Count"
         }
       },
-      "title": "BlockedStatistics",
-      "type": "object"
-    },
-    "Environment": {
-      "properties": {
-        "statistics": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/EnvironmentStatistics"
-            }
-          ],
-          "description": "Statistics of the environment"
-        }
-      },
       "required": [
-        "statistics"
+        "block_statistics"
       ],
       "title": "Environment",
       "type": "object"
@@ -94,14 +79,14 @@
     "EnvironmentStatistics": {
       "discriminator": {
         "mapping": {
-          "Block": "#/definitions/BlockedStatistics",
+          "Block": "#/definitions/Block",
           "RandomWalk": "#/definitions/RandomWalkStatistics"
         },
         "propertyName": "mode"
       },
       "oneOf": [
         {
-          "$ref": "#/definitions/BlockedStatistics"
+          "$ref": "#/definitions/Block"
         },
         {
           "$ref": "#/definitions/RandomWalkStatistics"
@@ -127,6 +112,40 @@
       ],
       "title": "HarvestAction"
     },
+    "InitiationPeriod": {
+      "description": "Defines an initiation period",
+      "properties": {
+        "duration": {
+          "default": 0,
+          "description": "Duration of the initiation period",
+          "minimum": 0.0,
+          "title": "Duration",
+          "type": "number"
+        },
+        "has_cue": {
+          "default": true,
+          "description": "Whether to use a cue to signal the start of the period.",
+          "title": "Has Cue",
+          "type": "boolean"
+        },
+        "abort_on_force": {
+          "default": false,
+          "description": "Whether to abort the trial if a choice is made during the initiation period.",
+          "title": "Abort On Force",
+          "type": "boolean"
+        },
+        "abort_on_force_threshold": {
+          "default": 0,
+          "description": "Time out for the quiescence period",
+          "maximum": 32768.0,
+          "minimum": -32768.0,
+          "title": "Abort On Force Threshold",
+          "type": "number"
+        }
+      },
+      "title": "InitiationPeriod",
+      "type": "object"
+    },
     "LeftHarvestAction": {
       "properties": {
         "label": {
@@ -149,20 +168,22 @@
         },
         "delay": {
           "default": 0,
-          "description": "Delay between sucessful harvest and reward delivery",
+          "description": "Delay between successful harvest and reward delivery",
           "title": "Delay",
           "type": "number"
         },
-        "press_duration": {
-          "default": 5,
+        "force_duration": {
+          "default": 0.5,
           "description": "Duration that the force much stay above threshold",
-          "title": "Press Duration",
+          "title": "Force Duration",
           "type": "number"
         },
-        "press_force_threshold": {
+        "force_threshold": {
           "default": 5000,
           "description": "Force to be applied",
-          "title": "Press Force Threshold",
+          "maximum": 32768.0,
+          "minimum": -32768.0,
+          "title": "Force Threshold",
           "type": "number"
         }
       },
@@ -248,6 +269,41 @@
       "title": "NumericalUpdaterParameters",
       "type": "object"
     },
+    "QuiescencePeriod": {
+      "description": "Defines a quiescence settings",
+      "properties": {
+        "duration": {
+          "default": 0,
+          "description": "Duration of the quiescence period",
+          "minimum": 0.0,
+          "title": "Duration",
+          "type": "number"
+        },
+        "force_threshold": {
+          "default": 0,
+          "description": "Time out for the quiescence period",
+          "maximum": 32768.0,
+          "minimum": -32768.0,
+          "title": "Force Threshold",
+          "type": "number"
+        },
+        "dithering_duration": {
+          "default": 0,
+          "description": "Dithering duration used to exclude sporadic fast force changes.",
+          "minimum": 0.0,
+          "title": "Dithering Duration",
+          "type": "number"
+        },
+        "has_cue": {
+          "default": false,
+          "description": "Whether to use a cue to signal the start of the period.",
+          "title": "Has Cue",
+          "type": "boolean"
+        }
+      },
+      "title": "QuiescencePeriod",
+      "type": "object"
+    },
     "RandomWalkStatistics": {
       "properties": {
         "mode": {
@@ -258,6 +314,86 @@
         }
       },
       "title": "RandomWalkStatistics",
+      "type": "object"
+    },
+    "ResponsePeriod": {
+      "description": "Defines a response period",
+      "properties": {
+        "duration": {
+          "default": 0,
+          "description": "Duration of the response period. I.e. the time the animal has to make a choice.",
+          "minimum": 0.0,
+          "title": "Duration",
+          "type": "number"
+        },
+        "has_cue": {
+          "default": true,
+          "description": "Whether to use a cue to signal the start of the period.",
+          "title": "Has Cue",
+          "type": "boolean"
+        },
+        "abort_on_force": {
+          "default": false,
+          "description": "Whether to abort the trial if a choice is made during the initiation period.",
+          "title": "Abort On Force",
+          "type": "boolean"
+        },
+        "abort_on_force_threshold": {
+          "default": 0,
+          "description": "Time out for the quiescence period",
+          "maximum": 32768.0,
+          "minimum": -32768.0,
+          "title": "Abort On Force Threshold",
+          "type": "number"
+        },
+        "has_feedback": {
+          "default": false,
+          "description": "Whether to provide feedback to the animal after the response period.",
+          "title": "Has Feedback",
+          "type": "boolean"
+        }
+      },
+      "title": "ResponsePeriod",
+      "type": "object"
+    },
+    "RewardPeriod": {
+      "description": "Defines a reward period",
+      "properties": {
+        "delay": {
+          "default": 0,
+          "description": "Delay to reward availability.",
+          "minimum": 0.0,
+          "title": "Delay",
+          "type": "number"
+        },
+        "is_operant": {
+          "default": true,
+          "description": "Whether the reward delivery is contingent on licking.",
+          "title": "Is Operant",
+          "type": "boolean"
+        },
+        "has_cue": {
+          "default": true,
+          "description": "Whether to use a cue to signal the availability of the reward.",
+          "title": "Has Cue",
+          "type": "boolean"
+        },
+        "time_to_collect": {
+          "default": null,
+          "description": "Time to collect the reward after it is available. If null, the reward will be available indefinitely.",
+          "oneOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Time To Collect"
+        }
+      },
+      "title": "RewardPeriod",
       "type": "object"
     },
     "RightHarvestAction": {
@@ -282,20 +418,22 @@
         },
         "delay": {
           "default": 0,
-          "description": "Delay between sucessful harvest and reward delivery",
+          "description": "Delay between successful harvest and reward delivery",
           "title": "Delay",
           "type": "number"
         },
-        "press_duration": {
-          "default": 5,
+        "force_duration": {
+          "default": 0.5,
           "description": "Duration that the force much stay above threshold",
-          "title": "Press Duration",
+          "title": "Force Duration",
           "type": "number"
         },
-        "press_force_threshold": {
+        "force_threshold": {
           "default": 5000,
           "description": "Force to be applied",
-          "title": "Press Force Threshold",
+          "maximum": 32768.0,
+          "minimum": -32768.0,
+          "title": "Force Threshold",
           "type": "number"
         }
       },
@@ -305,6 +443,68 @@
     "Trial": {
       "description": "Defines a trial",
       "properties": {
+        "inter_trial_interval": {
+          "default": 0,
+          "description": "Time between trials",
+          "minimum": 0.0,
+          "title": "Inter Trial Interval",
+          "type": "number"
+        },
+        "quiescence_period": {
+          "default": null,
+          "description": "Quiescence settings",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/QuiescencePeriod"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "initiation_period": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/InitiationPeriod"
+            }
+          ],
+          "default": {
+            "duration": 0.0,
+            "has_cue": true,
+            "abort_on_force": false,
+            "abort_on_force_threshold": 0.0
+          },
+          "description": "Initiation settings"
+        },
+        "response_period": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ResponsePeriod"
+            }
+          ],
+          "default": {
+            "duration": 0.0,
+            "has_cue": true,
+            "abort_on_force": false,
+            "abort_on_force_threshold": 0.0,
+            "has_feedback": false
+          },
+          "description": "Response settings"
+        },
+        "reward_period": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/RewardPeriod"
+            }
+          ],
+          "default": {
+            "delay": 0.0,
+            "is_operant": true,
+            "has_cue": true,
+            "time_to_collect": null
+          },
+          "description": "Reward settings"
+        },
         "left_action": {
           "allOf": [
             {
@@ -316,8 +516,8 @@
             "probability": 1.0,
             "amount": 1.0,
             "delay": 0.0,
-            "press_duration": 5.0,
-            "press_force_threshold": 5000.0
+            "force_duration": 0.5,
+            "force_threshold": 5000.0
           },
           "description": "Specification of the left action"
         },
@@ -332,17 +532,10 @@
             "probability": 1.0,
             "amount": 1.0,
             "delay": 0.0,
-            "press_duration": 5.0,
-            "press_force_threshold": 5000.0
+            "force_duration": 0.5,
+            "force_threshold": 5000.0
           },
           "description": "Specification of the right action"
-        },
-        "inter_trial_interval": {
-          "default": 0,
-          "description": "Time between trials",
-          "minimum": 0.0,
-          "title": "Inter Trial Interval",
-          "type": "number"
         },
         "time_out": {
           "default": 0,

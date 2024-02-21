@@ -12,7 +12,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
-    public partial class Block
+    public partial class Block : EnvironmentStatistics
     {
     
         private System.Collections.Generic.List<Trial> _trials = new System.Collections.Generic.List<Trial>();
@@ -25,7 +25,8 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         {
         }
     
-        protected Block(Block other)
+        protected Block(Block other) : 
+                base(other)
         {
             _trials = other._trials;
             _shuffle = other._shuffle;
@@ -96,25 +97,16 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             return System.Reactive.Linq.Observable.Select(source, _ => new Block(this));
         }
     
-        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        protected override bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
+            if (base.PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(", ");
+            }
             stringBuilder.Append("trials = " + _trials + ", ");
             stringBuilder.Append("shuffle = " + _shuffle + ", ");
             stringBuilder.Append("repeat_count = " + _repeatCount);
             return true;
-        }
-    
-        public override string ToString()
-        {
-            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
-            stringBuilder.Append(GetType().Name);
-            stringBuilder.Append(" { ");
-            if (PrintMembers(stringBuilder))
-            {
-                stringBuilder.Append(" ");
-            }
-            stringBuilder.Append("}");
-            return stringBuilder.ToString();
         }
     }
 
@@ -122,50 +114,49 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
-    public partial class BlockedStatistics : EnvironmentStatistics
+    public partial class Environment
     {
     
-        private System.Collections.Generic.List<Block> _blocks = new System.Collections.Generic.List<Block>();
+        private System.Collections.Generic.List<EnvironmentStatistics> _blockStatistics = new System.Collections.Generic.List<EnvironmentStatistics>();
     
         private bool _shuffle = false;
     
         private int? _repeatCount;
     
-        public BlockedStatistics()
+        public Environment()
         {
         }
     
-        protected BlockedStatistics(BlockedStatistics other) : 
-                base(other)
+        protected Environment(Environment other)
         {
-            _blocks = other._blocks;
+            _blockStatistics = other._blockStatistics;
             _shuffle = other._shuffle;
             _repeatCount = other._repeatCount;
         }
     
         /// <summary>
-        /// List of blocks in the environment
+        /// Statistics of the environment
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("blocks")]
-        [System.ComponentModel.DescriptionAttribute("List of blocks in the environment")]
-        public System.Collections.Generic.List<Block> Blocks
+        [Newtonsoft.Json.JsonPropertyAttribute("block_statistics", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("Statistics of the environment")]
+        public System.Collections.Generic.List<EnvironmentStatistics> BlockStatistics
         {
             get
             {
-                return _blocks;
+                return _blockStatistics;
             }
             set
             {
-                _blocks = value;
+                _blockStatistics = value;
             }
         }
     
         /// <summary>
-        /// Whether to shuffle the blocks in the environment
+        /// Whether to shuffle the blocks
         /// </summary>
         [Newtonsoft.Json.JsonPropertyAttribute("shuffle")]
-        [System.ComponentModel.DescriptionAttribute("Whether to shuffle the blocks in the environment")]
+        [System.ComponentModel.DescriptionAttribute("Whether to shuffle the blocks")]
         public bool Shuffle
         {
             get
@@ -197,65 +188,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             }
         }
     
-        public System.IObservable<BlockedStatistics> Process()
-        {
-            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new BlockedStatistics(this)));
-        }
-    
-        public System.IObservable<BlockedStatistics> Process<TSource>(System.IObservable<TSource> source)
-        {
-            return System.Reactive.Linq.Observable.Select(source, _ => new BlockedStatistics(this));
-        }
-    
-        protected override bool PrintMembers(System.Text.StringBuilder stringBuilder)
-        {
-            if (base.PrintMembers(stringBuilder))
-            {
-                stringBuilder.Append(", ");
-            }
-            stringBuilder.Append("blocks = " + _blocks + ", ");
-            stringBuilder.Append("shuffle = " + _shuffle + ", ");
-            stringBuilder.Append("repeat_count = " + _repeatCount);
-            return true;
-        }
-    }
-
-
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
-    [Bonsai.CombinatorAttribute()]
-    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
-    public partial class Environment
-    {
-    
-        private EnvironmentStatistics _statistics;
-    
-        public Environment()
-        {
-        }
-    
-        protected Environment(Environment other)
-        {
-            _statistics = other._statistics;
-        }
-    
-        /// <summary>
-        /// Statistics of the environment
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("statistics", Required=Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DescriptionAttribute("Statistics of the environment")]
-        public EnvironmentStatistics Statistics
-        {
-            get
-            {
-                return _statistics;
-            }
-            set
-            {
-                _statistics = value;
-            }
-        }
-    
         public System.IObservable<Environment> Process()
         {
             return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new Environment(this)));
@@ -268,7 +200,9 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
-            stringBuilder.Append("statistics = " + _statistics);
+            stringBuilder.Append("block_statistics = " + _blockStatistics + ", ");
+            stringBuilder.Append("shuffle = " + _shuffle + ", ");
+            stringBuilder.Append("repeat_count = " + _repeatCount);
             return true;
         }
     
@@ -289,7 +223,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
 
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Newtonsoft.Json.JsonConverter(typeof(JsonInheritanceConverter), "mode")]
-    [JsonInheritanceAttribute("Block", typeof(BlockedStatistics))]
+    [JsonInheritanceAttribute("Block", typeof(Block))]
     [JsonInheritanceAttribute("RandomWalk", typeof(RandomWalkStatistics))]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
@@ -381,6 +315,138 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     }
 
 
+    /// <summary>
+    /// Defines an initiation period
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Defines an initiation period")]
+    [Bonsai.CombinatorAttribute()]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    public partial class InitiationPeriod
+    {
+    
+        private double _duration = 0D;
+    
+        private bool _hasCue = true;
+    
+        private bool _abortOnForce = false;
+    
+        private double _abortOnForceThreshold = 0D;
+    
+        public InitiationPeriod()
+        {
+        }
+    
+        protected InitiationPeriod(InitiationPeriod other)
+        {
+            _duration = other._duration;
+            _hasCue = other._hasCue;
+            _abortOnForce = other._abortOnForce;
+            _abortOnForceThreshold = other._abortOnForceThreshold;
+        }
+    
+        /// <summary>
+        /// Duration of the initiation period
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("duration")]
+        [System.ComponentModel.DescriptionAttribute("Duration of the initiation period")]
+        public double Duration
+        {
+            get
+            {
+                return _duration;
+            }
+            set
+            {
+                _duration = value;
+            }
+        }
+    
+        /// <summary>
+        /// Whether to use a cue to signal the start of the period.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("has_cue")]
+        [System.ComponentModel.DescriptionAttribute("Whether to use a cue to signal the start of the period.")]
+        public bool HasCue
+        {
+            get
+            {
+                return _hasCue;
+            }
+            set
+            {
+                _hasCue = value;
+            }
+        }
+    
+        /// <summary>
+        /// Whether to abort the trial if a choice is made during the initiation period.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("abort_on_force")]
+        [System.ComponentModel.DescriptionAttribute("Whether to abort the trial if a choice is made during the initiation period.")]
+        public bool AbortOnForce
+        {
+            get
+            {
+                return _abortOnForce;
+            }
+            set
+            {
+                _abortOnForce = value;
+            }
+        }
+    
+        /// <summary>
+        /// Time out for the quiescence period
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("abort_on_force_threshold")]
+        [System.ComponentModel.DescriptionAttribute("Time out for the quiescence period")]
+        public double AbortOnForceThreshold
+        {
+            get
+            {
+                return _abortOnForceThreshold;
+            }
+            set
+            {
+                _abortOnForceThreshold = value;
+            }
+        }
+    
+        public System.IObservable<InitiationPeriod> Process()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new InitiationPeriod(this)));
+        }
+    
+        public System.IObservable<InitiationPeriod> Process<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new InitiationPeriod(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("duration = " + _duration + ", ");
+            stringBuilder.Append("has_cue = " + _hasCue + ", ");
+            stringBuilder.Append("abort_on_force = " + _abortOnForce + ", ");
+            stringBuilder.Append("abort_on_force_threshold = " + _abortOnForceThreshold);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
@@ -393,9 +459,9 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         private double _delay = 0D;
     
-        private double _pressDuration = 5D;
+        private double _forceDuration = 0.5D;
     
-        private double _pressForceThreshold = 5000D;
+        private double _forceThreshold = 5000D;
     
         public LeftHarvestAction()
         {
@@ -407,8 +473,8 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             _probability = other._probability;
             _amount = other._amount;
             _delay = other._delay;
-            _pressDuration = other._pressDuration;
-            _pressForceThreshold = other._pressForceThreshold;
+            _forceDuration = other._forceDuration;
+            _forceThreshold = other._forceThreshold;
         }
     
         /// <summary>
@@ -446,10 +512,10 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         }
     
         /// <summary>
-        /// Delay between sucessful harvest and reward delivery
+        /// Delay between successful harvest and reward delivery
         /// </summary>
         [Newtonsoft.Json.JsonPropertyAttribute("delay")]
-        [System.ComponentModel.DescriptionAttribute("Delay between sucessful harvest and reward delivery")]
+        [System.ComponentModel.DescriptionAttribute("Delay between successful harvest and reward delivery")]
         public double Delay
         {
             get
@@ -465,34 +531,34 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         /// <summary>
         /// Duration that the force much stay above threshold
         /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("press_duration")]
+        [Newtonsoft.Json.JsonPropertyAttribute("force_duration")]
         [System.ComponentModel.DescriptionAttribute("Duration that the force much stay above threshold")]
-        public double PressDuration
+        public double ForceDuration
         {
             get
             {
-                return _pressDuration;
+                return _forceDuration;
             }
             set
             {
-                _pressDuration = value;
+                _forceDuration = value;
             }
         }
     
         /// <summary>
         /// Force to be applied
         /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("press_force_threshold")]
+        [Newtonsoft.Json.JsonPropertyAttribute("force_threshold")]
         [System.ComponentModel.DescriptionAttribute("Force to be applied")]
-        public double PressForceThreshold
+        public double ForceThreshold
         {
             get
             {
-                return _pressForceThreshold;
+                return _forceThreshold;
             }
             set
             {
-                _pressForceThreshold = value;
+                _forceThreshold = value;
             }
         }
     
@@ -515,8 +581,8 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             stringBuilder.Append("probability = " + _probability + ", ");
             stringBuilder.Append("amount = " + _amount + ", ");
             stringBuilder.Append("delay = " + _delay + ", ");
-            stringBuilder.Append("press_duration = " + _pressDuration + ", ");
-            stringBuilder.Append("press_force_threshold = " + _pressForceThreshold);
+            stringBuilder.Append("force_duration = " + _forceDuration + ", ");
+            stringBuilder.Append("force_threshold = " + _forceThreshold);
             return true;
         }
     }
@@ -781,6 +847,138 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     }
 
 
+    /// <summary>
+    /// Defines a quiescence settings
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Defines a quiescence settings")]
+    [Bonsai.CombinatorAttribute()]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    public partial class QuiescencePeriod
+    {
+    
+        private double _duration = 0D;
+    
+        private double _forceThreshold = 0D;
+    
+        private double _ditheringDuration = 0D;
+    
+        private bool _hasCue = false;
+    
+        public QuiescencePeriod()
+        {
+        }
+    
+        protected QuiescencePeriod(QuiescencePeriod other)
+        {
+            _duration = other._duration;
+            _forceThreshold = other._forceThreshold;
+            _ditheringDuration = other._ditheringDuration;
+            _hasCue = other._hasCue;
+        }
+    
+        /// <summary>
+        /// Duration of the quiescence period
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("duration")]
+        [System.ComponentModel.DescriptionAttribute("Duration of the quiescence period")]
+        public double Duration
+        {
+            get
+            {
+                return _duration;
+            }
+            set
+            {
+                _duration = value;
+            }
+        }
+    
+        /// <summary>
+        /// Time out for the quiescence period
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("force_threshold")]
+        [System.ComponentModel.DescriptionAttribute("Time out for the quiescence period")]
+        public double ForceThreshold
+        {
+            get
+            {
+                return _forceThreshold;
+            }
+            set
+            {
+                _forceThreshold = value;
+            }
+        }
+    
+        /// <summary>
+        /// Dithering duration used to exclude sporadic fast force changes.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("dithering_duration")]
+        [System.ComponentModel.DescriptionAttribute("Dithering duration used to exclude sporadic fast force changes.")]
+        public double DitheringDuration
+        {
+            get
+            {
+                return _ditheringDuration;
+            }
+            set
+            {
+                _ditheringDuration = value;
+            }
+        }
+    
+        /// <summary>
+        /// Whether to use a cue to signal the start of the period.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("has_cue")]
+        [System.ComponentModel.DescriptionAttribute("Whether to use a cue to signal the start of the period.")]
+        public bool HasCue
+        {
+            get
+            {
+                return _hasCue;
+            }
+            set
+            {
+                _hasCue = value;
+            }
+        }
+    
+        public System.IObservable<QuiescencePeriod> Process()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new QuiescencePeriod(this)));
+        }
+    
+        public System.IObservable<QuiescencePeriod> Process<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new QuiescencePeriod(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("duration = " + _duration + ", ");
+            stringBuilder.Append("force_threshold = " + _forceThreshold + ", ");
+            stringBuilder.Append("dithering_duration = " + _ditheringDuration + ", ");
+            stringBuilder.Append("has_cue = " + _hasCue);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
@@ -813,6 +1011,293 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     }
 
 
+    /// <summary>
+    /// Defines a response period
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Defines a response period")]
+    [Bonsai.CombinatorAttribute()]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    public partial class ResponsePeriod
+    {
+    
+        private double _duration = 0D;
+    
+        private bool _hasCue = true;
+    
+        private bool _abortOnForce = false;
+    
+        private double _abortOnForceThreshold = 0D;
+    
+        private bool _hasFeedback = false;
+    
+        public ResponsePeriod()
+        {
+        }
+    
+        protected ResponsePeriod(ResponsePeriod other)
+        {
+            _duration = other._duration;
+            _hasCue = other._hasCue;
+            _abortOnForce = other._abortOnForce;
+            _abortOnForceThreshold = other._abortOnForceThreshold;
+            _hasFeedback = other._hasFeedback;
+        }
+    
+        /// <summary>
+        /// Duration of the response period. I.e. the time the animal has to make a choice.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("duration")]
+        [System.ComponentModel.DescriptionAttribute("Duration of the response period. I.e. the time the animal has to make a choice.")]
+        public double Duration
+        {
+            get
+            {
+                return _duration;
+            }
+            set
+            {
+                _duration = value;
+            }
+        }
+    
+        /// <summary>
+        /// Whether to use a cue to signal the start of the period.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("has_cue")]
+        [System.ComponentModel.DescriptionAttribute("Whether to use a cue to signal the start of the period.")]
+        public bool HasCue
+        {
+            get
+            {
+                return _hasCue;
+            }
+            set
+            {
+                _hasCue = value;
+            }
+        }
+    
+        /// <summary>
+        /// Whether to abort the trial if a choice is made during the initiation period.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("abort_on_force")]
+        [System.ComponentModel.DescriptionAttribute("Whether to abort the trial if a choice is made during the initiation period.")]
+        public bool AbortOnForce
+        {
+            get
+            {
+                return _abortOnForce;
+            }
+            set
+            {
+                _abortOnForce = value;
+            }
+        }
+    
+        /// <summary>
+        /// Time out for the quiescence period
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("abort_on_force_threshold")]
+        [System.ComponentModel.DescriptionAttribute("Time out for the quiescence period")]
+        public double AbortOnForceThreshold
+        {
+            get
+            {
+                return _abortOnForceThreshold;
+            }
+            set
+            {
+                _abortOnForceThreshold = value;
+            }
+        }
+    
+        /// <summary>
+        /// Whether to provide feedback to the animal after the response period.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("has_feedback")]
+        [System.ComponentModel.DescriptionAttribute("Whether to provide feedback to the animal after the response period.")]
+        public bool HasFeedback
+        {
+            get
+            {
+                return _hasFeedback;
+            }
+            set
+            {
+                _hasFeedback = value;
+            }
+        }
+    
+        public System.IObservable<ResponsePeriod> Process()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new ResponsePeriod(this)));
+        }
+    
+        public System.IObservable<ResponsePeriod> Process<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new ResponsePeriod(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("duration = " + _duration + ", ");
+            stringBuilder.Append("has_cue = " + _hasCue + ", ");
+            stringBuilder.Append("abort_on_force = " + _abortOnForce + ", ");
+            stringBuilder.Append("abort_on_force_threshold = " + _abortOnForceThreshold + ", ");
+            stringBuilder.Append("has_feedback = " + _hasFeedback);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
+    /// Defines a reward period
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Defines a reward period")]
+    [Bonsai.CombinatorAttribute()]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    public partial class RewardPeriod
+    {
+    
+        private double _delay = 0D;
+    
+        private bool _isOperant = true;
+    
+        private bool _hasCue = true;
+    
+        private double? _timeToCollect;
+    
+        public RewardPeriod()
+        {
+        }
+    
+        protected RewardPeriod(RewardPeriod other)
+        {
+            _delay = other._delay;
+            _isOperant = other._isOperant;
+            _hasCue = other._hasCue;
+            _timeToCollect = other._timeToCollect;
+        }
+    
+        /// <summary>
+        /// Delay to reward availability.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("delay")]
+        [System.ComponentModel.DescriptionAttribute("Delay to reward availability.")]
+        public double Delay
+        {
+            get
+            {
+                return _delay;
+            }
+            set
+            {
+                _delay = value;
+            }
+        }
+    
+        /// <summary>
+        /// Whether the reward delivery is contingent on licking.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("is_operant")]
+        [System.ComponentModel.DescriptionAttribute("Whether the reward delivery is contingent on licking.")]
+        public bool IsOperant
+        {
+            get
+            {
+                return _isOperant;
+            }
+            set
+            {
+                _isOperant = value;
+            }
+        }
+    
+        /// <summary>
+        /// Whether to use a cue to signal the availability of the reward.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("has_cue")]
+        [System.ComponentModel.DescriptionAttribute("Whether to use a cue to signal the availability of the reward.")]
+        public bool HasCue
+        {
+            get
+            {
+                return _hasCue;
+            }
+            set
+            {
+                _hasCue = value;
+            }
+        }
+    
+        /// <summary>
+        /// Time to collect the reward after it is available. If null, the reward will be available indefinitely.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("time_to_collect")]
+        [System.ComponentModel.DescriptionAttribute("Time to collect the reward after it is available. If null, the reward will be ava" +
+            "ilable indefinitely.")]
+        public double? TimeToCollect
+        {
+            get
+            {
+                return _timeToCollect;
+            }
+            set
+            {
+                _timeToCollect = value;
+            }
+        }
+    
+        public System.IObservable<RewardPeriod> Process()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new RewardPeriod(this)));
+        }
+    
+        public System.IObservable<RewardPeriod> Process<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new RewardPeriod(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("delay = " + _delay + ", ");
+            stringBuilder.Append("is_operant = " + _isOperant + ", ");
+            stringBuilder.Append("has_cue = " + _hasCue + ", ");
+            stringBuilder.Append("time_to_collect = " + _timeToCollect);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
@@ -825,9 +1310,9 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         private double _delay = 0D;
     
-        private double _pressDuration = 5D;
+        private double _forceDuration = 0.5D;
     
-        private double _pressForceThreshold = 5000D;
+        private double _forceThreshold = 5000D;
     
         public RightHarvestAction()
         {
@@ -839,8 +1324,8 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             _probability = other._probability;
             _amount = other._amount;
             _delay = other._delay;
-            _pressDuration = other._pressDuration;
-            _pressForceThreshold = other._pressForceThreshold;
+            _forceDuration = other._forceDuration;
+            _forceThreshold = other._forceThreshold;
         }
     
         /// <summary>
@@ -878,10 +1363,10 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         }
     
         /// <summary>
-        /// Delay between sucessful harvest and reward delivery
+        /// Delay between successful harvest and reward delivery
         /// </summary>
         [Newtonsoft.Json.JsonPropertyAttribute("delay")]
-        [System.ComponentModel.DescriptionAttribute("Delay between sucessful harvest and reward delivery")]
+        [System.ComponentModel.DescriptionAttribute("Delay between successful harvest and reward delivery")]
         public double Delay
         {
             get
@@ -897,34 +1382,34 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         /// <summary>
         /// Duration that the force much stay above threshold
         /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("press_duration")]
+        [Newtonsoft.Json.JsonPropertyAttribute("force_duration")]
         [System.ComponentModel.DescriptionAttribute("Duration that the force much stay above threshold")]
-        public double PressDuration
+        public double ForceDuration
         {
             get
             {
-                return _pressDuration;
+                return _forceDuration;
             }
             set
             {
-                _pressDuration = value;
+                _forceDuration = value;
             }
         }
     
         /// <summary>
         /// Force to be applied
         /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("press_force_threshold")]
+        [Newtonsoft.Json.JsonPropertyAttribute("force_threshold")]
         [System.ComponentModel.DescriptionAttribute("Force to be applied")]
-        public double PressForceThreshold
+        public double ForceThreshold
         {
             get
             {
-                return _pressForceThreshold;
+                return _forceThreshold;
             }
             set
             {
-                _pressForceThreshold = value;
+                _forceThreshold = value;
             }
         }
     
@@ -947,8 +1432,8 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             stringBuilder.Append("probability = " + _probability + ", ");
             stringBuilder.Append("amount = " + _amount + ", ");
             stringBuilder.Append("delay = " + _delay + ", ");
-            stringBuilder.Append("press_duration = " + _pressDuration + ", ");
-            stringBuilder.Append("press_force_threshold = " + _pressForceThreshold);
+            stringBuilder.Append("force_duration = " + _forceDuration + ", ");
+            stringBuilder.Append("force_threshold = " + _forceThreshold);
             return true;
         }
     }
@@ -964,11 +1449,19 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     public partial class Trial
     {
     
+        private double _interTrialInterval = 0D;
+    
+        private QuiescencePeriod _quiescencePeriod;
+    
+        private InitiationPeriod _initiationPeriod;
+    
+        private ResponsePeriod _responsePeriod;
+    
+        private RewardPeriod _rewardPeriod;
+    
         private HarvestAction _leftAction;
     
         private HarvestAction _rightAction;
-    
-        private double _interTrialInterval = 0D;
     
         private double _timeOut = 0D;
     
@@ -978,10 +1471,103 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         protected Trial(Trial other)
         {
+            _interTrialInterval = other._interTrialInterval;
+            _quiescencePeriod = other._quiescencePeriod;
+            _initiationPeriod = other._initiationPeriod;
+            _responsePeriod = other._responsePeriod;
+            _rewardPeriod = other._rewardPeriod;
             _leftAction = other._leftAction;
             _rightAction = other._rightAction;
-            _interTrialInterval = other._interTrialInterval;
             _timeOut = other._timeOut;
+        }
+    
+        /// <summary>
+        /// Time between trials
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("inter_trial_interval")]
+        [System.ComponentModel.DescriptionAttribute("Time between trials")]
+        public double InterTrialInterval
+        {
+            get
+            {
+                return _interTrialInterval;
+            }
+            set
+            {
+                _interTrialInterval = value;
+            }
+        }
+    
+        /// <summary>
+        /// Quiescence settings
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("quiescence_period")]
+        [System.ComponentModel.DescriptionAttribute("Quiescence settings")]
+        public QuiescencePeriod QuiescencePeriod
+        {
+            get
+            {
+                return _quiescencePeriod;
+            }
+            set
+            {
+                _quiescencePeriod = value;
+            }
+        }
+    
+        /// <summary>
+        /// Initiation settings
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("initiation_period")]
+        [System.ComponentModel.DescriptionAttribute("Initiation settings")]
+        public InitiationPeriod InitiationPeriod
+        {
+            get
+            {
+                return _initiationPeriod;
+            }
+            set
+            {
+                _initiationPeriod = value;
+            }
+        }
+    
+        /// <summary>
+        /// Response settings
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("response_period")]
+        [System.ComponentModel.DescriptionAttribute("Response settings")]
+        public ResponsePeriod ResponsePeriod
+        {
+            get
+            {
+                return _responsePeriod;
+            }
+            set
+            {
+                _responsePeriod = value;
+            }
+        }
+    
+        /// <summary>
+        /// Reward settings
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("reward_period")]
+        [System.ComponentModel.DescriptionAttribute("Reward settings")]
+        public RewardPeriod RewardPeriod
+        {
+            get
+            {
+                return _rewardPeriod;
+            }
+            set
+            {
+                _rewardPeriod = value;
+            }
         }
     
         /// <summary>
@@ -1021,23 +1607,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         }
     
         /// <summary>
-        /// Time between trials
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("inter_trial_interval")]
-        [System.ComponentModel.DescriptionAttribute("Time between trials")]
-        public double InterTrialInterval
-        {
-            get
-            {
-                return _interTrialInterval;
-            }
-            set
-            {
-                _interTrialInterval = value;
-            }
-        }
-    
-        /// <summary>
         /// Time out for the trial
         /// </summary>
         [Newtonsoft.Json.JsonPropertyAttribute("time_out")]
@@ -1066,9 +1635,13 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
+            stringBuilder.Append("inter_trial_interval = " + _interTrialInterval + ", ");
+            stringBuilder.Append("quiescence_period = " + _quiescencePeriod + ", ");
+            stringBuilder.Append("initiation_period = " + _initiationPeriod + ", ");
+            stringBuilder.Append("response_period = " + _responsePeriod + ", ");
+            stringBuilder.Append("reward_period = " + _rewardPeriod + ", ");
             stringBuilder.Append("left_action = " + _leftAction + ", ");
             stringBuilder.Append("right_action = " + _rightAction + ", ");
-            stringBuilder.Append("inter_trial_interval = " + _interTrialInterval + ", ");
             stringBuilder.Append("time_out = " + _timeOut);
             return true;
         }
@@ -1350,7 +1923,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [System.ComponentModel.DefaultPropertyAttribute("Type")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Combinator)]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BlockedStatistics>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Block>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<RandomWalkStatistics>))]
     public partial class MatchEnvironmentStatistics : Bonsai.Expressions.SingleArgumentExpressionBuilder
     {
@@ -1449,11 +2022,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             return Process<Block>(source);
         }
 
-        public System.IObservable<string> Process(System.IObservable<BlockedStatistics> source)
-        {
-            return Process<BlockedStatistics>(source);
-        }
-
         public System.IObservable<string> Process(System.IObservable<Environment> source)
         {
             return Process<Environment>(source);
@@ -1467,6 +2035,11 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         public System.IObservable<string> Process(System.IObservable<HarvestAction> source)
         {
             return Process<HarvestAction>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<InitiationPeriod> source)
+        {
+            return Process<InitiationPeriod>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<LeftHarvestAction> source)
@@ -1484,9 +2057,24 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             return Process<NumericalUpdaterParameters>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<QuiescencePeriod> source)
+        {
+            return Process<QuiescencePeriod>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<RandomWalkStatistics> source)
         {
             return Process<RandomWalkStatistics>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<ResponsePeriod> source)
+        {
+            return Process<ResponsePeriod>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<RewardPeriod> source)
+        {
+            return Process<RewardPeriod>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<RightHarvestAction> source)
@@ -1514,14 +2102,17 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.ComponentModel.DefaultPropertyAttribute("Type")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Transform)]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Block>))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BlockedStatistics>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Environment>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<EnvironmentStatistics>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<HarvestAction>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<InitiationPeriod>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LeftHarvestAction>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NumericalUpdater>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NumericalUpdaterParameters>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<QuiescencePeriod>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<RandomWalkStatistics>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ResponsePeriod>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<RewardPeriod>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<RightHarvestAction>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Trial>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AindForceForagingTaskLogic>))]
