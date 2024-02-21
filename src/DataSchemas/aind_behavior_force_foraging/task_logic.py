@@ -10,6 +10,9 @@ from aind_data_schema.base import AindModel
 from pydantic import BaseModel, Field, RootModel, ConfigDict
 
 
+MAX_LOAD_CELL_FORCE = 32768
+
+
 def scalar_value(value: float) -> distributions.Scalar:
     """
     Helper function to create a scalar value distribution for a given value.
@@ -43,9 +46,9 @@ class HarvestActionBase(BaseModel):
     label: str = Field(default='HarvestAction', description="Label of the action")
     probability: float = Field(default=1, description="Probability of reward")
     amount: float = Field(default=1, description="Amount of reward to be delivered")
-    delay: float = Field(default=0, description="Delay between sucessful harvest and reward delivery")
-    press_duration: float = Field(default=5, description="Duration that the force much stay above threshold")
-    press_force_threshold: float = Field(default=5000, description="Force to be applied")
+    delay: float = Field(default=0, description="Delay between successful harvest and reward delivery")
+    force_duration: float = Field(default=0.5, description="Duration that the force much stay above threshold")
+    force_threshold: float = Field(default=5000, le=MAX_LOAD_CELL_FORCE, ge=-MAX_LOAD_CELL_FORCE, description="Force to be applied")
 
 
 class RightHarvestAction(HarvestActionBase):
@@ -60,11 +63,46 @@ class HarvestAction(RootModel):
     root: Annotated[Union[LeftHarvestAction, RightHarvestAction], Field(discriminator='label')]
 
 
+class QuiescencePeriod(BaseModel):
+    '''Defines a quiescence settings'''
+    duration: float = Field(default=0, ge=0, description="Duration of the quiescence period")
+    force_threshold: float = Field(default=0, le=MAX_LOAD_CELL_FORCE, ge=-MAX_LOAD_CELL_FORCE, description="Time out for the quiescence period")
+    dithering_duration: float = Field(default=0, ge=0, description="Dithering duration used to exclude sporadic fast force changes.") 
+    has_cue: bool = Field(default=False, description="Whether to use a cue to signal the start of the period.")
+
+class InitiationPeriod(BaseModel):
+    '''Defines an initiation period'''
+    duration: float = Field(default=0, ge=0, description="Duration of the initiation period")
+    has_cue: bool = Field(default=True, description="Whether to use a cue to signal the start of the period.")
+    abort_on_force: bool = Field(default=False, description="Whether to abort the trial if a choice is made during the initiation period.")
+    abort_on_force_threshold: float = Field(default=0, le=MAX_LOAD_CELL_FORCE, ge=-MAX_LOAD_CELL_FORCE, description="Time out for the quiescence period")
+
+
+class ResponsePeriod(BaseModel):
+    '''Defines a response period'''
+    duration: float = Field(default=0, ge=0, description="Duration of the response period. I.e. the time the animal has to make a choice.")
+    has_cue: bool = Field(default=True, description="Whether to use a cue to signal the start of the period.")
+    abort_on_force: bool = Field(default=False, description="Whether to abort the trial if a choice is made during the initiation period.")
+    abort_on_force_threshold: float = Field(default=0, le=MAX_LOAD_CELL_FORCE, ge=-MAX_LOAD_CELL_FORCE, description="Time out for the quiescence period")
+    has_feedback: bool = Field(default=False, description="Whether to provide feedback to the animal after the response period.")
+
+
+class RewardPeriod(BaseModel):
+    '''Defines a reward period'''
+    delay: float = Field(default=0, ge=0, description="Delay to reward availability.")
+    is_operant: bool = Field(default=True, description="Whether the reward delivery is contingent on licking.")
+    has_cue: bool = Field(default=True, description="Whether to use a cue to signal the availability of the reward.")
+    time_to_collect: Optional[float] = Field(default=None, ge=0, description="Time to collect the reward after it is available. If null, the reward will be available indefinitely.")
+
 class Trial(BaseModel):
     '''Defines a trial'''
+    inter_trial_interval: float = Field(default=0, ge=0, description="Time between trials")
+    quiescence_period: Optional[QuiescencePeriod] = Field(default=None, description="Quiescence settings")s
+    initiation_period: InitiationPeriod = Field(default=InitiationPeriod(), validate_default=True, description="Initiation settings")
+    response_period: ResponsePeriod = Field(default=ResponsePeriod(), validate_default=True, description="Response settings")
+    reward_period: RewardPeriod = Field(default=RewardPeriod(), validate_default=True, description="Reward settings")
     left_action: HarvestAction = Field(default=LeftHarvestAction(), validate_default=True, description="Specification of the left action")
     right_action: HarvestAction = Field(default=RightHarvestAction(), validate_default=True, description="Specification of the right action")
-    inter_trial_interval: float = Field(default=0, ge=0, description="Time between trials")
     time_out: float = Field(default=0, ge=0, description="Time out for the trial")
 
 
