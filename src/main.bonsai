@@ -2669,33 +2669,11 @@ Item2.Light as Light)</scr:Expression>
                       <harp:IsArray>true</harp:IsArray>
                     </harp:Register>
                   </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>Value</Selector>
-                  </Expression>
-                  <Expression xsi:type="Index">
-                    <Operand xsi:type="IntProperty">
-                      <Value>0</Value>
-                    </Operand>
-                  </Expression>
-                  <Expression xsi:type="Index">
-                    <Operand xsi:type="IntProperty">
-                      <Value>0</Value>
-                    </Operand>
-                  </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:Zip" />
-                  </Expression>
-                  <Expression xsi:type="scr:ExpressionTransform">
-                    <scr:Expression>new(Item1 as Left, Item2 as Right)</scr:Expression>
-                  </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>Seconds</Selector>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:Zip" />
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="harp:CreateTimestamped" />
+                    <Combinator xsi:type="p10:ParseForce">
+                      <p10:LeftLoadCellIndex>0</p10:LeftLoadCellIndex>
+                      <p10:RightLoadCellIndex>1</p10:RightLoadCellIndex>
+                    </Combinator>
                   </Expression>
                   <Expression xsi:type="rx:PublishSubject">
                     <Name>CurrentForce</Name>
@@ -2705,16 +2683,7 @@ Item2.Light as Light)</scr:Expression>
                   <Edge From="0" To="1" Label="Source1" />
                   <Edge From="1" To="2" Label="Source1" />
                   <Edge From="2" To="3" Label="Source1" />
-                  <Edge From="2" To="8" Label="Source1" />
                   <Edge From="3" To="4" Label="Source1" />
-                  <Edge From="3" To="5" Label="Source1" />
-                  <Edge From="4" To="6" Label="Source1" />
-                  <Edge From="5" To="6" Label="Source2" />
-                  <Edge From="6" To="7" Label="Source1" />
-                  <Edge From="7" To="9" Label="Source1" />
-                  <Edge From="8" To="9" Label="Source2" />
-                  <Edge From="9" To="10" Label="Source1" />
-                  <Edge From="10" To="11" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -2906,7 +2875,7 @@ Item2.Light as Light)</scr:Expression>
                                 <Name>CurrentForce</Name>
                               </Expression>
                               <Expression xsi:type="MemberSelector">
-                                <Selector>Value.Right</Selector>
+                                <Selector>LeftForce</Selector>
                               </Expression>
                               <Expression xsi:type="SubscribeSubject">
                                 <Name>ThisPeriod</Name>
@@ -2925,7 +2894,7 @@ Item2.Light as Light)</scr:Expression>
                                 </Operand>
                               </Expression>
                               <Expression xsi:type="MemberSelector">
-                                <Selector>Value.Left</Selector>
+                                <Selector>RightForce</Selector>
                               </Expression>
                               <Expression xsi:type="SubscribeSubject">
                                 <Name>ThisPeriod</Name>
@@ -3138,7 +3107,7 @@ Item2.Light as Light)</scr:Expression>
                                 <Name>CurrentForce</Name>
                               </Expression>
                               <Expression xsi:type="MemberSelector">
-                                <Selector>Value.Left</Selector>
+                                <Selector>LeftForce</Selector>
                               </Expression>
                               <Expression xsi:type="SubscribeSubject">
                                 <Name>ThisPeriod</Name>
@@ -3157,7 +3126,7 @@ Item2.Light as Light)</scr:Expression>
                                 </Operand>
                               </Expression>
                               <Expression xsi:type="MemberSelector">
-                                <Selector>Value.Right</Selector>
+                                <Selector>RightForce</Selector>
                               </Expression>
                               <Expression xsi:type="SubscribeSubject">
                                 <Name>ThisPeriod</Name>
@@ -3314,17 +3283,6 @@ Item2.Light as Light)</scr:Expression>
                         <Expression xsi:type="MulticastSubject">
                           <Name>TriggerGoCue</Name>
                         </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p3:HarvestAction">
-                            <p3:Probability>1</p3:Probability>
-                            <p3:Amount>1</p3:Amount>
-                            <p3:Delay>0</p3:Delay>
-                            <p3:ForceDuration>0.5</p3:ForceDuration>
-                            <p3:ForceThreshold>5000</p3:ForceThreshold>
-                            <p3:IsOperant>true</p3:IsOperant>
-                            <p3:HasCue>true</p3:HasCue>
-                          </Combinator>
-                        </Expression>
                         <Expression xsi:type="SubscribeSubject">
                           <Name>ThisPeriod</Name>
                         </Expression>
@@ -3345,15 +3303,43 @@ Item2.Light as Light)</scr:Expression>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p3:HarvestAction">
-                            <p3:Probability>1</p3:Probability>
-                            <p3:Amount>1</p3:Amount>
-                            <p3:Delay>0</p3:Delay>
-                            <p3:ForceDuration>0.5</p3:ForceDuration>
-                            <p3:ForceThreshold>5000</p3:ForceThreshold>
-                            <p3:IsOperant>true</p3:IsOperant>
-                            <p3:HasCue>true</p3:HasCue>
+                          <Combinator xsi:type="BooleanProperty">
+                            <Value>true</Value>
                           </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p3:HarvestAction">
+                            <p3:Probability>0</p3:Probability>
+                            <p3:Amount>0</p3:Amount>
+                            <p3:Delay>0</p3:Delay>
+                            <p3:ForceDuration>0</p3:ForceDuration>
+                            <p3:ForceThreshold>0</p3:ForceThreshold>
+                            <p3:IsOperant>false</p3:IsOperant>
+                            <p3:HasCue>false</p3:HasCue>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Zip" />
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>ThisTrial</Name>
+                        </Expression>
+                        <Expression xsi:type="MemberSelector">
+                          <Selector>LeftHarvest</Selector>
+                        </Expression>
+                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\ObserveHarvestAction.bonsai" />
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:WithLatestFrom" />
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>ThisTrial</Name>
+                        </Expression>
+                        <Expression xsi:type="MemberSelector">
+                          <Selector>RightHarvest</Selector>
+                        </Expression>
+                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\ObserveHarvestAction.bonsai" />
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:WithLatestFrom" />
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="rx:Merge" />
@@ -3362,6 +3348,18 @@ Item2.Light as Light)</scr:Expression>
                           <Combinator xsi:type="rx:Take">
                             <rx:Count>1</rx:Count>
                           </Combinator>
+                        </Expression>
+                        <Expression xsi:type="MemberSelector">
+                          <Selector>Item1</Selector>
+                        </Expression>
+                        <Expression xsi:type="MulticastSubject">
+                          <Name>EndTrial</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Zip" />
+                        </Expression>
+                        <Expression xsi:type="MemberSelector">
+                          <Selector>Item2</Selector>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
                       </Nodes>
@@ -3372,15 +3370,32 @@ Item2.Light as Light)</scr:Expression>
                         <Edge From="4" To="5" Label="Source1" />
                         <Edge From="5" To="6" Label="Source1" />
                         <Edge From="6" To="7" Label="Source1" />
-                        <Edge From="8" To="15" Label="Source1" />
+                        <Edge From="8" To="9" Label="Source1" />
                         <Edge From="9" To="10" Label="Source1" />
                         <Edge From="10" To="11" Label="Source1" />
                         <Edge From="11" To="12" Label="Source1" />
                         <Edge From="12" To="13" Label="Source1" />
                         <Edge From="13" To="14" Label="Source1" />
+                        <Edge From="13" To="15" Label="Source1" />
                         <Edge From="14" To="15" Label="Source2" />
-                        <Edge From="15" To="16" Label="Source1" />
+                        <Edge From="15" To="24" Label="Source1" />
                         <Edge From="16" To="17" Label="Source1" />
+                        <Edge From="17" To="18" Label="Source1" />
+                        <Edge From="17" To="19" Label="Source2" />
+                        <Edge From="18" To="19" Label="Source1" />
+                        <Edge From="19" To="24" Label="Source2" />
+                        <Edge From="20" To="21" Label="Source1" />
+                        <Edge From="21" To="22" Label="Source1" />
+                        <Edge From="21" To="23" Label="Source2" />
+                        <Edge From="22" To="23" Label="Source1" />
+                        <Edge From="23" To="24" Label="Source3" />
+                        <Edge From="24" To="25" Label="Source1" />
+                        <Edge From="25" To="26" Label="Source1" />
+                        <Edge From="25" To="28" Label="Source2" />
+                        <Edge From="26" To="27" Label="Source1" />
+                        <Edge From="27" To="28" Label="Source1" />
+                        <Edge From="28" To="29" Label="Source1" />
+                        <Edge From="29" To="30" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
