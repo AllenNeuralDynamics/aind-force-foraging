@@ -1267,14 +1267,33 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     }
 
 
+    /// <summary>
+    /// Defines an abstract class for an harvest action
+    /// </summary>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
-    [Newtonsoft.Json.JsonConverter(typeof(JsonInheritanceConverter), "label")]
-    [JsonInheritanceAttribute("LeftHarvestAction", typeof(LeftHarvestAction))]
-    [JsonInheritanceAttribute("RightHarvestAction", typeof(RightHarvestAction))]
+    [System.ComponentModel.DescriptionAttribute("Defines an abstract class for an harvest action")]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     public partial class HarvestAction
     {
+    
+        private HarvestActionLabel _action = AindForceForagingDataSchema.AindForceForagingTask.HarvestActionLabel.None;
+    
+        private double _probability = 1D;
+    
+        private double _amount = 1D;
+    
+        private double _delay = 0D;
+    
+        private double _forceDuration = 0.5D;
+    
+        private double _forceThreshold = 5000D;
+    
+        private bool _isOperant = true;
+    
+        private bool _hasCue = true;
+    
+        private double? _timeToCollect;
     
         public HarvestAction()
         {
@@ -1282,6 +1301,171 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         protected HarvestAction(HarvestAction other)
         {
+            _action = other._action;
+            _probability = other._probability;
+            _amount = other._amount;
+            _delay = other._delay;
+            _forceDuration = other._forceDuration;
+            _forceThreshold = other._forceThreshold;
+            _isOperant = other._isOperant;
+            _hasCue = other._hasCue;
+            _timeToCollect = other._timeToCollect;
+        }
+    
+        /// <summary>
+        /// Label of the action
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("action")]
+        [System.ComponentModel.DescriptionAttribute("Label of the action")]
+        public HarvestActionLabel Action
+        {
+            get
+            {
+                return _action;
+            }
+            set
+            {
+                _action = value;
+            }
+        }
+    
+        /// <summary>
+        /// Probability of reward
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("probability")]
+        [System.ComponentModel.DescriptionAttribute("Probability of reward")]
+        public double Probability
+        {
+            get
+            {
+                return _probability;
+            }
+            set
+            {
+                _probability = value;
+            }
+        }
+    
+        /// <summary>
+        /// Amount of reward to be delivered
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("amount")]
+        [System.ComponentModel.DescriptionAttribute("Amount of reward to be delivered")]
+        public double Amount
+        {
+            get
+            {
+                return _amount;
+            }
+            set
+            {
+                _amount = value;
+            }
+        }
+    
+        /// <summary>
+        /// Delay between successful harvest and reward delivery
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("delay")]
+        [System.ComponentModel.DescriptionAttribute("Delay between successful harvest and reward delivery")]
+        public double Delay
+        {
+            get
+            {
+                return _delay;
+            }
+            set
+            {
+                _delay = value;
+            }
+        }
+    
+        /// <summary>
+        /// Duration that the force much stay above threshold
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("force_duration")]
+        [System.ComponentModel.DescriptionAttribute("Duration that the force much stay above threshold")]
+        public double ForceDuration
+        {
+            get
+            {
+                return _forceDuration;
+            }
+            set
+            {
+                _forceDuration = value;
+            }
+        }
+    
+        /// <summary>
+        /// Force to be applied
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("force_threshold")]
+        [System.ComponentModel.DescriptionAttribute("Force to be applied")]
+        public double ForceThreshold
+        {
+            get
+            {
+                return _forceThreshold;
+            }
+            set
+            {
+                _forceThreshold = value;
+            }
+        }
+    
+        /// <summary>
+        /// Whether the reward delivery is contingent on licking.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("is_operant")]
+        [System.ComponentModel.DescriptionAttribute("Whether the reward delivery is contingent on licking.")]
+        public bool IsOperant
+        {
+            get
+            {
+                return _isOperant;
+            }
+            set
+            {
+                _isOperant = value;
+            }
+        }
+    
+        /// <summary>
+        /// Whether to use a cue to signal the availability of the reward.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("has_cue")]
+        [System.ComponentModel.DescriptionAttribute("Whether to use a cue to signal the availability of the reward.")]
+        public bool HasCue
+        {
+            get
+            {
+                return _hasCue;
+            }
+            set
+            {
+                _hasCue = value;
+            }
+        }
+    
+        /// <summary>
+        /// Time to collect the reward after it is available. If null, the reward will be available indefinitely.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("time_to_collect")]
+        [System.ComponentModel.DescriptionAttribute("Time to collect the reward after it is available. If null, the reward will be ava" +
+            "ilable indefinitely.")]
+        public double? TimeToCollect
+        {
+            get
+            {
+                return _timeToCollect;
+            }
+            set
+            {
+                _timeToCollect = value;
+            }
         }
     
         public System.IObservable<HarvestAction> Process()
@@ -1296,7 +1480,16 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
-            return false;
+            stringBuilder.Append("action = " + _action + ", ");
+            stringBuilder.Append("probability = " + _probability + ", ");
+            stringBuilder.Append("amount = " + _amount + ", ");
+            stringBuilder.Append("delay = " + _delay + ", ");
+            stringBuilder.Append("force_duration = " + _forceDuration + ", ");
+            stringBuilder.Append("force_threshold = " + _forceThreshold + ", ");
+            stringBuilder.Append("is_operant = " + _isOperant + ", ");
+            stringBuilder.Append("has_cue = " + _hasCue + ", ");
+            stringBuilder.Append("time_to_collect = " + _timeToCollect);
+            return true;
         }
     
         public override string ToString()
@@ -1311,6 +1504,25 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             stringBuilder.Append("}");
             return stringBuilder.ToString();
         }
+    }
+
+
+    /// <summary>
+    /// Defines the harvest actions
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+    public enum HarvestActionLabel
+    {
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="Left")]
+        Left = 0,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="Right")]
+        Right = 1,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="None")]
+        None = 2,
     }
 
 
@@ -1442,147 +1654,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             }
             stringBuilder.Append("}");
             return stringBuilder.ToString();
-        }
-    }
-
-
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
-    [Bonsai.CombinatorAttribute()]
-    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
-    public partial class LeftHarvestAction : HarvestAction
-    {
-    
-        private double _probability = 1D;
-    
-        private double _amount = 1D;
-    
-        private double _delay = 0D;
-    
-        private double _forceDuration = 0.5D;
-    
-        private double _forceThreshold = 5000D;
-    
-        public LeftHarvestAction()
-        {
-        }
-    
-        protected LeftHarvestAction(LeftHarvestAction other) : 
-                base(other)
-        {
-            _probability = other._probability;
-            _amount = other._amount;
-            _delay = other._delay;
-            _forceDuration = other._forceDuration;
-            _forceThreshold = other._forceThreshold;
-        }
-    
-        /// <summary>
-        /// Probability of reward
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("probability")]
-        [System.ComponentModel.DescriptionAttribute("Probability of reward")]
-        public double Probability
-        {
-            get
-            {
-                return _probability;
-            }
-            set
-            {
-                _probability = value;
-            }
-        }
-    
-        /// <summary>
-        /// Amount of reward to be delivered
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("amount")]
-        [System.ComponentModel.DescriptionAttribute("Amount of reward to be delivered")]
-        public double Amount
-        {
-            get
-            {
-                return _amount;
-            }
-            set
-            {
-                _amount = value;
-            }
-        }
-    
-        /// <summary>
-        /// Delay between successful harvest and reward delivery
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("delay")]
-        [System.ComponentModel.DescriptionAttribute("Delay between successful harvest and reward delivery")]
-        public double Delay
-        {
-            get
-            {
-                return _delay;
-            }
-            set
-            {
-                _delay = value;
-            }
-        }
-    
-        /// <summary>
-        /// Duration that the force much stay above threshold
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("force_duration")]
-        [System.ComponentModel.DescriptionAttribute("Duration that the force much stay above threshold")]
-        public double ForceDuration
-        {
-            get
-            {
-                return _forceDuration;
-            }
-            set
-            {
-                _forceDuration = value;
-            }
-        }
-    
-        /// <summary>
-        /// Force to be applied
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("force_threshold")]
-        [System.ComponentModel.DescriptionAttribute("Force to be applied")]
-        public double ForceThreshold
-        {
-            get
-            {
-                return _forceThreshold;
-            }
-            set
-            {
-                _forceThreshold = value;
-            }
-        }
-    
-        public System.IObservable<LeftHarvestAction> Process()
-        {
-            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new LeftHarvestAction(this)));
-        }
-    
-        public System.IObservable<LeftHarvestAction> Process<TSource>(System.IObservable<TSource> source)
-        {
-            return System.Reactive.Linq.Observable.Select(source, _ => new LeftHarvestAction(this));
-        }
-    
-        protected override bool PrintMembers(System.Text.StringBuilder stringBuilder)
-        {
-            if (base.PrintMembers(stringBuilder))
-            {
-                stringBuilder.Append(", ");
-            }
-            stringBuilder.Append("probability = " + _probability + ", ");
-            stringBuilder.Append("amount = " + _amount + ", ");
-            stringBuilder.Append("delay = " + _delay + ", ");
-            stringBuilder.Append("force_duration = " + _forceDuration + ", ");
-            stringBuilder.Append("force_threshold = " + _forceThreshold);
-            return true;
         }
     }
 
@@ -2536,8 +2607,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         private double _forceThreshold = 0D;
     
-        private double _ditheringDuration = 0D;
-    
         private bool _hasCue = false;
     
         public QuiescencePeriod()
@@ -2548,7 +2617,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         {
             _duration = other._duration;
             _forceThreshold = other._forceThreshold;
-            _ditheringDuration = other._ditheringDuration;
             _hasCue = other._hasCue;
         }
     
@@ -2587,23 +2655,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         }
     
         /// <summary>
-        /// Dithering duration used to exclude sporadic fast force changes.
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("dithering_duration")]
-        [System.ComponentModel.DescriptionAttribute("Dithering duration used to exclude sporadic fast force changes.")]
-        public double DitheringDuration
-        {
-            get
-            {
-                return _ditheringDuration;
-            }
-            set
-            {
-                _ditheringDuration = value;
-            }
-        }
-    
-        /// <summary>
         /// Whether to use a cue to signal the start of the period.
         /// </summary>
         [Newtonsoft.Json.JsonPropertyAttribute("has_cue")]
@@ -2634,7 +2685,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         {
             stringBuilder.Append("duration = " + _duration + ", ");
             stringBuilder.Append("force_threshold = " + _forceThreshold + ", ");
-            stringBuilder.Append("dithering_duration = " + _ditheringDuration + ", ");
             stringBuilder.Append("has_cue = " + _hasCue);
             return true;
         }
@@ -2700,10 +2750,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         private bool _hasCue = true;
     
-        private bool _abortOnForce = false;
-    
-        private double _abortOnForceThreshold = 0D;
-    
         private bool _hasFeedback = false;
     
         public ResponsePeriod()
@@ -2714,8 +2760,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         {
             _duration = other._duration;
             _hasCue = other._hasCue;
-            _abortOnForce = other._abortOnForce;
-            _abortOnForceThreshold = other._abortOnForceThreshold;
             _hasFeedback = other._hasFeedback;
         }
     
@@ -2754,40 +2798,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         }
     
         /// <summary>
-        /// Whether to abort the trial if a choice is made during the initiation period.
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("abort_on_force")]
-        [System.ComponentModel.DescriptionAttribute("Whether to abort the trial if a choice is made during the initiation period.")]
-        public bool AbortOnForce
-        {
-            get
-            {
-                return _abortOnForce;
-            }
-            set
-            {
-                _abortOnForce = value;
-            }
-        }
-    
-        /// <summary>
-        /// Time out for the quiescence period
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("abort_on_force_threshold")]
-        [System.ComponentModel.DescriptionAttribute("Time out for the quiescence period")]
-        public double AbortOnForceThreshold
-        {
-            get
-            {
-                return _abortOnForceThreshold;
-            }
-            set
-            {
-                _abortOnForceThreshold = value;
-            }
-        }
-    
-        /// <summary>
         /// Whether to provide feedback to the animal after the response period.
         /// </summary>
         [Newtonsoft.Json.JsonPropertyAttribute("has_feedback")]
@@ -2818,143 +2828,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         {
             stringBuilder.Append("duration = " + _duration + ", ");
             stringBuilder.Append("has_cue = " + _hasCue + ", ");
-            stringBuilder.Append("abort_on_force = " + _abortOnForce + ", ");
-            stringBuilder.Append("abort_on_force_threshold = " + _abortOnForceThreshold + ", ");
             stringBuilder.Append("has_feedback = " + _hasFeedback);
-            return true;
-        }
-    
-        public override string ToString()
-        {
-            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
-            stringBuilder.Append(GetType().Name);
-            stringBuilder.Append(" { ");
-            if (PrintMembers(stringBuilder))
-            {
-                stringBuilder.Append(" ");
-            }
-            stringBuilder.Append("}");
-            return stringBuilder.ToString();
-        }
-    }
-
-
-    /// <summary>
-    /// Defines a reward period
-    /// </summary>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
-    [System.ComponentModel.DescriptionAttribute("Defines a reward period")]
-    [Bonsai.CombinatorAttribute()]
-    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
-    public partial class RewardPeriod
-    {
-    
-        private double _delay = 0D;
-    
-        private bool _isOperant = true;
-    
-        private bool _hasCue = true;
-    
-        private double? _timeToCollect;
-    
-        public RewardPeriod()
-        {
-        }
-    
-        protected RewardPeriod(RewardPeriod other)
-        {
-            _delay = other._delay;
-            _isOperant = other._isOperant;
-            _hasCue = other._hasCue;
-            _timeToCollect = other._timeToCollect;
-        }
-    
-        /// <summary>
-        /// Delay to reward availability.
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("delay")]
-        [System.ComponentModel.DescriptionAttribute("Delay to reward availability.")]
-        public double Delay
-        {
-            get
-            {
-                return _delay;
-            }
-            set
-            {
-                _delay = value;
-            }
-        }
-    
-        /// <summary>
-        /// Whether the reward delivery is contingent on licking.
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("is_operant")]
-        [System.ComponentModel.DescriptionAttribute("Whether the reward delivery is contingent on licking.")]
-        public bool IsOperant
-        {
-            get
-            {
-                return _isOperant;
-            }
-            set
-            {
-                _isOperant = value;
-            }
-        }
-    
-        /// <summary>
-        /// Whether to use a cue to signal the availability of the reward.
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("has_cue")]
-        [System.ComponentModel.DescriptionAttribute("Whether to use a cue to signal the availability of the reward.")]
-        public bool HasCue
-        {
-            get
-            {
-                return _hasCue;
-            }
-            set
-            {
-                _hasCue = value;
-            }
-        }
-    
-        /// <summary>
-        /// Time to collect the reward after it is available. If null, the reward will be available indefinitely.
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("time_to_collect")]
-        [System.ComponentModel.DescriptionAttribute("Time to collect the reward after it is available. If null, the reward will be ava" +
-            "ilable indefinitely.")]
-        public double? TimeToCollect
-        {
-            get
-            {
-                return _timeToCollect;
-            }
-            set
-            {
-                _timeToCollect = value;
-            }
-        }
-    
-        public System.IObservable<RewardPeriod> Process()
-        {
-            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new RewardPeriod(this)));
-        }
-    
-        public System.IObservable<RewardPeriod> Process<TSource>(System.IObservable<TSource> source)
-        {
-            return System.Reactive.Linq.Observable.Select(source, _ => new RewardPeriod(this));
-        }
-    
-        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
-        {
-            stringBuilder.Append("delay = " + _delay + ", ");
-            stringBuilder.Append("is_operant = " + _isOperant + ", ");
-            stringBuilder.Append("has_cue = " + _hasCue + ", ");
-            stringBuilder.Append("time_to_collect = " + _timeToCollect);
             return true;
         }
     
@@ -3051,147 +2925,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             }
             stringBuilder.Append("}");
             return stringBuilder.ToString();
-        }
-    }
-
-
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
-    [Bonsai.CombinatorAttribute()]
-    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
-    public partial class RightHarvestAction : HarvestAction
-    {
-    
-        private double _probability = 1D;
-    
-        private double _amount = 1D;
-    
-        private double _delay = 0D;
-    
-        private double _forceDuration = 0.5D;
-    
-        private double _forceThreshold = 5000D;
-    
-        public RightHarvestAction()
-        {
-        }
-    
-        protected RightHarvestAction(RightHarvestAction other) : 
-                base(other)
-        {
-            _probability = other._probability;
-            _amount = other._amount;
-            _delay = other._delay;
-            _forceDuration = other._forceDuration;
-            _forceThreshold = other._forceThreshold;
-        }
-    
-        /// <summary>
-        /// Probability of reward
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("probability")]
-        [System.ComponentModel.DescriptionAttribute("Probability of reward")]
-        public double Probability
-        {
-            get
-            {
-                return _probability;
-            }
-            set
-            {
-                _probability = value;
-            }
-        }
-    
-        /// <summary>
-        /// Amount of reward to be delivered
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("amount")]
-        [System.ComponentModel.DescriptionAttribute("Amount of reward to be delivered")]
-        public double Amount
-        {
-            get
-            {
-                return _amount;
-            }
-            set
-            {
-                _amount = value;
-            }
-        }
-    
-        /// <summary>
-        /// Delay between successful harvest and reward delivery
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("delay")]
-        [System.ComponentModel.DescriptionAttribute("Delay between successful harvest and reward delivery")]
-        public double Delay
-        {
-            get
-            {
-                return _delay;
-            }
-            set
-            {
-                _delay = value;
-            }
-        }
-    
-        /// <summary>
-        /// Duration that the force much stay above threshold
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("force_duration")]
-        [System.ComponentModel.DescriptionAttribute("Duration that the force much stay above threshold")]
-        public double ForceDuration
-        {
-            get
-            {
-                return _forceDuration;
-            }
-            set
-            {
-                _forceDuration = value;
-            }
-        }
-    
-        /// <summary>
-        /// Force to be applied
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("force_threshold")]
-        [System.ComponentModel.DescriptionAttribute("Force to be applied")]
-        public double ForceThreshold
-        {
-            get
-            {
-                return _forceThreshold;
-            }
-            set
-            {
-                _forceThreshold = value;
-            }
-        }
-    
-        public System.IObservable<RightHarvestAction> Process()
-        {
-            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new RightHarvestAction(this)));
-        }
-    
-        public System.IObservable<RightHarvestAction> Process<TSource>(System.IObservable<TSource> source)
-        {
-            return System.Reactive.Linq.Observable.Select(source, _ => new RightHarvestAction(this));
-        }
-    
-        protected override bool PrintMembers(System.Text.StringBuilder stringBuilder)
-        {
-            if (base.PrintMembers(stringBuilder))
-            {
-                stringBuilder.Append(", ");
-            }
-            stringBuilder.Append("probability = " + _probability + ", ");
-            stringBuilder.Append("amount = " + _amount + ", ");
-            stringBuilder.Append("delay = " + _delay + ", ");
-            stringBuilder.Append("force_duration = " + _forceDuration + ", ");
-            stringBuilder.Append("force_threshold = " + _forceThreshold);
-            return true;
         }
     }
 
@@ -3602,11 +3335,9 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         private ResponsePeriod _responsePeriod;
     
-        private RewardPeriod _rewardPeriod;
+        private HarvestAction _leftHarvest;
     
-        private HarvestAction _leftAction;
-    
-        private HarvestAction _rightAction;
+        private HarvestAction _rightHarvest;
     
         private double _timeOut = 0D;
     
@@ -3620,9 +3351,8 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             _quiescencePeriod = other._quiescencePeriod;
             _initiationPeriod = other._initiationPeriod;
             _responsePeriod = other._responsePeriod;
-            _rewardPeriod = other._rewardPeriod;
-            _leftAction = other._leftAction;
-            _rightAction = other._rightAction;
+            _leftHarvest = other._leftHarvest;
+            _rightHarvest = other._rightHarvest;
             _timeOut = other._timeOut;
         }
     
@@ -3698,38 +3428,20 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         }
     
         /// <summary>
-        /// Reward settings
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("reward_period")]
-        [System.ComponentModel.DescriptionAttribute("Reward settings")]
-        public RewardPeriod RewardPeriod
-        {
-            get
-            {
-                return _rewardPeriod;
-            }
-            set
-            {
-                _rewardPeriod = value;
-            }
-        }
-    
-        /// <summary>
         /// Specification of the left action
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("left_action")]
+        [Newtonsoft.Json.JsonPropertyAttribute("left_harvest")]
         [System.ComponentModel.DescriptionAttribute("Specification of the left action")]
-        public HarvestAction LeftAction
+        public HarvestAction LeftHarvest
         {
             get
             {
-                return _leftAction;
+                return _leftHarvest;
             }
             set
             {
-                _leftAction = value;
+                _leftHarvest = value;
             }
         }
     
@@ -3737,17 +3449,17 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         /// Specification of the right action
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("right_action")]
+        [Newtonsoft.Json.JsonPropertyAttribute("right_harvest")]
         [System.ComponentModel.DescriptionAttribute("Specification of the right action")]
-        public HarvestAction RightAction
+        public HarvestAction RightHarvest
         {
             get
             {
-                return _rightAction;
+                return _rightHarvest;
             }
             set
             {
-                _rightAction = value;
+                _rightHarvest = value;
             }
         }
     
@@ -3784,9 +3496,8 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             stringBuilder.Append("quiescence_period = " + _quiescencePeriod + ", ");
             stringBuilder.Append("initiation_period = " + _initiationPeriod + ", ");
             stringBuilder.Append("response_period = " + _responsePeriod + ", ");
-            stringBuilder.Append("reward_period = " + _rewardPeriod + ", ");
-            stringBuilder.Append("left_action = " + _leftAction + ", ");
-            stringBuilder.Append("right_action = " + _rightAction + ", ");
+            stringBuilder.Append("left_harvest = " + _leftHarvest + ", ");
+            stringBuilder.Append("right_harvest = " + _rightHarvest + ", ");
             stringBuilder.Append("time_out = " + _timeOut);
             return true;
         }
@@ -4555,47 +4266,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     }
 
 
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
-    [System.ComponentModel.DefaultPropertyAttribute("Type")]
-    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Combinator)]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LeftHarvestAction>))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<RightHarvestAction>))]
-    public partial class MatchHarvestAction : Bonsai.Expressions.SingleArgumentExpressionBuilder
-    {
-    
-        public Bonsai.Expressions.TypeMapping Type { get; set; }
-
-        public override System.Linq.Expressions.Expression Build(System.Collections.Generic.IEnumerable<System.Linq.Expressions.Expression> arguments)
-        {
-            var typeMapping = Type;
-            var returnType = typeMapping != null ? typeMapping.GetType().GetGenericArguments()[0] : typeof(HarvestAction);
-            return System.Linq.Expressions.Expression.Call(
-                typeof(MatchHarvestAction),
-                "Process",
-                new System.Type[] { returnType },
-                System.Linq.Enumerable.Single(arguments));
-        }
-
-    
-        private static System.IObservable<TResult> Process<TResult>(System.IObservable<HarvestAction> source)
-            where TResult : HarvestAction
-        {
-            return System.Reactive.Linq.Observable.Create<TResult>(observer =>
-            {
-                var sourceObserver = System.Reactive.Observer.Create<HarvestAction>(
-                    value =>
-                    {
-                        var match = value as TResult;
-                        if (match != null) observer.OnNext(match);
-                    },
-                    observer.OnError,
-                    observer.OnCompleted);
-                return System.ObservableExtensions.SubscribeSafe(source, sourceObserver);
-            });
-        }
-    }
-
-
     /// <summary>
     /// Serializes a sequence of data model objects into JSON strings.
     /// </summary>
@@ -4691,11 +4361,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             return Process<InitiationPeriod>(source);
         }
 
-        public System.IObservable<string> Process(System.IObservable<LeftHarvestAction> source)
-        {
-            return Process<LeftHarvestAction>(source);
-        }
-
         public System.IObservable<string> Process(System.IObservable<LogNormalDistribution> source)
         {
             return Process<LogNormalDistribution>(source);
@@ -4756,19 +4421,9 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             return Process<ResponsePeriod>(source);
         }
 
-        public System.IObservable<string> Process(System.IObservable<RewardPeriod> source)
-        {
-            return Process<RewardPeriod>(source);
-        }
-
         public System.IObservable<string> Process(System.IObservable<RewardRateCriteria> source)
         {
             return Process<RewardRateCriteria>(source);
-        }
-
-        public System.IObservable<string> Process(System.IObservable<RightHarvestAction> source)
-        {
-            return Process<RightHarvestAction>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<Scalar> source)
@@ -4851,7 +4506,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<GammaDistributionParameters>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<HarvestAction>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<InitiationPeriod>))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LeftHarvestAction>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LogNormalDistribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LogNormalDistributionParameters>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NormalDistribution>))]
@@ -4864,9 +4518,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<QuiescencePeriod>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<RandomWalk>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ResponsePeriod>))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<RewardPeriod>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<RewardRateCriteria>))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<RightHarvestAction>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Scalar>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ScalarDistributionParameter>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ScalingParameters>))]

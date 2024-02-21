@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from enum import Enum
 from typing import Annotated, Dict, List, Literal, Optional, Union
+from functools import partial
 
 import aind_behavior_services.task_logic.distributions as distributions
 from aind_behavior_force_foraging import __version__
@@ -41,11 +42,19 @@ def uniform_distribution_value(min: float, max: float) -> distributions.Uniform:
     )
 
 
+class HarvestActionLabel(str, Enum):
+    """Defines the harvest actions"""
+
+    LEFT = "Left"
+    RIGHT = "Right"
+    NONE = "None"
+
+
 # Available actions
-class HarvestActionBase(BaseModel):
+class HarvestAction(BaseModel):
     """Defines an abstract class for an harvest action"""
 
-    label: str = Field(default="HarvestAction", description="Label of the action")
+    action: HarvestActionLabel = Field(default=HarvestActionLabel.NONE, description="Label of the action")
     probability: float = Field(default=1, description="Probability of reward")
     amount: float = Field(default=1, description="Amount of reward to be delivered")
     delay: float = Field(default=0, description="Delay between successful harvest and reward delivery")
@@ -53,18 +62,13 @@ class HarvestActionBase(BaseModel):
     force_threshold: float = Field(
         default=5000, le=MAX_LOAD_CELL_FORCE, ge=-MAX_LOAD_CELL_FORCE, description="Force to be applied"
     )
-
-
-class RightHarvestAction(HarvestActionBase):
-    label: Literal["RightHarvestAction"] = "RightHarvestAction"
-
-
-class LeftHarvestAction(HarvestActionBase):
-    label: Literal["LeftHarvestAction"] = "LeftHarvestAction"
-
-
-class HarvestAction(RootModel):
-    root: Annotated[Union[LeftHarvestAction, RightHarvestAction], Field(discriminator="label")]
+    is_operant: bool = Field(default=True, description="Whether the reward delivery is contingent on licking.")
+    has_cue: bool = Field(default=True, description="Whether to use a cue to signal the availability of the reward.")
+    time_to_collect: Optional[float] = Field(
+        default=None,
+        ge=0,
+        description="Time to collect the reward after it is available. If null, the reward will be available indefinitely.",
+    )
 
 
 class QuiescencePeriod(BaseModel):
@@ -73,9 +77,6 @@ class QuiescencePeriod(BaseModel):
     duration: float = Field(default=0, ge=0, description="Duration of the quiescence period")
     force_threshold: float = Field(
         default=0, le=MAX_LOAD_CELL_FORCE, ge=-MAX_LOAD_CELL_FORCE, description="Time out for the quiescence period"
-    )
-    dithering_duration: float = Field(
-        default=0, ge=0, description="Dithering duration used to exclude sporadic fast force changes."
     )
     has_cue: bool = Field(default=False, description="Whether to use a cue to signal the start of the period.")
 
@@ -100,28 +101,13 @@ class ResponsePeriod(BaseModel):
         default=0, ge=0, description="Duration of the response period. I.e. the time the animal has to make a choice."
     )
     has_cue: bool = Field(default=True, description="Whether to use a cue to signal the start of the period.")
-    abort_on_force: bool = Field(
-        default=False, description="Whether to abort the trial if a choice is made during the initiation period."
-    )
-    abort_on_force_threshold: float = Field(
-        default=0, le=MAX_LOAD_CELL_FORCE, ge=-MAX_LOAD_CELL_FORCE, description="Time out for the quiescence period"
-    )
     has_feedback: bool = Field(
         default=False, description="Whether to provide feedback to the animal after the response period."
     )
 
 
-class RewardPeriod(BaseModel):
-    """Defines a reward period"""
-
-    delay: float = Field(default=0, ge=0, description="Delay to reward availability.")
-    is_operant: bool = Field(default=True, description="Whether the reward delivery is contingent on licking.")
-    has_cue: bool = Field(default=True, description="Whether to use a cue to signal the availability of the reward.")
-    time_to_collect: Optional[float] = Field(
-        default=None,
-        ge=0,
-        description="Time to collect the reward after it is available. If null, the reward will be available indefinitely.",
-    )
+RightHarvestAction = partial(HarvestAction, action=HarvestActionLabel.RIGHT)
+LeftHarvestAction = partial(HarvestAction, action=HarvestActionLabel.LEFT)
 
 
 class Trial(BaseModel):
@@ -135,11 +121,10 @@ class Trial(BaseModel):
     response_period: ResponsePeriod = Field(
         default=ResponsePeriod(), validate_default=True, description="Response settings"
     )
-    reward_period: RewardPeriod = Field(default=RewardPeriod(), validate_default=True, description="Reward settings")
-    left_action: HarvestAction = Field(
+    left_harvest: HarvestAction = Field(
         default=LeftHarvestAction(), validate_default=True, description="Specification of the left action"
     )
-    right_action: HarvestAction = Field(
+    right_harvest: HarvestAction = Field(
         default=RightHarvestAction(), validate_default=True, description="Specification of the right action"
     )
     time_out: float = Field(default=0, ge=0, description="Time out for the trial")
