@@ -145,7 +145,7 @@ class Trial(BaseModel):
     time_out: float = Field(default=0, ge=0, description="Time out for the trial")
 
 
-class EnvironmentStatisticsMode(str, Enum):
+class BlockStatisticsMode(str, Enum):
     """Defines the mode of the environment"""
 
     BLOCK = "Block"
@@ -154,7 +154,7 @@ class EnvironmentStatisticsMode(str, Enum):
 
 
 class Block(BaseModel):
-    mode: Literal[EnvironmentStatisticsMode.BLOCK] = EnvironmentStatisticsMode.BLOCK
+    mode: Literal[BlockStatisticsMode.BLOCK] = BlockStatisticsMode.BLOCK
     trials: List[Trial] = Field(default=[], description="List of trials in the block")
     shuffle: bool = Field(default=False, description="Whether to shuffle the trials in the block")
     repeat_count: Optional[int] = Field(
@@ -163,47 +163,45 @@ class Block(BaseModel):
 
 
 class BlockGenerator(BaseModel):
-    mode: Literal[EnvironmentStatisticsMode.BLOCKGENERATOR] = EnvironmentStatisticsMode.BLOCKGENERATOR
+    mode: Literal[BlockStatisticsMode.BLOCKGENERATOR] = BlockStatisticsMode.BLOCKGENERATOR
     baited: bool = Field(default=False, description="Whether the trials are baited")
     block_size: distributions.Distribution = Field(
-        default=uniform_distribution_value, validate_default=True, description="Size of the block"
+        default=uniform_distribution_value(min=50, max=60), validate_default=True, description="Size of the block"
     )
     end_block_criteria: Optional[EndBlockCriteria] = Field(default=None, description="Criteria to end the block")
 
+    class _EndBlockCriteriaBase(BaseModel):
+        criteria: str
 
-class _EndBlockCriteriaBase(BaseModel):
-    criteria: str
+    class RewardRateCriteria(_EndBlockCriteriaBase):
+        criteria: Literal["RewardRate"] = "RewardRate"
+        threshold: float = Field(..., description="Reward rate to end the block")
 
+    class PerformanceCriteria(_EndBlockCriteriaBase):
+        criteria: Literal["RewardRate"] = "RewardRate"
+        threshold: float = Field(..., description="Reward rate to end the block")
 
-class EndBlockCriteria(RootModel):
-    root: Annotated[Union[RewardRateCriteria, PerformanceCriteria, TimeCriteria], Field(discriminator="criteria")]
+    class TimeCriteria(_EndBlockCriteriaBase):
+        criteria: Literal["Time"] = "Time"
+        duration_threshold: float = Field(..., description="Duration to end the block", ge=0)
 
-
-class RewardRateCriteria(_EndBlockCriteriaBase):
-    criteria: Literal["RewardRate"] = "RewardRate"
-    threshold: float = Field(..., description="Reward rate to end the block")
-
-
-class PerformanceCriteria(_EndBlockCriteriaBase):
-    criteria: Literal["RewardRate"] = "RewardRate"
-    threshold: float = Field(..., description="Reward rate to end the block")
-
-
-class TimeCriteria(_EndBlockCriteriaBase):
-    criteria: Literal["Time"] = "Time"
-    duration_threshold: float = Field(..., description="Duration to end the block", ge=0)
+    class EndBlockCriteria(RootModel):
+        root: Annotated[
+            Union[BlockGenerator.RewardRateCriteria, BlockGenerator.PerformanceCriteria, BlockGenerator.TimeCriteria],
+            Field(discriminator="criteria"),
+        ]
 
 
-class RandomWalkStatistics(BaseModel):
-    mode: Literal[EnvironmentStatisticsMode.RANDOMWALK] = EnvironmentStatisticsMode.RANDOMWALK
+class RandomWalk(BaseModel):
+    mode: Literal[BlockStatisticsMode.RANDOMWALK] = BlockStatisticsMode.RANDOMWALK
 
 
-class EnvironmentStatistics(RootModel):
-    root: Annotated[Union[Block, RandomWalkStatistics], Field(discriminator="mode")]
+class BlockStatistics(RootModel):
+    root: Annotated[Union[Block, BlockGenerator, RandomWalk], Field(discriminator="mode")]
 
 
 class Environment(BaseModel):
-    block_statistics: List[EnvironmentStatistics] = Field(..., description="Statistics of the environment")
+    block_statistics: List[BlockStatistics] = Field(..., description="Statistics of the environment")
     shuffle: bool = Field(default=False, description="Whether to shuffle the blocks")
     repeat_count: Optional[int] = Field(
         default=0,
