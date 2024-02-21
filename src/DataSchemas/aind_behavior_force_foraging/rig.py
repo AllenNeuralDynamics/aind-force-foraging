@@ -4,13 +4,12 @@ from __future__ import annotations
 # Import core types
 from typing import Literal, Optional
 
-import aind_behavior_services.rig as rig
 import aind_behavior_services.calibration.load_cells as lcc
-import aind_behavior_services.calibration.water_valve as wvc
 import aind_behavior_services.calibration.olfactometer as oc
-
+import aind_behavior_services.calibration.water_valve as wvc
+import aind_behavior_services.rig as rig
 from aind_behavior_services.rig import AindBehaviorRigModel
-from pydantic import BaseModel, Field, RootModel
+from pydantic import BaseModel, Field
 
 __version__ = "0.1.0"
 
