@@ -1,5 +1,160 @@
 {
   "definitions": {
+    "BetaDistribution": {
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "const": "Beta",
+          "default": "Beta",
+          "title": "Family",
+          "type": "string"
+        },
+        "distribution_parameters": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/BetaDistributionParameters"
+            }
+          ],
+          "default": {
+            "family": "Beta",
+            "alpha": 5.0,
+            "beta": 5.0
+          },
+          "description": "Parameters of the distribution"
+        },
+        "truncation_parameters": {
+          "default": null,
+          "description": "Truncation parameters of the distribution",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/TruncationParameters"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "scaling_parameters": {
+          "default": null,
+          "description": "Scaling parameters of the distribution",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/ScalingParameters"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "title": "BetaDistribution",
+      "type": "object"
+    },
+    "BetaDistributionParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "const": "Beta",
+          "default": "Beta",
+          "title": "Family",
+          "type": "string"
+        },
+        "alpha": {
+          "default": 5,
+          "description": "Alpha parameter of the distribution",
+          "minimum": 0.0,
+          "title": "Alpha",
+          "type": "number"
+        },
+        "beta": {
+          "default": 5,
+          "description": "Beta parameter of the distribution",
+          "minimum": 0.0,
+          "title": "Beta",
+          "type": "number"
+        }
+      },
+      "title": "BetaDistributionParameters",
+      "type": "object"
+    },
+    "BinomialDistribution": {
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "const": "Binomial",
+          "default": "Binomial",
+          "title": "Family",
+          "type": "string"
+        },
+        "distribution_parameters": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/BinomialDistributionParameters"
+            }
+          ],
+          "default": {
+            "family": "Binomial",
+            "n": 1,
+            "p": 0.5
+          },
+          "description": "Parameters of the distribution"
+        },
+        "truncation_parameters": {
+          "default": null,
+          "description": "Truncation parameters of the distribution",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/TruncationParameters"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "scaling_parameters": {
+          "default": null,
+          "description": "Scaling parameters of the distribution",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/ScalingParameters"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "title": "BinomialDistribution",
+      "type": "object"
+    },
+    "BinomialDistributionParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "const": "Binomial",
+          "default": "Binomial",
+          "title": "Family",
+          "type": "string"
+        },
+        "n": {
+          "default": 1,
+          "description": "Number of trials",
+          "minimum": 0,
+          "title": "N",
+          "type": "integer"
+        },
+        "p": {
+          "default": 0.5,
+          "description": "Probability of success",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "P",
+          "type": "number"
+        }
+      },
+      "title": "BinomialDistributionParameters",
+      "type": "object"
+    },
     "Block": {
       "properties": {
         "mode": {
@@ -40,12 +195,142 @@
       "title": "Block",
       "type": "object"
     },
+    "BlockGenerator": {
+      "properties": {
+        "mode": {
+          "const": "BlockGenerator",
+          "default": "BlockGenerator",
+          "title": "Mode",
+          "type": "string"
+        },
+        "baited": {
+          "default": false,
+          "description": "Whether the trials are baited",
+          "title": "Baited",
+          "type": "boolean"
+        },
+        "block_size": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Distribution"
+            }
+          ],
+          "default": {
+            "family": "Uniform",
+            "distribution_parameters": {
+              "family": "Uniform",
+              "max": 60.0,
+              "min": 50.0
+            },
+            "truncation_parameters": null,
+            "scaling_parameters": null
+          },
+          "description": "Size of the block"
+        },
+        "end_block_criteria": {
+          "default": null,
+          "description": "Criteria to end the block",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/EndBlockCriteria"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "title": "BlockGenerator",
+      "type": "object"
+    },
+    "BlockStatistics": {
+      "discriminator": {
+        "mapping": {
+          "Block": "#/definitions/Block",
+          "BlockGenerator": "#/definitions/BlockGenerator",
+          "RandomWalk": "#/definitions/RandomWalk"
+        },
+        "propertyName": "mode"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/definitions/Block"
+        },
+        {
+          "$ref": "#/definitions/BlockGenerator"
+        },
+        {
+          "$ref": "#/definitions/RandomWalk"
+        }
+      ],
+      "title": "BlockStatistics"
+    },
+    "Distribution": {
+      "discriminator": {
+        "mapping": {
+          "Beta": "#/definitions/BetaDistribution",
+          "Binomial": "#/definitions/BinomialDistribution",
+          "Exponential": "#/definitions/ExponentialDistribution",
+          "Gamma": "#/definitions/GammaDistribution",
+          "LogNormal": "#/definitions/LogNormalDistribution",
+          "Normal": "#/definitions/NormalDistribution",
+          "Poisson": "#/definitions/PoissonDistribution",
+          "Scalar": "#/definitions/Scalar",
+          "Uniform": "#/definitions/UniformDistribution"
+        },
+        "propertyName": "family"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/definitions/Scalar"
+        },
+        {
+          "$ref": "#/definitions/NormalDistribution"
+        },
+        {
+          "$ref": "#/definitions/LogNormalDistribution"
+        },
+        {
+          "$ref": "#/definitions/ExponentialDistribution"
+        },
+        {
+          "$ref": "#/definitions/UniformDistribution"
+        },
+        {
+          "$ref": "#/definitions/PoissonDistribution"
+        },
+        {
+          "$ref": "#/definitions/BinomialDistribution"
+        },
+        {
+          "$ref": "#/definitions/BetaDistribution"
+        },
+        {
+          "$ref": "#/definitions/GammaDistribution"
+        }
+      ],
+      "title": "Distribution"
+    },
+    "EndBlockCriteria": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/RewardRateCriteria"
+        },
+        {
+          "$ref": "#/definitions/PerformanceCriteria"
+        },
+        {
+          "$ref": "#/definitions/TimeCriteria"
+        }
+      ],
+      "title": "EndBlockCriteria"
+    },
     "Environment": {
       "properties": {
         "block_statistics": {
           "description": "Statistics of the environment",
           "items": {
-            "$ref": "#/definitions/EnvironmentStatistics"
+            "$ref": "#/definitions/BlockStatistics"
           },
           "title": "Block Statistics",
           "type": "array"
@@ -76,23 +361,151 @@
       "title": "Environment",
       "type": "object"
     },
-    "EnvironmentStatistics": {
-      "discriminator": {
-        "mapping": {
-          "Block": "#/definitions/Block",
-          "RandomWalk": "#/definitions/RandomWalkStatistics"
+    "ExponentialDistribution": {
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "const": "Exponential",
+          "default": "Exponential",
+          "title": "Family",
+          "type": "string"
         },
-        "propertyName": "mode"
-      },
-      "oneOf": [
-        {
-          "$ref": "#/definitions/Block"
+        "distribution_parameters": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ExponentialDistributionParameters"
+            }
+          ],
+          "default": {
+            "family": "Exponential",
+            "rate": 0.0
+          },
+          "description": "Parameters of the distribution"
         },
-        {
-          "$ref": "#/definitions/RandomWalkStatistics"
+        "truncation_parameters": {
+          "default": null,
+          "description": "Truncation parameters of the distribution",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/TruncationParameters"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "scaling_parameters": {
+          "default": null,
+          "description": "Scaling parameters of the distribution",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/ScalingParameters"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
-      ],
-      "title": "EnvironmentStatistics"
+      },
+      "title": "ExponentialDistribution",
+      "type": "object"
+    },
+    "ExponentialDistributionParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "const": "Exponential",
+          "default": "Exponential",
+          "title": "Family",
+          "type": "string"
+        },
+        "rate": {
+          "default": 0,
+          "description": "Rate parameter of the distribution",
+          "minimum": 0.0,
+          "title": "Rate",
+          "type": "number"
+        }
+      },
+      "title": "ExponentialDistributionParameters",
+      "type": "object"
+    },
+    "GammaDistribution": {
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "const": "Gamma",
+          "default": "Gamma",
+          "title": "Family",
+          "type": "string"
+        },
+        "distribution_parameters": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/GammaDistributionParameters"
+            }
+          ],
+          "default": {
+            "family": "Gamma",
+            "shape": 1.0,
+            "rate": 1.0
+          },
+          "description": "Parameters of the distribution"
+        },
+        "truncation_parameters": {
+          "default": null,
+          "description": "Truncation parameters of the distribution",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/TruncationParameters"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "scaling_parameters": {
+          "default": null,
+          "description": "Scaling parameters of the distribution",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/ScalingParameters"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "title": "GammaDistribution",
+      "type": "object"
+    },
+    "GammaDistributionParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "const": "Gamma",
+          "default": "Gamma",
+          "title": "Family",
+          "type": "string"
+        },
+        "shape": {
+          "default": 1,
+          "description": "Shape parameter of the distribution",
+          "minimum": 0.0,
+          "title": "Shape",
+          "type": "number"
+        },
+        "rate": {
+          "default": 1,
+          "description": "Rate parameter of the distribution",
+          "minimum": 0.0,
+          "title": "Rate",
+          "type": "number"
+        }
+      },
+      "title": "GammaDistributionParameters",
+      "type": "object"
     },
     "HarvestAction": {
       "discriminator": {
@@ -190,6 +603,156 @@
       "title": "LeftHarvestAction",
       "type": "object"
     },
+    "LogNormalDistribution": {
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "const": "LogNormal",
+          "default": "LogNormal",
+          "title": "Family",
+          "type": "string"
+        },
+        "distribution_parameters": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/LogNormalDistributionParameters"
+            }
+          ],
+          "default": {
+            "family": "LogNormal",
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "description": "Parameters of the distribution"
+        },
+        "truncation_parameters": {
+          "default": null,
+          "description": "Truncation parameters of the distribution",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/TruncationParameters"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "scaling_parameters": {
+          "default": null,
+          "description": "Scaling parameters of the distribution",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/ScalingParameters"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "title": "LogNormalDistribution",
+      "type": "object"
+    },
+    "LogNormalDistributionParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "const": "LogNormal",
+          "default": "LogNormal",
+          "title": "Family",
+          "type": "string"
+        },
+        "mean": {
+          "default": 0,
+          "description": "Mean of the distribution",
+          "title": "Mean",
+          "type": "number"
+        },
+        "std": {
+          "default": 0,
+          "description": "Standard deviation of the distribution",
+          "title": "Std",
+          "type": "number"
+        }
+      },
+      "title": "LogNormalDistributionParameters",
+      "type": "object"
+    },
+    "NormalDistribution": {
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "const": "Normal",
+          "default": "Normal",
+          "title": "Family",
+          "type": "string"
+        },
+        "distribution_parameters": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/NormalDistributionParameters"
+            }
+          ],
+          "default": {
+            "family": "Normal",
+            "mean": 0.0,
+            "std": 0.0
+          },
+          "description": "Parameters of the distribution"
+        },
+        "truncation_parameters": {
+          "default": null,
+          "description": "Truncation parameters of the distribution",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/TruncationParameters"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "scaling_parameters": {
+          "default": null,
+          "description": "Scaling parameters of the distribution",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/ScalingParameters"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "title": "NormalDistribution",
+      "type": "object"
+    },
+    "NormalDistributionParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "const": "Normal",
+          "default": "Normal",
+          "title": "Family",
+          "type": "string"
+        },
+        "mean": {
+          "default": 0,
+          "description": "Mean of the distribution",
+          "title": "Mean",
+          "type": "number"
+        },
+        "std": {
+          "default": 0,
+          "description": "Standard deviation of the distribution",
+          "title": "Std",
+          "type": "number"
+        }
+      },
+      "title": "NormalDistributionParameters",
+      "type": "object"
+    },
     "NumericalUpdater": {
       "additionalProperties": false,
       "properties": {
@@ -269,6 +832,95 @@
       "title": "NumericalUpdaterParameters",
       "type": "object"
     },
+    "PerformanceCriteria": {
+      "properties": {
+        "criteria": {
+          "const": "RewardRate",
+          "default": "RewardRate",
+          "title": "Criteria",
+          "type": "string"
+        },
+        "threshold": {
+          "description": "Reward rate to end the block",
+          "title": "Threshold",
+          "type": "number"
+        }
+      },
+      "required": [
+        "threshold"
+      ],
+      "title": "PerformanceCriteria",
+      "type": "object"
+    },
+    "PoissonDistribution": {
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "const": "Poisson",
+          "default": "Poisson",
+          "title": "Family",
+          "type": "string"
+        },
+        "distribution_parameters": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/PoissonDistributionParameters"
+            }
+          ],
+          "default": {
+            "family": "Poisson",
+            "rate": 1.0
+          },
+          "description": "Parameters of the distribution"
+        },
+        "truncation_parameters": {
+          "default": null,
+          "description": "Truncation parameters of the distribution",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/TruncationParameters"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "scaling_parameters": {
+          "default": null,
+          "description": "Scaling parameters of the distribution",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/ScalingParameters"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "title": "PoissonDistribution",
+      "type": "object"
+    },
+    "PoissonDistributionParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "const": "Poisson",
+          "default": "Poisson",
+          "title": "Family",
+          "type": "string"
+        },
+        "rate": {
+          "default": 1,
+          "description": "Rate parameter of the Poisson process that generates the distribution",
+          "minimum": 0.0,
+          "title": "Rate",
+          "type": "number"
+        }
+      },
+      "title": "PoissonDistributionParameters",
+      "type": "object"
+    },
     "QuiescencePeriod": {
       "description": "Defines a quiescence settings",
       "properties": {
@@ -304,7 +956,7 @@
       "title": "QuiescencePeriod",
       "type": "object"
     },
-    "RandomWalkStatistics": {
+    "RandomWalk": {
       "properties": {
         "mode": {
           "const": "RandomWalk",
@@ -313,7 +965,7 @@
           "type": "string"
         }
       },
-      "title": "RandomWalkStatistics",
+      "title": "RandomWalk",
       "type": "object"
     },
     "ResponsePeriod": {
@@ -396,6 +1048,26 @@
       "title": "RewardPeriod",
       "type": "object"
     },
+    "RewardRateCriteria": {
+      "properties": {
+        "criteria": {
+          "const": "RewardRate",
+          "default": "RewardRate",
+          "title": "Criteria",
+          "type": "string"
+        },
+        "threshold": {
+          "description": "Reward rate to end the block",
+          "title": "Threshold",
+          "type": "number"
+        }
+      },
+      "required": [
+        "threshold"
+      ],
+      "title": "RewardRateCriteria",
+      "type": "object"
+    },
     "RightHarvestAction": {
       "properties": {
         "label": {
@@ -438,6 +1110,128 @@
         }
       },
       "title": "RightHarvestAction",
+      "type": "object"
+    },
+    "Scalar": {
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "const": "Scalar",
+          "default": "Scalar",
+          "title": "Family",
+          "type": "string"
+        },
+        "distribution_parameters": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ScalarDistributionParameter"
+            }
+          ],
+          "default": {
+            "family": "Scalar",
+            "value": 0.0,
+            "truncation_parameters": null,
+            "scaling_parameters": null
+          },
+          "description": "Parameters of the distribution"
+        },
+        "truncation_parameters": {
+          "default": null,
+          "description": "Truncation parameters of the distribution",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/TruncationParameters"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "scaling_parameters": {
+          "default": null,
+          "description": "Scaling parameters of the distribution",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/ScalingParameters"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "title": "Scalar",
+      "type": "object"
+    },
+    "ScalarDistributionParameter": {
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "const": "Scalar",
+          "default": "Scalar",
+          "title": "Family",
+          "type": "string"
+        },
+        "value": {
+          "default": 0,
+          "description": "The static value of the distribution",
+          "title": "Value",
+          "type": "number"
+        },
+        "truncation_parameters": {
+          "const": null,
+          "default": null,
+          "title": "Truncation Parameters",
+          "type": "null"
+        },
+        "scaling_parameters": {
+          "const": null,
+          "default": null,
+          "title": "Scaling Parameters",
+          "type": "null"
+        }
+      },
+      "title": "ScalarDistributionParameter",
+      "type": "object"
+    },
+    "ScalingParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "scale": {
+          "default": 1,
+          "description": "Scaling factor to apply on the sampled distribution",
+          "title": "Scale",
+          "type": "number"
+        },
+        "offset": {
+          "default": 0,
+          "description": "Offset factor to apply on the sampled distribution",
+          "title": "Offset",
+          "type": "number"
+        }
+      },
+      "title": "ScalingParameters",
+      "type": "object"
+    },
+    "TimeCriteria": {
+      "properties": {
+        "criteria": {
+          "const": "Time",
+          "default": "Time",
+          "title": "Criteria",
+          "type": "string"
+        },
+        "duration_threshold": {
+          "description": "Duration to end the block",
+          "minimum": 0.0,
+          "title": "Duration Threshold",
+          "type": "number"
+        }
+      },
+      "required": [
+        "duration_threshold"
+      ],
+      "title": "TimeCriteria",
       "type": "object"
     },
     "Trial": {
@@ -546,6 +1340,106 @@
         }
       },
       "title": "Trial",
+      "type": "object"
+    },
+    "TruncationParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "is_truncated": {
+          "default": false,
+          "description": "Whether the distribution is truncated",
+          "title": "Is Truncated",
+          "type": "boolean"
+        },
+        "min": {
+          "default": 0,
+          "description": "Minimum value of the sampled distribution",
+          "title": "Min",
+          "type": "number"
+        },
+        "max": {
+          "default": 0,
+          "description": "Maximum value of the sampled distribution",
+          "title": "Max",
+          "type": "number"
+        }
+      },
+      "title": "TruncationParameters",
+      "type": "object"
+    },
+    "UniformDistribution": {
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "const": "Uniform",
+          "default": "Uniform",
+          "title": "Family",
+          "type": "string"
+        },
+        "distribution_parameters": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/UniformDistributionParameters"
+            }
+          ],
+          "default": {
+            "family": "Uniform",
+            "min": 0.0,
+            "max": 0.0
+          },
+          "description": "Parameters of the distribution"
+        },
+        "truncation_parameters": {
+          "default": null,
+          "description": "Truncation parameters of the distribution",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/TruncationParameters"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "scaling_parameters": {
+          "default": null,
+          "description": "Scaling parameters of the distribution",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/ScalingParameters"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "title": "UniformDistribution",
+      "type": "object"
+    },
+    "UniformDistributionParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "const": "Uniform",
+          "default": "Uniform",
+          "title": "Family",
+          "type": "string"
+        },
+        "min": {
+          "default": 0,
+          "description": "Minimum value of the distribution",
+          "title": "Min",
+          "type": "number"
+        },
+        "max": {
+          "default": 0,
+          "description": "Maximum value of the distribution",
+          "title": "Max",
+          "type": "number"
+        }
+      },
+      "title": "UniformDistributionParameters",
       "type": "object"
     }
   },
