@@ -203,10 +203,10 @@
           "title": "Mode",
           "type": "string"
         },
-        "baited": {
+        "is_baited": {
           "default": false,
           "description": "Whether the trials are baited",
-          "title": "Baited",
+          "title": "Is Baited",
           "type": "boolean"
         },
         "block_size": {
@@ -227,19 +227,18 @@
           },
           "description": "Size of the block"
         },
-        "end_block_criteria": {
-          "default": null,
-          "description": "Criteria to end the block",
-          "oneOf": [
+        "trial_statistics": {
+          "allOf": [
             {
-              "$ref": "#/definitions/EndBlockCriteria"
-            },
-            {
-              "type": "null"
+              "$ref": "#/definitions/Trial"
             }
-          ]
+          ],
+          "description": "Statistics of the trials in the block"
         }
       },
+      "required": [
+        "trial_statistics"
+      ],
       "title": "BlockGenerator",
       "type": "object"
     },
@@ -310,20 +309,6 @@
         }
       ],
       "title": "Distribution"
-    },
-    "EndBlockCriteria": {
-      "oneOf": [
-        {
-          "$ref": "#/definitions/RewardRateCriteria"
-        },
-        {
-          "$ref": "#/definitions/PerformanceCriteria"
-        },
-        {
-          "$ref": "#/definitions/TimeCriteria"
-        }
-      ],
-      "title": "EndBlockCriteria"
     },
     "Environment": {
       "properties": {
@@ -848,26 +833,6 @@
       "title": "NumericalUpdaterParameters",
       "type": "object"
     },
-    "PerformanceCriteria": {
-      "properties": {
-        "criteria": {
-          "const": "RewardRate",
-          "default": "RewardRate",
-          "title": "Criteria",
-          "type": "string"
-        },
-        "threshold": {
-          "description": "Reward rate to end the block",
-          "title": "Threshold",
-          "type": "number"
-        }
-      },
-      "required": [
-        "threshold"
-      ],
-      "title": "PerformanceCriteria",
-      "type": "object"
-    },
     "PoissonDistribution": {
       "additionalProperties": false,
       "properties": {
@@ -1003,26 +968,6 @@
       "title": "ResponsePeriod",
       "type": "object"
     },
-    "RewardRateCriteria": {
-      "properties": {
-        "criteria": {
-          "const": "RewardRate",
-          "default": "RewardRate",
-          "title": "Criteria",
-          "type": "string"
-        },
-        "threshold": {
-          "description": "Reward rate to end the block",
-          "title": "Threshold",
-          "type": "number"
-        }
-      },
-      "required": [
-        "threshold"
-      ],
-      "title": "RewardRateCriteria",
-      "type": "object"
-    },
     "Scalar": {
       "additionalProperties": false,
       "properties": {
@@ -1122,27 +1067,6 @@
         }
       },
       "title": "ScalingParameters",
-      "type": "object"
-    },
-    "TimeCriteria": {
-      "properties": {
-        "criteria": {
-          "const": "Time",
-          "default": "Time",
-          "title": "Criteria",
-          "type": "string"
-        },
-        "duration_threshold": {
-          "description": "Duration to end the block",
-          "minimum": 0.0,
-          "title": "Duration Threshold",
-          "type": "number"
-        }
-      },
-      "required": [
-        "duration_threshold"
-      ],
-      "title": "TimeCriteria",
       "type": "object"
     },
     "Trial": {

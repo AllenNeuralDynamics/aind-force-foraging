@@ -127,6 +127,7 @@ class Trial(BaseModel):
         default=RightHarvestAction(), validate_default=True, description="Specification of the right action"
     )
 
+
 class BlockStatisticsMode(str, Enum):
     """Defines the mode of the environment"""
 
@@ -146,32 +147,11 @@ class Block(BaseModel):
 
 class BlockGenerator(BaseModel):
     mode: Literal[BlockStatisticsMode.BLOCKGENERATOR] = BlockStatisticsMode.BLOCKGENERATOR
-    baited: bool = Field(default=False, description="Whether the trials are baited")
+    is_baited: bool = Field(default=False, description="Whether the trials are baited")
     block_size: distributions.Distribution = Field(
         default=uniform_distribution_value(min=50, max=60), validate_default=True, description="Size of the block"
     )
-    end_block_criteria: Optional[EndBlockCriteria] = Field(default=None, description="Criteria to end the block")
-
-    class _EndBlockCriteriaBase(BaseModel):
-        criteria: str
-
-    class RewardRateCriteria(_EndBlockCriteriaBase):
-        criteria: Literal["RewardRate"] = "RewardRate"
-        threshold: float = Field(..., description="Reward rate to end the block")
-
-    class PerformanceCriteria(_EndBlockCriteriaBase):
-        criteria: Literal["RewardRate"] = "RewardRate"
-        threshold: float = Field(..., description="Reward rate to end the block")
-
-    class TimeCriteria(_EndBlockCriteriaBase):
-        criteria: Literal["Time"] = "Time"
-        duration_threshold: float = Field(..., description="Duration to end the block", ge=0)
-
-    class EndBlockCriteria(RootModel):
-        root: Annotated[
-            Union[BlockGenerator.RewardRateCriteria, BlockGenerator.PerformanceCriteria, BlockGenerator.TimeCriteria],
-            Field(discriminator="criteria"),
-        ]
+    trial_statistics: Trial = Field(..., description="Statistics of the trials in the block")
 
 
 class RandomWalk(BaseModel):

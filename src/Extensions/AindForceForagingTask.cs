@@ -527,11 +527,11 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     public partial class BlockGenerator : BlockStatistics
     {
     
-        private bool _baited = false;
+        private bool _isBaited = false;
     
         private Distribution _blockSize;
     
-        private EndBlockCriteria _endBlockCriteria;
+        private Trial _trialStatistics = new Trial();
     
         public BlockGenerator()
         {
@@ -540,25 +540,25 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         protected BlockGenerator(BlockGenerator other) : 
                 base(other)
         {
-            _baited = other._baited;
+            _isBaited = other._isBaited;
             _blockSize = other._blockSize;
-            _endBlockCriteria = other._endBlockCriteria;
+            _trialStatistics = other._trialStatistics;
         }
     
         /// <summary>
         /// Whether the trials are baited
         /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("baited")]
+        [Newtonsoft.Json.JsonPropertyAttribute("is_baited")]
         [System.ComponentModel.DescriptionAttribute("Whether the trials are baited")]
-        public bool Baited
+        public bool IsBaited
         {
             get
             {
-                return _baited;
+                return _isBaited;
             }
             set
             {
-                _baited = value;
+                _isBaited = value;
             }
         }
     
@@ -581,20 +581,20 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         }
     
         /// <summary>
-        /// Criteria to end the block
+        /// Statistics of the trials in the block
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("end_block_criteria")]
-        [System.ComponentModel.DescriptionAttribute("Criteria to end the block")]
-        public EndBlockCriteria EndBlockCriteria
+        [Newtonsoft.Json.JsonPropertyAttribute("trial_statistics", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("Statistics of the trials in the block")]
+        public Trial TrialStatistics
         {
             get
             {
-                return _endBlockCriteria;
+                return _trialStatistics;
             }
             set
             {
-                _endBlockCriteria = value;
+                _trialStatistics = value;
             }
         }
     
@@ -614,9 +614,9 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             {
                 stringBuilder.Append(", ");
             }
-            stringBuilder.Append("baited = " + _baited + ", ");
+            stringBuilder.Append("is_baited = " + _isBaited + ", ");
             stringBuilder.Append("block_size = " + _blockSize + ", ");
-            stringBuilder.Append("end_block_criteria = " + _endBlockCriteria);
+            stringBuilder.Append("trial_statistics = " + _trialStatistics);
             return true;
         }
     }
@@ -702,50 +702,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         public System.IObservable<Distribution> Process<TSource>(System.IObservable<TSource> source)
         {
             return System.Reactive.Linq.Observable.Select(source, _ => new Distribution(this));
-        }
-    
-        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
-        {
-            return false;
-        }
-    
-        public override string ToString()
-        {
-            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
-            stringBuilder.Append(GetType().Name);
-            stringBuilder.Append(" { ");
-            if (PrintMembers(stringBuilder))
-            {
-                stringBuilder.Append(" ");
-            }
-            stringBuilder.Append("}");
-            return stringBuilder.ToString();
-        }
-    }
-
-
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
-    [Bonsai.CombinatorAttribute()]
-    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
-    public partial class EndBlockCriteria
-    {
-    
-        public EndBlockCriteria()
-        {
-        }
-    
-        protected EndBlockCriteria(EndBlockCriteria other)
-        {
-        }
-    
-        public System.IObservable<EndBlockCriteria> Process()
-        {
-            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new EndBlockCriteria(this)));
-        }
-    
-        public System.IObservable<EndBlockCriteria> Process<TSource>(System.IObservable<TSource> source)
-        {
-            return System.Reactive.Linq.Observable.Select(source, _ => new EndBlockCriteria(this));
         }
     
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
@@ -2309,88 +2265,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
-    public partial class PerformanceCriteria
-    {
-    
-        private string _criteria = "RewardRate";
-    
-        private double _threshold;
-    
-        public PerformanceCriteria()
-        {
-        }
-    
-        protected PerformanceCriteria(PerformanceCriteria other)
-        {
-            _criteria = other._criteria;
-            _threshold = other._threshold;
-        }
-    
-        [Newtonsoft.Json.JsonPropertyAttribute("criteria")]
-        public string Criteria
-        {
-            get
-            {
-                return _criteria;
-            }
-            set
-            {
-                _criteria = value;
-            }
-        }
-    
-        /// <summary>
-        /// Reward rate to end the block
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("threshold", Required=Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DescriptionAttribute("Reward rate to end the block")]
-        public double Threshold
-        {
-            get
-            {
-                return _threshold;
-            }
-            set
-            {
-                _threshold = value;
-            }
-        }
-    
-        public System.IObservable<PerformanceCriteria> Process()
-        {
-            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new PerformanceCriteria(this)));
-        }
-    
-        public System.IObservable<PerformanceCriteria> Process<TSource>(System.IObservable<TSource> source)
-        {
-            return System.Reactive.Linq.Observable.Select(source, _ => new PerformanceCriteria(this));
-        }
-    
-        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
-        {
-            stringBuilder.Append("criteria = " + _criteria + ", ");
-            stringBuilder.Append("threshold = " + _threshold);
-            return true;
-        }
-    
-        public override string ToString()
-        {
-            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
-            stringBuilder.Append(GetType().Name);
-            stringBuilder.Append(" { ");
-            if (PrintMembers(stringBuilder))
-            {
-                stringBuilder.Append(" ");
-            }
-            stringBuilder.Append("}");
-            return stringBuilder.ToString();
-        }
-    }
-
-
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
-    [Bonsai.CombinatorAttribute()]
-    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     public partial class PoissonDistribution : Distribution
     {
     
@@ -2829,88 +2703,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
-    public partial class RewardRateCriteria
-    {
-    
-        private string _criteria = "RewardRate";
-    
-        private double _threshold;
-    
-        public RewardRateCriteria()
-        {
-        }
-    
-        protected RewardRateCriteria(RewardRateCriteria other)
-        {
-            _criteria = other._criteria;
-            _threshold = other._threshold;
-        }
-    
-        [Newtonsoft.Json.JsonPropertyAttribute("criteria")]
-        public string Criteria
-        {
-            get
-            {
-                return _criteria;
-            }
-            set
-            {
-                _criteria = value;
-            }
-        }
-    
-        /// <summary>
-        /// Reward rate to end the block
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("threshold", Required=Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DescriptionAttribute("Reward rate to end the block")]
-        public double Threshold
-        {
-            get
-            {
-                return _threshold;
-            }
-            set
-            {
-                _threshold = value;
-            }
-        }
-    
-        public System.IObservable<RewardRateCriteria> Process()
-        {
-            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new RewardRateCriteria(this)));
-        }
-    
-        public System.IObservable<RewardRateCriteria> Process<TSource>(System.IObservable<TSource> source)
-        {
-            return System.Reactive.Linq.Observable.Select(source, _ => new RewardRateCriteria(this));
-        }
-    
-        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
-        {
-            stringBuilder.Append("criteria = " + _criteria + ", ");
-            stringBuilder.Append("threshold = " + _threshold);
-            return true;
-        }
-    
-        public override string ToString()
-        {
-            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
-            stringBuilder.Append(GetType().Name);
-            stringBuilder.Append(" { ");
-            if (PrintMembers(stringBuilder))
-            {
-                stringBuilder.Append(" ");
-            }
-            stringBuilder.Append("}");
-            return stringBuilder.ToString();
-        }
-    }
-
-
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
-    [Bonsai.CombinatorAttribute()]
-    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     public partial class Scalar : Distribution
     {
     
@@ -3196,88 +2988,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         {
             stringBuilder.Append("scale = " + _scale + ", ");
             stringBuilder.Append("offset = " + _offset);
-            return true;
-        }
-    
-        public override string ToString()
-        {
-            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
-            stringBuilder.Append(GetType().Name);
-            stringBuilder.Append(" { ");
-            if (PrintMembers(stringBuilder))
-            {
-                stringBuilder.Append(" ");
-            }
-            stringBuilder.Append("}");
-            return stringBuilder.ToString();
-        }
-    }
-
-
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
-    [Bonsai.CombinatorAttribute()]
-    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
-    public partial class TimeCriteria
-    {
-    
-        private string _criteria = "Time";
-    
-        private double _durationThreshold;
-    
-        public TimeCriteria()
-        {
-        }
-    
-        protected TimeCriteria(TimeCriteria other)
-        {
-            _criteria = other._criteria;
-            _durationThreshold = other._durationThreshold;
-        }
-    
-        [Newtonsoft.Json.JsonPropertyAttribute("criteria")]
-        public string Criteria
-        {
-            get
-            {
-                return _criteria;
-            }
-            set
-            {
-                _criteria = value;
-            }
-        }
-    
-        /// <summary>
-        /// Duration to end the block
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("duration_threshold", Required=Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DescriptionAttribute("Duration to end the block")]
-        public double DurationThreshold
-        {
-            get
-            {
-                return _durationThreshold;
-            }
-            set
-            {
-                _durationThreshold = value;
-            }
-        }
-    
-        public System.IObservable<TimeCriteria> Process()
-        {
-            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new TimeCriteria(this)));
-        }
-    
-        public System.IObservable<TimeCriteria> Process<TSource>(System.IObservable<TSource> source)
-        {
-            return System.Reactive.Linq.Observable.Select(source, _ => new TimeCriteria(this));
-        }
-    
-        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
-        {
-            stringBuilder.Append("criteria = " + _criteria + ", ");
-            stringBuilder.Append("duration_threshold = " + _durationThreshold);
             return true;
         }
     
@@ -4279,11 +3989,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             return Process<Distribution>(source);
         }
 
-        public System.IObservable<string> Process(System.IObservable<EndBlockCriteria> source)
-        {
-            return Process<EndBlockCriteria>(source);
-        }
-
         public System.IObservable<string> Process(System.IObservable<Environment> source)
         {
             return Process<Environment>(source);
@@ -4349,11 +4054,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             return Process<NumericalUpdaterParameters>(source);
         }
 
-        public System.IObservable<string> Process(System.IObservable<PerformanceCriteria> source)
-        {
-            return Process<PerformanceCriteria>(source);
-        }
-
         public System.IObservable<string> Process(System.IObservable<PoissonDistribution> source)
         {
             return Process<PoissonDistribution>(source);
@@ -4379,11 +4079,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             return Process<ResponsePeriod>(source);
         }
 
-        public System.IObservable<string> Process(System.IObservable<RewardRateCriteria> source)
-        {
-            return Process<RewardRateCriteria>(source);
-        }
-
         public System.IObservable<string> Process(System.IObservable<Scalar> source)
         {
             return Process<Scalar>(source);
@@ -4397,11 +4092,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         public System.IObservable<string> Process(System.IObservable<ScalingParameters> source)
         {
             return Process<ScalingParameters>(source);
-        }
-
-        public System.IObservable<string> Process(System.IObservable<TimeCriteria> source)
-        {
-            return Process<TimeCriteria>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<Trial> source)
@@ -4456,7 +4146,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BlockGenerator>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BlockStatistics>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Distribution>))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<EndBlockCriteria>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Environment>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ExponentialDistribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ExponentialDistributionParameters>))]
@@ -4470,17 +4159,14 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NormalDistributionParameters>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NumericalUpdater>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NumericalUpdaterParameters>))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PerformanceCriteria>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PoissonDistribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PoissonDistributionParameters>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<QuiescencePeriod>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<RandomWalk>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ResponsePeriod>))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<RewardRateCriteria>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Scalar>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ScalarDistributionParameter>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ScalingParameters>))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<TimeCriteria>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Trial>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<TruncationParameters>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<UniformDistribution>))]
