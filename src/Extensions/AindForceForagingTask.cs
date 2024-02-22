@@ -1291,8 +1291,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         private bool _isOperant = true;
     
-        private bool _hasCue = true;
-    
         private double? _timeToCollect;
     
         public HarvestAction()
@@ -1308,7 +1306,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             _forceDuration = other._forceDuration;
             _forceThreshold = other._forceThreshold;
             _isOperant = other._isOperant;
-            _hasCue = other._hasCue;
             _timeToCollect = other._timeToCollect;
         }
     
@@ -1433,23 +1430,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         }
     
         /// <summary>
-        /// Whether to use a cue to signal the availability of the reward.
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("has_cue")]
-        [System.ComponentModel.DescriptionAttribute("Whether to use a cue to signal the availability of the reward.")]
-        public bool HasCue
-        {
-            get
-            {
-                return _hasCue;
-            }
-            set
-            {
-                _hasCue = value;
-            }
-        }
-    
-        /// <summary>
         /// Time to collect the reward after it is available. If null, the reward will be available indefinitely.
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
@@ -1487,7 +1467,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             stringBuilder.Append("force_duration = " + _forceDuration + ", ");
             stringBuilder.Append("force_threshold = " + _forceThreshold + ", ");
             stringBuilder.Append("is_operant = " + _isOperant + ", ");
-            stringBuilder.Append("has_cue = " + _hasCue + ", ");
             stringBuilder.Append("time_to_collect = " + _timeToCollect);
             return true;
         }
@@ -3339,8 +3318,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         private HarvestAction _rightHarvest;
     
-        private double _timeOut = 0D;
-    
         public Trial()
         {
         }
@@ -3353,7 +3330,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             _responsePeriod = other._responsePeriod;
             _leftHarvest = other._leftHarvest;
             _rightHarvest = other._rightHarvest;
-            _timeOut = other._timeOut;
         }
     
         /// <summary>
@@ -3463,23 +3439,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             }
         }
     
-        /// <summary>
-        /// Time out for the trial
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("time_out")]
-        [System.ComponentModel.DescriptionAttribute("Time out for the trial")]
-        public double TimeOut
-        {
-            get
-            {
-                return _timeOut;
-            }
-            set
-            {
-                _timeOut = value;
-            }
-        }
-    
         public System.IObservable<Trial> Process()
         {
             return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new Trial(this)));
@@ -3497,8 +3456,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             stringBuilder.Append("initiation_period = " + _initiationPeriod + ", ");
             stringBuilder.Append("response_period = " + _responsePeriod + ", ");
             stringBuilder.Append("left_harvest = " + _leftHarvest + ", ");
-            stringBuilder.Append("right_harvest = " + _rightHarvest + ", ");
-            stringBuilder.Append("time_out = " + _timeOut);
+            stringBuilder.Append("right_harvest = " + _rightHarvest);
             return true;
         }
     

@@ -557,12 +557,6 @@
           "title": "Is Operant",
           "type": "boolean"
         },
-        "has_cue": {
-          "default": true,
-          "description": "Whether to use a cue to signal the availability of the reward.",
-          "title": "Has Cue",
-          "type": "boolean"
-        },
         "time_to_collect": {
           "default": null,
           "description": "Time to collect the reward after it is available. If null, the reward will be available indefinitely.",
@@ -1214,7 +1208,6 @@
             "force_duration": 0.5,
             "force_threshold": 5000.0,
             "is_operant": true,
-            "has_cue": true,
             "time_to_collect": null
           },
           "description": "Specification of the left action"
@@ -1233,17 +1226,9 @@
             "force_duration": 0.5,
             "force_threshold": 5000.0,
             "is_operant": true,
-            "has_cue": true,
             "time_to_collect": null
           },
           "description": "Specification of the right action"
-        },
-        "time_out": {
-          "default": 0,
-          "description": "Time out for the trial",
-          "minimum": 0.0,
-          "title": "Time Out",
-          "type": "number"
         }
       },
       "title": "Trial",

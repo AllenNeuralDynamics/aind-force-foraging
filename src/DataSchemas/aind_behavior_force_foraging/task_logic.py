@@ -63,7 +63,6 @@ class HarvestAction(BaseModel):
         default=5000, le=MAX_LOAD_CELL_FORCE, ge=-MAX_LOAD_CELL_FORCE, description="Force to be applied"
     )
     is_operant: bool = Field(default=True, description="Whether the reward delivery is contingent on licking.")
-    has_cue: bool = Field(default=True, description="Whether to use a cue to signal the availability of the reward.")
     time_to_collect: Optional[float] = Field(
         default=None,
         ge=0,
@@ -127,8 +126,6 @@ class Trial(BaseModel):
     right_harvest: HarvestAction = Field(
         default=RightHarvestAction(), validate_default=True, description="Specification of the right action"
     )
-    time_out: float = Field(default=0, ge=0, description="Time out for the trial")
-
 
 class BlockStatisticsMode(str, Enum):
     """Defines the mode of the environment"""

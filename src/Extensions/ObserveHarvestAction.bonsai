@@ -4,6 +4,7 @@
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:p1="clr-namespace:AindForceForagingDataSchema.AindForceForagingTask;assembly=Extensions"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 xmlns:p2="clr-namespace:AllenNeuralDynamics.Core;assembly=AllenNeuralDynamics.Core"
                  xmlns:gl="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Workflow>
@@ -12,7 +13,7 @@
         <Name>Source1</Name>
       </Expression>
       <Expression xsi:type="rx:SelectMany">
-        <Name>GetHarvestAction</Name>
+        <Name>ObserveHarvestAction</Name>
         <Workflow>
           <Nodes>
             <Expression xsi:type="WorkflowInput">
@@ -72,6 +73,9 @@
                   <Expression xsi:type="MemberSelector">
                     <Selector>ForceDuration</Selector>
                   </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="p2:TimeSpanFromSeconds" />
+                  </Expression>
                   <Expression xsi:type="PropertyMapping">
                     <PropertyMappings>
                       <Property Name="DueTime" />
@@ -96,14 +100,15 @@
                   <Expression xsi:type="WorkflowOutput" />
                 </Nodes>
                 <Edges>
-                  <Edge From="0" To="5" Label="Source1" />
+                  <Edge From="0" To="6" Label="Source1" />
                   <Edge From="1" To="2" Label="Source1" />
                   <Edge From="2" To="3" Label="Source1" />
                   <Edge From="3" To="4" Label="Source1" />
-                  <Edge From="4" To="5" Label="Source2" />
-                  <Edge From="5" To="6" Label="Source1" />
+                  <Edge From="4" To="5" Label="Source1" />
+                  <Edge From="5" To="6" Label="Source2" />
                   <Edge From="6" To="7" Label="Source1" />
                   <Edge From="7" To="8" Label="Source1" />
+                  <Edge From="8" To="9" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
