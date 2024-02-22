@@ -626,7 +626,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [Newtonsoft.Json.JsonConverter(typeof(JsonInheritanceConverter), "mode")]
     [JsonInheritanceAttribute("Block", typeof(Block))]
     [JsonInheritanceAttribute("BlockGenerator", typeof(BlockGenerator))]
-    [JsonInheritanceAttribute("RandomWalk", typeof(RandomWalk))]
+    [JsonInheritanceAttribute("BownianRandomWalk", typeof(BrownianRandomWalk))]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     public partial class BlockStatistics
@@ -666,6 +666,150 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             }
             stringBuilder.Append("}");
             return stringBuilder.ToString();
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Bonsai.CombinatorAttribute()]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    public partial class BrownianRandomWalk : BlockStatistics
+    {
+    
+        private UpdateTargetParameter _targetParameter = AindForceForagingDataSchema.AindForceForagingTask.UpdateTargetParameter.Probability;
+    
+        private UpdateTargetParameterBy _updatedBy = AindForceForagingDataSchema.AindForceForagingTask.UpdateTargetParameterBy.Time;
+    
+        private double _bias = 0D;
+    
+        private double _noise = 0D;
+    
+        private Trial _trialStatistics = new Trial();
+    
+        public BrownianRandomWalk()
+        {
+        }
+    
+        protected BrownianRandomWalk(BrownianRandomWalk other) : 
+                base(other)
+        {
+            _targetParameter = other._targetParameter;
+            _updatedBy = other._updatedBy;
+            _bias = other._bias;
+            _noise = other._noise;
+            _trialStatistics = other._trialStatistics;
+        }
+    
+        /// <summary>
+        /// Target parameter
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("target_parameter")]
+        [System.ComponentModel.DescriptionAttribute("Target parameter")]
+        public UpdateTargetParameter TargetParameter
+        {
+            get
+            {
+                return _targetParameter;
+            }
+            set
+            {
+                _targetParameter = value;
+            }
+        }
+    
+        /// <summary>
+        /// Independent variable
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("updated_by")]
+        [System.ComponentModel.DescriptionAttribute("Independent variable")]
+        public UpdateTargetParameterBy UpdatedBy
+        {
+            get
+            {
+                return _updatedBy;
+            }
+            set
+            {
+                _updatedBy = value;
+            }
+        }
+    
+        /// <summary>
+        /// Bias of the random walk
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("bias")]
+        [System.ComponentModel.DescriptionAttribute("Bias of the random walk")]
+        public double Bias
+        {
+            get
+            {
+                return _bias;
+            }
+            set
+            {
+                _bias = value;
+            }
+        }
+    
+        /// <summary>
+        /// Noise of the random walk
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("noise")]
+        [System.ComponentModel.DescriptionAttribute("Noise of the random walk")]
+        public double Noise
+        {
+            get
+            {
+                return _noise;
+            }
+            set
+            {
+                _noise = value;
+            }
+        }
+    
+        /// <summary>
+        /// Statistics of the trials in the block
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("trial_statistics", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("Statistics of the trials in the block")]
+        public Trial TrialStatistics
+        {
+            get
+            {
+                return _trialStatistics;
+            }
+            set
+            {
+                _trialStatistics = value;
+            }
+        }
+    
+        public System.IObservable<BrownianRandomWalk> Process()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new BrownianRandomWalk(this)));
+        }
+    
+        public System.IObservable<BrownianRandomWalk> Process<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new BrownianRandomWalk(this));
+        }
+    
+        protected override bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            if (base.PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(", ");
+            }
+            stringBuilder.Append("target_parameter = " + _targetParameter + ", ");
+            stringBuilder.Append("updated_by = " + _updatedBy + ", ");
+            stringBuilder.Append("bias = " + _bias + ", ");
+            stringBuilder.Append("noise = " + _noise + ", ");
+            stringBuilder.Append("trial_statistics = " + _trialStatistics);
+            return true;
         }
     }
 
@@ -2557,38 +2701,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     }
 
 
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
-    [Bonsai.CombinatorAttribute()]
-    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
-    public partial class RandomWalk : BlockStatistics
-    {
-    
-        public RandomWalk()
-        {
-        }
-    
-        protected RandomWalk(RandomWalk other) : 
-                base(other)
-        {
-        }
-    
-        public System.IObservable<RandomWalk> Process()
-        {
-            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new RandomWalk(this)));
-        }
-    
-        public System.IObservable<RandomWalk> Process<TSource>(System.IObservable<TSource> source)
-        {
-            return System.Reactive.Linq.Observable.Select(source, _ => new RandomWalk(this));
-        }
-    
-        protected override bool PrintMembers(System.Text.StringBuilder stringBuilder)
-        {
-            return base.PrintMembers(stringBuilder);
-        }
-    }
-
-
     /// <summary>
     /// Defines a response period
     /// </summary>
@@ -3497,6 +3609,50 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     }
 
 
+    /// <summary>
+    /// Defines the target parameters
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+    public enum UpdateTargetParameter
+    {
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="ForceThreshold")]
+        ForceThreshold = 0,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="Probability")]
+        Probability = 1,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="Amount")]
+        Amount = 2,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="ForceDuration")]
+        ForceDuration = 3,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="Delay")]
+        Delay = 4,
+    }
+
+
+    /// <summary>
+    /// Defines the independent variable used for the update
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+    public enum UpdateTargetParameterBy
+    {
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="Time")]
+        Time = 0,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="Reward")]
+        Reward = 1,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="Trial")]
+        Trial = 2,
+    }
+
+
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
@@ -3849,7 +4005,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Combinator)]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Block>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BlockGenerator>))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<RandomWalk>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BrownianRandomWalk>))]
     public partial class MatchBlockStatistics : Bonsai.Expressions.SingleArgumentExpressionBuilder
     {
     
@@ -3984,6 +4140,11 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             return Process<BlockStatistics>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<BrownianRandomWalk> source)
+        {
+            return Process<BrownianRandomWalk>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<Distribution> source)
         {
             return Process<Distribution>(source);
@@ -4069,11 +4230,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             return Process<QuiescencePeriod>(source);
         }
 
-        public System.IObservable<string> Process(System.IObservable<RandomWalk> source)
-        {
-            return Process<RandomWalk>(source);
-        }
-
         public System.IObservable<string> Process(System.IObservable<ResponsePeriod> source)
         {
             return Process<ResponsePeriod>(source);
@@ -4145,6 +4301,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Block>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BlockGenerator>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BlockStatistics>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BrownianRandomWalk>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Distribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Environment>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ExponentialDistribution>))]
@@ -4162,7 +4319,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PoissonDistribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PoissonDistributionParameters>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<QuiescencePeriod>))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<RandomWalk>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ResponsePeriod>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Scalar>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ScalarDistributionParameter>))]

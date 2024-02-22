@@ -50,6 +50,23 @@ class HarvestActionLabel(str, Enum):
     NONE = "None"
 
 
+class UpdateTargetParameter(str, Enum):
+    """Defines the target parameters"""
+
+    FORCETHRESHOLD = "ForceThreshold"
+    PROBABILITY = "Probability"
+    AMOUNT = "Amount"
+    FORCEDURATION = "ForceDuration"
+    DELAY = "Delay"
+
+
+class UpdateTargetParameterBy(str, Enum):
+    """Defines the independent variable used for the update"""
+
+    TIME = "Time"
+    REWARD = "Reward"
+    TRIAL = "Trial"
+
 # Available actions
 class HarvestAction(BaseModel):
     """Defines an abstract class for an harvest action"""
@@ -132,7 +149,7 @@ class BlockStatisticsMode(str, Enum):
     """Defines the mode of the environment"""
 
     BLOCK = "Block"
-    RANDOMWALK = "RandomWalk"
+    BROWNIAN = "BownianRandomWalk"
     BLOCKGENERATOR = "BlockGenerator"
 
 
@@ -154,12 +171,17 @@ class BlockGenerator(BaseModel):
     trial_statistics: Trial = Field(..., description="Statistics of the trials in the block")
 
 
-class RandomWalk(BaseModel):
-    mode: Literal[BlockStatisticsMode.RANDOMWALK] = BlockStatisticsMode.RANDOMWALK
+class BrownianRandomWalk(BaseModel):
+    mode: Literal[BlockStatisticsMode.BROWNIAN] = BlockStatisticsMode.BROWNIAN
+    target_parameter: UpdateTargetParameter = Field(default=UpdateTargetParameter.PROBABILITY, description="Target parameter")
+    updated_by: UpdateTargetParameterBy = Field(default=UpdateTargetParameterBy.TIME, description="Independent variable")
+    bias: float = Field(default=0, description="Bias of the random walk")
+    noise: float = Field(default=0, description="Noise of the random walk")
+    trial_statistics: Trial = Field(..., description="Statistics of the trials in the block")
 
 
 class BlockStatistics(RootModel):
-    root: Annotated[Union[Block, BlockGenerator, RandomWalk], Field(discriminator="mode")]
+    root: Annotated[Union[Block, BlockGenerator, BrownianRandomWalk], Field(discriminator="mode")]
 
 
 class Environment(BaseModel):

@@ -247,7 +247,7 @@
         "mapping": {
           "Block": "#/definitions/Block",
           "BlockGenerator": "#/definitions/BlockGenerator",
-          "RandomWalk": "#/definitions/RandomWalk"
+          "BownianRandomWalk": "#/definitions/BrownianRandomWalk"
         },
         "propertyName": "mode"
       },
@@ -259,10 +259,63 @@
           "$ref": "#/definitions/BlockGenerator"
         },
         {
-          "$ref": "#/definitions/RandomWalk"
+          "$ref": "#/definitions/BrownianRandomWalk"
         }
       ],
       "title": "BlockStatistics"
+    },
+    "BrownianRandomWalk": {
+      "properties": {
+        "mode": {
+          "const": "BownianRandomWalk",
+          "default": "BownianRandomWalk",
+          "title": "Mode",
+          "type": "string"
+        },
+        "target_parameter": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/UpdateTargetParameter"
+            }
+          ],
+          "default": "Probability",
+          "description": "Target parameter"
+        },
+        "updated_by": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/UpdateTargetParameterBy"
+            }
+          ],
+          "default": "Time",
+          "description": "Independent variable"
+        },
+        "bias": {
+          "default": 0,
+          "description": "Bias of the random walk",
+          "title": "Bias",
+          "type": "number"
+        },
+        "noise": {
+          "default": 0,
+          "description": "Noise of the random walk",
+          "title": "Noise",
+          "type": "number"
+        },
+        "trial_statistics": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Trial"
+            }
+          ],
+          "description": "Statistics of the trials in the block"
+        }
+      },
+      "required": [
+        "trial_statistics"
+      ],
+      "title": "BrownianRandomWalk",
+      "type": "object"
     },
     "Distribution": {
       "discriminator": {
@@ -930,18 +983,6 @@
       "title": "QuiescencePeriod",
       "type": "object"
     },
-    "RandomWalk": {
-      "properties": {
-        "mode": {
-          "const": "RandomWalk",
-          "default": "RandomWalk",
-          "title": "Mode",
-          "type": "string"
-        }
-      },
-      "title": "RandomWalk",
-      "type": "object"
-    },
     "ResponsePeriod": {
       "description": "Defines a response period",
       "properties": {
@@ -1257,6 +1298,28 @@
       },
       "title": "UniformDistributionParameters",
       "type": "object"
+    },
+    "UpdateTargetParameter": {
+      "description": "Defines the target parameters",
+      "enum": [
+        "ForceThreshold",
+        "Probability",
+        "Amount",
+        "ForceDuration",
+        "Delay"
+      ],
+      "title": "UpdateTargetParameter",
+      "type": "string"
+    },
+    "UpdateTargetParameterBy": {
+      "description": "Defines the independent variable used for the update",
+      "enum": [
+        "Time",
+        "Reward",
+        "Trial"
+      ],
+      "title": "UpdateTargetParameterBy",
+      "type": "string"
     }
   },
   "additionalProperties": false,

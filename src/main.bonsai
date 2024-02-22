@@ -3184,7 +3184,7 @@ Item2.Light as Light)</scr:Expression>
               </Workflow>
             </Expression>
             <Expression xsi:type="p3:MatchBlockStatistics">
-              <p3:Type xsi:type="TypeMapping" TypeArguments="p3:RandomWalk" />
+              <p3:Type xsi:type="TypeMapping" TypeArguments="p3:BrownianRandomWalk" />
             </Expression>
             <Expression xsi:type="rx:SelectMany">
               <Name>CreateRandomWalk</Name>
