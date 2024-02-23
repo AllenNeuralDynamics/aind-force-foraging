@@ -163,6 +163,12 @@
           "title": "Mode",
           "type": "string"
         },
+        "is_baited": {
+          "default": false,
+          "description": "Whether the trials are baited",
+          "title": "Is Baited",
+          "type": "boolean"
+        },
         "trials": {
           "default": [],
           "description": "List of trials in the block",
@@ -271,6 +277,12 @@
           "default": "BownianRandomWalk",
           "title": "Mode",
           "type": "string"
+        },
+        "is_baited": {
+          "default": false,
+          "description": "Whether the trials are baited",
+          "title": "Is Baited",
+          "type": "boolean"
         },
         "target_parameter": {
           "allOf": [

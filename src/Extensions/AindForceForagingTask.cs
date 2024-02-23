@@ -425,6 +425,8 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     public partial class Block : BlockStatistics
     {
     
+        private bool _isBaited = false;
+    
         private System.Collections.Generic.List<Trial> _trials = new System.Collections.Generic.List<Trial>();
     
         private bool _shuffle = false;
@@ -438,9 +440,27 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         protected Block(Block other) : 
                 base(other)
         {
+            _isBaited = other._isBaited;
             _trials = other._trials;
             _shuffle = other._shuffle;
             _repeatCount = other._repeatCount;
+        }
+    
+        /// <summary>
+        /// Whether the trials are baited
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("is_baited")]
+        [System.ComponentModel.DescriptionAttribute("Whether the trials are baited")]
+        public bool IsBaited
+        {
+            get
+            {
+                return _isBaited;
+            }
+            set
+            {
+                _isBaited = value;
+            }
         }
     
         /// <summary>
@@ -513,6 +533,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             {
                 stringBuilder.Append(", ");
             }
+            stringBuilder.Append("is_baited = " + _isBaited + ", ");
             stringBuilder.Append("trials = " + _trials + ", ");
             stringBuilder.Append("shuffle = " + _shuffle + ", ");
             stringBuilder.Append("repeat_count = " + _repeatCount);
@@ -676,6 +697,8 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     public partial class BrownianRandomWalk : BlockStatistics
     {
     
+        private bool _isBaited = false;
+    
         private UpdateTargetParameter _targetParameter = AindForceForagingDataSchema.AindForceForagingTask.UpdateTargetParameter.Probability;
     
         private UpdateTargetParameterBy _updatedBy = AindForceForagingDataSchema.AindForceForagingTask.UpdateTargetParameterBy.Time;
@@ -693,11 +716,29 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         protected BrownianRandomWalk(BrownianRandomWalk other) : 
                 base(other)
         {
+            _isBaited = other._isBaited;
             _targetParameter = other._targetParameter;
             _updatedBy = other._updatedBy;
             _bias = other._bias;
             _noise = other._noise;
             _trialStatistics = other._trialStatistics;
+        }
+    
+        /// <summary>
+        /// Whether the trials are baited
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("is_baited")]
+        [System.ComponentModel.DescriptionAttribute("Whether the trials are baited")]
+        public bool IsBaited
+        {
+            get
+            {
+                return _isBaited;
+            }
+            set
+            {
+                _isBaited = value;
+            }
         }
     
         /// <summary>
@@ -804,6 +845,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             {
                 stringBuilder.Append(", ");
             }
+            stringBuilder.Append("is_baited = " + _isBaited + ", ");
             stringBuilder.Append("target_parameter = " + _targetParameter + ", ");
             stringBuilder.Append("updated_by = " + _updatedBy + ", ");
             stringBuilder.Append("bias = " + _bias + ", ");
