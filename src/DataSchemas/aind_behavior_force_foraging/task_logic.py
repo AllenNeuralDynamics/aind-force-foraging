@@ -67,6 +67,7 @@ class UpdateTargetParameterBy(str, Enum):
     REWARD = "Reward"
     TRIAL = "Trial"
 
+
 # Available actions
 class HarvestAction(BaseModel):
     """Defines an abstract class for an harvest action"""
