@@ -137,10 +137,10 @@ class Trial(BaseModel):
     response_period: ResponsePeriod = Field(
         default=ResponsePeriod(), validate_default=True, description="Response settings"
     )
-    left_harvest: HarvestAction = Field(
+    left_harvest: Optional[HarvestAction] = Field(
         default=LeftHarvestAction(), validate_default=True, description="Specification of the left action"
     )
-    right_harvest: HarvestAction = Field(
+    right_harvest: Optional[HarvestAction] = Field(
         default=RightHarvestAction(), validate_default=True, description="Specification of the right action"
     )
 

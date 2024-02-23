@@ -1160,11 +1160,6 @@
           "description": "Response settings"
         },
         "left_harvest": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/HarvestAction"
-            }
-          ],
           "default": {
             "action": "Left",
             "probability": 1.0,
@@ -1175,14 +1170,17 @@
             "is_operant": true,
             "time_to_collect": null
           },
-          "description": "Specification of the left action"
-        },
-        "right_harvest": {
-          "allOf": [
+          "description": "Specification of the left action",
+          "oneOf": [
             {
               "$ref": "#/definitions/HarvestAction"
+            },
+            {
+              "type": "null"
             }
-          ],
+          ]
+        },
+        "right_harvest": {
           "default": {
             "action": "Right",
             "probability": 1.0,
@@ -1193,7 +1191,15 @@
             "is_operant": true,
             "time_to_collect": null
           },
-          "description": "Specification of the right action"
+          "description": "Specification of the right action",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/HarvestAction"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "title": "Trial",
