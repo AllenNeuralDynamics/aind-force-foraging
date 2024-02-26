@@ -7,7 +7,7 @@ from functools import partial
 import aind_behavior_services.task_logic.distributions as distributions
 from aind_behavior_force_foraging import __version__
 from aind_behavior_services.task_logic import AindBehaviorTaskLogicModel
-from aind_data_schema.base import AindModel
+from aind_data_schema.base import BaseModel
 from pydantic import BaseModel, Field, RootModel
 
 MAX_LOAD_CELL_FORCE = 32768
@@ -176,8 +176,12 @@ class BlockGenerator(BaseModel):
 class BrownianRandomWalk(BaseModel):
     mode: Literal[BlockStatisticsMode.BROWNIAN] = BlockStatisticsMode.BROWNIAN
     is_baited: bool = Field(default=False, description="Whether the trials are baited")
-    target_parameter: UpdateTargetParameter = Field(default=UpdateTargetParameter.PROBABILITY, description="Target parameter")
-    updated_by: UpdateTargetParameterBy = Field(default=UpdateTargetParameterBy.TIME, description="Independent variable")
+    target_parameter: UpdateTargetParameter = Field(
+        default=UpdateTargetParameter.PROBABILITY, description="Target parameter"
+    )
+    updated_by: UpdateTargetParameterBy = Field(
+        default=UpdateTargetParameterBy.TIME, description="Independent variable"
+    )
     bias: float = Field(default=0, description="Bias of the random walk")
     noise: float = Field(default=0, description="Noise of the random walk")
     trial_statistics: Trial = Field(..., description="Statistics of the trials in the block")
@@ -205,7 +209,7 @@ class NumericalUpdaterOperation(str, Enum):
     OFFSETPERCENTAGE = "OffsetPercentage"
 
 
-class NumericalUpdaterParameters(AindModel):
+class NumericalUpdaterParameters(BaseModel):
     initial_value: float = Field(default=0.0, description="Initial value of the parameter")
     increment: float = Field(default=0.0, description="Value to increment the parameter by")
     decrement: float = Field(default=0.0, description="Value to decrement the parameter by")
@@ -213,7 +217,7 @@ class NumericalUpdaterParameters(AindModel):
     maximum: float = Field(default=0.0, description="Minimum value of the parameter")
 
 
-class NumericalUpdater(AindModel):
+class NumericalUpdater(BaseModel):
     operation: NumericalUpdaterOperation = Field(
         default=NumericalUpdaterOperation.NONE, description="Operation to perform on the parameter"
     )
@@ -222,11 +226,39 @@ class NumericalUpdater(AindModel):
     )
 
 
+class PressMode(str, Enum):
+    """Defines the press mode"""
+
+    DOUBLE = "Double"
+    SINGLE_AVERAGE = "SingleAverage"
+    SINGLE_MAX = "SingleMax"
+    SINGLE_MIN = "SingleMin"
+    SINGLE_LEFT = "SingleLeft"
+    SINGLE_RIGHT = "SingleRight"
+
+
+class ForceOperationControl(BaseModel):
+    press_mode: PressMode = Field(
+        default=PressMode.DOUBLE, description="Defines the press mode. Default is to use both sensors individually"
+    )
+    left_index: int = Field(default=0, description="Index of the left sensor")
+    right_index: int = Field(default=1, description="Index of the right sensor")
+
+
+class OperationControl(BaseModel):
+    force: ForceOperationControl = Field(
+        ForceOperationControl(), validate_default=True, description="Operation control for force sensor"
+    )
+
+
 class AindForceForagingTaskLogic(AindBehaviorTaskLogicModel):
     describedBy: str = Field("")
     schema_version: Literal[__version__] = __version__
     environment: Environment = Field(..., description="Environment settings")
     updaters: Dict[str, NumericalUpdater] = Field(default_factory=dict, description="List of numerical updaters")
+    operation_control: OperationControl = Field(
+        default=OperationControl(), validate_default=True, description="Operation control"
+    )
 
 
 def schema() -> BaseModel:

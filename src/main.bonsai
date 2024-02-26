@@ -2706,10 +2706,53 @@ Item2.Light as Light)</scr:Expression>
                       <harp:IsArray>true</harp:IsArray>
                     </harp:Register>
                   </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TaskLogicSchema</Name>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>OperationControl.Force</Selector>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>PressMode</Selector>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="PressMode" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TaskLogicSchema</Name>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>OperationControl.Force</Selector>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>LeftIndex</Selector>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="LeftLoadCellIndex" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TaskLogicSchema</Name>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>OperationControl.Force</Selector>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>RightIndex</Selector>
+                  </Expression>
+                  <Expression xsi:type="PropertyMapping">
+                    <PropertyMappings>
+                      <Property Name="RightLoadCellIndex" />
+                    </PropertyMappings>
+                  </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="p10:ParseForce">
                       <p10:LeftLoadCellIndex>0</p10:LeftLoadCellIndex>
                       <p10:RightLoadCellIndex>1</p10:RightLoadCellIndex>
+                      <p10:PressMode>Double</p10:PressMode>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="rx:PublishSubject">
@@ -2719,8 +2762,20 @@ Item2.Light as Light)</scr:Expression>
                 <Edges>
                   <Edge From="0" To="1" Label="Source1" />
                   <Edge From="1" To="2" Label="Source1" />
-                  <Edge From="2" To="3" Label="Source1" />
+                  <Edge From="2" To="15" Label="Source1" />
                   <Edge From="3" To="4" Label="Source1" />
+                  <Edge From="4" To="5" Label="Source1" />
+                  <Edge From="5" To="6" Label="Source1" />
+                  <Edge From="6" To="15" Label="Source2" />
+                  <Edge From="7" To="8" Label="Source1" />
+                  <Edge From="8" To="9" Label="Source1" />
+                  <Edge From="9" To="10" Label="Source1" />
+                  <Edge From="10" To="15" Label="Source3" />
+                  <Edge From="11" To="12" Label="Source1" />
+                  <Edge From="12" To="13" Label="Source1" />
+                  <Edge From="13" To="14" Label="Source1" />
+                  <Edge From="14" To="15" Label="Source4" />
+                  <Edge From="15" To="16" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>

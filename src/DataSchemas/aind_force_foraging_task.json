@@ -480,6 +480,33 @@
       "title": "ExponentialDistributionParameters",
       "type": "object"
     },
+    "ForceOperationControl": {
+      "properties": {
+        "press_mode": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/PressMode"
+            }
+          ],
+          "default": "Double",
+          "description": "Defines the press mode. Default is to use both sensors individually"
+        },
+        "left_index": {
+          "default": 0,
+          "description": "Index of the left sensor",
+          "title": "Left Index",
+          "type": "integer"
+        },
+        "right_index": {
+          "default": 1,
+          "description": "Index of the right sensor",
+          "title": "Right Index",
+          "type": "integer"
+        }
+      },
+      "title": "ForceOperationControl",
+      "type": "object"
+    },
     "GammaDistribution": {
       "additionalProperties": false,
       "properties": {
@@ -820,7 +847,6 @@
       "type": "object"
     },
     "NumericalUpdater": {
-      "additionalProperties": false,
       "properties": {
         "operation": {
           "allOf": [
@@ -862,7 +888,6 @@
       "type": "string"
     },
     "NumericalUpdaterParameters": {
-      "additionalProperties": false,
       "properties": {
         "initial_value": {
           "default": 0.0,
@@ -896,6 +921,25 @@
         }
       },
       "title": "NumericalUpdaterParameters",
+      "type": "object"
+    },
+    "OperationControl": {
+      "properties": {
+        "force": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ForceOperationControl"
+            }
+          ],
+          "default": {
+            "press_mode": "Double",
+            "left_index": 0,
+            "right_index": 1
+          },
+          "description": "Operation control for force sensor"
+        }
+      },
+      "title": "OperationControl",
       "type": "object"
     },
     "PoissonDistribution": {
@@ -966,6 +1010,19 @@
       },
       "title": "PoissonDistributionParameters",
       "type": "object"
+    },
+    "PressMode": {
+      "description": "Defines the press mode",
+      "enum": [
+        "Double",
+        "SingleAverage",
+        "SingleMax",
+        "SingleMin",
+        "SingleLeft",
+        "SingleRight"
+      ],
+      "title": "PressMode",
+      "type": "string"
     },
     "QuiescencePeriod": {
       "description": "Defines a quiescence settings",
@@ -1368,6 +1425,21 @@
       "description": "List of numerical updaters",
       "title": "Updaters",
       "type": "object"
+    },
+    "operation_control": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/OperationControl"
+        }
+      ],
+      "default": {
+        "force": {
+          "left_index": 0,
+          "press_mode": "Double",
+          "right_index": 1
+        }
+      },
+      "description": "Operation control"
     }
   },
   "required": [

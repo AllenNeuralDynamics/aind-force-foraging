@@ -1207,6 +1207,114 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    public partial class ForceOperationControl
+    {
+    
+        private PressMode _pressMode = AindForceForagingDataSchema.AindForceForagingTask.PressMode.Double;
+    
+        private int _leftIndex = 0;
+    
+        private int _rightIndex = 1;
+    
+        public ForceOperationControl()
+        {
+        }
+    
+        protected ForceOperationControl(ForceOperationControl other)
+        {
+            _pressMode = other._pressMode;
+            _leftIndex = other._leftIndex;
+            _rightIndex = other._rightIndex;
+        }
+    
+        /// <summary>
+        /// Defines the press mode. Default is to use both sensors individually
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("press_mode")]
+        [System.ComponentModel.DescriptionAttribute("Defines the press mode. Default is to use both sensors individually")]
+        public PressMode PressMode
+        {
+            get
+            {
+                return _pressMode;
+            }
+            set
+            {
+                _pressMode = value;
+            }
+        }
+    
+        /// <summary>
+        /// Index of the left sensor
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("left_index")]
+        [System.ComponentModel.DescriptionAttribute("Index of the left sensor")]
+        public int LeftIndex
+        {
+            get
+            {
+                return _leftIndex;
+            }
+            set
+            {
+                _leftIndex = value;
+            }
+        }
+    
+        /// <summary>
+        /// Index of the right sensor
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("right_index")]
+        [System.ComponentModel.DescriptionAttribute("Index of the right sensor")]
+        public int RightIndex
+        {
+            get
+            {
+                return _rightIndex;
+            }
+            set
+            {
+                _rightIndex = value;
+            }
+        }
+    
+        public System.IObservable<ForceOperationControl> Process()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new ForceOperationControl(this)));
+        }
+    
+        public System.IObservable<ForceOperationControl> Process<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new ForceOperationControl(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("press_mode = " + _pressMode + ", ");
+            stringBuilder.Append("left_index = " + _leftIndex + ", ");
+            stringBuilder.Append("right_index = " + _rightIndex);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Bonsai.CombinatorAttribute()]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     public partial class GammaDistribution : Distribution
     {
     
@@ -2451,6 +2559,72 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    public partial class OperationControl
+    {
+    
+        private ForceOperationControl _force;
+    
+        public OperationControl()
+        {
+        }
+    
+        protected OperationControl(OperationControl other)
+        {
+            _force = other._force;
+        }
+    
+        /// <summary>
+        /// Operation control for force sensor
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("force")]
+        [System.ComponentModel.DescriptionAttribute("Operation control for force sensor")]
+        public ForceOperationControl Force
+        {
+            get
+            {
+                return _force;
+            }
+            set
+            {
+                _force = value;
+            }
+        }
+    
+        public System.IObservable<OperationControl> Process()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new OperationControl(this)));
+        }
+    
+        public System.IObservable<OperationControl> Process<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new OperationControl(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("force = " + _force);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Bonsai.CombinatorAttribute()]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     public partial class PoissonDistribution : Distribution
     {
     
@@ -2629,6 +2803,34 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             stringBuilder.Append("}");
             return stringBuilder.ToString();
         }
+    }
+
+
+    /// <summary>
+    /// Defines the press mode
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+    public enum PressMode
+    {
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="Double")]
+        Double = 0,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="SingleAverage")]
+        SingleAverage = 1,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="SingleMax")]
+        SingleMax = 2,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="SingleMin")]
+        SingleMin = 3,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="SingleLeft")]
+        SingleLeft = 4,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="SingleRight")]
+        SingleRight = 5,
     }
 
 
@@ -3709,6 +3911,8 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         private System.Collections.Generic.IDictionary<string, NumericalUpdater> _updaters;
     
+        private OperationControl _operationControl;
+    
         public AindForceForagingTaskLogic()
         {
         }
@@ -3719,6 +3923,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             _schemaVersion = other._schemaVersion;
             _environment = other._environment;
             _updaters = other._updaters;
+            _operationControl = other._operationControl;
         }
     
         [Newtonsoft.Json.JsonPropertyAttribute("describedBy")]
@@ -3783,6 +3988,24 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             }
         }
     
+        /// <summary>
+        /// Operation control
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("operation_control")]
+        [System.ComponentModel.DescriptionAttribute("Operation control")]
+        public OperationControl OperationControl
+        {
+            get
+            {
+                return _operationControl;
+            }
+            set
+            {
+                _operationControl = value;
+            }
+        }
+    
         public System.IObservable<AindForceForagingTaskLogic> Process()
         {
             return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new AindForceForagingTaskLogic(this)));
@@ -3798,7 +4021,8 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             stringBuilder.Append("describedBy = " + _describedBy + ", ");
             stringBuilder.Append("schema_version = " + _schemaVersion + ", ");
             stringBuilder.Append("environment = " + _environment + ", ");
-            stringBuilder.Append("updaters = " + _updaters);
+            stringBuilder.Append("updaters = " + _updaters + ", ");
+            stringBuilder.Append("operation_control = " + _operationControl);
             return true;
         }
     
@@ -4207,6 +4431,11 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             return Process<ExponentialDistributionParameters>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<ForceOperationControl> source)
+        {
+            return Process<ForceOperationControl>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<GammaDistribution> source)
         {
             return Process<GammaDistribution>(source);
@@ -4255,6 +4484,11 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         public System.IObservable<string> Process(System.IObservable<NumericalUpdaterParameters> source)
         {
             return Process<NumericalUpdaterParameters>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<OperationControl> source)
+        {
+            return Process<OperationControl>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<PoissonDistribution> source)
@@ -4348,6 +4582,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Environment>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ExponentialDistribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ExponentialDistributionParameters>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ForceOperationControl>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<GammaDistribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<GammaDistributionParameters>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<HarvestAction>))]
@@ -4358,6 +4593,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NormalDistributionParameters>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NumericalUpdater>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NumericalUpdaterParameters>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<OperationControl>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PoissonDistribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<PoissonDistributionParameters>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<QuiescencePeriod>))]
