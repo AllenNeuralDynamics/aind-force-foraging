@@ -12,6 +12,116 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    public partial class ActionUpdater
+    {
+    
+        private UpdateTargetParameter _targetParameter = AindForceForagingDataSchema.AindForceForagingTask.UpdateTargetParameter.Probability;
+    
+        private UpdateTargetParameterBy _updatedBy = AindForceForagingDataSchema.AindForceForagingTask.UpdateTargetParameterBy.Time;
+    
+        private NumericalUpdater _updater;
+    
+        public ActionUpdater()
+        {
+        }
+    
+        protected ActionUpdater(ActionUpdater other)
+        {
+            _targetParameter = other._targetParameter;
+            _updatedBy = other._updatedBy;
+            _updater = other._updater;
+        }
+    
+        /// <summary>
+        /// Target parameter
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("target_parameter")]
+        [System.ComponentModel.DescriptionAttribute("Target parameter")]
+        public UpdateTargetParameter TargetParameter
+        {
+            get
+            {
+                return _targetParameter;
+            }
+            set
+            {
+                _targetParameter = value;
+            }
+        }
+    
+        /// <summary>
+        /// Independent variable
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("updated_by")]
+        [System.ComponentModel.DescriptionAttribute("Independent variable")]
+        public UpdateTargetParameterBy UpdatedBy
+        {
+            get
+            {
+                return _updatedBy;
+            }
+            set
+            {
+                _updatedBy = value;
+            }
+        }
+    
+        /// <summary>
+        /// Updater
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("updater")]
+        [System.ComponentModel.DescriptionAttribute("Updater")]
+        public NumericalUpdater Updater
+        {
+            get
+            {
+                return _updater;
+            }
+            set
+            {
+                _updater = value;
+            }
+        }
+    
+        public System.IObservable<ActionUpdater> Process()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new ActionUpdater(this)));
+        }
+    
+        public System.IObservable<ActionUpdater> Process<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new ActionUpdater(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("target_parameter = " + _targetParameter + ", ");
+            stringBuilder.Append("updated_by = " + _updatedBy + ", ");
+            stringBuilder.Append("updater = " + _updater);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Bonsai.CombinatorAttribute()]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     public partial class BetaDistribution : Distribution
     {
     
@@ -699,13 +809,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         private bool _isBaited = false;
     
-        private UpdateTargetParameter _targetParameter = AindForceForagingDataSchema.AindForceForagingTask.UpdateTargetParameter.Probability;
-    
-        private UpdateTargetParameterBy _updatedBy = AindForceForagingDataSchema.AindForceForagingTask.UpdateTargetParameterBy.Time;
-    
-        private double _bias = 0D;
-    
-        private double _noise = 0D;
+        private Distribution _blockSize;
     
         private Trial _trialStatistics = new Trial();
     
@@ -717,10 +821,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
                 base(other)
         {
             _isBaited = other._isBaited;
-            _targetParameter = other._targetParameter;
-            _updatedBy = other._updatedBy;
-            _bias = other._bias;
-            _noise = other._noise;
+            _blockSize = other._blockSize;
             _trialStatistics = other._trialStatistics;
         }
     
@@ -742,72 +843,20 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         }
     
         /// <summary>
-        /// Target parameter
+        /// Size of the block
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("target_parameter")]
-        [System.ComponentModel.DescriptionAttribute("Target parameter")]
-        public UpdateTargetParameter TargetParameter
+        [Newtonsoft.Json.JsonPropertyAttribute("block_size")]
+        [System.ComponentModel.DescriptionAttribute("Size of the block")]
+        public Distribution BlockSize
         {
             get
             {
-                return _targetParameter;
+                return _blockSize;
             }
             set
             {
-                _targetParameter = value;
-            }
-        }
-    
-        /// <summary>
-        /// Independent variable
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("updated_by")]
-        [System.ComponentModel.DescriptionAttribute("Independent variable")]
-        public UpdateTargetParameterBy UpdatedBy
-        {
-            get
-            {
-                return _updatedBy;
-            }
-            set
-            {
-                _updatedBy = value;
-            }
-        }
-    
-        /// <summary>
-        /// Bias of the random walk
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("bias")]
-        [System.ComponentModel.DescriptionAttribute("Bias of the random walk")]
-        public double Bias
-        {
-            get
-            {
-                return _bias;
-            }
-            set
-            {
-                _bias = value;
-            }
-        }
-    
-        /// <summary>
-        /// Noise of the random walk
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("noise")]
-        [System.ComponentModel.DescriptionAttribute("Noise of the random walk")]
-        public double Noise
-        {
-            get
-            {
-                return _noise;
-            }
-            set
-            {
-                _noise = value;
+                _blockSize = value;
             }
         }
     
@@ -846,10 +895,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
                 stringBuilder.Append(", ");
             }
             stringBuilder.Append("is_baited = " + _isBaited + ", ");
-            stringBuilder.Append("target_parameter = " + _targetParameter + ", ");
-            stringBuilder.Append("updated_by = " + _updatedBy + ", ");
-            stringBuilder.Append("bias = " + _bias + ", ");
-            stringBuilder.Append("noise = " + _noise + ", ");
+            stringBuilder.Append("block_size = " + _blockSize + ", ");
             stringBuilder.Append("trial_statistics = " + _trialStatistics);
             return true;
         }
@@ -1543,6 +1589,8 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         private double? _timeToCollect;
     
+        private System.Collections.Generic.List<ActionUpdater> _actionUpdaters = new System.Collections.Generic.List<ActionUpdater>();
+    
         public HarvestAction()
         {
         }
@@ -1557,6 +1605,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             _forceThreshold = other._forceThreshold;
             _isOperant = other._isOperant;
             _timeToCollect = other._timeToCollect;
+            _actionUpdaters = other._actionUpdaters;
         }
     
         /// <summary>
@@ -1698,6 +1747,24 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             }
         }
     
+        /// <summary>
+        /// List of action updaters. All updaters are called at the start of a new trial.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("action_updaters")]
+        [System.ComponentModel.DescriptionAttribute("List of action updaters. All updaters are called at the start of a new trial.")]
+        public System.Collections.Generic.List<ActionUpdater> ActionUpdaters
+        {
+            get
+            {
+                return _actionUpdaters;
+            }
+            set
+            {
+                _actionUpdaters = value;
+            }
+        }
+    
         public System.IObservable<HarvestAction> Process()
         {
             return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new HarvestAction(this)));
@@ -1717,7 +1784,8 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             stringBuilder.Append("force_duration = " + _forceDuration + ", ");
             stringBuilder.Append("force_threshold = " + _forceThreshold + ", ");
             stringBuilder.Append("is_operant = " + _isOperant + ", ");
-            stringBuilder.Append("time_to_collect = " + _timeToCollect);
+            stringBuilder.Append("time_to_collect = " + _timeToCollect + ", ");
+            stringBuilder.Append("action_updaters = " + _actionUpdaters);
             return true;
         }
     
@@ -2413,11 +2481,11 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     public partial class NumericalUpdaterParameters
     {
     
-        private double _initialValue = 0D;
+        private Distribution _initialValue;
     
-        private double _increment = 0D;
+        private Distribution _increment;
     
-        private double _decrement = 0D;
+        private Distribution _decrement;
     
         private double _minimum = 0D;
     
@@ -2439,9 +2507,10 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         /// <summary>
         /// Initial value of the parameter
         /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("initial_value")]
         [System.ComponentModel.DescriptionAttribute("Initial value of the parameter")]
-        public double InitialValue
+        public Distribution InitialValue
         {
             get
             {
@@ -2456,9 +2525,10 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         /// <summary>
         /// Value to increment the parameter by
         /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("increment")]
         [System.ComponentModel.DescriptionAttribute("Value to increment the parameter by")]
-        public double Increment
+        public Distribution Increment
         {
             get
             {
@@ -2473,9 +2543,10 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         /// <summary>
         /// Value to decrement the parameter by
         /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("decrement")]
         [System.ComponentModel.DescriptionAttribute("Value to decrement the parameter by")]
-        public double Decrement
+        public Distribution Decrement
         {
             get
             {
@@ -2505,10 +2576,10 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         }
     
         /// <summary>
-        /// Minimum value of the parameter
+        /// Maximum value of the parameter
         /// </summary>
         [Newtonsoft.Json.JsonPropertyAttribute("maximum")]
-        [System.ComponentModel.DescriptionAttribute("Minimum value of the parameter")]
+        [System.ComponentModel.DescriptionAttribute("Maximum value of the parameter")]
         public double Maximum
         {
             get
@@ -4371,6 +4442,11 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             return System.Reactive.Linq.Observable.Select(source, value => Newtonsoft.Json.JsonConvert.SerializeObject(value));
         }
 
+        public System.IObservable<string> Process(System.IObservable<ActionUpdater> source)
+        {
+            return Process<ActionUpdater>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<BetaDistribution> source)
         {
             return Process<BetaDistribution>(source);
@@ -4570,6 +4646,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     [System.ComponentModel.DescriptionAttribute("Deserializes a sequence of JSON strings into data model objects.")]
     [System.ComponentModel.DefaultPropertyAttribute("Type")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Transform)]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ActionUpdater>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BetaDistribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BetaDistributionParameters>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BinomialDistribution>))]

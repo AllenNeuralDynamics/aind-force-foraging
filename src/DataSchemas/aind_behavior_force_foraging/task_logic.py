@@ -42,12 +42,54 @@ def uniform_distribution_value(min: float, max: float) -> distributions.Uniform:
     )
 
 
+def normal_distribution_value(mean: float, std: float) -> distributions.Normal:
+    """
+    Helper function to create a normal distribution for a given range.
+
+    Args:
+        mean (float): The mean value of the normal distribution.
+        std (float): The standard deviation of the normal distribution.
+
+    Returns:
+        distributions.Normal: The normal distribution type.
+    """
+    return distributions.NormalDistribution(
+        distribution_parameters=distributions.NormalDistributionParameters(mean=mean, std=std)
+    )
+
+
 class HarvestActionLabel(str, Enum):
     """Defines the harvest actions"""
 
     LEFT = "Left"
     RIGHT = "Right"
     NONE = "None"
+
+
+# Updaters
+class NumericalUpdaterOperation(str, Enum):
+    NONE = "None"
+    OFFSET = "Offset"
+    GAIN = "Gain"
+    SET = "Set"
+    OFFSETPERCENTAGE = "OffsetPercentage"
+
+
+class NumericalUpdaterParameters(BaseModel):
+    initial_value: distributions.Distribution = Field(default=scalar_value(0), validate_default=True, description="Initial value of the parameter")
+    increment:  distributions.Distribution = Field(default=scalar_value(0), validate_default=True, description="Value to increment the parameter by")
+    decrement:  distributions.Distribution = Field(default=scalar_value(0), validate_default=True, description="Value to decrement the parameter by")
+    minimum:  float = Field(default=0, description="Minimum value of the parameter")
+    maximum:  float = Field(default=0, description="Maximum value of the parameter")
+
+
+class NumericalUpdater(BaseModel):
+    operation: NumericalUpdaterOperation = Field(
+        default=NumericalUpdaterOperation.NONE, description="Operation to perform on the parameter"
+    )
+    parameters: NumericalUpdaterParameters = Field(
+        NumericalUpdaterParameters(), description="Parameters of the updater"
+    )
 
 
 class UpdateTargetParameter(str, Enum):
@@ -62,13 +104,22 @@ class UpdateTargetParameter(str, Enum):
 
 class UpdateTargetParameterBy(str, Enum):
     """Defines the independent variable used for the update"""
-
+    
     TIME = "Time"
     REWARD = "Reward"
     TRIAL = "Trial"
 
 
-# Available actions
+class ActionUpdater(BaseModel):
+    target_parameter: UpdateTargetParameter = Field(
+        default=UpdateTargetParameter.PROBABILITY, description="Target parameter"
+    )
+    updated_by: UpdateTargetParameterBy = Field(
+        default=UpdateTargetParameterBy.TIME, description="Independent variable"
+    )
+    updater: NumericalUpdater = Field(NumericalUpdater(), description="Updater")
+
+
 class HarvestAction(BaseModel):
     """Defines an abstract class for an harvest action"""
 
@@ -86,6 +137,7 @@ class HarvestAction(BaseModel):
         ge=0,
         description="Time to collect the reward after it is available. If null, the reward will be available indefinitely.",
     )
+    action_updaters: List[ActionUpdater] = Field([], description="List of action updaters. All updaters are called at the start of a new trial.")
 
 
 class QuiescencePeriod(BaseModel):
@@ -176,14 +228,9 @@ class BlockGenerator(BaseModel):
 class BrownianRandomWalk(BaseModel):
     mode: Literal[BlockStatisticsMode.BROWNIAN] = BlockStatisticsMode.BROWNIAN
     is_baited: bool = Field(default=False, description="Whether the trials are baited")
-    target_parameter: UpdateTargetParameter = Field(
-        default=UpdateTargetParameter.PROBABILITY, description="Target parameter"
+    block_size: distributions.Distribution = Field(
+        default=uniform_distribution_value(min=50, max=60), validate_default=True, description="Size of the block"
     )
-    updated_by: UpdateTargetParameterBy = Field(
-        default=UpdateTargetParameterBy.TIME, description="Independent variable"
-    )
-    bias: float = Field(default=0, description="Bias of the random walk")
-    noise: float = Field(default=0, description="Noise of the random walk")
     trial_statistics: Trial = Field(..., description="Statistics of the trials in the block")
 
 
@@ -197,32 +244,6 @@ class Environment(BaseModel):
     repeat_count: Optional[int] = Field(
         default=0,
         description="Number of times to repeat the environment. If null, the environment will be repeated indefinitely",
-    )
-
-
-# Updaters
-class NumericalUpdaterOperation(str, Enum):
-    NONE = "None"
-    OFFSET = "Offset"
-    GAIN = "Gain"
-    SET = "Set"
-    OFFSETPERCENTAGE = "OffsetPercentage"
-
-
-class NumericalUpdaterParameters(BaseModel):
-    initial_value: float = Field(default=0.0, description="Initial value of the parameter")
-    increment: float = Field(default=0.0, description="Value to increment the parameter by")
-    decrement: float = Field(default=0.0, description="Value to decrement the parameter by")
-    minimum: float = Field(default=0.0, description="Minimum value of the parameter")
-    maximum: float = Field(default=0.0, description="Minimum value of the parameter")
-
-
-class NumericalUpdater(BaseModel):
-    operation: NumericalUpdaterOperation = Field(
-        default=NumericalUpdaterOperation.NONE, description="Operation to perform on the parameter"
-    )
-    parameters: NumericalUpdaterParameters = Field(
-        NumericalUpdaterParameters(), description="Parameters of the updater"
     )
 
 

@@ -1,5 +1,77 @@
 {
   "definitions": {
+    "ActionUpdater": {
+      "properties": {
+        "target_parameter": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/UpdateTargetParameter"
+            }
+          ],
+          "default": "Probability",
+          "description": "Target parameter"
+        },
+        "updated_by": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/UpdateTargetParameterBy"
+            }
+          ],
+          "default": "Time",
+          "description": "Independent variable"
+        },
+        "updater": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/NumericalUpdater"
+            }
+          ],
+          "default": {
+            "operation": "None",
+            "parameters": {
+              "decrement": {
+                "distribution_parameters": {
+                  "family": "Scalar",
+                  "scaling_parameters": null,
+                  "truncation_parameters": null,
+                  "value": 0.0
+                },
+                "family": "Scalar",
+                "scaling_parameters": null,
+                "truncation_parameters": null
+              },
+              "increment": {
+                "distribution_parameters": {
+                  "family": "Scalar",
+                  "scaling_parameters": null,
+                  "truncation_parameters": null,
+                  "value": 0.0
+                },
+                "family": "Scalar",
+                "scaling_parameters": null,
+                "truncation_parameters": null
+              },
+              "initial_value": {
+                "distribution_parameters": {
+                  "family": "Scalar",
+                  "scaling_parameters": null,
+                  "truncation_parameters": null,
+                  "value": 0.0
+                },
+                "family": "Scalar",
+                "scaling_parameters": null,
+                "truncation_parameters": null
+              },
+              "maximum": 0.0,
+              "minimum": 0.0
+            }
+          },
+          "description": "Updater"
+        }
+      },
+      "title": "ActionUpdater",
+      "type": "object"
+    },
     "BetaDistribution": {
       "additionalProperties": false,
       "properties": {
@@ -284,35 +356,23 @@
           "title": "Is Baited",
           "type": "boolean"
         },
-        "target_parameter": {
+        "block_size": {
           "allOf": [
             {
-              "$ref": "#/definitions/UpdateTargetParameter"
+              "$ref": "#/definitions/Distribution"
             }
           ],
-          "default": "Probability",
-          "description": "Target parameter"
-        },
-        "updated_by": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/UpdateTargetParameterBy"
-            }
-          ],
-          "default": "Time",
-          "description": "Independent variable"
-        },
-        "bias": {
-          "default": 0,
-          "description": "Bias of the random walk",
-          "title": "Bias",
-          "type": "number"
-        },
-        "noise": {
-          "default": 0,
-          "description": "Noise of the random walk",
-          "title": "Noise",
-          "type": "number"
+          "default": {
+            "family": "Uniform",
+            "distribution_parameters": {
+              "family": "Uniform",
+              "max": 60.0,
+              "min": 50.0
+            },
+            "truncation_parameters": null,
+            "scaling_parameters": null
+          },
+          "description": "Size of the block"
         },
         "trial_statistics": {
           "allOf": [
@@ -647,6 +707,15 @@
             }
           ],
           "title": "Time To Collect"
+        },
+        "action_updaters": {
+          "default": [],
+          "description": "List of action updaters. All updaters are called at the start of a new trial.",
+          "items": {
+            "$ref": "#/definitions/ActionUpdater"
+          },
+          "title": "Action Updaters",
+          "type": "array"
         }
       },
       "title": "HarvestAction",
@@ -864,9 +933,39 @@
             }
           ],
           "default": {
-            "initial_value": 0.0,
-            "increment": 0.0,
-            "decrement": 0.0,
+            "initial_value": {
+              "distribution_parameters": {
+                "family": "Scalar",
+                "scaling_parameters": null,
+                "truncation_parameters": null,
+                "value": 0.0
+              },
+              "family": "Scalar",
+              "scaling_parameters": null,
+              "truncation_parameters": null
+            },
+            "increment": {
+              "distribution_parameters": {
+                "family": "Scalar",
+                "scaling_parameters": null,
+                "truncation_parameters": null,
+                "value": 0.0
+              },
+              "family": "Scalar",
+              "scaling_parameters": null,
+              "truncation_parameters": null
+            },
+            "decrement": {
+              "distribution_parameters": {
+                "family": "Scalar",
+                "scaling_parameters": null,
+                "truncation_parameters": null,
+                "value": 0.0
+              },
+              "family": "Scalar",
+              "scaling_parameters": null,
+              "truncation_parameters": null
+            },
             "minimum": 0.0,
             "maximum": 0.0
           },
@@ -890,32 +989,71 @@
     "NumericalUpdaterParameters": {
       "properties": {
         "initial_value": {
-          "default": 0.0,
-          "description": "Initial value of the parameter",
-          "title": "Initial Value",
-          "type": "number"
+          "allOf": [
+            {
+              "$ref": "#/definitions/Distribution"
+            }
+          ],
+          "default": {
+            "family": "Scalar",
+            "distribution_parameters": {
+              "family": "Scalar",
+              "scaling_parameters": null,
+              "truncation_parameters": null,
+              "value": 0.0
+            },
+            "truncation_parameters": null,
+            "scaling_parameters": null
+          },
+          "description": "Initial value of the parameter"
         },
         "increment": {
-          "default": 0.0,
-          "description": "Value to increment the parameter by",
-          "title": "Increment",
-          "type": "number"
+          "allOf": [
+            {
+              "$ref": "#/definitions/Distribution"
+            }
+          ],
+          "default": {
+            "family": "Scalar",
+            "distribution_parameters": {
+              "family": "Scalar",
+              "scaling_parameters": null,
+              "truncation_parameters": null,
+              "value": 0.0
+            },
+            "truncation_parameters": null,
+            "scaling_parameters": null
+          },
+          "description": "Value to increment the parameter by"
         },
         "decrement": {
-          "default": 0.0,
-          "description": "Value to decrement the parameter by",
-          "title": "Decrement",
-          "type": "number"
+          "allOf": [
+            {
+              "$ref": "#/definitions/Distribution"
+            }
+          ],
+          "default": {
+            "family": "Scalar",
+            "distribution_parameters": {
+              "family": "Scalar",
+              "scaling_parameters": null,
+              "truncation_parameters": null,
+              "value": 0.0
+            },
+            "truncation_parameters": null,
+            "scaling_parameters": null
+          },
+          "description": "Value to decrement the parameter by"
         },
         "minimum": {
-          "default": 0.0,
+          "default": 0,
           "description": "Minimum value of the parameter",
           "title": "Minimum",
           "type": "number"
         },
         "maximum": {
-          "default": 0.0,
-          "description": "Minimum value of the parameter",
+          "default": 0,
+          "description": "Maximum value of the parameter",
           "title": "Maximum",
           "type": "number"
         }
@@ -1237,7 +1375,8 @@
             "force_duration": 0.5,
             "force_threshold": 5000.0,
             "is_operant": true,
-            "time_to_collect": null
+            "time_to_collect": null,
+            "action_updaters": []
           },
           "description": "Specification of the left action",
           "oneOf": [
@@ -1258,7 +1397,8 @@
             "force_duration": 0.5,
             "force_threshold": 5000.0,
             "is_operant": true,
-            "time_to_collect": null
+            "time_to_collect": null,
+            "action_updaters": []
           },
           "description": "Specification of the right action",
           "oneOf": [
