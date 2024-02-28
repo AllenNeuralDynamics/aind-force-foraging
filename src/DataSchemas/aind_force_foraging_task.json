@@ -29,41 +29,19 @@
           "default": {
             "operation": "None",
             "parameters": {
-              "decrement": {
-                "distribution_parameters": {
-                  "family": "Scalar",
-                  "scaling_parameters": null,
-                  "truncation_parameters": null,
-                  "value": 0.0
-                },
-                "family": "Scalar",
-                "scaling_parameters": null,
-                "truncation_parameters": null
-              },
-              "increment": {
-                "distribution_parameters": {
-                  "family": "Scalar",
-                  "scaling_parameters": null,
-                  "truncation_parameters": null,
-                  "value": 0.0
-                },
-                "family": "Scalar",
-                "scaling_parameters": null,
-                "truncation_parameters": null
-              },
-              "initial_value": {
-                "distribution_parameters": {
-                  "family": "Scalar",
-                  "scaling_parameters": null,
-                  "truncation_parameters": null,
-                  "value": 0.0
-                },
-                "family": "Scalar",
-                "scaling_parameters": null,
-                "truncation_parameters": null
-              },
               "maximum": 0.0,
-              "minimum": 0.0
+              "minimum": 0.0,
+              "value": {
+                "distribution_parameters": {
+                  "family": "Scalar",
+                  "scaling_parameters": null,
+                  "truncation_parameters": null,
+                  "value": 0.0
+                },
+                "family": "Scalar",
+                "scaling_parameters": null,
+                "truncation_parameters": null
+              }
             }
           },
           "description": "Updater"
@@ -933,29 +911,7 @@
             }
           ],
           "default": {
-            "initial_value": {
-              "distribution_parameters": {
-                "family": "Scalar",
-                "scaling_parameters": null,
-                "truncation_parameters": null,
-                "value": 0.0
-              },
-              "family": "Scalar",
-              "scaling_parameters": null,
-              "truncation_parameters": null
-            },
-            "increment": {
-              "distribution_parameters": {
-                "family": "Scalar",
-                "scaling_parameters": null,
-                "truncation_parameters": null,
-                "value": 0.0
-              },
-              "family": "Scalar",
-              "scaling_parameters": null,
-              "truncation_parameters": null
-            },
-            "decrement": {
+            "value": {
               "distribution_parameters": {
                 "family": "Scalar",
                 "scaling_parameters": null,
@@ -980,15 +936,14 @@
         "None",
         "Offset",
         "Gain",
-        "Set",
-        "OffsetPercentage"
+        "Set"
       ],
       "title": "NumericalUpdaterOperation",
       "type": "string"
     },
     "NumericalUpdaterParameters": {
       "properties": {
-        "initial_value": {
+        "value": {
           "allOf": [
             {
               "$ref": "#/definitions/Distribution"
@@ -1005,45 +960,7 @@
             "truncation_parameters": null,
             "scaling_parameters": null
           },
-          "description": "Initial value of the parameter"
-        },
-        "increment": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/Distribution"
-            }
-          ],
-          "default": {
-            "family": "Scalar",
-            "distribution_parameters": {
-              "family": "Scalar",
-              "scaling_parameters": null,
-              "truncation_parameters": null,
-              "value": 0.0
-            },
-            "truncation_parameters": null,
-            "scaling_parameters": null
-          },
-          "description": "Value to increment the parameter by"
-        },
-        "decrement": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/Distribution"
-            }
-          ],
-          "default": {
-            "family": "Scalar",
-            "distribution_parameters": {
-              "family": "Scalar",
-              "scaling_parameters": null,
-              "truncation_parameters": null,
-              "value": 0.0
-            },
-            "truncation_parameters": null,
-            "scaling_parameters": null
-          },
-          "description": "Value to decrement the parameter by"
+          "description": "The value of the update. This value will be multiplied by the optional input event value."
         },
         "minimum": {
           "default": 0,

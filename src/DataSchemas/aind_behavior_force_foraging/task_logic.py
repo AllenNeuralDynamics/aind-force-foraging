@@ -69,16 +69,13 @@ class HarvestActionLabel(str, Enum):
 # Updaters
 class NumericalUpdaterOperation(str, Enum):
     NONE = "None"
-    OFFSET = "Offset"
-    GAIN = "Gain"
+    ADD = "Offset"
+    MULTIPLY = "Gain"
     SET = "Set"
-    OFFSETPERCENTAGE = "OffsetPercentage"
 
 
 class NumericalUpdaterParameters(BaseModel):
-    initial_value: distributions.Distribution = Field(default=scalar_value(0), validate_default=True, description="Initial value of the parameter")
-    increment:  distributions.Distribution = Field(default=scalar_value(0), validate_default=True, description="Value to increment the parameter by")
-    decrement:  distributions.Distribution = Field(default=scalar_value(0), validate_default=True, description="Value to decrement the parameter by")
+    value: distributions.Distribution = Field(default=scalar_value(0), validate_default=True, description="The value of the update. This value will be multiplied by the optional input event value.")
     minimum:  float = Field(default=0, description="Minimum value of the parameter")
     maximum:  float = Field(default=0, description="Maximum value of the parameter")
 
@@ -104,7 +101,7 @@ class UpdateTargetParameter(str, Enum):
 
 class UpdateTargetParameterBy(str, Enum):
     """Defines the independent variable used for the update"""
-    
+
     TIME = "Time"
     REWARD = "Reward"
     TRIAL = "Trial"

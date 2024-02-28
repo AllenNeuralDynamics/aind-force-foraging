@@ -2469,9 +2469,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         [System.Runtime.Serialization.EnumMemberAttribute(Value="Set")]
         Set = 3,
-    
-        [System.Runtime.Serialization.EnumMemberAttribute(Value="OffsetPercentage")]
-        OffsetPercentage = 4,
     }
 
 
@@ -2481,11 +2478,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     public partial class NumericalUpdaterParameters
     {
     
-        private Distribution _initialValue;
-    
-        private Distribution _increment;
-    
-        private Distribution _decrement;
+        private Distribution _value;
     
         private double _minimum = 0D;
     
@@ -2497,64 +2490,27 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         protected NumericalUpdaterParameters(NumericalUpdaterParameters other)
         {
-            _initialValue = other._initialValue;
-            _increment = other._increment;
-            _decrement = other._decrement;
+            _value = other._value;
             _minimum = other._minimum;
             _maximum = other._maximum;
         }
     
         /// <summary>
-        /// Initial value of the parameter
+        /// The value of the update. This value will be multiplied by the optional input event value.
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("initial_value")]
-        [System.ComponentModel.DescriptionAttribute("Initial value of the parameter")]
-        public Distribution InitialValue
+        [Newtonsoft.Json.JsonPropertyAttribute("value")]
+        [System.ComponentModel.DescriptionAttribute("The value of the update. This value will be multiplied by the optional input even" +
+            "t value.")]
+        public Distribution Value
         {
             get
             {
-                return _initialValue;
+                return _value;
             }
             set
             {
-                _initialValue = value;
-            }
-        }
-    
-        /// <summary>
-        /// Value to increment the parameter by
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("increment")]
-        [System.ComponentModel.DescriptionAttribute("Value to increment the parameter by")]
-        public Distribution Increment
-        {
-            get
-            {
-                return _increment;
-            }
-            set
-            {
-                _increment = value;
-            }
-        }
-    
-        /// <summary>
-        /// Value to decrement the parameter by
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("decrement")]
-        [System.ComponentModel.DescriptionAttribute("Value to decrement the parameter by")]
-        public Distribution Decrement
-        {
-            get
-            {
-                return _decrement;
-            }
-            set
-            {
-                _decrement = value;
+                _value = value;
             }
         }
     
@@ -2604,9 +2560,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
-            stringBuilder.Append("initial_value = " + _initialValue + ", ");
-            stringBuilder.Append("increment = " + _increment + ", ");
-            stringBuilder.Append("decrement = " + _decrement + ", ");
+            stringBuilder.Append("value = " + _value + ", ");
             stringBuilder.Append("minimum = " + _minimum + ", ");
             stringBuilder.Append("maximum = " + _maximum);
             return true;
