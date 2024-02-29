@@ -2,7 +2,7 @@
   "additionalProperties": false,
   "properties": {
     "describedBy": {
-      "default": "",
+      "default": "https://raw.githubusercontent.com/AllenNeuralDynamics/Aind.Behavior.ForceForaging/main/src/DataSchemas/aind_force_foraging_session.json",
       "title": "Describedby",
       "type": "string"
     },
