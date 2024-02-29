@@ -2,8 +2,8 @@
 
 ## Deployment
 
-To deploy the Bonsai code, run `./bonsai/setup.cmd`. This small script will download and regenerate the current bonsai environment ([see tutorial for further details.](https://bonsai-rx.org/docs/articles/environments.html))
-
+- To deploy the Bonsai code, run `./bonsai/setup.cmd`. This small script will download and regenerate the current bonsai environment ([see tutorial for further details.](https://bonsai-rx.org/docs/articles/environments.html))
+- To deploy the python package, simply create a virtual environment using `project.toml`. It is strongly encouraged to use `VSCode` and `venv`.
 ---
 
 ## Prerequisites
