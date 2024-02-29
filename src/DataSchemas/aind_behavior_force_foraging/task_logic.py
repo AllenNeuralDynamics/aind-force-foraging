@@ -75,9 +75,13 @@ class NumericalUpdaterOperation(str, Enum):
 
 
 class NumericalUpdaterParameters(BaseModel):
-    value: distributions.Distribution = Field(default=scalar_value(0), validate_default=True, description="The value of the update. This value will be multiplied by the optional input event value.")
-    minimum:  float = Field(default=0, description="Minimum value of the parameter")
-    maximum:  float = Field(default=0, description="Maximum value of the parameter")
+    value: distributions.Distribution = Field(
+        default=scalar_value(0),
+        validate_default=True,
+        description="The value of the update. This value will be multiplied by the optional input event value.",
+    )
+    minimum: float = Field(default=0, description="Minimum value of the parameter")
+    maximum: float = Field(default=0, description="Maximum value of the parameter")
 
 
 class NumericalUpdater(BaseModel):
@@ -134,7 +138,9 @@ class HarvestAction(BaseModel):
         ge=0,
         description="Time to collect the reward after it is available. If null, the reward will be available indefinitely.",
     )
-    action_updaters: List[ActionUpdater] = Field([], description="List of action updaters. All updaters are called at the start of a new trial.")
+    action_updaters: List[ActionUpdater] = Field(
+        [], description="List of action updaters. All updaters are called at the start of a new trial."
+    )
 
 
 class QuiescencePeriod(BaseModel):
