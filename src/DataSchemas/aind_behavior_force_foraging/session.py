@@ -6,7 +6,11 @@ from pydantic import BaseModel, Field
 
 
 class AindForceForagingSession(AindBehaviorSessionModel):
-    describedBy: str = Field("https://raw.githubusercontent.com/AllenNeuralDynamics/Aind.Behavior.ForceForaging/main/src/DataSchemas/aind_force_foraging_session.json")
+    describedBy: Literal[
+        "https://raw.githubusercontent.com/AllenNeuralDynamics/Aind.Behavior.ForceForaging/main/src/DataSchemas/aind_force_foraging_session.json"
+    ] = Field(
+        "https://raw.githubusercontent.com/AllenNeuralDynamics/Aind.Behavior.ForceForaging/main/src/DataSchemas/aind_force_foraging_session.json"
+    )
     schema_version: Literal[__version__] = __version__
 
 
