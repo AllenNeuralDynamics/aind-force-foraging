@@ -3268,10 +3268,10 @@ Item2.Light as Light)</scr:Expression>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="Extensions\CreateTrial.bonsai" />
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:Concat" />
+                    <Combinator xsi:type="rx:Merge" />
                   </Expression>
                   <Expression xsi:type="rx:SelectMany">
-                    <Name>TrialNumber++</Name>
+                    <Name>UpdateNextTrial</Name>
                     <Workflow>
                       <Nodes>
                         <Expression xsi:type="WorkflowInput">
