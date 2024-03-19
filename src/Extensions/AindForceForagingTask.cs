@@ -1583,7 +1583,9 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         private double _forceDuration = 0.5D;
     
-        private double _forceThreshold = 5000D;
+        private double _upperForceThreshold = 32768D;
+    
+        private double _lowerForceThreshold = 5000D;
     
         private bool _isOperant = true;
     
@@ -1602,7 +1604,8 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             _amount = other._amount;
             _delay = other._delay;
             _forceDuration = other._forceDuration;
-            _forceThreshold = other._forceThreshold;
+            _upperForceThreshold = other._upperForceThreshold;
+            _lowerForceThreshold = other._lowerForceThreshold;
             _isOperant = other._isOperant;
             _timeToCollect = other._timeToCollect;
             _actionUpdaters = other._actionUpdaters;
@@ -1695,19 +1698,36 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
         }
     
         /// <summary>
-        /// Force to be applied
+        /// Upper bound of the force target region.
         /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("force_threshold")]
-        [System.ComponentModel.DescriptionAttribute("Force to be applied")]
-        public double ForceThreshold
+        [Newtonsoft.Json.JsonPropertyAttribute("upper_force_threshold")]
+        [System.ComponentModel.DescriptionAttribute("Upper bound of the force target region.")]
+        public double UpperForceThreshold
         {
             get
             {
-                return _forceThreshold;
+                return _upperForceThreshold;
             }
             set
             {
-                _forceThreshold = value;
+                _upperForceThreshold = value;
+            }
+        }
+    
+        /// <summary>
+        /// Lower bound of the force target region.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("lower_force_threshold")]
+        [System.ComponentModel.DescriptionAttribute("Lower bound of the force target region.")]
+        public double LowerForceThreshold
+        {
+            get
+            {
+                return _lowerForceThreshold;
+            }
+            set
+            {
+                _lowerForceThreshold = value;
             }
         }
     
@@ -1782,7 +1802,8 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
             stringBuilder.Append("amount = " + _amount + ", ");
             stringBuilder.Append("delay = " + _delay + ", ");
             stringBuilder.Append("force_duration = " + _forceDuration + ", ");
-            stringBuilder.Append("force_threshold = " + _forceThreshold + ", ");
+            stringBuilder.Append("upper_force_threshold = " + _upperForceThreshold + ", ");
+            stringBuilder.Append("lower_force_threshold = " + _lowerForceThreshold + ", ");
             stringBuilder.Append("is_operant = " + _isOperant + ", ");
             stringBuilder.Append("time_to_collect = " + _timeToCollect + ", ");
             stringBuilder.Append("action_updaters = " + _actionUpdaters);
@@ -3886,20 +3907,23 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     public enum UpdateTargetParameter
     {
     
-        [System.Runtime.Serialization.EnumMemberAttribute(Value="ForceThreshold")]
-        ForceThreshold = 0,
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="LowerForceThreshold")]
+        LowerForceThreshold = 0,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="UpperForceThreshold")]
+        UpperForceThreshold = 1,
     
         [System.Runtime.Serialization.EnumMemberAttribute(Value="Probability")]
-        Probability = 1,
+        Probability = 2,
     
         [System.Runtime.Serialization.EnumMemberAttribute(Value="Amount")]
-        Amount = 2,
+        Amount = 3,
     
         [System.Runtime.Serialization.EnumMemberAttribute(Value="ForceDuration")]
-        ForceDuration = 3,
+        ForceDuration = 4,
     
         [System.Runtime.Serialization.EnumMemberAttribute(Value="Delay")]
-        Delay = 4,
+        Delay = 5,
     }
 
 

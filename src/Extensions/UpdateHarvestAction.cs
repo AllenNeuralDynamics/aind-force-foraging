@@ -30,11 +30,11 @@ public class UpdateHarvestAction
                 case UpdateTargetParameter.Delay:
                     action.Delay = Update(action.Delay, updater.Updater, event_value);
                     break;
-                case UpdateTargetParameter.ForceThreshold:
-                    action.ForceThreshold = Update(action.ForceThreshold, updater.Updater, event_value);
+                case UpdateTargetParameter.LowerForceThreshold:
+                    action.LowerForceThreshold = Update(action.LowerForceThreshold, updater.Updater, event_value);
                     break;
-                case UpdateTargetParameter.ForceDuration:
-                    action.ForceDuration = Update(action.ForceDuration, updater.Updater, event_value);
+                case UpdateTargetParameter.UpperForceThreshold:
+                    action.UpperForceThreshold = Update(action.UpperForceThreshold, updater.Updater, event_value);
                     break;
                 case UpdateTargetParameter.Amount:
                     action.Amount = Update(action.Amount, updater.Updater, event_value);

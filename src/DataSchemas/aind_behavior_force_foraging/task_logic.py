@@ -1,14 +1,14 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import Annotated, Dict, List, Literal, Optional, Union
+from typing import Annotated, Dict, List, Literal, Optional, Union, Self
 from functools import partial
 
 import aind_behavior_services.task_logic.distributions as distributions
 from aind_behavior_force_foraging import __version__
 from aind_behavior_services.task_logic import AindBehaviorTaskLogicModel
 from aind_data_schema.base import BaseModel
-from pydantic import BaseModel, Field, RootModel
+from pydantic import BaseModel, Field, RootModel, model_validator
 
 MAX_LOAD_CELL_FORCE = 32768
 
@@ -96,7 +96,8 @@ class NumericalUpdater(BaseModel):
 class UpdateTargetParameter(str, Enum):
     """Defines the target parameters"""
 
-    FORCETHRESHOLD = "ForceThreshold"
+    LOWERFORCETHRESHOLD = "LowerForceThreshold"
+    UPPERFORCETHRESHOLD = "UpperForceThreshold"
     PROBABILITY = "Probability"
     AMOUNT = "Amount"
     FORCEDURATION = "ForceDuration"
@@ -129,8 +130,17 @@ class HarvestAction(BaseModel):
     amount: float = Field(default=1, description="Amount of reward to be delivered")
     delay: float = Field(default=0, description="Delay between successful harvest and reward delivery")
     force_duration: float = Field(default=0.5, description="Duration that the force much stay above threshold")
-    force_threshold: float = Field(
-        default=5000, le=MAX_LOAD_CELL_FORCE, ge=-MAX_LOAD_CELL_FORCE, description="Force to be applied"
+    upper_force_threshold: float = Field(
+        default=MAX_LOAD_CELL_FORCE,
+        le=MAX_LOAD_CELL_FORCE,
+        ge=-MAX_LOAD_CELL_FORCE,
+        description="Upper bound of the force target region.",
+    )
+    lower_force_threshold: float = Field(
+        default=5000,
+        le=MAX_LOAD_CELL_FORCE,
+        ge=-MAX_LOAD_CELL_FORCE,
+        description="Lower bound of the force target region.",
     )
     is_operant: bool = Field(default=True, description="Whether the reward delivery is contingent on licking.")
     time_to_collect: Optional[float] = Field(
@@ -141,6 +151,14 @@ class HarvestAction(BaseModel):
     action_updaters: List[ActionUpdater] = Field(
         [], description="List of action updaters. All updaters are called at the start of a new trial."
     )
+
+    @model_validator(mode="after")
+    def check_passwords_match(self) -> Self:
+        if self.upper_force_threshold < self.lower_force_threshold:
+            raise ValueError(
+                f"Upper force threshold ({self.upper_force_threshold}) must be greater than lower force threshold({self.lower_force_threshold})"
+            )
+        return self
 
 
 class QuiescencePeriod(BaseModel):
