@@ -27,10 +27,11 @@ class AindForceForagingRig(AindBehaviorRigModel):
         "https://raw.githubusercontent.com/AllenNeuralDynamics/Aind.Behavior.ForceForaging/main/src/DataSchemas/aind_force_foraging_rig.json"
     )
     schema_version: Literal[__version__] = __version__
-    auxiliary_camera0: Optional[rig.WebCamera] = Field(default=rig.WebCamera(), description="Auxiliary camera 0")
-    auxiliary_camera1: Optional[rig.WebCamera] = Field(default=rig.WebCamera(), description="Auxiliary camera 1")
+    auxiliary_camera0: Optional[rig.WebCamera] = Field(default=rig.WebCamera(index=0), description="Auxiliary camera 0")
+    auxiliary_camera1: Optional[rig.WebCamera] = Field(default=rig.WebCamera(index=1), description="Auxiliary camera 1")
     harp_behavior: rig.HarpBehavior = Field(..., description="Harp behavior")
-    harp_olfactometer: Optional[rig.HarpOlfactometer] = Field(..., description="Harp olfactometer")
+    harp_olfactometer: Optional[rig.HarpOlfactometer] = Field(None, description="Harp olfactometer")
+    harp_sniff_detector: Optional[rig.HarpSniffDetector] = Field(None, description="Harp sniff detector")
     harp_lickometer: rig.HarpLickometer = Field(..., description="Harp lickometer")
     harp_load_cells: rig.HarpLoadCells = Field(..., description="Harp load cells")
     harp_clock_generator: rig.HarpClockGenerator = Field(..., description="Harp clock generator")
@@ -39,8 +40,7 @@ class AindForceForagingRig(AindBehaviorRigModel):
     top_body_camera: Optional[rig.SpinnakerCamera] = Field(default=None, description="Top body camera")
     side_body_camera: Optional[rig.SpinnakerCamera] = Field(default=None, description="Side body camera")
     screen: rig.Screen = Field(default=rig.Screen(), description="Screen settings")
-    treadmill: rig.Treadmill = Field(default=rig.Treadmill(), description="Treadmill settings")
-    calibration: Optional[RigCalibration] = Field(default=None, description="Load cells calibration")
+    calibration: RigCalibration = Field(default=None, description="Load cells calibration")
 
 
 def schema() -> BaseModel:

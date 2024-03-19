@@ -313,6 +313,57 @@
       "title": "HarpOlfactometer",
       "type": "object"
     },
+    "HarpSniffDetector": {
+      "additionalProperties": false,
+      "properties": {
+        "who_am_i": {
+          "const": 1401,
+          "default": 1401,
+          "title": "Who Am I",
+          "type": "integer"
+        },
+        "device_type": {
+          "const": "sniffdetector",
+          "default": "sniffdetector",
+          "title": "Device Type",
+          "type": "string"
+        },
+        "serial_number": {
+          "default": null,
+          "description": "Device serial number",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Serial Number"
+        },
+        "port_name": {
+          "description": "Device port name",
+          "title": "Port Name",
+          "type": "string"
+        },
+        "additional_settings": {
+          "default": null,
+          "description": "Additional settings",
+          "oneOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Additional Settings"
+        }
+      },
+      "required": [
+        "port_name"
+      ],
+      "title": "HarpSniffDetector",
+      "type": "object"
+    },
     "LoadCellCalibration": {
       "properties": {
         "measured_offset": {
@@ -737,34 +788,6 @@
       "title": "SpinnakerCamera",
       "type": "object"
     },
-    "Treadmill": {
-      "additionalProperties": false,
-      "properties": {
-        "wheel_diameter": {
-          "default": 15,
-          "description": "Wheel diameter",
-          "minimum": 0.0,
-          "title": "Wheel Diameter",
-          "type": "number",
-          "units": "cm"
-        },
-        "pulses_per_revolution": {
-          "default": 28800,
-          "description": "Pulses per revolution",
-          "minimum": 1,
-          "title": "Pulses Per Revolution",
-          "type": "integer"
-        },
-        "invert_direction": {
-          "default": false,
-          "description": "Invert direction",
-          "title": "Invert Direction",
-          "type": "boolean"
-        }
-      },
-      "title": "Treadmill",
-      "type": "object"
-    },
     "WaterValveCalibration": {
       "additionalProperties": false,
       "description": "Water valve calibration class",
@@ -874,11 +897,19 @@
           "units": "g"
         },
         "r2": {
+          "default": null,
           "description": "R2 metric from the linear model.",
-          "maximum": 1.0,
-          "minimum": 0.0,
-          "title": "R2",
-          "type": "number"
+          "oneOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "R2"
         },
         "valid_domain": {
           "default": null,
@@ -902,8 +933,7 @@
       },
       "required": [
         "slope",
-        "offset",
-        "r2"
+        "offset"
       ],
       "title": "WaterValveCalibrationOutput",
       "type": "object"
@@ -963,7 +993,7 @@
     },
     "auxiliary_camera1": {
       "default": {
-        "index": 0
+        "index": 1
       },
       "description": "Auxiliary camera 1",
       "oneOf": [
@@ -984,10 +1014,23 @@
       "description": "Harp behavior"
     },
     "harp_olfactometer": {
+      "default": null,
       "description": "Harp olfactometer",
       "oneOf": [
         {
           "$ref": "#/definitions/HarpOlfactometer"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "harp_sniff_detector": {
+      "default": null,
+      "description": "Harp sniff detector",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/HarpSniffDetector"
         },
         {
           "type": "null"
@@ -1077,36 +1120,19 @@
       },
       "description": "Screen settings"
     },
-    "treadmill": {
+    "calibration": {
       "allOf": [
         {
-          "$ref": "#/definitions/Treadmill"
+          "$ref": "#/definitions/RigCalibration"
         }
       ],
-      "default": {
-        "wheel_diameter": 15.0,
-        "pulses_per_revolution": 28800,
-        "invert_direction": false
-      },
-      "description": "Treadmill settings"
-    },
-    "calibration": {
       "default": null,
-      "description": "Load cells calibration",
-      "oneOf": [
-        {
-          "$ref": "#/definitions/RigCalibration"
-        },
-        {
-          "type": "null"
-        }
-      ]
+      "description": "Load cells calibration"
     }
   },
   "required": [
     "rig_name",
     "harp_behavior",
-    "harp_olfactometer",
     "harp_lickometer",
     "harp_load_cells",
     "harp_clock_generator",
