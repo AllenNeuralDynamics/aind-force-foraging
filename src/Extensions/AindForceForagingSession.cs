@@ -17,7 +17,7 @@ namespace AindForceForagingDataSchema.AindForceForagingSession
     
         private string _describedBy = "https://raw.githubusercontent.com/AllenNeuralDynamics/Aind.Behavior.ForceForaging/main/src/DataSchemas/aind_force_foraging_session.json";
     
-        private string _schemaVersion = "0.2.0";
+        private string _schemaVersion = "0.5.0";
     
         private string _experiment;
     

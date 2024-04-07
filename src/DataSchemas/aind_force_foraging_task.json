@@ -51,7 +51,6 @@
       "type": "object"
     },
     "BetaDistribution": {
-      "additionalProperties": false,
       "properties": {
         "family": {
           "const": "Beta",
@@ -101,7 +100,6 @@
       "type": "object"
     },
     "BetaDistributionParameters": {
-      "additionalProperties": false,
       "properties": {
         "family": {
           "const": "Beta",
@@ -128,7 +126,6 @@
       "type": "object"
     },
     "BinomialDistribution": {
-      "additionalProperties": false,
       "properties": {
         "family": {
           "const": "Binomial",
@@ -178,7 +175,6 @@
       "type": "object"
     },
     "BinomialDistributionParameters": {
-      "additionalProperties": false,
       "properties": {
         "family": {
           "const": "Binomial",
@@ -450,7 +446,6 @@
       "type": "object"
     },
     "ExponentialDistribution": {
-      "additionalProperties": false,
       "properties": {
         "family": {
           "const": "Exponential",
@@ -499,7 +494,6 @@
       "type": "object"
     },
     "ExponentialDistributionParameters": {
-      "additionalProperties": false,
       "properties": {
         "family": {
           "const": "Exponential",
@@ -546,7 +540,6 @@
       "type": "object"
     },
     "GammaDistribution": {
-      "additionalProperties": false,
       "properties": {
         "family": {
           "const": "Gamma",
@@ -596,7 +589,6 @@
       "type": "object"
     },
     "GammaDistributionParameters": {
-      "additionalProperties": false,
       "properties": {
         "family": {
           "const": "Gamma",
@@ -752,7 +744,6 @@
       "type": "object"
     },
     "LogNormalDistribution": {
-      "additionalProperties": false,
       "properties": {
         "family": {
           "const": "LogNormal",
@@ -802,7 +793,6 @@
       "type": "object"
     },
     "LogNormalDistributionParameters": {
-      "additionalProperties": false,
       "properties": {
         "family": {
           "const": "LogNormal",
@@ -827,7 +817,6 @@
       "type": "object"
     },
     "NormalDistribution": {
-      "additionalProperties": false,
       "properties": {
         "family": {
           "const": "Normal",
@@ -877,7 +866,6 @@
       "type": "object"
     },
     "NormalDistributionParameters": {
-      "additionalProperties": false,
       "properties": {
         "family": {
           "const": "Normal",
@@ -1006,7 +994,6 @@
       "type": "object"
     },
     "PoissonDistribution": {
-      "additionalProperties": false,
       "properties": {
         "family": {
           "const": "Poisson",
@@ -1055,7 +1042,6 @@
       "type": "object"
     },
     "PoissonDistributionParameters": {
-      "additionalProperties": false,
       "properties": {
         "family": {
           "const": "Poisson",
@@ -1142,7 +1128,6 @@
       "type": "object"
     },
     "Scalar": {
-      "additionalProperties": false,
       "properties": {
         "family": {
           "const": "Scalar",
@@ -1193,7 +1178,6 @@
       "type": "object"
     },
     "ScalarDistributionParameter": {
-      "additionalProperties": false,
       "properties": {
         "family": {
           "const": "Scalar",
@@ -1224,7 +1208,6 @@
       "type": "object"
     },
     "ScalingParameters": {
-      "additionalProperties": false,
       "properties": {
         "scale": {
           "default": 1,
@@ -1342,7 +1325,6 @@
       "type": "object"
     },
     "TruncationParameters": {
-      "additionalProperties": false,
       "properties": {
         "is_truncated": {
           "default": false,
@@ -1367,7 +1349,6 @@
       "type": "object"
     },
     "UniformDistribution": {
-      "additionalProperties": false,
       "properties": {
         "family": {
           "const": "Uniform",
@@ -1417,7 +1398,6 @@
       "type": "object"
     },
     "UniformDistributionParameters": {
-      "additionalProperties": false,
       "properties": {
         "family": {
           "const": "Uniform",
@@ -1465,7 +1445,6 @@
       "type": "string"
     }
   },
-  "additionalProperties": false,
   "properties": {
     "describedBy": {
       "const": "https://raw.githubusercontent.com/AllenNeuralDynamics/Aind.Behavior.ForceForaging/main/src/DataSchemas/aind_force_foraging_task.json",
