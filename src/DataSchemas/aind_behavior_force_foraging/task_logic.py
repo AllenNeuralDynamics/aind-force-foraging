@@ -7,7 +7,6 @@ from functools import partial
 import aind_behavior_services.task_logic.distributions as distributions
 from aind_behavior_force_foraging import __version__
 from aind_behavior_services.task_logic import AindBehaviorTaskLogicModel
-from aind_data_schema.base import BaseModel
 from pydantic import BaseModel, Field, RootModel, model_validator
 
 MAX_LOAD_CELL_FORCE = 32768
