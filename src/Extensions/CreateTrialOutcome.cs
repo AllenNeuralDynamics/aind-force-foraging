@@ -2,7 +2,7 @@ using Bonsai;
 using System;
 using System.Linq;
 using System.Reactive.Linq;
-using AindForceForagingDataSchema.AindForceForagingTask;
+using AindForceForagingDataSchema.TaskLogic;
 
 public class CreateTrialOutcome : Source<TrialOutcome>
 {

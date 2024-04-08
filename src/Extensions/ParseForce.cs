@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Reactive.Linq;
 using Bonsai.Harp;
-using AindForceForagingDataSchema.AindForceForagingTask;
+using AindForceForagingDataSchema.TaskLogic;
 
 
 public class ParseForce: Transform<Timestamped<short[]>, Force>

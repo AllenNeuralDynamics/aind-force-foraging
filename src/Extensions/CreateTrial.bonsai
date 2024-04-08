@@ -3,7 +3,7 @@
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:p1="clr-namespace:System.Reactive;assembly=System.Reactive.Core"
-                 xmlns:p2="clr-namespace:AindForceForagingDataSchema.AindForceForagingTask;assembly=Extensions"
+                 xmlns:p2="clr-namespace:AindForceForagingDataSchema.TaskLogic;assembly=Extensions"
                  xmlns:gl="clr-namespace:Bonsai.Shaders;assembly=Bonsai.Shaders"
                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns:p3="clr-namespace:AllenNeuralDynamics.Core;assembly=AllenNeuralDynamics.Core"
