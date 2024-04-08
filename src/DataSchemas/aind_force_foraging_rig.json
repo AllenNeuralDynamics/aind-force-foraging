@@ -1,0 +1,1140 @@
+{
+  "definitions": {
+    "BaseModel": {
+      "properties": {},
+      "title": "BaseModel",
+      "type": "object"
+    },
+    "HarpAnalogInput": {
+      "properties": {
+        "who_am_i": {
+          "const": 1236,
+          "default": 1236,
+          "title": "Who Am I",
+          "type": "integer"
+        },
+        "device_type": {
+          "const": "analoginput",
+          "default": "analoginput",
+          "title": "Device Type",
+          "type": "string"
+        },
+        "serial_number": {
+          "default": null,
+          "description": "Device serial number",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Serial Number"
+        },
+        "port_name": {
+          "description": "Device port name",
+          "title": "Port Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "port_name"
+      ],
+      "title": "HarpAnalogInput",
+      "type": "object"
+    },
+    "HarpBehavior": {
+      "properties": {
+        "who_am_i": {
+          "const": 1216,
+          "default": 1216,
+          "title": "Who Am I",
+          "type": "integer"
+        },
+        "device_type": {
+          "const": "behavior",
+          "default": "behavior",
+          "title": "Device Type",
+          "type": "string"
+        },
+        "serial_number": {
+          "default": null,
+          "description": "Device serial number",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Serial Number"
+        },
+        "port_name": {
+          "description": "Device port name",
+          "title": "Port Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "port_name"
+      ],
+      "title": "HarpBehavior",
+      "type": "object"
+    },
+    "HarpClockGenerator": {
+      "properties": {
+        "who_am_i": {
+          "const": 1158,
+          "default": 1158,
+          "title": "Who Am I",
+          "type": "integer"
+        },
+        "device_type": {
+          "const": "clockgenerator",
+          "default": "clockgenerator",
+          "title": "Device Type",
+          "type": "string"
+        },
+        "serial_number": {
+          "default": null,
+          "description": "Device serial number",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Serial Number"
+        },
+        "port_name": {
+          "description": "Device port name",
+          "title": "Port Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "port_name"
+      ],
+      "title": "HarpClockGenerator",
+      "type": "object"
+    },
+    "HarpLickometer": {
+      "properties": {
+        "who_am_i": {
+          "const": 1400,
+          "default": 1400,
+          "title": "Who Am I",
+          "type": "integer"
+        },
+        "device_type": {
+          "const": "lickometer",
+          "default": "lickometer",
+          "title": "Device Type",
+          "type": "string"
+        },
+        "serial_number": {
+          "default": null,
+          "description": "Device serial number",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Serial Number"
+        },
+        "port_name": {
+          "description": "Device port name",
+          "title": "Port Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "port_name"
+      ],
+      "title": "HarpLickometer",
+      "type": "object"
+    },
+    "HarpLoadCells": {
+      "properties": {
+        "who_am_i": {
+          "const": 1232,
+          "default": 1232,
+          "title": "Who Am I",
+          "type": "integer"
+        },
+        "device_type": {
+          "const": "loadcells",
+          "default": "loadcells",
+          "title": "Device Type",
+          "type": "string"
+        },
+        "serial_number": {
+          "default": null,
+          "description": "Device serial number",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Serial Number"
+        },
+        "port_name": {
+          "description": "Device port name",
+          "title": "Port Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "port_name"
+      ],
+      "title": "HarpLoadCells",
+      "type": "object"
+    },
+    "HarpOlfactometer": {
+      "properties": {
+        "who_am_i": {
+          "const": 1140,
+          "default": 1140,
+          "title": "Who Am I",
+          "type": "integer"
+        },
+        "device_type": {
+          "const": "olfactometer",
+          "default": "olfactometer",
+          "title": "Device Type",
+          "type": "string"
+        },
+        "serial_number": {
+          "default": null,
+          "description": "Device serial number",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Serial Number"
+        },
+        "port_name": {
+          "description": "Device port name",
+          "title": "Port Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "port_name"
+      ],
+      "title": "HarpOlfactometer",
+      "type": "object"
+    },
+    "HarpSniffDetector": {
+      "properties": {
+        "who_am_i": {
+          "const": 1401,
+          "default": 1401,
+          "title": "Who Am I",
+          "type": "integer"
+        },
+        "device_type": {
+          "const": "sniffdetector",
+          "default": "sniffdetector",
+          "title": "Device Type",
+          "type": "string"
+        },
+        "serial_number": {
+          "default": null,
+          "description": "Device serial number",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Serial Number"
+        },
+        "port_name": {
+          "description": "Device port name",
+          "title": "Port Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "port_name"
+      ],
+      "title": "HarpSniffDetector",
+      "type": "object"
+    },
+    "LoadCellCalibration": {
+      "properties": {
+        "measured_offset": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "default": {},
+          "title": "Load cells offset. Each entry is expected to be in the format of: Channel : (offset, baseline)",
+          "type": "object"
+        },
+        "measured_weight": {
+          "default": {},
+          "items": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "type": "array"
+          },
+          "title": "Load cells measured weight. Each entry is expected to be in the format of: (known weight(g), baseline)",
+          "type": "array"
+        }
+      },
+      "title": "LoadCellCalibration",
+      "type": "object"
+    },
+    "LoadCellsCalibration": {
+      "description": "Load cells calibration class",
+      "properties": {
+        "device_name": {
+          "default": "LoadCells",
+          "description": "Must match a device name in rig/instrument",
+          "title": "Device name",
+          "type": "string"
+        },
+        "input": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/LoadCellsCalibrationInput"
+            }
+          ],
+          "title": "Input of the calibration"
+        },
+        "output": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/LoadCellsCalibrationOutput"
+            }
+          ],
+          "title": "Output of the calibration."
+        },
+        "date": {
+          "default": null,
+          "oneOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Date"
+        },
+        "description": {
+          "const": "Calibration of the load cells system",
+          "default": "Calibration of the load cells system",
+          "title": "Description",
+          "type": "string"
+        },
+        "notes": {
+          "default": null,
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Notes"
+        }
+      },
+      "required": [
+        "input",
+        "output"
+      ],
+      "title": "LoadCellsCalibration",
+      "type": "object"
+    },
+    "LoadCellsCalibrationInput": {
+      "properties": {
+        "channels": {
+          "additionalProperties": {
+            "$ref": "#/definitions/LoadCellCalibration"
+          },
+          "default": {},
+          "title": "Load cells calibration data",
+          "type": "object"
+        }
+      },
+      "title": "LoadCellsCalibrationInput",
+      "type": "object"
+    },
+    "LoadCellsCalibrationOutput": {
+      "properties": {
+        "offset": {
+          "additionalProperties": {
+            "description": "Load cell offset value [-255, 255]",
+            "maximum": 255,
+            "minimum": -255,
+            "type": "integer"
+          },
+          "default": {
+            "0": 0,
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0,
+            "5": 0,
+            "6": 0,
+            "7": 0
+          },
+          "title": "Load cells offset",
+          "type": "object"
+        },
+        "baseline": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "default": {
+            "0": 0,
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0,
+            "5": 0,
+            "6": 0,
+            "7": 0
+          },
+          "title": "Load cells baseline to be subtracted from the raw data after applying the offset.",
+          "type": "object"
+        },
+        "weight_lookup": {
+          "additionalProperties": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "type": "array"
+          },
+          "default": {},
+          "title": "Load cells lookup calibration table for each channel: (weight, baseline).",
+          "type": "object"
+        }
+      },
+      "title": "LoadCellsCalibrationOutput",
+      "type": "object"
+    },
+    "Measurement": {
+      "description": "Input for water valve calibration class",
+      "properties": {
+        "valve_open_interval": {
+          "description": "Time between two consecutive valve openings (s)",
+          "exclusiveMinimum": 0.0,
+          "title": "Valve open interval",
+          "type": "number"
+        },
+        "valve_open_time": {
+          "description": "Valve open interval (s)",
+          "exclusiveMinimum": 0.0,
+          "title": "Valve open time",
+          "type": "number"
+        },
+        "water_weight": {
+          "description": "Weight of water delivered (g)",
+          "items": {
+            "exclusiveMinimum": 0.0,
+            "type": "number"
+          },
+          "minItems": 1,
+          "title": "Water weight",
+          "type": "array"
+        },
+        "repeat_count": {
+          "description": "Number of times the valve opened.",
+          "minimum": 0,
+          "title": "Repeat count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "valve_open_interval",
+        "valve_open_time",
+        "water_weight",
+        "repeat_count"
+      ],
+      "title": "Measurement",
+      "type": "object"
+    },
+    "OlfactometerCalibration": {
+      "description": "Olfactometer calibration class",
+      "properties": {
+        "device_name": {
+          "default": "Olfactometer",
+          "description": "Name of the device being calibrated",
+          "title": "Device name",
+          "type": "string"
+        },
+        "input": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/OlfactometerCalibrationInput"
+            }
+          ],
+          "title": "Input of the calibration"
+        },
+        "output": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/OlfactometerCalibrationOutput"
+            }
+          ],
+          "title": "Output of the calibration"
+        },
+        "date": {
+          "default": null,
+          "oneOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Date"
+        },
+        "description": {
+          "const": "Calibration of the harp olfactometer device",
+          "default": "Calibration of the harp olfactometer device",
+          "title": "Description",
+          "type": "string"
+        },
+        "notes": {
+          "default": null,
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Notes"
+        }
+      },
+      "required": [
+        "input",
+        "output"
+      ],
+      "title": "OlfactometerCalibration",
+      "type": "object"
+    },
+    "OlfactometerCalibrationInput": {
+      "properties": {},
+      "title": "OlfactometerCalibrationInput",
+      "type": "object"
+    },
+    "OlfactometerCalibrationOutput": {
+      "properties": {},
+      "title": "OlfactometerCalibrationOutput",
+      "type": "object"
+    },
+    "RigCalibration": {
+      "properties": {
+        "load_cells": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/LoadCellsCalibration"
+            }
+          ],
+          "description": "Load cells calibration"
+        },
+        "water_valve": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/WaterValveCalibration"
+            }
+          ],
+          "description": "Water valve calibration"
+        },
+        "olfactometer": {
+          "default": null,
+          "description": "Olfactometer calibration",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/OlfactometerCalibration"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "load_cells",
+        "water_valve"
+      ],
+      "title": "RigCalibration",
+      "type": "object"
+    },
+    "Screen": {
+      "properties": {
+        "device_type": {
+          "const": "Screen",
+          "default": "Screen",
+          "description": "Device type",
+          "title": "Device Type",
+          "type": "string"
+        },
+        "additional_settings": {
+          "default": null,
+          "description": "Additional settings",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/BaseModel"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "calibration": {
+          "default": null,
+          "description": "Calibration",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/BaseModel"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "display_index": {
+          "default": 1,
+          "description": "Display index",
+          "title": "Display Index",
+          "type": "integer"
+        },
+        "target_render_frequency": {
+          "default": 60,
+          "description": "Target render frequency",
+          "title": "Target Render Frequency",
+          "type": "number"
+        },
+        "target_update_frequency": {
+          "default": 120,
+          "description": "Target update frequency",
+          "title": "Target Update Frequency",
+          "type": "number"
+        },
+        "calibration_directory": {
+          "default": "Calibration\\Monitors\\",
+          "description": "Calibration directory",
+          "title": "Calibration Directory",
+          "type": "string"
+        },
+        "texture_assets_directory": {
+          "default": "Textures",
+          "description": "Calibration directory",
+          "title": "Texture Assets Directory",
+          "type": "string"
+        }
+      },
+      "title": "Screen",
+      "type": "object"
+    },
+    "SpinnakerCamera": {
+      "properties": {
+        "device_type": {
+          "const": "SpinnakerCamera",
+          "default": "SpinnakerCamera",
+          "description": "Device type",
+          "title": "Device Type",
+          "type": "string"
+        },
+        "additional_settings": {
+          "default": null,
+          "description": "Additional settings",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/BaseModel"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "calibration": {
+          "default": null,
+          "description": "Calibration",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/BaseModel"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "serial_number": {
+          "description": "Camera serial number",
+          "title": "Serial Number",
+          "type": "string"
+        },
+        "binning": {
+          "default": 1,
+          "description": "Binning",
+          "minimum": 1,
+          "title": "Binning",
+          "type": "integer"
+        },
+        "color_processing": {
+          "default": "Default",
+          "description": "Color processing",
+          "enum": [
+            "Default",
+            "NoColorProcessing"
+          ],
+          "title": "Color Processing",
+          "type": "string"
+        },
+        "exposure": {
+          "default": 1000,
+          "description": "Exposure time",
+          "minimum": 100,
+          "title": "Exposure",
+          "type": "integer"
+        },
+        "frame_rate": {
+          "default": 30,
+          "description": "Frame rate",
+          "maximum": 350,
+          "minimum": 1,
+          "title": "Frame Rate",
+          "type": "integer"
+        },
+        "gain": {
+          "default": 0,
+          "description": "Gain",
+          "minimum": 0.0,
+          "title": "Gain",
+          "type": "number"
+        }
+      },
+      "required": [
+        "serial_number"
+      ],
+      "title": "SpinnakerCamera",
+      "type": "object"
+    },
+    "WaterValveCalibration": {
+      "description": "Water valve calibration class",
+      "properties": {
+        "device_name": {
+          "default": "WaterValve",
+          "description": "Name of the device being calibrated",
+          "title": "Device name",
+          "type": "string"
+        },
+        "input": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/WaterValveCalibrationInput"
+            }
+          ],
+          "title": "Input of the calibration"
+        },
+        "output": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/WaterValveCalibrationOutput"
+            }
+          ],
+          "title": "Output of the calibration."
+        },
+        "date": {
+          "default": null,
+          "oneOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Date"
+        },
+        "description": {
+          "const": "Calibration of the water valve delivery system",
+          "default": "Calibration of the water valve delivery system",
+          "title": "Description",
+          "type": "string"
+        },
+        "notes": {
+          "default": null,
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Notes"
+        }
+      },
+      "required": [
+        "input",
+        "output"
+      ],
+      "title": "WaterValveCalibration",
+      "type": "object"
+    },
+    "WaterValveCalibrationInput": {
+      "properties": {
+        "measurements": {
+          "default": [],
+          "description": "List of measurements",
+          "items": {
+            "$ref": "#/definitions/Measurement"
+          },
+          "title": "Measurements",
+          "type": "array"
+        }
+      },
+      "title": "WaterValveCalibrationInput",
+      "type": "object"
+    },
+    "WaterValveCalibrationOutput": {
+      "description": "Output for water valve calibration class",
+      "properties": {
+        "interval_average": {
+          "default": null,
+          "description": "Dictionary keyed by measured valve interval and corresponding average single event volume.",
+          "oneOf": [
+            {
+              "additionalProperties": {
+                "exclusiveMinimum": 0.0,
+                "type": "number"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Interval average"
+        },
+        "slope": {
+          "description": "Slope of the linear regression : Volume(g) = Slope(g/s) * time(s) + offset(g)",
+          "title": "Regression slope",
+          "type": "number"
+        },
+        "offset": {
+          "description": "Offset of the linear regression : Volume(g) = Slope(g/s) * time(s) + offset(g)",
+          "title": "Regression offset",
+          "type": "number"
+        },
+        "r2": {
+          "default": null,
+          "description": "R2 metric from the linear model.",
+          "oneOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "R2"
+        },
+        "valid_domain": {
+          "default": null,
+          "description": "The optional time-intervals the calibration curve was calculated on.",
+          "oneOf": [
+            {
+              "items": {
+                "exclusiveMinimum": 0.0,
+                "type": "number"
+              },
+              "minItems": 2,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Valid domain"
+        }
+      },
+      "required": [
+        "slope",
+        "offset"
+      ],
+      "title": "WaterValveCalibrationOutput",
+      "type": "object"
+    },
+    "WebCamera": {
+      "properties": {
+        "device_type": {
+          "const": "WebCamera",
+          "default": "WebCamera",
+          "description": "Device type",
+          "title": "Device Type",
+          "type": "string"
+        },
+        "additional_settings": {
+          "default": null,
+          "description": "Additional settings",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/BaseModel"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "calibration": {
+          "default": null,
+          "description": "Calibration",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/BaseModel"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "index": {
+          "default": 0,
+          "description": "Camera index",
+          "minimum": 0,
+          "title": "Index",
+          "type": "integer"
+        }
+      },
+      "title": "WebCamera",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "schema_version": {
+      "const": "0.2.0",
+      "default": "0.2.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "computer_name": {
+      "description": "Computer name",
+      "title": "Computer Name",
+      "type": "string"
+    },
+    "rig_name": {
+      "description": "Rig name",
+      "title": "Rig Name",
+      "type": "string"
+    },
+    "auxiliary_camera0": {
+      "default": {
+        "device_type": "WebCamera",
+        "additional_settings": null,
+        "calibration": null,
+        "index": 0
+      },
+      "description": "Auxiliary camera 0",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/WebCamera"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "auxiliary_camera1": {
+      "default": {
+        "device_type": "WebCamera",
+        "additional_settings": null,
+        "calibration": null,
+        "index": 1
+      },
+      "description": "Auxiliary camera 1",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/WebCamera"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "harp_behavior": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HarpBehavior"
+        }
+      ],
+      "description": "Harp behavior"
+    },
+    "harp_olfactometer": {
+      "default": null,
+      "description": "Harp olfactometer",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/HarpOlfactometer"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "harp_sniff_detector": {
+      "default": null,
+      "description": "Harp sniff detector",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/HarpSniffDetector"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "harp_lickometer": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HarpLickometer"
+        }
+      ],
+      "description": "Harp lickometer"
+    },
+    "harp_load_cells": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HarpLoadCells"
+        }
+      ],
+      "description": "Harp load cells"
+    },
+    "harp_clock_generator": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/HarpClockGenerator"
+        }
+      ],
+      "description": "Harp clock generator"
+    },
+    "harp_analog_input": {
+      "default": null,
+      "description": "Harp analog input",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/HarpAnalogInput"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "face_camera": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/SpinnakerCamera"
+        }
+      ],
+      "description": "Face camera"
+    },
+    "top_body_camera": {
+      "default": null,
+      "description": "Top body camera",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/SpinnakerCamera"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "side_body_camera": {
+      "default": null,
+      "description": "Side body camera",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/SpinnakerCamera"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "screen": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Screen"
+        }
+      ],
+      "default": {
+        "device_type": "Screen",
+        "additional_settings": null,
+        "calibration": null,
+        "display_index": 1,
+        "target_render_frequency": 60.0,
+        "target_update_frequency": 120.0,
+        "calibration_directory": "Calibration\\Monitors\\",
+        "texture_assets_directory": "Textures"
+      },
+      "description": "Screen settings"
+    },
+    "calibration": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/RigCalibration"
+        }
+      ],
+      "default": null,
+      "description": "Load cells calibration"
+    }
+  },
+  "required": [
+    "rig_name",
+    "harp_behavior",
+    "harp_lickometer",
+    "harp_load_cells",
+    "harp_clock_generator",
+    "face_camera"
+  ],
+  "title": "AindForceForagingRig",
+  "type": "object"
+}

@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import Annotated, Dict, List, Literal, Optional, Union, Self
 from functools import partial
+from typing import Annotated, Dict, List, Literal, Optional, Self, Union
 
 import aind_behavior_services.task_logic.distributions as distributions
 from aind_behavior_force_foraging import __version__
