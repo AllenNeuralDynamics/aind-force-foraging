@@ -5,7 +5,7 @@
 //----------------------
 
 
-namespace AindForceForagingDataSchema.AindForceForagingTask
+namespace AindForceForagingDataSchema.TaskLogic
 {
     #pragma warning disable // Disable all warnings
 
@@ -15,9 +15,9 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     public partial class ActionUpdater
     {
     
-        private UpdateTargetParameter _targetParameter = AindForceForagingDataSchema.AindForceForagingTask.UpdateTargetParameter.Probability;
+        private UpdateTargetParameter _targetParameter = AindForceForagingDataSchema.TaskLogic.UpdateTargetParameter.Probability;
     
-        private UpdateTargetParameterBy _updatedBy = AindForceForagingDataSchema.AindForceForagingTask.UpdateTargetParameterBy.Time;
+        private UpdateTargetParameterBy _updatedBy = AindForceForagingDataSchema.TaskLogic.UpdateTargetParameterBy.Time;
     
         private NumericalUpdater _updater;
     
@@ -1256,7 +1256,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     public partial class ForceOperationControl
     {
     
-        private PressMode _pressMode = AindForceForagingDataSchema.AindForceForagingTask.PressMode.Double;
+        private PressMode _pressMode = AindForceForagingDataSchema.TaskLogic.PressMode.Double;
     
         private int _leftIndex = 0;
     
@@ -1573,7 +1573,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     public partial class HarvestAction
     {
     
-        private HarvestActionLabel _action = AindForceForagingDataSchema.AindForceForagingTask.HarvestActionLabel.None;
+        private HarvestActionLabel _action = AindForceForagingDataSchema.TaskLogic.HarvestActionLabel.None;
     
         private double _probability = 1D;
     
@@ -2392,7 +2392,7 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     public partial class NumericalUpdater
     {
     
-        private NumericalUpdaterOperation _operation = AindForceForagingDataSchema.AindForceForagingTask.NumericalUpdaterOperation.None;
+        private NumericalUpdaterOperation _operation = AindForceForagingDataSchema.TaskLogic.NumericalUpdaterOperation.None;
     
         private NumericalUpdaterParameters _parameters;
     
@@ -3952,8 +3952,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     public partial class AindForceForagingTaskLogic
     {
     
-        private string _describedBy = "https://raw.githubusercontent.com/AllenNeuralDynamics/Aind.Behavior.ForceForaging/main/src/DataSchemas/aind_force_foraging_task.json";
-    
         private string _schemaVersion = "0.1.0-preview01";
     
         private Environment _environment = new Environment();
@@ -3968,24 +3966,10 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         protected AindForceForagingTaskLogic(AindForceForagingTaskLogic other)
         {
-            _describedBy = other._describedBy;
             _schemaVersion = other._schemaVersion;
             _environment = other._environment;
             _updaters = other._updaters;
             _operationControl = other._operationControl;
-        }
-    
-        [Newtonsoft.Json.JsonPropertyAttribute("describedBy")]
-        public string DescribedBy
-        {
-            get
-            {
-                return _describedBy;
-            }
-            set
-            {
-                _describedBy = value;
-            }
         }
     
         [Newtonsoft.Json.JsonPropertyAttribute("schema_version")]
@@ -4067,7 +4051,6 @@ namespace AindForceForagingDataSchema.AindForceForagingTask
     
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
-            stringBuilder.Append("describedBy = " + _describedBy + ", ");
             stringBuilder.Append("schema_version = " + _schemaVersion + ", ");
             stringBuilder.Append("environment = " + _environment + ", ");
             stringBuilder.Append("updaters = " + _updaters + ", ");

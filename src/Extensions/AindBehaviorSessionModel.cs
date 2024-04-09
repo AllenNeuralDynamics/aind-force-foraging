@@ -5,19 +5,17 @@
 //----------------------
 
 
-namespace AindForceForagingDataSchema.AindForceForagingSession
+namespace AindForceForagingDataSchema.Session
 {
     #pragma warning disable // Disable all warnings
 
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
-    public partial class AindForceForagingSession
+    public partial class AindBehaviorSessionModel
     {
     
-        private string _describedBy = "https://raw.githubusercontent.com/AllenNeuralDynamics/Aind.Behavior.ForceForaging/main/src/DataSchemas/aind_force_foraging_session.json";
-    
-        private string _schemaVersion = "0.5.0";
+        private string _schemaVersion = "0.1.1";
     
         private string _experiment;
     
@@ -41,13 +39,12 @@ namespace AindForceForagingDataSchema.AindForceForagingSession
     
         private bool _skipHardwareValidation = false;
     
-        public AindForceForagingSession()
+        public AindBehaviorSessionModel()
         {
         }
     
-        protected AindForceForagingSession(AindForceForagingSession other)
+        protected AindBehaviorSessionModel(AindBehaviorSessionModel other)
         {
-            _describedBy = other._describedBy;
             _schemaVersion = other._schemaVersion;
             _experiment = other._experiment;
             _date = other._date;
@@ -60,19 +57,6 @@ namespace AindForceForagingDataSchema.AindForceForagingSession
             _commitHash = other._commitHash;
             _allowDirtyRepo = other._allowDirtyRepo;
             _skipHardwareValidation = other._skipHardwareValidation;
-        }
-    
-        [Newtonsoft.Json.JsonPropertyAttribute("describedBy")]
-        public string DescribedBy
-        {
-            get
-            {
-                return _describedBy;
-            }
-            set
-            {
-                _describedBy = value;
-            }
         }
     
         [Newtonsoft.Json.JsonPropertyAttribute("schema_version")]
@@ -278,19 +262,18 @@ namespace AindForceForagingDataSchema.AindForceForagingSession
             }
         }
     
-        public System.IObservable<AindForceForagingSession> Process()
+        public System.IObservable<AindBehaviorSessionModel> Process()
         {
-            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new AindForceForagingSession(this)));
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new AindBehaviorSessionModel(this)));
         }
     
-        public System.IObservable<AindForceForagingSession> Process<TSource>(System.IObservable<TSource> source)
+        public System.IObservable<AindBehaviorSessionModel> Process<TSource>(System.IObservable<TSource> source)
         {
-            return System.Reactive.Linq.Observable.Select(source, _ => new AindForceForagingSession(this));
+            return System.Reactive.Linq.Observable.Select(source, _ => new AindBehaviorSessionModel(this));
         }
     
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
-            stringBuilder.Append("describedBy = " + _describedBy + ", ");
             stringBuilder.Append("schema_version = " + _schemaVersion + ", ");
             stringBuilder.Append("experiment = " + _experiment + ", ");
             stringBuilder.Append("date = " + _date + ", ");
@@ -336,9 +319,9 @@ namespace AindForceForagingDataSchema.AindForceForagingSession
             return System.Reactive.Linq.Observable.Select(source, value => Newtonsoft.Json.JsonConvert.SerializeObject(value));
         }
 
-        public System.IObservable<string> Process(System.IObservable<AindForceForagingSession> source)
+        public System.IObservable<string> Process(System.IObservable<AindBehaviorSessionModel> source)
         {
-            return Process<AindForceForagingSession>(source);
+            return Process<AindBehaviorSessionModel>(source);
         }
     }
 
@@ -350,13 +333,13 @@ namespace AindForceForagingDataSchema.AindForceForagingSession
     [System.ComponentModel.DescriptionAttribute("Deserializes a sequence of JSON strings into data model objects.")]
     [System.ComponentModel.DefaultPropertyAttribute("Type")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Transform)]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AindForceForagingSession>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AindBehaviorSessionModel>))]
     public partial class DeserializeFromJson : Bonsai.Expressions.SingleArgumentExpressionBuilder
     {
     
         public DeserializeFromJson()
         {
-            Type = new Bonsai.Expressions.TypeMapping<AindForceForagingSession>();
+            Type = new Bonsai.Expressions.TypeMapping<AindBehaviorSessionModel>();
         }
 
         public Bonsai.Expressions.TypeMapping Type { get; set; }

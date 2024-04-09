@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
-using AindForceForagingDataSchema.AindForceForagingTask;
+using AindForceForagingDataSchema.TaskLogic;
 using System.Reactive;
 
 [Combinator]

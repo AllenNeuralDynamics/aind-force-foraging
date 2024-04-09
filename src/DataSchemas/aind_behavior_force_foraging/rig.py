@@ -11,7 +11,7 @@ import aind_behavior_services.rig as rig
 from aind_behavior_services.rig import AindBehaviorRigModel
 from pydantic import BaseModel, Field
 
-__version__ = "0.1.1"
+__version__ = "0.2.0"
 
 
 class RigCalibration(BaseModel):
@@ -21,11 +21,6 @@ class RigCalibration(BaseModel):
 
 
 class AindForceForagingRig(AindBehaviorRigModel):
-    describedBy: Literal[
-        "https://raw.githubusercontent.com/AllenNeuralDynamics/Aind.Behavior.ForceForaging/main/src/DataSchemas/aind_force_foraging_rig.json"
-    ] = Field(
-        "https://raw.githubusercontent.com/AllenNeuralDynamics/Aind.Behavior.ForceForaging/main/src/DataSchemas/aind_force_foraging_rig.json"
-    )
     schema_version: Literal[__version__] = __version__
     auxiliary_camera0: Optional[rig.WebCamera] = Field(default=rig.WebCamera(index=0), description="Auxiliary camera 0")
     auxiliary_camera1: Optional[rig.WebCamera] = Field(default=rig.WebCamera(index=1), description="Auxiliary camera 1")
