@@ -357,9 +357,13 @@ namespace AindForceForagingDataSchema.Rig
     public partial class HarpAnalogInput
     {
     
-        private int _whoAmI = 1236;
-    
         private string _deviceType = "analoginput";
+    
+        private BaseModel _additionalSettings;
+    
+        private BaseModel _calibration;
+    
+        private int _whoAmI = 1236;
     
         private string _serialNumber;
     
@@ -371,23 +375,12 @@ namespace AindForceForagingDataSchema.Rig
     
         protected HarpAnalogInput(HarpAnalogInput other)
         {
-            _whoAmI = other._whoAmI;
             _deviceType = other._deviceType;
+            _additionalSettings = other._additionalSettings;
+            _calibration = other._calibration;
+            _whoAmI = other._whoAmI;
             _serialNumber = other._serialNumber;
             _portName = other._portName;
-        }
-    
-        [Newtonsoft.Json.JsonPropertyAttribute("who_am_i")]
-        public int WhoAmI
-        {
-            get
-            {
-                return _whoAmI;
-            }
-            set
-            {
-                _whoAmI = value;
-            }
         }
     
         [Newtonsoft.Json.JsonPropertyAttribute("device_type")]
@@ -400,6 +393,55 @@ namespace AindForceForagingDataSchema.Rig
             set
             {
                 _deviceType = value;
+            }
+        }
+    
+        /// <summary>
+        /// Additional settings
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("additional_settings")]
+        [System.ComponentModel.DescriptionAttribute("Additional settings")]
+        public BaseModel AdditionalSettings
+        {
+            get
+            {
+                return _additionalSettings;
+            }
+            set
+            {
+                _additionalSettings = value;
+            }
+        }
+    
+        /// <summary>
+        /// Calibration
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("calibration")]
+        [System.ComponentModel.DescriptionAttribute("Calibration")]
+        public BaseModel Calibration
+        {
+            get
+            {
+                return _calibration;
+            }
+            set
+            {
+                _calibration = value;
+            }
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("who_am_i")]
+        public int WhoAmI
+        {
+            get
+            {
+                return _whoAmI;
+            }
+            set
+            {
+                _whoAmI = value;
             }
         }
     
@@ -449,8 +491,10 @@ namespace AindForceForagingDataSchema.Rig
     
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
-            stringBuilder.Append("who_am_i = " + _whoAmI + ", ");
             stringBuilder.Append("device_type = " + _deviceType + ", ");
+            stringBuilder.Append("additional_settings = " + _additionalSettings + ", ");
+            stringBuilder.Append("calibration = " + _calibration + ", ");
+            stringBuilder.Append("who_am_i = " + _whoAmI + ", ");
             stringBuilder.Append("serial_number = " + _serialNumber + ", ");
             stringBuilder.Append("port_name = " + _portName);
             return true;
@@ -477,9 +521,13 @@ namespace AindForceForagingDataSchema.Rig
     public partial class HarpBehavior
     {
     
-        private int _whoAmI = 1216;
-    
         private string _deviceType = "behavior";
+    
+        private BaseModel _additionalSettings;
+    
+        private BaseModel _calibration;
+    
+        private int _whoAmI = 1216;
     
         private string _serialNumber;
     
@@ -491,23 +539,12 @@ namespace AindForceForagingDataSchema.Rig
     
         protected HarpBehavior(HarpBehavior other)
         {
-            _whoAmI = other._whoAmI;
             _deviceType = other._deviceType;
+            _additionalSettings = other._additionalSettings;
+            _calibration = other._calibration;
+            _whoAmI = other._whoAmI;
             _serialNumber = other._serialNumber;
             _portName = other._portName;
-        }
-    
-        [Newtonsoft.Json.JsonPropertyAttribute("who_am_i")]
-        public int WhoAmI
-        {
-            get
-            {
-                return _whoAmI;
-            }
-            set
-            {
-                _whoAmI = value;
-            }
         }
     
         [Newtonsoft.Json.JsonPropertyAttribute("device_type")]
@@ -520,6 +557,55 @@ namespace AindForceForagingDataSchema.Rig
             set
             {
                 _deviceType = value;
+            }
+        }
+    
+        /// <summary>
+        /// Additional settings
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("additional_settings")]
+        [System.ComponentModel.DescriptionAttribute("Additional settings")]
+        public BaseModel AdditionalSettings
+        {
+            get
+            {
+                return _additionalSettings;
+            }
+            set
+            {
+                _additionalSettings = value;
+            }
+        }
+    
+        /// <summary>
+        /// Calibration
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("calibration")]
+        [System.ComponentModel.DescriptionAttribute("Calibration")]
+        public BaseModel Calibration
+        {
+            get
+            {
+                return _calibration;
+            }
+            set
+            {
+                _calibration = value;
+            }
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("who_am_i")]
+        public int WhoAmI
+        {
+            get
+            {
+                return _whoAmI;
+            }
+            set
+            {
+                _whoAmI = value;
             }
         }
     
@@ -569,8 +655,10 @@ namespace AindForceForagingDataSchema.Rig
     
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
-            stringBuilder.Append("who_am_i = " + _whoAmI + ", ");
             stringBuilder.Append("device_type = " + _deviceType + ", ");
+            stringBuilder.Append("additional_settings = " + _additionalSettings + ", ");
+            stringBuilder.Append("calibration = " + _calibration + ", ");
+            stringBuilder.Append("who_am_i = " + _whoAmI + ", ");
             stringBuilder.Append("serial_number = " + _serialNumber + ", ");
             stringBuilder.Append("port_name = " + _portName);
             return true;
@@ -597,9 +685,13 @@ namespace AindForceForagingDataSchema.Rig
     public partial class HarpClockGenerator
     {
     
-        private int _whoAmI = 1158;
-    
         private string _deviceType = "clockgenerator";
+    
+        private BaseModel _additionalSettings;
+    
+        private BaseModel _calibration;
+    
+        private int _whoAmI = 1158;
     
         private string _serialNumber;
     
@@ -611,23 +703,12 @@ namespace AindForceForagingDataSchema.Rig
     
         protected HarpClockGenerator(HarpClockGenerator other)
         {
-            _whoAmI = other._whoAmI;
             _deviceType = other._deviceType;
+            _additionalSettings = other._additionalSettings;
+            _calibration = other._calibration;
+            _whoAmI = other._whoAmI;
             _serialNumber = other._serialNumber;
             _portName = other._portName;
-        }
-    
-        [Newtonsoft.Json.JsonPropertyAttribute("who_am_i")]
-        public int WhoAmI
-        {
-            get
-            {
-                return _whoAmI;
-            }
-            set
-            {
-                _whoAmI = value;
-            }
         }
     
         [Newtonsoft.Json.JsonPropertyAttribute("device_type")]
@@ -640,6 +721,55 @@ namespace AindForceForagingDataSchema.Rig
             set
             {
                 _deviceType = value;
+            }
+        }
+    
+        /// <summary>
+        /// Additional settings
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("additional_settings")]
+        [System.ComponentModel.DescriptionAttribute("Additional settings")]
+        public BaseModel AdditionalSettings
+        {
+            get
+            {
+                return _additionalSettings;
+            }
+            set
+            {
+                _additionalSettings = value;
+            }
+        }
+    
+        /// <summary>
+        /// Calibration
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("calibration")]
+        [System.ComponentModel.DescriptionAttribute("Calibration")]
+        public BaseModel Calibration
+        {
+            get
+            {
+                return _calibration;
+            }
+            set
+            {
+                _calibration = value;
+            }
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("who_am_i")]
+        public int WhoAmI
+        {
+            get
+            {
+                return _whoAmI;
+            }
+            set
+            {
+                _whoAmI = value;
             }
         }
     
@@ -689,8 +819,10 @@ namespace AindForceForagingDataSchema.Rig
     
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
-            stringBuilder.Append("who_am_i = " + _whoAmI + ", ");
             stringBuilder.Append("device_type = " + _deviceType + ", ");
+            stringBuilder.Append("additional_settings = " + _additionalSettings + ", ");
+            stringBuilder.Append("calibration = " + _calibration + ", ");
+            stringBuilder.Append("who_am_i = " + _whoAmI + ", ");
             stringBuilder.Append("serial_number = " + _serialNumber + ", ");
             stringBuilder.Append("port_name = " + _portName);
             return true;
@@ -717,9 +849,13 @@ namespace AindForceForagingDataSchema.Rig
     public partial class HarpLickometer
     {
     
-        private int _whoAmI = 1400;
-    
         private string _deviceType = "lickometer";
+    
+        private BaseModel _additionalSettings;
+    
+        private BaseModel _calibration;
+    
+        private int _whoAmI = 1400;
     
         private string _serialNumber;
     
@@ -731,23 +867,12 @@ namespace AindForceForagingDataSchema.Rig
     
         protected HarpLickometer(HarpLickometer other)
         {
-            _whoAmI = other._whoAmI;
             _deviceType = other._deviceType;
+            _additionalSettings = other._additionalSettings;
+            _calibration = other._calibration;
+            _whoAmI = other._whoAmI;
             _serialNumber = other._serialNumber;
             _portName = other._portName;
-        }
-    
-        [Newtonsoft.Json.JsonPropertyAttribute("who_am_i")]
-        public int WhoAmI
-        {
-            get
-            {
-                return _whoAmI;
-            }
-            set
-            {
-                _whoAmI = value;
-            }
         }
     
         [Newtonsoft.Json.JsonPropertyAttribute("device_type")]
@@ -760,6 +885,55 @@ namespace AindForceForagingDataSchema.Rig
             set
             {
                 _deviceType = value;
+            }
+        }
+    
+        /// <summary>
+        /// Additional settings
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("additional_settings")]
+        [System.ComponentModel.DescriptionAttribute("Additional settings")]
+        public BaseModel AdditionalSettings
+        {
+            get
+            {
+                return _additionalSettings;
+            }
+            set
+            {
+                _additionalSettings = value;
+            }
+        }
+    
+        /// <summary>
+        /// Calibration
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("calibration")]
+        [System.ComponentModel.DescriptionAttribute("Calibration")]
+        public BaseModel Calibration
+        {
+            get
+            {
+                return _calibration;
+            }
+            set
+            {
+                _calibration = value;
+            }
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("who_am_i")]
+        public int WhoAmI
+        {
+            get
+            {
+                return _whoAmI;
+            }
+            set
+            {
+                _whoAmI = value;
             }
         }
     
@@ -809,8 +983,10 @@ namespace AindForceForagingDataSchema.Rig
     
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
-            stringBuilder.Append("who_am_i = " + _whoAmI + ", ");
             stringBuilder.Append("device_type = " + _deviceType + ", ");
+            stringBuilder.Append("additional_settings = " + _additionalSettings + ", ");
+            stringBuilder.Append("calibration = " + _calibration + ", ");
+            stringBuilder.Append("who_am_i = " + _whoAmI + ", ");
             stringBuilder.Append("serial_number = " + _serialNumber + ", ");
             stringBuilder.Append("port_name = " + _portName);
             return true;
@@ -837,9 +1013,13 @@ namespace AindForceForagingDataSchema.Rig
     public partial class HarpLoadCells
     {
     
-        private int _whoAmI = 1232;
-    
         private string _deviceType = "loadcells";
+    
+        private BaseModel _additionalSettings;
+    
+        private BaseModel _calibration;
+    
+        private int _whoAmI = 1232;
     
         private string _serialNumber;
     
@@ -851,23 +1031,12 @@ namespace AindForceForagingDataSchema.Rig
     
         protected HarpLoadCells(HarpLoadCells other)
         {
-            _whoAmI = other._whoAmI;
             _deviceType = other._deviceType;
+            _additionalSettings = other._additionalSettings;
+            _calibration = other._calibration;
+            _whoAmI = other._whoAmI;
             _serialNumber = other._serialNumber;
             _portName = other._portName;
-        }
-    
-        [Newtonsoft.Json.JsonPropertyAttribute("who_am_i")]
-        public int WhoAmI
-        {
-            get
-            {
-                return _whoAmI;
-            }
-            set
-            {
-                _whoAmI = value;
-            }
         }
     
         [Newtonsoft.Json.JsonPropertyAttribute("device_type")]
@@ -880,6 +1049,55 @@ namespace AindForceForagingDataSchema.Rig
             set
             {
                 _deviceType = value;
+            }
+        }
+    
+        /// <summary>
+        /// Additional settings
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("additional_settings")]
+        [System.ComponentModel.DescriptionAttribute("Additional settings")]
+        public BaseModel AdditionalSettings
+        {
+            get
+            {
+                return _additionalSettings;
+            }
+            set
+            {
+                _additionalSettings = value;
+            }
+        }
+    
+        /// <summary>
+        /// Calibration
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("calibration")]
+        [System.ComponentModel.DescriptionAttribute("Calibration")]
+        public BaseModel Calibration
+        {
+            get
+            {
+                return _calibration;
+            }
+            set
+            {
+                _calibration = value;
+            }
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("who_am_i")]
+        public int WhoAmI
+        {
+            get
+            {
+                return _whoAmI;
+            }
+            set
+            {
+                _whoAmI = value;
             }
         }
     
@@ -929,8 +1147,10 @@ namespace AindForceForagingDataSchema.Rig
     
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
-            stringBuilder.Append("who_am_i = " + _whoAmI + ", ");
             stringBuilder.Append("device_type = " + _deviceType + ", ");
+            stringBuilder.Append("additional_settings = " + _additionalSettings + ", ");
+            stringBuilder.Append("calibration = " + _calibration + ", ");
+            stringBuilder.Append("who_am_i = " + _whoAmI + ", ");
             stringBuilder.Append("serial_number = " + _serialNumber + ", ");
             stringBuilder.Append("port_name = " + _portName);
             return true;
@@ -957,9 +1177,13 @@ namespace AindForceForagingDataSchema.Rig
     public partial class HarpOlfactometer
     {
     
-        private int _whoAmI = 1140;
-    
         private string _deviceType = "olfactometer";
+    
+        private BaseModel _additionalSettings;
+    
+        private BaseModel _calibration;
+    
+        private int _whoAmI = 1140;
     
         private string _serialNumber;
     
@@ -971,23 +1195,12 @@ namespace AindForceForagingDataSchema.Rig
     
         protected HarpOlfactometer(HarpOlfactometer other)
         {
-            _whoAmI = other._whoAmI;
             _deviceType = other._deviceType;
+            _additionalSettings = other._additionalSettings;
+            _calibration = other._calibration;
+            _whoAmI = other._whoAmI;
             _serialNumber = other._serialNumber;
             _portName = other._portName;
-        }
-    
-        [Newtonsoft.Json.JsonPropertyAttribute("who_am_i")]
-        public int WhoAmI
-        {
-            get
-            {
-                return _whoAmI;
-            }
-            set
-            {
-                _whoAmI = value;
-            }
         }
     
         [Newtonsoft.Json.JsonPropertyAttribute("device_type")]
@@ -1000,6 +1213,55 @@ namespace AindForceForagingDataSchema.Rig
             set
             {
                 _deviceType = value;
+            }
+        }
+    
+        /// <summary>
+        /// Additional settings
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("additional_settings")]
+        [System.ComponentModel.DescriptionAttribute("Additional settings")]
+        public BaseModel AdditionalSettings
+        {
+            get
+            {
+                return _additionalSettings;
+            }
+            set
+            {
+                _additionalSettings = value;
+            }
+        }
+    
+        /// <summary>
+        /// Calibration
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("calibration")]
+        [System.ComponentModel.DescriptionAttribute("Calibration")]
+        public BaseModel Calibration
+        {
+            get
+            {
+                return _calibration;
+            }
+            set
+            {
+                _calibration = value;
+            }
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("who_am_i")]
+        public int WhoAmI
+        {
+            get
+            {
+                return _whoAmI;
+            }
+            set
+            {
+                _whoAmI = value;
             }
         }
     
@@ -1049,8 +1311,10 @@ namespace AindForceForagingDataSchema.Rig
     
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
-            stringBuilder.Append("who_am_i = " + _whoAmI + ", ");
             stringBuilder.Append("device_type = " + _deviceType + ", ");
+            stringBuilder.Append("additional_settings = " + _additionalSettings + ", ");
+            stringBuilder.Append("calibration = " + _calibration + ", ");
+            stringBuilder.Append("who_am_i = " + _whoAmI + ", ");
             stringBuilder.Append("serial_number = " + _serialNumber + ", ");
             stringBuilder.Append("port_name = " + _portName);
             return true;
@@ -1077,9 +1341,13 @@ namespace AindForceForagingDataSchema.Rig
     public partial class HarpSniffDetector
     {
     
-        private int _whoAmI = 1401;
-    
         private string _deviceType = "sniffdetector";
+    
+        private BaseModel _additionalSettings;
+    
+        private BaseModel _calibration;
+    
+        private int _whoAmI = 1401;
     
         private string _serialNumber;
     
@@ -1091,23 +1359,12 @@ namespace AindForceForagingDataSchema.Rig
     
         protected HarpSniffDetector(HarpSniffDetector other)
         {
-            _whoAmI = other._whoAmI;
             _deviceType = other._deviceType;
+            _additionalSettings = other._additionalSettings;
+            _calibration = other._calibration;
+            _whoAmI = other._whoAmI;
             _serialNumber = other._serialNumber;
             _portName = other._portName;
-        }
-    
-        [Newtonsoft.Json.JsonPropertyAttribute("who_am_i")]
-        public int WhoAmI
-        {
-            get
-            {
-                return _whoAmI;
-            }
-            set
-            {
-                _whoAmI = value;
-            }
         }
     
         [Newtonsoft.Json.JsonPropertyAttribute("device_type")]
@@ -1120,6 +1377,55 @@ namespace AindForceForagingDataSchema.Rig
             set
             {
                 _deviceType = value;
+            }
+        }
+    
+        /// <summary>
+        /// Additional settings
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("additional_settings")]
+        [System.ComponentModel.DescriptionAttribute("Additional settings")]
+        public BaseModel AdditionalSettings
+        {
+            get
+            {
+                return _additionalSettings;
+            }
+            set
+            {
+                _additionalSettings = value;
+            }
+        }
+    
+        /// <summary>
+        /// Calibration
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("calibration")]
+        [System.ComponentModel.DescriptionAttribute("Calibration")]
+        public BaseModel Calibration
+        {
+            get
+            {
+                return _calibration;
+            }
+            set
+            {
+                _calibration = value;
+            }
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("who_am_i")]
+        public int WhoAmI
+        {
+            get
+            {
+                return _whoAmI;
+            }
+            set
+            {
+                _whoAmI = value;
             }
         }
     
@@ -1169,8 +1475,10 @@ namespace AindForceForagingDataSchema.Rig
     
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
-            stringBuilder.Append("who_am_i = " + _whoAmI + ", ");
             stringBuilder.Append("device_type = " + _deviceType + ", ");
+            stringBuilder.Append("additional_settings = " + _additionalSettings + ", ");
+            stringBuilder.Append("calibration = " + _calibration + ", ");
+            stringBuilder.Append("who_am_i = " + _whoAmI + ", ");
             stringBuilder.Append("serial_number = " + _serialNumber + ", ");
             stringBuilder.Append("port_name = " + _portName);
             return true;
@@ -2285,6 +2593,10 @@ namespace AindForceForagingDataSchema.Rig
     
         private string _textureAssetsDirectory = "Textures";
     
+        private double _brightness = 1D;
+    
+        private double _contrast = 1D;
+    
         public Screen()
         {
         }
@@ -2299,6 +2611,8 @@ namespace AindForceForagingDataSchema.Rig
             _targetUpdateFrequency = other._targetUpdateFrequency;
             _calibrationDirectory = other._calibrationDirectory;
             _textureAssetsDirectory = other._textureAssetsDirectory;
+            _brightness = other._brightness;
+            _contrast = other._contrast;
         }
     
         /// <summary>
@@ -2439,6 +2753,40 @@ namespace AindForceForagingDataSchema.Rig
             }
         }
     
+        /// <summary>
+        /// Brightness
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("brightness")]
+        [System.ComponentModel.DescriptionAttribute("Brightness")]
+        public double Brightness
+        {
+            get
+            {
+                return _brightness;
+            }
+            set
+            {
+                _brightness = value;
+            }
+        }
+    
+        /// <summary>
+        /// Contrast
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("contrast")]
+        [System.ComponentModel.DescriptionAttribute("Contrast")]
+        public double Contrast
+        {
+            get
+            {
+                return _contrast;
+            }
+            set
+            {
+                _contrast = value;
+            }
+        }
+    
         public System.IObservable<Screen> Process()
         {
             return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new Screen(this)));
@@ -2458,7 +2806,9 @@ namespace AindForceForagingDataSchema.Rig
             stringBuilder.Append("target_render_frequency = " + _targetRenderFrequency + ", ");
             stringBuilder.Append("target_update_frequency = " + _targetUpdateFrequency + ", ");
             stringBuilder.Append("calibration_directory = " + _calibrationDirectory + ", ");
-            stringBuilder.Append("texture_assets_directory = " + _textureAssetsDirectory);
+            stringBuilder.Append("texture_assets_directory = " + _textureAssetsDirectory + ", ");
+            stringBuilder.Append("brightness = " + _brightness + ", ");
+            stringBuilder.Append("contrast = " + _contrast);
             return true;
         }
     
@@ -2771,7 +3121,7 @@ namespace AindForceForagingDataSchema.Rig
     
         private string _containerExtension = "mp4";
     
-        private string _outputArguments = "-c:v h264_nvenc -vsync 0 -2pass 1 -bf:v 0 -qp 13-preset medium -b:v 20M -rc:v cbr";
+        private string _outputArguments = "-c:v h264_nvenc -vsync 0 -2pass 1 -bf:v 0 -qp 13 -preset medium -b:v 20M -rc:v cbr";
     
         public VideoWriterFfmpeg()
         {
