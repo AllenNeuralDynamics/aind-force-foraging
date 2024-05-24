@@ -442,132 +442,6 @@
       "title": "HarpLoadCells",
       "type": "object"
     },
-    "HarpOlfactometer": {
-      "properties": {
-        "device_type": {
-          "const": "olfactometer",
-          "default": "olfactometer",
-          "title": "Device Type",
-          "type": "string"
-        },
-        "additional_settings": {
-          "default": null,
-          "description": "Additional settings",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/BaseModel"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "calibration": {
-          "default": null,
-          "description": "Calibration",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/BaseModel"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "who_am_i": {
-          "const": 1140,
-          "default": 1140,
-          "title": "Who Am I",
-          "type": "integer"
-        },
-        "serial_number": {
-          "default": null,
-          "description": "Device serial number",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Serial Number"
-        },
-        "port_name": {
-          "description": "Device port name",
-          "title": "Port Name",
-          "type": "string"
-        }
-      },
-      "required": [
-        "port_name"
-      ],
-      "title": "HarpOlfactometer",
-      "type": "object"
-    },
-    "HarpSniffDetector": {
-      "properties": {
-        "device_type": {
-          "const": "sniffdetector",
-          "default": "sniffdetector",
-          "title": "Device Type",
-          "type": "string"
-        },
-        "additional_settings": {
-          "default": null,
-          "description": "Additional settings",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/BaseModel"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "calibration": {
-          "default": null,
-          "description": "Calibration",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/BaseModel"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "who_am_i": {
-          "const": 1401,
-          "default": 1401,
-          "title": "Who Am I",
-          "type": "integer"
-        },
-        "serial_number": {
-          "default": null,
-          "description": "Device serial number",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Serial Number"
-        },
-        "port_name": {
-          "description": "Device port name",
-          "title": "Port Name",
-          "type": "string"
-        }
-      },
-      "required": [
-        "port_name"
-      ],
-      "title": "HarpSniffDetector",
-      "type": "object"
-    },
     "LoadCellCalibration": {
       "properties": {
         "measured_offset": {
@@ -1432,8 +1306,8 @@
   },
   "properties": {
     "version": {
-      "const": "0.2.0",
-      "default": "0.2.0",
+      "const": "0.1.0",
+      "default": "0.1.0",
       "title": "Version",
       "type": "string"
     },
@@ -1474,30 +1348,6 @@
         }
       ],
       "description": "Harp behavior"
-    },
-    "harp_olfactometer": {
-      "default": null,
-      "description": "Harp olfactometer",
-      "oneOf": [
-        {
-          "$ref": "#/definitions/HarpOlfactometer"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "harp_sniff_detector": {
-      "default": null,
-      "description": "Harp sniff detector",
-      "oneOf": [
-        {
-          "$ref": "#/definitions/HarpSniffDetector"
-        },
-        {
-          "type": "null"
-        }
-      ]
     },
     "harp_lickometer": {
       "allOf": [

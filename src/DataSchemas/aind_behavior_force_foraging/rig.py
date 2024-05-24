@@ -11,7 +11,7 @@ import aind_behavior_services.rig as rig
 from aind_behavior_services.rig import AindBehaviorRigModel
 from pydantic import BaseModel, Field
 
-__version__ = "0.2.0"
+__version__ = "0.1.0"
 
 
 class RigCalibration(BaseModel):
@@ -29,8 +29,6 @@ class AindForceForagingRig(AindBehaviorRigModel):
         default=None, description="Optional camera controller for monitoring cameras."
     )
     harp_behavior: rig.HarpBehavior = Field(..., description="Harp behavior")
-    harp_olfactometer: Optional[rig.HarpOlfactometer] = Field(None, description="Harp olfactometer")
-    harp_sniff_detector: Optional[rig.HarpSniffDetector] = Field(None, description="Harp sniff detector")
     harp_lickometer: rig.HarpLickometer = Field(..., description="Harp lickometer")
     harp_load_cells: rig.HarpLoadCells = Field(..., description="Harp load cells")
     harp_clock_generator: rig.HarpClockGenerator = Field(..., description="Harp clock generator")
