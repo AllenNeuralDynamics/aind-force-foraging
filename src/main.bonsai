@@ -2720,7 +2720,7 @@
                         <Expression xsi:type="MemberSelector">
                           <Selector>RightHarvest</Selector>
                         </Expression>
-                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\FilterNotNull.bonsai" />
+                        <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:FilterNotNull.bonsai" />
                         <Expression xsi:type="IncludeWorkflow" Path="Extensions\UpdateAction.bonsai" />
                         <Expression xsi:type="rx:AsyncSubject">
                           <Name>RightAction</Name>
@@ -2731,7 +2731,7 @@
                         <Expression xsi:type="MemberSelector">
                           <Selector>LeftHarvest</Selector>
                         </Expression>
-                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\FilterNotNull.bonsai" />
+                        <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:FilterNotNull.bonsai" />
                         <Expression xsi:type="IncludeWorkflow" Path="Extensions\UpdateAction.bonsai" />
                         <Expression xsi:type="rx:AsyncSubject">
                           <Name>LeftAction</Name>
