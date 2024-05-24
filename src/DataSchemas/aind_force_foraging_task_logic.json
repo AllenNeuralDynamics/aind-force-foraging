@@ -50,6 +50,73 @@
       "title": "ActionUpdater",
       "type": "object"
     },
+    "AindForceForagingTaskParameters": {
+      "additionalProperties": true,
+      "properties": {
+        "rng_seed": {
+          "default": null,
+          "description": "Seed of the random number generator",
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Rng Seed"
+        },
+        "stage_alias": {
+          "default": null,
+          "description": "Alias name used for the task stage",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Stage Alias"
+        },
+        "environment": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Environment"
+            }
+          ],
+          "description": "Environment settings"
+        },
+        "updaters": {
+          "additionalProperties": {
+            "$ref": "#/definitions/NumericalUpdater"
+          },
+          "description": "List of numerical updaters",
+          "title": "Updaters",
+          "type": "object"
+        },
+        "operation_control": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/OperationControl"
+            }
+          ],
+          "default": {
+            "force": {
+              "left_index": 0,
+              "press_mode": "Double",
+              "right_index": 1
+            }
+          },
+          "description": "Operation control"
+        }
+      },
+      "required": [
+        "environment"
+      ],
+      "title": "AindForceForagingTaskParameters",
+      "type": "object"
+    },
     "BetaDistribution": {
       "properties": {
         "family": {
@@ -364,6 +431,7 @@
       "type": "object"
     },
     "Distribution": {
+      "description": "Available distributions",
       "discriminator": {
         "mapping": {
           "Beta": "#/definitions/BetaDistribution",
@@ -1445,47 +1513,37 @@
       "type": "string"
     }
   },
+  "additionalProperties": false,
   "properties": {
-    "schema_version": {
-      "const": "0.1.0-preview01",
-      "default": "0.1.0-preview01",
-      "title": "Schema Version",
+    "name": {
+      "default": "AindForceForaging",
+      "description": "Name of the task logic",
+      "title": "Name",
       "type": "string"
     },
-    "environment": {
+    "description": {
+      "default": "",
+      "description": "Description of the task.",
+      "title": "Description",
+      "type": "string"
+    },
+    "version": {
+      "const": "0.1.0-preview01",
+      "default": "0.1.0-preview01",
+      "title": "Version",
+      "type": "string"
+    },
+    "task_parameters": {
       "allOf": [
         {
-          "$ref": "#/definitions/Environment"
+          "$ref": "#/definitions/AindForceForagingTaskParameters"
         }
       ],
-      "description": "Environment settings"
-    },
-    "updaters": {
-      "additionalProperties": {
-        "$ref": "#/definitions/NumericalUpdater"
-      },
-      "description": "List of numerical updaters",
-      "title": "Updaters",
-      "type": "object"
-    },
-    "operation_control": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/OperationControl"
-        }
-      ],
-      "default": {
-        "force": {
-          "left_index": 0,
-          "press_mode": "Double",
-          "right_index": 1
-        }
-      },
-      "description": "Operation control"
+      "description": "Parameters of the task logic"
     }
   },
   "required": [
-    "environment"
+    "task_parameters"
   ],
   "title": "AindForceForagingTaskLogic",
   "type": "object"

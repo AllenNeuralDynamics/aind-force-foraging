@@ -122,6 +122,159 @@ namespace AindForceForagingDataSchema.TaskLogic
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    public partial class AindForceForagingTaskParameters
+    {
+    
+        private double? _rngSeed;
+    
+        private string _stageAlias;
+    
+        private Environment _environment = new Environment();
+    
+        private System.Collections.Generic.IDictionary<string, NumericalUpdater> _updaters;
+    
+        private OperationControl _operationControl;
+    
+        public AindForceForagingTaskParameters()
+        {
+        }
+    
+        protected AindForceForagingTaskParameters(AindForceForagingTaskParameters other)
+        {
+            _rngSeed = other._rngSeed;
+            _stageAlias = other._stageAlias;
+            _environment = other._environment;
+            _updaters = other._updaters;
+            _operationControl = other._operationControl;
+        }
+    
+        /// <summary>
+        /// Seed of the random number generator
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("rng_seed")]
+        [System.ComponentModel.DescriptionAttribute("Seed of the random number generator")]
+        public double? RngSeed
+        {
+            get
+            {
+                return _rngSeed;
+            }
+            set
+            {
+                _rngSeed = value;
+            }
+        }
+    
+        /// <summary>
+        /// Alias name used for the task stage
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("stage_alias")]
+        [System.ComponentModel.DescriptionAttribute("Alias name used for the task stage")]
+        public string StageAlias
+        {
+            get
+            {
+                return _stageAlias;
+            }
+            set
+            {
+                _stageAlias = value;
+            }
+        }
+    
+        /// <summary>
+        /// Environment settings
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("environment", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("Environment settings")]
+        public Environment Environment
+        {
+            get
+            {
+                return _environment;
+            }
+            set
+            {
+                _environment = value;
+            }
+        }
+    
+        /// <summary>
+        /// List of numerical updaters
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("updaters")]
+        [System.ComponentModel.DescriptionAttribute("List of numerical updaters")]
+        public System.Collections.Generic.IDictionary<string, NumericalUpdater> Updaters
+        {
+            get
+            {
+                return _updaters;
+            }
+            set
+            {
+                _updaters = value;
+            }
+        }
+    
+        /// <summary>
+        /// Operation control
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("operation_control")]
+        [System.ComponentModel.DescriptionAttribute("Operation control")]
+        public OperationControl OperationControl
+        {
+            get
+            {
+                return _operationControl;
+            }
+            set
+            {
+                _operationControl = value;
+            }
+        }
+    
+        public System.IObservable<AindForceForagingTaskParameters> Process()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new AindForceForagingTaskParameters(this)));
+        }
+    
+        public System.IObservable<AindForceForagingTaskParameters> Process<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new AindForceForagingTaskParameters(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("rng_seed = " + _rngSeed + ", ");
+            stringBuilder.Append("stage_alias = " + _stageAlias + ", ");
+            stringBuilder.Append("environment = " + _environment + ", ");
+            stringBuilder.Append("updaters = " + _updaters + ", ");
+            stringBuilder.Append("operation_control = " + _operationControl);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Bonsai.CombinatorAttribute()]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     public partial class BetaDistribution : Distribution
     {
     
@@ -902,6 +1055,9 @@ namespace AindForceForagingDataSchema.TaskLogic
     }
 
 
+    /// <summary>
+    /// Available distributions
+    /// </summary>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Newtonsoft.Json.JsonConverter(typeof(JsonInheritanceConverter), "family")]
     [JsonInheritanceAttribute("Scalar", typeof(Scalar))]
@@ -913,6 +1069,7 @@ namespace AindForceForagingDataSchema.TaskLogic
     [JsonInheritanceAttribute("Binomial", typeof(BinomialDistribution))]
     [JsonInheritanceAttribute("Beta", typeof(BetaDistribution))]
     [JsonInheritanceAttribute("Gamma", typeof(GammaDistribution))]
+    [System.ComponentModel.DescriptionAttribute("Available distributions")]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     public partial class Distribution
@@ -3952,13 +4109,13 @@ namespace AindForceForagingDataSchema.TaskLogic
     public partial class AindForceForagingTaskLogic
     {
     
-        private string _schemaVersion = "0.1.0-preview01";
+        private string _name = "AindForceForaging";
     
-        private Environment _environment = new Environment();
+        private string _description = "";
     
-        private System.Collections.Generic.IDictionary<string, NumericalUpdater> _updaters;
+        private string _version = "0.1.0-preview01";
     
-        private OperationControl _operationControl;
+        private AindForceForagingTaskParameters _taskParameters = new AindForceForagingTaskParameters();
     
         public AindForceForagingTaskLogic()
         {
@@ -3966,76 +4123,74 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         protected AindForceForagingTaskLogic(AindForceForagingTaskLogic other)
         {
-            _schemaVersion = other._schemaVersion;
-            _environment = other._environment;
-            _updaters = other._updaters;
-            _operationControl = other._operationControl;
+            _name = other._name;
+            _description = other._description;
+            _version = other._version;
+            _taskParameters = other._taskParameters;
         }
     
-        [Newtonsoft.Json.JsonPropertyAttribute("schema_version")]
-        public string SchemaVersion
+        /// <summary>
+        /// Name of the task logic
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("name")]
+        [System.ComponentModel.DescriptionAttribute("Name of the task logic")]
+        public string Name
         {
             get
             {
-                return _schemaVersion;
+                return _name;
             }
             set
             {
-                _schemaVersion = value;
+                _name = value;
             }
         }
     
         /// <summary>
-        /// Environment settings
+        /// Description of the task.
         /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("environment", Required=Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DescriptionAttribute("Environment settings")]
-        public Environment Environment
+        [Newtonsoft.Json.JsonPropertyAttribute("description")]
+        [System.ComponentModel.DescriptionAttribute("Description of the task.")]
+        public string Description
         {
             get
             {
-                return _environment;
+                return _description;
             }
             set
             {
-                _environment = value;
+                _description = value;
+            }
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("version")]
+        public string Version
+        {
+            get
+            {
+                return _version;
+            }
+            set
+            {
+                _version = value;
             }
         }
     
         /// <summary>
-        /// List of numerical updaters
+        /// Parameters of the task logic
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("updaters")]
-        [System.ComponentModel.DescriptionAttribute("List of numerical updaters")]
-        public System.Collections.Generic.IDictionary<string, NumericalUpdater> Updaters
+        [Newtonsoft.Json.JsonPropertyAttribute("task_parameters", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("Parameters of the task logic")]
+        public AindForceForagingTaskParameters TaskParameters
         {
             get
             {
-                return _updaters;
+                return _taskParameters;
             }
             set
             {
-                _updaters = value;
-            }
-        }
-    
-        /// <summary>
-        /// Operation control
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("operation_control")]
-        [System.ComponentModel.DescriptionAttribute("Operation control")]
-        public OperationControl OperationControl
-        {
-            get
-            {
-                return _operationControl;
-            }
-            set
-            {
-                _operationControl = value;
+                _taskParameters = value;
             }
         }
     
@@ -4051,10 +4206,10 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
-            stringBuilder.Append("schema_version = " + _schemaVersion + ", ");
-            stringBuilder.Append("environment = " + _environment + ", ");
-            stringBuilder.Append("updaters = " + _updaters + ", ");
-            stringBuilder.Append("operation_control = " + _operationControl);
+            stringBuilder.Append("name = " + _name + ", ");
+            stringBuilder.Append("description = " + _description + ", ");
+            stringBuilder.Append("version = " + _version + ", ");
+            stringBuilder.Append("task_parameters = " + _taskParameters);
             return true;
         }
     
@@ -4408,6 +4563,11 @@ namespace AindForceForagingDataSchema.TaskLogic
             return Process<ActionUpdater>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<AindForceForagingTaskParameters> source)
+        {
+            return Process<AindForceForagingTaskParameters>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<BetaDistribution> source)
         {
             return Process<BetaDistribution>(source);
@@ -4608,6 +4768,7 @@ namespace AindForceForagingDataSchema.TaskLogic
     [System.ComponentModel.DefaultPropertyAttribute("Type")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Transform)]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ActionUpdater>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AindForceForagingTaskParameters>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BetaDistribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BetaDistributionParameters>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BinomialDistribution>))]

@@ -6,7 +6,7 @@ from typing import Annotated, Dict, List, Literal, Optional, Self, Union
 
 import aind_behavior_services.task_logic.distributions as distributions
 from aind_behavior_force_foraging import __version__
-from aind_behavior_services.task_logic import AindBehaviorTaskLogicModel
+from aind_behavior_services.task_logic import AindBehaviorTaskLogicModel, TaskParameters
 from pydantic import BaseModel, Field, RootModel, model_validator
 
 MAX_LOAD_CELL_FORCE = 32768
@@ -145,7 +145,7 @@ class HarvestAction(BaseModel):
     time_to_collect: Optional[float] = Field(
         default=None,
         ge=0,
-        description="Time to collect the reward after it is available. If null, the reward will be available indefinitely.",
+        description="Time to collect the reward after it is available. If null, the reward will be available indefinitely.",  # noqa
     )
     action_updaters: List[ActionUpdater] = Field(
         [], description="List of action updaters. All updaters are called at the start of a new trial."
@@ -155,7 +155,7 @@ class HarvestAction(BaseModel):
     def check_passwords_match(self) -> Self:
         if self.upper_force_threshold < self.lower_force_threshold:
             raise ValueError(
-                f"Upper force threshold ({self.upper_force_threshold}) must be greater than lower force threshold({self.lower_force_threshold})"
+                f"Upper force threshold ({self.upper_force_threshold}) must be greater than lower force threshold({self.lower_force_threshold})"  # noqa
             )
         return self
 
@@ -288,12 +288,11 @@ class ForceOperationControl(BaseModel):
 
 class OperationControl(BaseModel):
     force: ForceOperationControl = Field(
-        ForceOperationControl(), validate_default=True, description="Operation control for force sensor"
+        default=ForceOperationControl(), validate_default=True, description="Operation control for force sensor"
     )
 
 
-class AindForceForagingTaskLogic(AindBehaviorTaskLogicModel):
-    schema_version: Literal[__version__] = __version__
+class AindForceForagingTaskParameters(TaskParameters):
     environment: Environment = Field(..., description="Environment settings")
     updaters: Dict[str, NumericalUpdater] = Field(default_factory=dict, description="List of numerical updaters")
     operation_control: OperationControl = Field(
@@ -301,5 +300,7 @@ class AindForceForagingTaskLogic(AindBehaviorTaskLogicModel):
     )
 
 
-def schema() -> BaseModel:
-    return AindForceForagingTaskLogic
+class AindForceForagingTaskLogic(AindBehaviorTaskLogicModel):
+    version: Literal[__version__] = __version__
+    name: str = Field(default="AindForceForaging", description="Name of the task logic", frozen=True)
+    task_parameters: AindForceForagingTaskParameters = Field(..., description="Parameters of the task logic")

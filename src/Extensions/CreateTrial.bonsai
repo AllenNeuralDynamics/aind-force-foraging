@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.8.1"
+<WorkflowBuilder Version="2.8.2"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:p1="clr-namespace:System.Reactive;assembly=System.Reactive.Core"
@@ -38,7 +38,8 @@
                 <p2:Amount>1</p2:Amount>
                 <p2:Delay>0</p2:Delay>
                 <p2:ForceDuration>0.5</p2:ForceDuration>
-                <p2:ForceThreshold>5000</p2:ForceThreshold>
+                <p2:UpperForceThreshold>32768</p2:UpperForceThreshold>
+                <p2:LowerForceThreshold>5000</p2:LowerForceThreshold>
                 <p2:IsOperant>true</p2:IsOperant>
               </Combinator>
             </Expression>
@@ -220,7 +221,7 @@
                   <Expression xsi:type="SubscribeSubject">
                     <Name>ThisPeriod</Name>
                   </Expression>
-                  <Expression xsi:type="IncludeWorkflow" Path="Extensions\FilterNotNull.bonsai" />
+                  <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:FilterNotNull.bonsai" />
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:SubscribeWhen" />
                   </Expression>
@@ -502,7 +503,7 @@
                         <Expression xsi:type="MemberSelector">
                           <Selector>LeftHarvest</Selector>
                         </Expression>
-                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\FilterNotNull.bonsai" />
+                        <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:FilterNotNull.bonsai" />
                         <Expression xsi:type="IncludeWorkflow" Path="Extensions\CalculateReward.bonsai" />
                         <Expression xsi:type="MemberSelector">
                           <Selector>HasValue</Selector>
@@ -543,7 +544,7 @@
                         <Expression xsi:type="MemberSelector">
                           <Selector>RightHarvest</Selector>
                         </Expression>
-                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\FilterNotNull.bonsai" />
+                        <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:FilterNotNull.bonsai" />
                         <Expression xsi:type="IncludeWorkflow" Path="Extensions\CalculateReward.bonsai" />
                         <Expression xsi:type="MemberSelector">
                           <Selector>HasValue</Selector>
@@ -728,7 +729,8 @@
                       <p2:Amount>0</p2:Amount>
                       <p2:Delay>0</p2:Delay>
                       <p2:ForceDuration>0</p2:ForceDuration>
-                      <p2:ForceThreshold>0</p2:ForceThreshold>
+                      <p2:UpperForceThreshold>32768</p2:UpperForceThreshold>
+                      <p2:LowerForceThreshold>5000</p2:LowerForceThreshold>
                       <p2:IsOperant>false</p2:IsOperant>
                     </Combinator>
                   </Expression>
@@ -746,7 +748,7 @@
                   <Expression xsi:type="MemberSelector">
                     <Selector>LeftHarvest</Selector>
                   </Expression>
-                  <Expression xsi:type="IncludeWorkflow" Path="Extensions\FilterNotNull.bonsai" />
+                  <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:FilterNotNull.bonsai" />
                   <Expression xsi:type="IncludeWorkflow" Path="Extensions\ObserveHarvestAction.bonsai" />
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:WithLatestFrom" />
@@ -805,7 +807,7 @@
                   <Expression xsi:type="MemberSelector">
                     <Selector>RightHarvest</Selector>
                   </Expression>
-                  <Expression xsi:type="IncludeWorkflow" Path="Extensions\FilterNotNull.bonsai" />
+                  <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:FilterNotNull.bonsai" />
                   <Expression xsi:type="IncludeWorkflow" Path="Extensions\ObserveHarvestAction.bonsai" />
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:WithLatestFrom" />
