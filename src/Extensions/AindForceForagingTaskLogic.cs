@@ -19,7 +19,7 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         private UpdateTargetParameterBy _updatedBy = AindForceForagingDataSchema.TaskLogic.UpdateTargetParameterBy.Time;
     
-        private NumericalUpdater _updater;
+        private NumericalUpdater _updater = new NumericalUpdater();
     
         public ActionUpdater()
         {
@@ -72,7 +72,7 @@ namespace AindForceForagingDataSchema.TaskLogic
         /// Updater
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("updater")]
+        [Newtonsoft.Json.JsonPropertyAttribute("updater", Required=Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DescriptionAttribute("Updater")]
         public NumericalUpdater Updater
         {
@@ -127,8 +127,6 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         private double? _rngSeed;
     
-        private string _stageAlias;
-    
         private Environment _environment = new Environment();
     
         private System.Collections.Generic.IDictionary<string, NumericalUpdater> _updaters;
@@ -142,7 +140,6 @@ namespace AindForceForagingDataSchema.TaskLogic
         protected AindForceForagingTaskParameters(AindForceForagingTaskParameters other)
         {
             _rngSeed = other._rngSeed;
-            _stageAlias = other._stageAlias;
             _environment = other._environment;
             _updaters = other._updaters;
             _operationControl = other._operationControl;
@@ -163,23 +160,6 @@ namespace AindForceForagingDataSchema.TaskLogic
             set
             {
                 _rngSeed = value;
-            }
-        }
-    
-        /// <summary>
-        /// Alias name used for the task stage
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("stage_alias")]
-        [System.ComponentModel.DescriptionAttribute("Alias name used for the task stage")]
-        public string StageAlias
-        {
-            get
-            {
-                return _stageAlias;
-            }
-            set
-            {
-                _stageAlias = value;
             }
         }
     
@@ -250,7 +230,6 @@ namespace AindForceForagingDataSchema.TaskLogic
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
             stringBuilder.Append("rng_seed = " + _rngSeed + ", ");
-            stringBuilder.Append("stage_alias = " + _stageAlias + ", ");
             stringBuilder.Append("environment = " + _environment + ", ");
             stringBuilder.Append("updaters = " + _updaters + ", ");
             stringBuilder.Append("operation_control = " + _operationControl);
@@ -3267,9 +3246,9 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         private ScalarDistributionParameter _distributionParameters;
     
-        private TruncationParameters _truncationParameters;
+        private TruncationParameters2 _truncationParameters;
     
-        private ScalingParameters _scalingParameters;
+        private ScalingParameters2 _scalingParameters;
     
         public Scalar()
         {
@@ -3301,13 +3280,9 @@ namespace AindForceForagingDataSchema.TaskLogic
             }
         }
     
-        /// <summary>
-        /// Truncation parameters of the distribution
-        /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("truncation_parameters")]
-        [System.ComponentModel.DescriptionAttribute("Truncation parameters of the distribution")]
-        public TruncationParameters TruncationParameters
+        public TruncationParameters2 TruncationParameters
         {
             get
             {
@@ -3319,13 +3294,9 @@ namespace AindForceForagingDataSchema.TaskLogic
             }
         }
     
-        /// <summary>
-        /// Scaling parameters of the distribution
-        /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("scaling_parameters")]
-        [System.ComponentModel.DescriptionAttribute("Scaling parameters of the distribution")]
-        public ScalingParameters ScalingParameters
+        public ScalingParameters2 ScalingParameters
         {
             get
             {
@@ -3371,10 +3342,6 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         private double _value = 0D;
     
-        private TruncationParameters2 _truncationParameters;
-    
-        private ScalingParameters2 _scalingParameters;
-    
         public ScalarDistributionParameter()
         {
         }
@@ -3383,8 +3350,6 @@ namespace AindForceForagingDataSchema.TaskLogic
         {
             _family = other._family;
             _value = other._value;
-            _truncationParameters = other._truncationParameters;
-            _scalingParameters = other._scalingParameters;
         }
     
         [Newtonsoft.Json.JsonPropertyAttribute("family")]
@@ -3417,34 +3382,6 @@ namespace AindForceForagingDataSchema.TaskLogic
             }
         }
     
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("truncation_parameters")]
-        public TruncationParameters2 TruncationParameters
-        {
-            get
-            {
-                return _truncationParameters;
-            }
-            set
-            {
-                _truncationParameters = value;
-            }
-        }
-    
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("scaling_parameters")]
-        public ScalingParameters2 ScalingParameters
-        {
-            get
-            {
-                return _scalingParameters;
-            }
-            set
-            {
-                _scalingParameters = value;
-            }
-        }
-    
         public System.IObservable<ScalarDistributionParameter> Process()
         {
             return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new ScalarDistributionParameter(this)));
@@ -3458,9 +3395,7 @@ namespace AindForceForagingDataSchema.TaskLogic
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
             stringBuilder.Append("family = " + _family + ", ");
-            stringBuilder.Append("value = " + _value + ", ");
-            stringBuilder.Append("truncation_parameters = " + _truncationParameters + ", ");
-            stringBuilder.Append("scaling_parameters = " + _scalingParameters);
+            stringBuilder.Append("value = " + _value);
             return true;
         }
     
@@ -4113,9 +4048,11 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         private string _description = "";
     
+        private AindForceForagingTaskParameters _taskParameters = new AindForceForagingTaskParameters();
+    
         private string _version = "0.1.0-preview01";
     
-        private AindForceForagingTaskParameters _taskParameters = new AindForceForagingTaskParameters();
+        private string _stageName;
     
         public AindForceForagingTaskLogic()
         {
@@ -4125,8 +4062,9 @@ namespace AindForceForagingDataSchema.TaskLogic
         {
             _name = other._name;
             _description = other._description;
-            _version = other._version;
             _taskParameters = other._taskParameters;
+            _version = other._version;
+            _stageName = other._stageName;
         }
     
         /// <summary>
@@ -4163,19 +4101,6 @@ namespace AindForceForagingDataSchema.TaskLogic
             }
         }
     
-        [Newtonsoft.Json.JsonPropertyAttribute("version")]
-        public string Version
-        {
-            get
-            {
-                return _version;
-            }
-            set
-            {
-                _version = value;
-            }
-        }
-    
         /// <summary>
         /// Parameters of the task logic
         /// </summary>
@@ -4194,6 +4119,36 @@ namespace AindForceForagingDataSchema.TaskLogic
             }
         }
     
+        [Newtonsoft.Json.JsonPropertyAttribute("version")]
+        public string Version
+        {
+            get
+            {
+                return _version;
+            }
+            set
+            {
+                _version = value;
+            }
+        }
+    
+        /// <summary>
+        /// Optional stage name the `Task` object instance represents.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("stage_name")]
+        [System.ComponentModel.DescriptionAttribute("Optional stage name the `Task` object instance represents.")]
+        public string StageName
+        {
+            get
+            {
+                return _stageName;
+            }
+            set
+            {
+                _stageName = value;
+            }
+        }
+    
         public System.IObservable<AindForceForagingTaskLogic> Process()
         {
             return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new AindForceForagingTaskLogic(this)));
@@ -4208,8 +4163,9 @@ namespace AindForceForagingDataSchema.TaskLogic
         {
             stringBuilder.Append("name = " + _name + ", ");
             stringBuilder.Append("description = " + _description + ", ");
+            stringBuilder.Append("task_parameters = " + _taskParameters + ", ");
             stringBuilder.Append("version = " + _version + ", ");
-            stringBuilder.Append("task_parameters = " + _taskParameters);
+            stringBuilder.Append("stage_name = " + _stageName);
             return true;
         }
     
