@@ -118,7 +118,7 @@ class ActionUpdater(BaseModel):
     updated_by: UpdateTargetParameterBy = Field(
         default=UpdateTargetParameterBy.TIME, description="Independent variable"
     )
-    updater: NumericalUpdater = Field(NumericalUpdater(), description="Updater")
+    updater: NumericalUpdater = Field(..., description="Updater")
 
 
 class HarvestAction(BaseModel):
