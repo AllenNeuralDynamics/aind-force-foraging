@@ -26,27 +26,12 @@
               "$ref": "#/definitions/NumericalUpdater"
             }
           ],
-          "default": {
-            "operation": "None",
-            "parameters": {
-              "maximum": 0.0,
-              "minimum": 0.0,
-              "value": {
-                "distribution_parameters": {
-                  "family": "Scalar",
-                  "scaling_parameters": null,
-                  "truncation_parameters": null,
-                  "value": 0.0
-                },
-                "family": "Scalar",
-                "scaling_parameters": null,
-                "truncation_parameters": null
-              }
-            }
-          },
           "description": "Updater"
         }
       },
+      "required": [
+        "updater"
+      ],
       "title": "ActionUpdater",
       "type": "object"
     },
@@ -65,19 +50,6 @@
             }
           ],
           "title": "Rng Seed"
-        },
-        "stage_alias": {
-          "default": null,
-          "description": "Alias name used for the task stage",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Stage Alias"
         },
         "environment": {
           "allOf": [
@@ -978,8 +950,6 @@
             "value": {
               "distribution_parameters": {
                 "family": "Scalar",
-                "scaling_parameters": null,
-                "truncation_parameters": null,
                 "value": 0.0
               },
               "family": "Scalar",
@@ -1017,8 +987,6 @@
             "family": "Scalar",
             "distribution_parameters": {
               "family": "Scalar",
-              "scaling_parameters": null,
-              "truncation_parameters": null,
               "value": 0.0
             },
             "truncation_parameters": null,
@@ -1211,35 +1179,21 @@
           ],
           "default": {
             "family": "Scalar",
-            "value": 0.0,
-            "truncation_parameters": null,
-            "scaling_parameters": null
+            "value": 0.0
           },
           "description": "Parameters of the distribution"
         },
         "truncation_parameters": {
+          "const": null,
           "default": null,
-          "description": "Truncation parameters of the distribution",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/TruncationParameters"
-            },
-            {
-              "type": "null"
-            }
-          ]
+          "title": "Truncation Parameters",
+          "type": "null"
         },
         "scaling_parameters": {
+          "const": null,
           "default": null,
-          "description": "Scaling parameters of the distribution",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/ScalingParameters"
-            },
-            {
-              "type": "null"
-            }
-          ]
+          "title": "Scaling Parameters",
+          "type": "null"
         }
       },
       "title": "Scalar",
@@ -1258,18 +1212,6 @@
           "description": "The static value of the distribution",
           "title": "Value",
           "type": "number"
-        },
-        "truncation_parameters": {
-          "const": null,
-          "default": null,
-          "title": "Truncation Parameters",
-          "type": "null"
-        },
-        "scaling_parameters": {
-          "const": null,
-          "default": null,
-          "title": "Scaling Parameters",
-          "type": "null"
         }
       },
       "title": "ScalarDistributionParameter",
@@ -1527,12 +1469,6 @@
       "title": "Description",
       "type": "string"
     },
-    "version": {
-      "const": "0.1.0-preview01",
-      "default": "0.1.0-preview01",
-      "title": "Version",
-      "type": "string"
-    },
     "task_parameters": {
       "allOf": [
         {
@@ -1540,6 +1476,25 @@
         }
       ],
       "description": "Parameters of the task logic"
+    },
+    "version": {
+      "const": "0.1.0-preview01",
+      "default": "0.1.0-preview01",
+      "title": "Version",
+      "type": "string"
+    },
+    "stage_name": {
+      "default": null,
+      "description": "Optional stage name the `Task` object instance represents.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Stage Name"
     }
   },
   "required": [
