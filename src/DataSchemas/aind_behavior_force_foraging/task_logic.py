@@ -148,7 +148,7 @@ class HarvestAction(BaseModel):
         description="Time to collect the reward after it is available. If null, the reward will be available indefinitely.",  # noqa
     )
     action_updaters: List[ActionUpdater] = Field(
-        [], description="List of action updaters. All updaters are called at the start of a new trial."
+        default=[], description="List of action updaters. All updaters are called at the start of a new trial."
     )
 
     @model_validator(mode="after")
