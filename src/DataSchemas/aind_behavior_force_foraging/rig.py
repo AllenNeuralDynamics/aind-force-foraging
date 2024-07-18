@@ -5,14 +5,13 @@ from __future__ import annotations
 from typing import List, Literal, Optional
 
 import aind_behavior_services.calibration.load_cells as lcc
-import aind_behavior_services.calibration.olfactometer as oc
 import aind_behavior_services.calibration.water_valve as wvc
 import aind_behavior_services.rig as rig
 from aind_behavior_services.calibration import aind_manipulator
 from aind_behavior_services.rig import AindBehaviorRigModel
 from pydantic import BaseModel, Field
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 
 class AindManipulatorAdditionalSettings(BaseModel):
@@ -29,10 +28,12 @@ class AindManipulatorDevice(aind_manipulator.AindManipulatorDevice):
     )
 
 
+class HarpLoadCells(rig.HarpLoadCells):
+    calibration: lcc.LoadCellsCalibration = Field(..., description="Load cells calibration")
+
+
 class RigCalibration(BaseModel):
-    load_cells: lcc.LoadCellsCalibration = Field(..., description="Load cells calibration")
     water_valve: wvc.WaterValveCalibration = Field(default=..., description="Water valve calibration")
-    olfactometer: Optional[oc.OlfactometerCalibration] = Field(default=None, description="Olfactometer calibration")
 
 
 class AindForceForagingRig(AindBehaviorRigModel):
@@ -45,7 +46,7 @@ class AindForceForagingRig(AindBehaviorRigModel):
     )
     harp_behavior: rig.HarpBehavior = Field(..., description="Harp behavior")
     harp_lickometer: rig.HarpLickometer = Field(..., description="Harp lickometer")
-    harp_load_cells: rig.HarpLoadCells = Field(..., description="Harp load cells")
+    harp_load_cells: HarpLoadCells = Field(..., description="Harp load cells")
     harp_clock_generator: rig.HarpClockGenerator = Field(..., description="Harp clock generator")
     harp_clock_repeaters: List[rig.HarpClockGenerator] = Field(default=[], description="Harp clock repeaters")
     harp_analog_input: Optional[rig.HarpAnalogInput] = Field(default=None, description="Harp analog input")
