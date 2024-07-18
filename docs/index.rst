@@ -8,8 +8,11 @@ Welcome to the AIND VR Foraging project documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   self
    api
    json-schemas
+   GitHub Source Code <https://github.com/AllenNeuralDynamics/Aind.Behavior.ForceForaging>
+
 
 Indices and tables
 ==================

@@ -6,8 +6,12 @@
 import os
 import sys
 
+import aind_behavior_force_foraging.task_logic
+import erdantic as erd
+from pydantic import BaseModel
+
 sys.path.insert(0, os.path.abspath("../src/DataSchemas"))
-from aind_behavior_force_foraging import __version__
+import aind_behavior_force_foraging
 
 SOURCE_ROOT = "https://github.com/AllenNeuralDynamics/Aind.Behavior.ForceForaging/tree/main/src/DataSchemas/"
 
@@ -17,7 +21,7 @@ SOURCE_ROOT = "https://github.com/AllenNeuralDynamics/Aind.Behavior.ForceForagin
 project = "AIND Force Foraging"
 copyright = "2024, Allen Institute for Neural Dynamics"
 author = "Bruno Cruz"
-release = __version__
+release = aind_behavior_force_foraging.__version__
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -70,3 +74,14 @@ def linkcode_resolve(domain, info):
         return None
     filename = info["module"].replace(".", "/")
     return f"{SOURCE_ROOT}/{filename}.py"
+
+# -- Class diagram generation
+
+
+def export_model_diagram(model: BaseModel, root: str = "_static") -> None:
+    diagram = erd.create(model)
+    diagram.draw(f"{root}/{model.__name__}.svg")
+
+
+_diagram_root = "_static"
+export_model_diagram(aind_behavior_force_foraging.task_logic.AindForceForagingTaskLogic, _diagram_root)
