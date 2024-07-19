@@ -6046,9 +6046,14 @@ Value as Image)
               <viz:Min xsi:nil="true" />
               <viz:Max xsi:nil="true" />
             </Expression>
-            <Expression xsi:type="WorkflowOutput" />
-            <Expression xsi:type="GroupWorkflow">
-              <Name>Controller0Visualization</Name>
+            <Expression xsi:type="VisualizerMapping" />
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="IntProperty">
+                <Value>0</Value>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="rx:Visualizer">
+              <Name>VideoControllerVisualization</Name>
               <Workflow>
                 <Nodes>
                   <Expression xsi:type="SubscribeSubject">
@@ -6191,7 +6196,7 @@ Value as Image)
                     </PropertyMappings>
                   </Expression>
                   <Expression xsi:type="gui:TableLayoutPanelBuilder">
-                    <gui:Name>ControllerVisualization</gui:Name>
+                    <gui:Name>VideoVisualizer</gui:Name>
                     <gui:Enabled>true</gui:Enabled>
                     <gui:Visible>true</gui:Visible>
                     <gui:ColumnCount>1</gui:ColumnCount>
@@ -6239,10 +6244,34 @@ Value as Image)
                 </Edges>
               </Workflow>
             </Expression>
+            <Expression xsi:type="VisualizerMapping" />
+            <Expression xsi:type="viz:TableLayoutPanelBuilder">
+              <viz:Name>DataVisualization</viz:Name>
+              <viz:ColumnCount>1</viz:ColumnCount>
+              <viz:RowCount>2</viz:RowCount>
+              <viz:ColumnStyles />
+              <viz:RowStyles>
+                <viz:RowStyle>
+                  <viz:SizeType>Percent</viz:SizeType>
+                  <viz:Height>0.33</viz:Height>
+                </viz:RowStyle>
+                <viz:RowStyle>
+                  <viz:SizeType>Percent</viz:SizeType>
+                  <viz:Height>0.67</viz:Height>
+                </viz:RowStyle>
+              </viz:RowStyles>
+              <viz:CellSpans />
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
             <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="6" Label="Source1" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="5" To="6" Label="Source2" />
+            <Edge From="6" To="7" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
