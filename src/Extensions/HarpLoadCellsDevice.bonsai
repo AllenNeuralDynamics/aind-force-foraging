@@ -62,7 +62,7 @@
         </Combinator>
       </Expression>
       <Expression xsi:type="MulticastSubject">
-        <Name>HarpLickometerCommands</Name>
+        <Name>HarpLoadCellsCommands</Name>
       </Expression>
     </Nodes>
     <Edges>
