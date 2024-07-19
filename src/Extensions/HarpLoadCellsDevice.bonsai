@@ -35,6 +35,32 @@
       <Expression xsi:type="rx:PublishSubject">
         <Name>HarpLoadCellsEvents</Name>
       </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>HarpLoadCellsEvents</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Take">
+          <rx:Count>1</rx:Count>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="p1:CreateMessage">
+        <harp:MessageType>Write</harp:MessageType>
+        <harp:Payload xsi:type="p1:CreateEnableEventsPayload">
+          <p1:EnableEvents>LoadCellData</p1:EnableEvents>
+        </harp:Payload>
+      </Expression>
+      <Expression xsi:type="MulticastSubject">
+        <Name>HarpLoadCellsCommands</Name>
+      </Expression>
+      <Expression xsi:type="p1:CreateMessage">
+        <harp:MessageType>Write</harp:MessageType>
+        <harp:Payload xsi:type="p1:CreateAcquisitionStatePayload">
+          <p1:AcquisitionState>Enabled</p1:AcquisitionState>
+        </harp:Payload>
+      </Expression>
+      <Expression xsi:type="MulticastSubject">
+        <Name>HarpLoadCellsCommands</Name>
+      </Expression>
       <Expression xsi:type="ExternalizedMapping">
         <Property Name="Name" DisplayName="StartExperimentSubjectName" />
       </Expression>
@@ -72,10 +98,15 @@
       <Edge From="3" To="4" Label="Source2" />
       <Edge From="4" To="5" Label="Source1" />
       <Edge From="6" To="7" Label="Source1" />
-      <Edge From="7" To="9" Label="Source1" />
-      <Edge From="8" To="9" Label="Source2" />
+      <Edge From="7" To="8" Label="Source1" />
+      <Edge From="8" To="9" Label="Source1" />
       <Edge From="9" To="10" Label="Source1" />
       <Edge From="10" To="11" Label="Source1" />
+      <Edge From="12" To="13" Label="Source1" />
+      <Edge From="13" To="15" Label="Source1" />
+      <Edge From="14" To="15" Label="Source2" />
+      <Edge From="15" To="16" Label="Source1" />
+      <Edge From="16" To="17" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
