@@ -96,11 +96,11 @@ class NumericalUpdater(BaseModel):
 class UpdateTargetParameter(str, Enum):
     """Defines the target parameters"""
 
-    LOWERFORCETHRESHOLD = "LowerForceThreshold"
-    UPPERFORCETHRESHOLD = "UpperForceThreshold"
+    LOWER_FORCE_THRESHOLD = "LowerForceThreshold"
+    UPPER_FORCE_THRESHOLD = "UpperForceThreshold"
     PROBABILITY = "Probability"
     AMOUNT = "Amount"
-    FORCEDURATION = "ForceDuration"
+    FORCE_DURATION = "ForceDuration"
     DELAY = "Delay"
 
 
@@ -224,7 +224,7 @@ class BlockStatisticsMode(str, Enum):
 
     BLOCK = "Block"
     BROWNIAN = "BownianRandomWalk"
-    BLOCKGENERATOR = "BlockGenerator"
+    BLOCK_GENERATOR = "BlockGenerator"
 
 
 class Block(BaseModel):
@@ -238,7 +238,7 @@ class Block(BaseModel):
 
 
 class BlockGenerator(BaseModel):
-    mode: Literal[BlockStatisticsMode.BLOCKGENERATOR] = BlockStatisticsMode.BLOCKGENERATOR
+    mode: Literal[BlockStatisticsMode.BLOCK_GENERATOR] = BlockStatisticsMode.BLOCK_GENERATOR
     is_baited: bool = Field(default=False, description="Whether the trials are baited")
     block_size: distributions.Distribution = Field(
         default=uniform_distribution_value(min=50, max=60), validate_default=True, description="Size of the block"
