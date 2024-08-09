@@ -5,9 +5,10 @@ from functools import partial
 from typing import Annotated, Dict, List, Literal, Optional, Self, Union
 
 import aind_behavior_services.task_logic.distributions as distributions
-from aind_behavior_force_foraging import __version__
 from aind_behavior_services.task_logic import AindBehaviorTaskLogicModel, TaskParameters
 from pydantic import BaseModel, Field, RootModel, model_validator
+
+from aind_behavior_force_foraging import __version__
 
 MAX_LOAD_CELL_FORCE = 32768
 
@@ -145,7 +146,7 @@ class HarvestAction(BaseModel):
     time_to_collect: Optional[float] = Field(
         default=None,
         ge=0,
-        description="Time to collect the reward after it is available. If null, the reward will be available indefinitely.",  # noqa
+        description="Time to collect the reward after it is available. If null, the reward will be available indefinitely.",
     )
     action_updaters: List[ActionUpdater] = Field(
         default=[], description="List of action updaters. All updaters are called at the start of a new trial."
@@ -155,7 +156,7 @@ class HarvestAction(BaseModel):
     def check_passwords_match(self) -> Self:
         if self.upper_force_threshold < self.lower_force_threshold:
             raise ValueError(
-                f"Upper force threshold ({self.upper_force_threshold}) must be greater than lower force threshold({self.lower_force_threshold})"  # noqa
+                f"Upper force threshold ({self.upper_force_threshold}) must be greater than lower force threshold({self.lower_force_threshold})"
             )
         return self
 

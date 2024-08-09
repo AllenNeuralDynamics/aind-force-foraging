@@ -4,22 +4,21 @@ import unittest
 from pathlib import Path
 from typing import Generic, List, Optional, TypeVar, Union
 
-from aind_behavior_services.session import AindBehaviorSessionModel
-from aind_behavior_services.utils import run_bonsai_process
 from aind_behavior_force_foraging.rig import AindForceForagingRig
 from aind_behavior_force_foraging.task_logic import AindForceForagingTaskLogic
+from aind_behavior_services.session import AindBehaviorSessionModel
+from aind_behavior_services.utils import run_bonsai_process
 from pydantic import ValidationError
 
 sys.path.append(".")
-from examples import examples  # noqa: E402 # isort:skip # pylint: disable=wrong-import-position
-from tests import JSON_ROOT  # noqa: E402 # isort:skip # pylint: disable=wrong-import-position
+from examples import examples  # isort:skip # pylint: disable=wrong-import-position
+from tests import JSON_ROOT  # isort:skip # pylint: disable=wrong-import-position
 
 TModel = TypeVar("TModel", bound=Union[AindForceForagingRig, AindForceForagingTaskLogic, AindBehaviorSessionModel])
 
 
 class BonsaiTests(unittest.TestCase):
     def test_deserialization(self):
-
         examples.main("./local/{schema}.json")
 
         models_to_test = [
@@ -65,9 +64,7 @@ class TestModel(Generic[TModel]):
             raise ValueError("Input model is not set.")
         if not self.deserialized_model:
             raise ValueError("Deserialized model is not set.")
-        _round_trip = self.input_model.model_validate_json(
-            self.input_model.model_dump_json()
-            )
+        _round_trip = self.input_model.model_validate_json(self.input_model.model_dump_json())
         return _round_trip == self.deserialized_model
 
     def try_deserialization(self, json_str: Union[str, List[str]]) -> TModel:

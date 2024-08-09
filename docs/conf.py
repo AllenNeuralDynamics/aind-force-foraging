@@ -67,6 +67,7 @@ html_show_copyright = False
 
 # -- Options for linkcode extension ---------------------------------------
 
+
 def linkcode_resolve(domain, info):
     if domain != "py":
         return None
@@ -74,6 +75,7 @@ def linkcode_resolve(domain, info):
         return None
     filename = info["module"].replace(".", "/")
     return f"{SOURCE_ROOT}/{filename}.py"
+
 
 # -- Class diagram generation
 

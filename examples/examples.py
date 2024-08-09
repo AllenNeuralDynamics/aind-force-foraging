@@ -2,11 +2,15 @@ import datetime
 import os
 from typing import Dict
 
+import aind_behavior_force_foraging.task_logic as task_logic
+import aind_behavior_services.calibration.load_cells as lcc
 import aind_behavior_services.rig as rig
 import aind_behavior_services.task_logic.distributions as distributions
-import aind_behavior_services.calibration.load_cells as lcc
-
-import aind_behavior_force_foraging.task_logic as task_logic
+from aind_behavior_force_foraging.rig import AindForceForagingRig, AindManipulatorDevice, HarpLoadCells, RigCalibration
+from aind_behavior_force_foraging.task_logic import (
+    AindForceForagingTaskLogic,
+    AindForceForagingTaskParameters,
+)
 from aind_behavior_services import db_utils as db
 from aind_behavior_services.calibration.aind_manipulator import (
     AindManipulatorCalibration,
@@ -16,7 +20,6 @@ from aind_behavior_services.calibration.aind_manipulator import (
     AxisConfiguration,
     ManipulatorPosition,
 )
-
 from aind_behavior_services.calibration.water_valve import (
     Measurement,
     WaterValveCalibration,
@@ -24,12 +27,6 @@ from aind_behavior_services.calibration.water_valve import (
     WaterValveCalibrationOutput,
 )
 from aind_behavior_services.session import AindBehaviorSessionModel
-from aind_behavior_force_foraging.rig import AindManipulatorDevice, RigCalibration, AindForceForagingRig, HarpLoadCells
-
-from aind_behavior_force_foraging.task_logic import (
-    AindForceForagingTaskLogic,
-    AindForceForagingTaskParameters,
-)
 
 
 def mock_session() -> AindBehaviorSessionModel:
@@ -174,7 +171,6 @@ def mock_subject_database() -> db.SubjectDataBase:
 
 
 def main(path_seed: str = "./local/{schema}.json"):
-
     example_session = mock_session()
     example_rig = mock_rig()
     example_task_logic = mock_task_logic()
