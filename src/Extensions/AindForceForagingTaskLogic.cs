@@ -1389,6 +1389,244 @@ namespace AindForceForagingDataSchema.TaskLogic
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    public partial class ForceLookUpTable
+    {
+    
+        private string _path;
+    
+        private double _leftMin;
+    
+        private double _leftMax;
+    
+        private double _rightMin;
+    
+        private double _rightMax;
+    
+        private double? _leftMinBoundTo;
+    
+        private double? _leftMaxBoundTo;
+    
+        private double? _rightMinBoundTo;
+    
+        private double? _rightMaxBoundTo;
+    
+        public ForceLookUpTable()
+        {
+        }
+    
+        protected ForceLookUpTable(ForceLookUpTable other)
+        {
+            _path = other._path;
+            _leftMin = other._leftMin;
+            _leftMax = other._leftMax;
+            _rightMin = other._rightMin;
+            _rightMax = other._rightMax;
+            _leftMinBoundTo = other._leftMinBoundTo;
+            _leftMaxBoundTo = other._leftMaxBoundTo;
+            _rightMinBoundTo = other._rightMinBoundTo;
+            _rightMaxBoundTo = other._rightMaxBoundTo;
+        }
+    
+        /// <summary>
+        /// Reference to the look up table image. Should be a 1 channel image. Value = LUT[Left, Right]
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("path", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("Reference to the look up table image. Should be a 1 channel image. Value = LUT[Le" +
+            "ft, Right]")]
+        public string Path
+        {
+            get
+            {
+                return _path;
+            }
+            set
+            {
+                _path = value;
+            }
+        }
+    
+        /// <summary>
+        /// The lower value of Left force used to linearly scale the input coordinate to.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("left_min", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("The lower value of Left force used to linearly scale the input coordinate to.")]
+        public double LeftMin
+        {
+            get
+            {
+                return _leftMin;
+            }
+            set
+            {
+                _leftMin = value;
+            }
+        }
+    
+        /// <summary>
+        /// The upper value of Left force used to linearly scale the input coordinate to.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("left_max", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("The upper value of Left force used to linearly scale the input coordinate to.")]
+        public double LeftMax
+        {
+            get
+            {
+                return _leftMax;
+            }
+            set
+            {
+                _leftMax = value;
+            }
+        }
+    
+        /// <summary>
+        /// The lower value of Right force used to linearly scale the input coordinate to.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("right_min", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("The lower value of Right force used to linearly scale the input coordinate to.")]
+        public double RightMin
+        {
+            get
+            {
+                return _rightMin;
+            }
+            set
+            {
+                _rightMin = value;
+            }
+        }
+    
+        /// <summary>
+        /// The upper value of Right force used to linearly scale the input coordinate to.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("right_max", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("The upper value of Right force used to linearly scale the input coordinate to.")]
+        public double RightMax
+        {
+            get
+            {
+                return _rightMax;
+            }
+            set
+            {
+                _rightMax = value;
+            }
+        }
+    
+        /// <summary>
+        /// The value given to Left < left_min. if null it will default to left_min.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("left_min_bound_to")]
+        [System.ComponentModel.DescriptionAttribute("The value given to Left < left_min. if null it will default to left_min.")]
+        public double? LeftMinBoundTo
+        {
+            get
+            {
+                return _leftMinBoundTo;
+            }
+            set
+            {
+                _leftMinBoundTo = value;
+            }
+        }
+    
+        /// <summary>
+        /// The value given to Left > left_max. if null it will default to left_max.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("left_max_bound_to")]
+        [System.ComponentModel.DescriptionAttribute("The value given to Left > left_max. if null it will default to left_max.")]
+        public double? LeftMaxBoundTo
+        {
+            get
+            {
+                return _leftMaxBoundTo;
+            }
+            set
+            {
+                _leftMaxBoundTo = value;
+            }
+        }
+    
+        /// <summary>
+        /// The value given to Right < right_min. if null it will default to right_min.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("right_min_bound_to")]
+        [System.ComponentModel.DescriptionAttribute("The value given to Right < right_min. if null it will default to right_min.")]
+        public double? RightMinBoundTo
+        {
+            get
+            {
+                return _rightMinBoundTo;
+            }
+            set
+            {
+                _rightMinBoundTo = value;
+            }
+        }
+    
+        /// <summary>
+        /// The value given to Right > right_max. if null it will default to right_max.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("right_max_bound_to")]
+        [System.ComponentModel.DescriptionAttribute("The value given to Right > right_max. if null it will default to right_max.")]
+        public double? RightMaxBoundTo
+        {
+            get
+            {
+                return _rightMaxBoundTo;
+            }
+            set
+            {
+                _rightMaxBoundTo = value;
+            }
+        }
+    
+        public System.IObservable<ForceLookUpTable> Process()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new ForceLookUpTable(this)));
+        }
+    
+        public System.IObservable<ForceLookUpTable> Process<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new ForceLookUpTable(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("path = " + _path + ", ");
+            stringBuilder.Append("left_min = " + _leftMin + ", ");
+            stringBuilder.Append("left_max = " + _leftMax + ", ");
+            stringBuilder.Append("right_min = " + _rightMin + ", ");
+            stringBuilder.Append("right_max = " + _rightMax + ", ");
+            stringBuilder.Append("left_min_bound_to = " + _leftMinBoundTo + ", ");
+            stringBuilder.Append("left_max_bound_to = " + _leftMaxBoundTo + ", ");
+            stringBuilder.Append("right_min_bound_to = " + _rightMinBoundTo + ", ");
+            stringBuilder.Append("right_max_bound_to = " + _rightMaxBoundTo);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Bonsai.CombinatorAttribute()]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     public partial class ForceOperationControl
     {
     
@@ -1397,6 +1635,8 @@ namespace AindForceForagingDataSchema.TaskLogic
         private int _leftIndex = 0;
     
         private int _rightIndex = 1;
+    
+        private ForceLookUpTable _forceLookupTable;
     
         public ForceOperationControl()
         {
@@ -1407,6 +1647,7 @@ namespace AindForceForagingDataSchema.TaskLogic
             _pressMode = other._pressMode;
             _leftIndex = other._leftIndex;
             _rightIndex = other._rightIndex;
+            _forceLookupTable = other._forceLookupTable;
         }
     
         /// <summary>
@@ -1461,6 +1702,24 @@ namespace AindForceForagingDataSchema.TaskLogic
             }
         }
     
+        /// <summary>
+        /// Look up table for force projection
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("force_lookup_table")]
+        [System.ComponentModel.DescriptionAttribute("Look up table for force projection")]
+        public ForceLookUpTable ForceLookupTable
+        {
+            get
+            {
+                return _forceLookupTable;
+            }
+            set
+            {
+                _forceLookupTable = value;
+            }
+        }
+    
         public System.IObservable<ForceOperationControl> Process()
         {
             return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new ForceOperationControl(this)));
@@ -1475,7 +1734,8 @@ namespace AindForceForagingDataSchema.TaskLogic
         {
             stringBuilder.Append("press_mode = " + _pressMode + ", ");
             stringBuilder.Append("left_index = " + _leftIndex + ", ");
-            stringBuilder.Append("right_index = " + _rightIndex);
+            stringBuilder.Append("right_index = " + _rightIndex + ", ");
+            stringBuilder.Append("force_lookup_table = " + _forceLookupTable);
             return true;
         }
     
@@ -3013,6 +3273,9 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         [System.Runtime.Serialization.EnumMemberAttribute(Value="SingleRight")]
         SingleRight = 5,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="SingleLookupTable")]
+        SingleLookupTable = 6,
     }
 
 
@@ -4584,6 +4847,11 @@ namespace AindForceForagingDataSchema.TaskLogic
             return Process<ExponentialDistributionParameters>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<ForceLookUpTable> source)
+        {
+            return Process<ForceLookUpTable>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<ForceOperationControl> source)
         {
             return Process<ForceOperationControl>(source);
@@ -4737,6 +5005,7 @@ namespace AindForceForagingDataSchema.TaskLogic
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Environment>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ExponentialDistribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ExponentialDistributionParameters>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ForceLookUpTable>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ForceOperationControl>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<GammaDistribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<GammaDistributionParameters>))]

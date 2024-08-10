@@ -277,6 +277,45 @@ class PressMode(str, Enum):
     SINGLE_MIN = "SingleMin"
     SINGLE_LEFT = "SingleLeft"
     SINGLE_RIGHT = "SingleRight"
+    SINGLE_LOOKUP_TABLE = "SingleLookupTable"
+
+
+class ForceLookUpTable(BaseModel):
+    path: str = Field(
+        ..., description="Reference to the look up table image. Should be a 1 channel image. Value = LUT[Left, Right]"
+    )
+    left_min: float = Field(
+        ..., description="The lower value of Left force used to linearly scale the input coordinate to."
+    )
+    left_max: float = Field(
+        ..., description="The upper value of Left force used to linearly scale the input coordinate to."
+    )
+    right_min: float = Field(
+        ..., description="The lower value of Right force used to linearly scale the input coordinate to."
+    )
+    right_max: float = Field(
+        ..., description="The upper value of Right force used to linearly scale the input coordinate to."
+    )
+    left_min_bound_to: Optional[float] = Field(
+        None, description="The value given to Left < left_min. if null it will default to left_min."
+    )
+    left_max_bound_to: Optional[float] = Field(
+        None, description="The value given to Left > left_max. if null it will default to left_max."
+    )
+    right_min_bound_to: Optional[float] = Field(
+        None, description="The value given to Right < right_min. if null it will default to right_min."
+    )
+    right_max_bound_to: Optional[float] = Field(
+        None, description="The value given to Right > right_max. if null it will default to right_max."
+    )
+
+    @model_validator(mode="after")
+    def _validate_bounds(self) -> Self:
+        if self.left_min < self.left_max:
+            raise ValueError("Left min must be greater than left max")
+        if self.right_min < self.right_max:
+            raise ValueError("Right min must be greater than right max")
+        return self
 
 
 class ForceOperationControl(BaseModel):
@@ -285,6 +324,17 @@ class ForceOperationControl(BaseModel):
     )
     left_index: int = Field(default=0, description="Index of the left sensor")
     right_index: int = Field(default=1, description="Index of the right sensor")
+    force_lookup_table: Optional[ForceLookUpTable] = Field(
+        default=None, description="Look up table for force projection"
+    )
+
+    @model_validator(mode="after")
+    def _validate_press_mode_versus_lut(self) -> Self:
+        if self.press_mode == PressMode.SINGLE_LOOKUP_TABLE and self.force_lookup_table is None:
+            raise ValueError("Look up table must be provided when using single lookup table mode")
+        if self.press_mode != PressMode.SINGLE_LOOKUP_TABLE:
+            self.force_lookup_table = None
+        return self
 
 
 class OperationControl(BaseModel):

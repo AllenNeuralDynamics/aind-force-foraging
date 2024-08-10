@@ -75,6 +75,7 @@
           ],
           "default": {
             "force": {
+              "force_lookup_table": null,
               "left_index": 0,
               "press_mode": "Double",
               "right_index": 1
@@ -552,6 +553,96 @@
       "title": "ExponentialDistributionParameters",
       "type": "object"
     },
+    "ForceLookUpTable": {
+      "properties": {
+        "path": {
+          "description": "Reference to the look up table image. Should be a 1 channel image. Value = LUT[Left, Right]",
+          "title": "Path",
+          "type": "string"
+        },
+        "left_min": {
+          "description": "The lower value of Left force used to linearly scale the input coordinate to.",
+          "title": "Left Min",
+          "type": "number"
+        },
+        "left_max": {
+          "description": "The upper value of Left force used to linearly scale the input coordinate to.",
+          "title": "Left Max",
+          "type": "number"
+        },
+        "right_min": {
+          "description": "The lower value of Right force used to linearly scale the input coordinate to.",
+          "title": "Right Min",
+          "type": "number"
+        },
+        "right_max": {
+          "description": "The upper value of Right force used to linearly scale the input coordinate to.",
+          "title": "Right Max",
+          "type": "number"
+        },
+        "left_min_bound_to": {
+          "default": null,
+          "description": "The value given to Left < left_min. if null it will default to left_min.",
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Left Min Bound To"
+        },
+        "left_max_bound_to": {
+          "default": null,
+          "description": "The value given to Left > left_max. if null it will default to left_max.",
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Left Max Bound To"
+        },
+        "right_min_bound_to": {
+          "default": null,
+          "description": "The value given to Right < right_min. if null it will default to right_min.",
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Right Min Bound To"
+        },
+        "right_max_bound_to": {
+          "default": null,
+          "description": "The value given to Right > right_max. if null it will default to right_max.",
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Right Max Bound To"
+        }
+      },
+      "required": [
+        "path",
+        "left_min",
+        "left_max",
+        "right_min",
+        "right_max"
+      ],
+      "title": "ForceLookUpTable",
+      "type": "object"
+    },
     "ForceOperationControl": {
       "properties": {
         "press_mode": {
@@ -574,6 +665,18 @@
           "description": "Index of the right sensor",
           "title": "Right Index",
           "type": "integer"
+        },
+        "force_lookup_table": {
+          "default": null,
+          "description": "Look up table for force projection",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/ForceLookUpTable"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "title": "ForceOperationControl",
@@ -1021,7 +1124,8 @@
           "default": {
             "press_mode": "Double",
             "left_index": 0,
-            "right_index": 1
+            "right_index": 1,
+            "force_lookup_table": null
           },
           "description": "Operation control for force sensor"
         }
@@ -1104,7 +1208,8 @@
         "SingleMax",
         "SingleMin",
         "SingleLeft",
-        "SingleRight"
+        "SingleRight",
+        "SingleLookupTable"
       ],
       "title": "PressMode",
       "type": "string"

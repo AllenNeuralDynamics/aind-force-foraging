@@ -27,9 +27,9 @@
                  xmlns:p12="clr-namespace:AllenNeuralDynamics.Core.Design;assembly=AllenNeuralDynamics.Core.Design"
                  xmlns:bv="clr-namespace:BonVision;assembly=BonVision"
                  xmlns:p13="clr-namespace:AllenNeuralDynamics.LicketySplit;assembly=AllenNeuralDynamics.LicketySplit"
+                 xmlns:cv="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision"
                  xmlns:p14="clr-namespace:;assembly=Extensions"
                  xmlns:p15="clr-namespace:AllenNeuralDynamics.HarpUtils;assembly=AllenNeuralDynamics.HarpUtils"
-                 xmlns:cv="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision"
                  xmlns:gui="clr-namespace:Bonsai.Gui;assembly=Bonsai.Gui"
                  xmlns:gli="clr-namespace:Bonsai.Shaders.Input;assembly=Bonsai.Shaders"
                  xmlns:viz="clr-namespace:Bonsai.Design.Visualizers;assembly=Bonsai.Design.Visualizers"
@@ -790,6 +790,12 @@
                                         <p7:Binning>1</p7:Binning>
                                         <p7:Gamma xsi:nil="true" />
                                         <p7:PixelFormat>Mono8</p7:PixelFormat>
+                                        <p7:RegionOfInterest>
+                                          <p7:X>0</p7:X>
+                                          <p7:Y>0</p7:Y>
+                                          <p7:Width>0</p7:Width>
+                                          <p7:Height>0</p7:Height>
+                                        </p7:RegionOfInterest>
                                       </Combinator>
                                     </Expression>
                                     <Expression xsi:type="SubscribeSubject">
@@ -2577,66 +2583,157 @@
               <Workflow>
                 <Nodes>
                   <Expression xsi:type="SubscribeSubject">
-                    <Name>HarpLoadCellsEvents</Name>
-                  </Expression>
-                  <Expression xsi:type="p4:FilterRegister">
-                    <harp:FilterType>Include</harp:FilterType>
-                    <harp:Register xsi:type="p4:LoadCellData" />
-                  </Expression>
-                  <Expression xsi:type="harp:Parse">
-                    <harp:Register xsi:type="harp:ParseMessagePayload">
-                      <harp:PayloadType>TimestampedS16</harp:PayloadType>
-                      <harp:IsArray>true</harp:IsArray>
-                    </harp:Register>
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
                     <Name>TaskLogicParameters</Name>
                   </Expression>
                   <Expression xsi:type="MemberSelector">
-                    <Selector>OperationControl.Force</Selector>
+                    <Selector>OperationControl</Selector>
                   </Expression>
                   <Expression xsi:type="MemberSelector">
-                    <Selector>PressMode</Selector>
-                  </Expression>
-                  <Expression xsi:type="PropertyMapping">
-                    <PropertyMappings>
-                      <Property Name="PressMode" />
-                    </PropertyMappings>
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>TaskLogicParameters</Name>
-                  </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>OperationControl.Force</Selector>
-                  </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>LeftIndex</Selector>
-                  </Expression>
-                  <Expression xsi:type="PropertyMapping">
-                    <PropertyMappings>
-                      <Property Name="LeftLoadCellIndex" />
-                    </PropertyMappings>
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>TaskLogicParameters</Name>
-                  </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>OperationControl.Force</Selector>
-                  </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>RightIndex</Selector>
-                  </Expression>
-                  <Expression xsi:type="PropertyMapping">
-                    <PropertyMappings>
-                      <Property Name="RightLoadCellIndex" />
-                    </PropertyMappings>
+                    <Selector>Force</Selector>
                   </Expression>
                   <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="p14:ParseForce">
-                      <p14:LeftLoadCellIndex>0</p14:LeftLoadCellIndex>
-                      <p14:RightLoadCellIndex>1</p14:RightLoadCellIndex>
-                      <p14:PressMode>Double</p14:PressMode>
+                    <Combinator xsi:type="rx:Take">
+                      <rx:Count>1</rx:Count>
                     </Combinator>
+                  </Expression>
+                  <Expression xsi:type="rx:AsyncSubject">
+                    <Name>ForceOperationControl</Name>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>ForceOperationControl</Name>
+                  </Expression>
+                  <Expression xsi:type="rx:CreateObservable">
+                    <Name>ParseForce</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="rx:AsyncSubject">
+                          <Name>settings</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>settings</Name>
+                        </Expression>
+                        <Expression xsi:type="MemberSelector">
+                          <Selector>ForceLookupTable</Selector>
+                        </Expression>
+                        <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:FilterNotNull.bonsai" />
+                        <Expression xsi:type="rx:SelectMany">
+                          <Name>LoadImage</Name>
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="WorkflowInput">
+                                <Name>Source1</Name>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:Take">
+                                  <rx:Count>1</rx:Count>
+                                </Combinator>
+                              </Expression>
+                              <Expression xsi:type="rx:AsyncSubject">
+                                <Name>this</Name>
+                              </Expression>
+                              <Expression xsi:type="SubscribeSubject">
+                                <Name>this</Name>
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>Path</Selector>
+                              </Expression>
+                              <Expression xsi:type="PropertyMapping">
+                                <PropertyMappings>
+                                  <Property Name="FileName" />
+                                </PropertyMappings>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="cv:LoadImage">
+                                  <cv:Mode>Unchanged</cv:Mode>
+                                </Combinator>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="dsp:ConvertToMat" />
+                              </Expression>
+                              <Expression xsi:type="WorkflowOutput" />
+                            </Nodes>
+                            <Edges>
+                              <Edge From="0" To="1" Label="Source1" />
+                              <Edge From="1" To="2" Label="Source1" />
+                              <Edge From="3" To="4" Label="Source1" />
+                              <Edge From="4" To="5" Label="Source1" />
+                              <Edge From="5" To="6" Label="Source1" />
+                              <Edge From="6" To="7" Label="Source1" />
+                              <Edge From="7" To="8" Label="Source1" />
+                            </Edges>
+                          </Workflow>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="rx:AsyncSubject">
+                          <Name>LUT</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>HarpLoadCellsEvents</Name>
+                        </Expression>
+                        <Expression xsi:type="p4:FilterRegister">
+                          <harp:FilterType>Include</harp:FilterType>
+                          <harp:Register xsi:type="p4:LoadCellData" />
+                        </Expression>
+                        <Expression xsi:type="harp:Parse">
+                          <harp:Register xsi:type="harp:ParseMessagePayload">
+                            <harp:PayloadType>TimestampedS16</harp:PayloadType>
+                            <harp:IsArray>true</harp:IsArray>
+                          </harp:Register>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>settings</Name>
+                        </Expression>
+                        <Expression xsi:type="PropertyMapping">
+                          <PropertyMappings>
+                            <Property Name="ForceOperationControl" />
+                          </PropertyMappings>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>LUT</Name>
+                        </Expression>
+                        <Expression xsi:type="PropertyMapping">
+                          <PropertyMappings>
+                            <Property Name="LookUpTable" />
+                          </PropertyMappings>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p14:ParseForce" />
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="1" Label="Source1" />
+                        <Edge From="1" To="2" Label="Source1" />
+                        <Edge From="3" To="4" Label="Source1" />
+                        <Edge From="4" To="5" Label="Source1" />
+                        <Edge From="5" To="6" Label="Source1" />
+                        <Edge From="6" To="7" Label="Source1" />
+                        <Edge From="7" To="8" Label="Source1" />
+                        <Edge From="9" To="10" Label="Source1" />
+                        <Edge From="10" To="11" Label="Source1" />
+                        <Edge From="11" To="16" Label="Source1" />
+                        <Edge From="12" To="13" Label="Source1" />
+                        <Edge From="13" To="16" Label="Source2" />
+                        <Edge From="14" To="15" Label="Source1" />
+                        <Edge From="15" To="16" Label="Source3" />
+                        <Edge From="16" To="17" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Switch" />
                   </Expression>
                   <Expression xsi:type="rx:PublishSubject">
                     <Name>CurrentForce</Name>
@@ -2645,20 +2742,11 @@
                 <Edges>
                   <Edge From="0" To="1" Label="Source1" />
                   <Edge From="1" To="2" Label="Source1" />
-                  <Edge From="2" To="15" Label="Source1" />
+                  <Edge From="2" To="3" Label="Source1" />
                   <Edge From="3" To="4" Label="Source1" />
-                  <Edge From="4" To="5" Label="Source1" />
                   <Edge From="5" To="6" Label="Source1" />
-                  <Edge From="6" To="15" Label="Source2" />
+                  <Edge From="6" To="7" Label="Source1" />
                   <Edge From="7" To="8" Label="Source1" />
-                  <Edge From="8" To="9" Label="Source1" />
-                  <Edge From="9" To="10" Label="Source1" />
-                  <Edge From="10" To="15" Label="Source3" />
-                  <Edge From="11" To="12" Label="Source1" />
-                  <Edge From="12" To="13" Label="Source1" />
-                  <Edge From="13" To="14" Label="Source1" />
-                  <Edge From="14" To="15" Label="Source4" />
-                  <Edge From="15" To="16" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
