@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from enum import Enum
 from functools import partial
-from typing import Annotated, Any, Dict, List, Literal, Optional, Self, Union
+from typing import Annotated, Dict, List, Literal, Optional, Self, Union
 
 import aind_behavior_services.task_logic.distributions as distributions
 from aind_behavior_services.task_logic import AindBehaviorTaskLogicModel, TaskParameters
-from pydantic import BaseModel, Field, RootModel, field_validator, model_validator
+from pydantic import BaseModel, Field, RootModel, model_validator
 
 from aind_behavior_force_foraging import __version__
 
@@ -280,8 +280,8 @@ class PressMode(str, Enum):
     SINGLE_LOOKUP_TABLE = "SingleLookupTable"
 
 
-class _LUTBase(BaseModel):
-    look_up_table_type: str = Field(..., description="Type of the look up table")
+class ForceLookUpTable(BaseModel):
+    path: str = Field(..., description="Reference to the look up table image.")
     x_min: float = Field(..., description="The lower value of X used to linearly scale the input coordinate to.")
     x_max: float = Field(..., description="The upper value of X used to linearly scale the input coordinate to.")
     y_min: float = Field(..., description="The lower value of Y used to linearly scale the input coordinate to.")
@@ -308,38 +308,15 @@ class _LUTBase(BaseModel):
         return self
 
 
-class LUTByValue(_LUTBase):
-    look_up_table_type: Literal["Value"] = "Value"
-    lut: List[List[float]] = Field(..., description="LUT for force projection. Must be a MxN matrix, where N, M > 1")
-
-    @field_validator("lut", mode="after")
-    @classmethod
-    def _validate_lut(cls, v: Any):
-        if len(v) < 2:
-            raise ValueError("Look up table must have two rows")
-        if all(len(row) == len(v[0]) for row in v):
-            raise ValueError("Look up table must have the same number of columns in each row")
-        if len(v[0]) < 2:
-            raise ValueError("Look up table must have two columns")
-        return v
-
-
-class LUTByReference(_LUTBase):
-    look_up_table_type: Literal["Reference"] = "Reference"
-    path: str = Field(..., description="Reference to the look up table")
-
-
-class ForceLUT(RootModel):
-    root: Annotated[Union[LUTByValue, LUTByReference], Field(discriminator="look_up_table_type")]
-
-
 class ForceOperationControl(BaseModel):
     press_mode: PressMode = Field(
         default=PressMode.DOUBLE, description="Defines the press mode. Default is to use both sensors individually"
     )
     left_index: int = Field(default=0, description="Index of the left sensor")
     right_index: int = Field(default=1, description="Index of the right sensor")
-    force_lookup_table: Optional[ForceLUT] = Field(default=None, description="Look up table for force projection")
+    force_lookup_table: Optional[ForceLookUpTable] = Field(
+        default=None, description="Look up table for force projection"
+    )
 
     @model_validator(mode="after")
     def _validate_press_mode_versus_lut(self) -> Self:

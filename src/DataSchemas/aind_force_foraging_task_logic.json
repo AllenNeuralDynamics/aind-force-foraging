@@ -553,23 +553,95 @@
       "title": "ExponentialDistributionParameters",
       "type": "object"
     },
-    "ForceLUT": {
-      "discriminator": {
-        "mapping": {
-          "Reference": "#/definitions/LUTByReference",
-          "Value": "#/definitions/LUTByValue"
+    "ForceLookUpTable": {
+      "properties": {
+        "path": {
+          "description": "Reference to the look up table image.",
+          "title": "Path",
+          "type": "string"
         },
-        "propertyName": "look_up_table_type"
-      },
-      "oneOf": [
-        {
-          "$ref": "#/definitions/LUTByValue"
+        "x_min": {
+          "description": "The lower value of X used to linearly scale the input coordinate to.",
+          "title": "X Min",
+          "type": "number"
         },
-        {
-          "$ref": "#/definitions/LUTByReference"
+        "x_max": {
+          "description": "The upper value of X used to linearly scale the input coordinate to.",
+          "title": "X Max",
+          "type": "number"
+        },
+        "y_min": {
+          "description": "The lower value of Y used to linearly scale the input coordinate to.",
+          "title": "Y Min",
+          "type": "number"
+        },
+        "y_max": {
+          "description": "The upper value of Y used to linearly scale the input coordinate to.",
+          "title": "Y Max",
+          "type": "number"
+        },
+        "x_min_bound_to": {
+          "default": null,
+          "description": "The value given to X < XMin. if null it will default to XMin.",
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "X Min Bound To"
+        },
+        "x_max_bound_to": {
+          "default": null,
+          "description": "The value given to X > XMax. if null it will default to XMax.",
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "X Max Bound To"
+        },
+        "y_min_bound_to": {
+          "default": null,
+          "description": "The value given to Y < YMin. if null it will default to YMin.",
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Y Min Bound To"
+        },
+        "y_max_bound_to": {
+          "default": null,
+          "description": "The value given to Y > YMax. if null it will default to YMax.",
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Y Max Bound To"
         }
+      },
+      "required": [
+        "path",
+        "x_min",
+        "x_max",
+        "y_min",
+        "y_max"
       ],
-      "title": "ForceLUT"
+      "title": "ForceLookUpTable",
+      "type": "object"
     },
     "ForceOperationControl": {
       "properties": {
@@ -599,7 +671,7 @@
           "description": "Look up table for force projection",
           "oneOf": [
             {
-              "$ref": "#/definitions/ForceLUT"
+              "$ref": "#/definitions/ForceLookUpTable"
             },
             {
               "type": "null"
@@ -812,204 +884,6 @@
         }
       },
       "title": "InitiationPeriod",
-      "type": "object"
-    },
-    "LUTByReference": {
-      "properties": {
-        "look_up_table_type": {
-          "const": "Reference",
-          "default": "Reference",
-          "title": "Look Up Table Type",
-          "type": "string"
-        },
-        "x_min": {
-          "description": "The lower value of X used to linearly scale the input coordinate to.",
-          "title": "X Min",
-          "type": "number"
-        },
-        "x_max": {
-          "description": "The upper value of X used to linearly scale the input coordinate to.",
-          "title": "X Max",
-          "type": "number"
-        },
-        "y_min": {
-          "description": "The lower value of Y used to linearly scale the input coordinate to.",
-          "title": "Y Min",
-          "type": "number"
-        },
-        "y_max": {
-          "description": "The upper value of Y used to linearly scale the input coordinate to.",
-          "title": "Y Max",
-          "type": "number"
-        },
-        "x_min_bound_to": {
-          "default": null,
-          "description": "The value given to X < XMin. if null it will default to XMin.",
-          "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "X Min Bound To"
-        },
-        "x_max_bound_to": {
-          "default": null,
-          "description": "The value given to X > XMax. if null it will default to XMax.",
-          "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "X Max Bound To"
-        },
-        "y_min_bound_to": {
-          "default": null,
-          "description": "The value given to Y < YMin. if null it will default to YMin.",
-          "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Y Min Bound To"
-        },
-        "y_max_bound_to": {
-          "default": null,
-          "description": "The value given to Y > YMax. if null it will default to YMax.",
-          "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Y Max Bound To"
-        },
-        "path": {
-          "description": "Reference to the look up table",
-          "title": "Path",
-          "type": "string"
-        }
-      },
-      "required": [
-        "x_min",
-        "x_max",
-        "y_min",
-        "y_max",
-        "path"
-      ],
-      "title": "LUTByReference",
-      "type": "object"
-    },
-    "LUTByValue": {
-      "properties": {
-        "look_up_table_type": {
-          "const": "Value",
-          "default": "Value",
-          "title": "Look Up Table Type",
-          "type": "string"
-        },
-        "x_min": {
-          "description": "The lower value of X used to linearly scale the input coordinate to.",
-          "title": "X Min",
-          "type": "number"
-        },
-        "x_max": {
-          "description": "The upper value of X used to linearly scale the input coordinate to.",
-          "title": "X Max",
-          "type": "number"
-        },
-        "y_min": {
-          "description": "The lower value of Y used to linearly scale the input coordinate to.",
-          "title": "Y Min",
-          "type": "number"
-        },
-        "y_max": {
-          "description": "The upper value of Y used to linearly scale the input coordinate to.",
-          "title": "Y Max",
-          "type": "number"
-        },
-        "x_min_bound_to": {
-          "default": null,
-          "description": "The value given to X < XMin. if null it will default to XMin.",
-          "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "X Min Bound To"
-        },
-        "x_max_bound_to": {
-          "default": null,
-          "description": "The value given to X > XMax. if null it will default to XMax.",
-          "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "X Max Bound To"
-        },
-        "y_min_bound_to": {
-          "default": null,
-          "description": "The value given to Y < YMin. if null it will default to YMin.",
-          "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Y Min Bound To"
-        },
-        "y_max_bound_to": {
-          "default": null,
-          "description": "The value given to Y > YMax. if null it will default to YMax.",
-          "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Y Max Bound To"
-        },
-        "lut": {
-          "description": "LUT for force projection. Must be a MxN matrix, where N, M > 1",
-          "items": {
-            "items": {
-              "type": "number"
-            },
-            "type": "array"
-          },
-          "title": "Lut",
-          "type": "array"
-        }
-      },
-      "required": [
-        "x_min",
-        "x_max",
-        "y_min",
-        "y_max",
-        "lut"
-      ],
-      "title": "LUTByValue",
       "type": "object"
     },
     "LogNormalDistribution": {

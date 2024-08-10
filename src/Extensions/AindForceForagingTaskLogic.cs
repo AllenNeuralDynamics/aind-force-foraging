@@ -1387,35 +1387,225 @@ namespace AindForceForagingDataSchema.TaskLogic
 
 
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
-    [Newtonsoft.Json.JsonConverter(typeof(JsonInheritanceConverter), "look_up_table_type")]
-    [JsonInheritanceAttribute("Value", typeof(LUTByValue))]
-    [JsonInheritanceAttribute("Reference", typeof(LUTByReference))]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
-    public partial class ForceLUT
+    public partial class ForceLookUpTable
     {
     
-        public ForceLUT()
+        private string _path;
+    
+        private double _xMin;
+    
+        private double _xMax;
+    
+        private double _yMin;
+    
+        private double _yMax;
+    
+        private double? _xMinBoundTo;
+    
+        private double? _xMaxBoundTo;
+    
+        private double? _yMinBoundTo;
+    
+        private double? _yMaxBoundTo;
+    
+        public ForceLookUpTable()
         {
         }
     
-        protected ForceLUT(ForceLUT other)
+        protected ForceLookUpTable(ForceLookUpTable other)
         {
+            _path = other._path;
+            _xMin = other._xMin;
+            _xMax = other._xMax;
+            _yMin = other._yMin;
+            _yMax = other._yMax;
+            _xMinBoundTo = other._xMinBoundTo;
+            _xMaxBoundTo = other._xMaxBoundTo;
+            _yMinBoundTo = other._yMinBoundTo;
+            _yMaxBoundTo = other._yMaxBoundTo;
         }
     
-        public System.IObservable<ForceLUT> Process()
+        /// <summary>
+        /// Reference to the look up table image.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("path", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("Reference to the look up table image.")]
+        public string Path
         {
-            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new ForceLUT(this)));
+            get
+            {
+                return _path;
+            }
+            set
+            {
+                _path = value;
+            }
         }
     
-        public System.IObservable<ForceLUT> Process<TSource>(System.IObservable<TSource> source)
+        /// <summary>
+        /// The lower value of X used to linearly scale the input coordinate to.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("x_min", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("The lower value of X used to linearly scale the input coordinate to.")]
+        public double XMin
         {
-            return System.Reactive.Linq.Observable.Select(source, _ => new ForceLUT(this));
+            get
+            {
+                return _xMin;
+            }
+            set
+            {
+                _xMin = value;
+            }
+        }
+    
+        /// <summary>
+        /// The upper value of X used to linearly scale the input coordinate to.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("x_max", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("The upper value of X used to linearly scale the input coordinate to.")]
+        public double XMax
+        {
+            get
+            {
+                return _xMax;
+            }
+            set
+            {
+                _xMax = value;
+            }
+        }
+    
+        /// <summary>
+        /// The lower value of Y used to linearly scale the input coordinate to.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("y_min", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("The lower value of Y used to linearly scale the input coordinate to.")]
+        public double YMin
+        {
+            get
+            {
+                return _yMin;
+            }
+            set
+            {
+                _yMin = value;
+            }
+        }
+    
+        /// <summary>
+        /// The upper value of Y used to linearly scale the input coordinate to.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("y_max", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("The upper value of Y used to linearly scale the input coordinate to.")]
+        public double YMax
+        {
+            get
+            {
+                return _yMax;
+            }
+            set
+            {
+                _yMax = value;
+            }
+        }
+    
+        /// <summary>
+        /// The value given to X < XMin. if null it will default to XMin.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("x_min_bound_to")]
+        [System.ComponentModel.DescriptionAttribute("The value given to X < XMin. if null it will default to XMin.")]
+        public double? XMinBoundTo
+        {
+            get
+            {
+                return _xMinBoundTo;
+            }
+            set
+            {
+                _xMinBoundTo = value;
+            }
+        }
+    
+        /// <summary>
+        /// The value given to X > XMax. if null it will default to XMax.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("x_max_bound_to")]
+        [System.ComponentModel.DescriptionAttribute("The value given to X > XMax. if null it will default to XMax.")]
+        public double? XMaxBoundTo
+        {
+            get
+            {
+                return _xMaxBoundTo;
+            }
+            set
+            {
+                _xMaxBoundTo = value;
+            }
+        }
+    
+        /// <summary>
+        /// The value given to Y < YMin. if null it will default to YMin.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("y_min_bound_to")]
+        [System.ComponentModel.DescriptionAttribute("The value given to Y < YMin. if null it will default to YMin.")]
+        public double? YMinBoundTo
+        {
+            get
+            {
+                return _yMinBoundTo;
+            }
+            set
+            {
+                _yMinBoundTo = value;
+            }
+        }
+    
+        /// <summary>
+        /// The value given to Y > YMax. if null it will default to YMax.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("y_max_bound_to")]
+        [System.ComponentModel.DescriptionAttribute("The value given to Y > YMax. if null it will default to YMax.")]
+        public double? YMaxBoundTo
+        {
+            get
+            {
+                return _yMaxBoundTo;
+            }
+            set
+            {
+                _yMaxBoundTo = value;
+            }
+        }
+    
+        public System.IObservable<ForceLookUpTable> Process()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new ForceLookUpTable(this)));
+        }
+    
+        public System.IObservable<ForceLookUpTable> Process<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new ForceLookUpTable(this));
         }
     
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
-            return false;
+            stringBuilder.Append("path = " + _path + ", ");
+            stringBuilder.Append("x_min = " + _xMin + ", ");
+            stringBuilder.Append("x_max = " + _xMax + ", ");
+            stringBuilder.Append("y_min = " + _yMin + ", ");
+            stringBuilder.Append("y_max = " + _yMax + ", ");
+            stringBuilder.Append("x_min_bound_to = " + _xMinBoundTo + ", ");
+            stringBuilder.Append("x_max_bound_to = " + _xMaxBoundTo + ", ");
+            stringBuilder.Append("y_min_bound_to = " + _yMinBoundTo + ", ");
+            stringBuilder.Append("y_max_bound_to = " + _yMaxBoundTo);
+            return true;
         }
     
         public override string ToString()
@@ -1445,7 +1635,7 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         private int _rightIndex = 1;
     
-        private ForceLUT _forceLookupTable;
+        private ForceLookUpTable _forceLookupTable;
     
         public ForceOperationControl()
         {
@@ -1517,7 +1707,7 @@ namespace AindForceForagingDataSchema.TaskLogic
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("force_lookup_table")]
         [System.ComponentModel.DescriptionAttribute("Look up table for force projection")]
-        public ForceLUT ForceLookupTable
+        public ForceLookUpTable ForceLookupTable
         {
             get
             {
@@ -2177,465 +2367,6 @@ namespace AindForceForagingDataSchema.TaskLogic
             }
             stringBuilder.Append("}");
             return stringBuilder.ToString();
-        }
-    }
-
-
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
-    [Bonsai.CombinatorAttribute()]
-    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
-    public partial class LUTByReference : ForceLUT
-    {
-    
-        private double _xMin;
-    
-        private double _xMax;
-    
-        private double _yMin;
-    
-        private double _yMax;
-    
-        private double? _xMinBoundTo;
-    
-        private double? _xMaxBoundTo;
-    
-        private double? _yMinBoundTo;
-    
-        private double? _yMaxBoundTo;
-    
-        private string _path;
-    
-        public LUTByReference()
-        {
-        }
-    
-        protected LUTByReference(LUTByReference other) : 
-                base(other)
-        {
-            _xMin = other._xMin;
-            _xMax = other._xMax;
-            _yMin = other._yMin;
-            _yMax = other._yMax;
-            _xMinBoundTo = other._xMinBoundTo;
-            _xMaxBoundTo = other._xMaxBoundTo;
-            _yMinBoundTo = other._yMinBoundTo;
-            _yMaxBoundTo = other._yMaxBoundTo;
-            _path = other._path;
-        }
-    
-        /// <summary>
-        /// The lower value of X used to linearly scale the input coordinate to.
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("x_min", Required=Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DescriptionAttribute("The lower value of X used to linearly scale the input coordinate to.")]
-        public double XMin
-        {
-            get
-            {
-                return _xMin;
-            }
-            set
-            {
-                _xMin = value;
-            }
-        }
-    
-        /// <summary>
-        /// The upper value of X used to linearly scale the input coordinate to.
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("x_max", Required=Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DescriptionAttribute("The upper value of X used to linearly scale the input coordinate to.")]
-        public double XMax
-        {
-            get
-            {
-                return _xMax;
-            }
-            set
-            {
-                _xMax = value;
-            }
-        }
-    
-        /// <summary>
-        /// The lower value of Y used to linearly scale the input coordinate to.
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("y_min", Required=Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DescriptionAttribute("The lower value of Y used to linearly scale the input coordinate to.")]
-        public double YMin
-        {
-            get
-            {
-                return _yMin;
-            }
-            set
-            {
-                _yMin = value;
-            }
-        }
-    
-        /// <summary>
-        /// The upper value of Y used to linearly scale the input coordinate to.
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("y_max", Required=Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DescriptionAttribute("The upper value of Y used to linearly scale the input coordinate to.")]
-        public double YMax
-        {
-            get
-            {
-                return _yMax;
-            }
-            set
-            {
-                _yMax = value;
-            }
-        }
-    
-        /// <summary>
-        /// The value given to X < XMin. if null it will default to XMin.
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("x_min_bound_to")]
-        [System.ComponentModel.DescriptionAttribute("The value given to X < XMin. if null it will default to XMin.")]
-        public double? XMinBoundTo
-        {
-            get
-            {
-                return _xMinBoundTo;
-            }
-            set
-            {
-                _xMinBoundTo = value;
-            }
-        }
-    
-        /// <summary>
-        /// The value given to X > XMax. if null it will default to XMax.
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("x_max_bound_to")]
-        [System.ComponentModel.DescriptionAttribute("The value given to X > XMax. if null it will default to XMax.")]
-        public double? XMaxBoundTo
-        {
-            get
-            {
-                return _xMaxBoundTo;
-            }
-            set
-            {
-                _xMaxBoundTo = value;
-            }
-        }
-    
-        /// <summary>
-        /// The value given to Y < YMin. if null it will default to YMin.
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("y_min_bound_to")]
-        [System.ComponentModel.DescriptionAttribute("The value given to Y < YMin. if null it will default to YMin.")]
-        public double? YMinBoundTo
-        {
-            get
-            {
-                return _yMinBoundTo;
-            }
-            set
-            {
-                _yMinBoundTo = value;
-            }
-        }
-    
-        /// <summary>
-        /// The value given to Y > YMax. if null it will default to YMax.
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("y_max_bound_to")]
-        [System.ComponentModel.DescriptionAttribute("The value given to Y > YMax. if null it will default to YMax.")]
-        public double? YMaxBoundTo
-        {
-            get
-            {
-                return _yMaxBoundTo;
-            }
-            set
-            {
-                _yMaxBoundTo = value;
-            }
-        }
-    
-        /// <summary>
-        /// Reference to the look up table
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("path", Required=Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DescriptionAttribute("Reference to the look up table")]
-        public string Path
-        {
-            get
-            {
-                return _path;
-            }
-            set
-            {
-                _path = value;
-            }
-        }
-    
-        public System.IObservable<LUTByReference> Process()
-        {
-            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new LUTByReference(this)));
-        }
-    
-        public System.IObservable<LUTByReference> Process<TSource>(System.IObservable<TSource> source)
-        {
-            return System.Reactive.Linq.Observable.Select(source, _ => new LUTByReference(this));
-        }
-    
-        protected override bool PrintMembers(System.Text.StringBuilder stringBuilder)
-        {
-            if (base.PrintMembers(stringBuilder))
-            {
-                stringBuilder.Append(", ");
-            }
-            stringBuilder.Append("x_min = " + _xMin + ", ");
-            stringBuilder.Append("x_max = " + _xMax + ", ");
-            stringBuilder.Append("y_min = " + _yMin + ", ");
-            stringBuilder.Append("y_max = " + _yMax + ", ");
-            stringBuilder.Append("x_min_bound_to = " + _xMinBoundTo + ", ");
-            stringBuilder.Append("x_max_bound_to = " + _xMaxBoundTo + ", ");
-            stringBuilder.Append("y_min_bound_to = " + _yMinBoundTo + ", ");
-            stringBuilder.Append("y_max_bound_to = " + _yMaxBoundTo + ", ");
-            stringBuilder.Append("path = " + _path);
-            return true;
-        }
-    }
-
-
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
-    [Bonsai.CombinatorAttribute()]
-    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
-    public partial class LUTByValue : ForceLUT
-    {
-    
-        private double _xMin;
-    
-        private double _xMax;
-    
-        private double _yMin;
-    
-        private double _yMax;
-    
-        private double? _xMinBoundTo;
-    
-        private double? _xMaxBoundTo;
-    
-        private double? _yMinBoundTo;
-    
-        private double? _yMaxBoundTo;
-    
-        private System.Collections.Generic.List<System.Collections.Generic.List<double>> _lut = new System.Collections.Generic.List<System.Collections.Generic.List<double>>();
-    
-        public LUTByValue()
-        {
-        }
-    
-        protected LUTByValue(LUTByValue other) : 
-                base(other)
-        {
-            _xMin = other._xMin;
-            _xMax = other._xMax;
-            _yMin = other._yMin;
-            _yMax = other._yMax;
-            _xMinBoundTo = other._xMinBoundTo;
-            _xMaxBoundTo = other._xMaxBoundTo;
-            _yMinBoundTo = other._yMinBoundTo;
-            _yMaxBoundTo = other._yMaxBoundTo;
-            _lut = other._lut;
-        }
-    
-        /// <summary>
-        /// The lower value of X used to linearly scale the input coordinate to.
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("x_min", Required=Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DescriptionAttribute("The lower value of X used to linearly scale the input coordinate to.")]
-        public double XMin
-        {
-            get
-            {
-                return _xMin;
-            }
-            set
-            {
-                _xMin = value;
-            }
-        }
-    
-        /// <summary>
-        /// The upper value of X used to linearly scale the input coordinate to.
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("x_max", Required=Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DescriptionAttribute("The upper value of X used to linearly scale the input coordinate to.")]
-        public double XMax
-        {
-            get
-            {
-                return _xMax;
-            }
-            set
-            {
-                _xMax = value;
-            }
-        }
-    
-        /// <summary>
-        /// The lower value of Y used to linearly scale the input coordinate to.
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("y_min", Required=Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DescriptionAttribute("The lower value of Y used to linearly scale the input coordinate to.")]
-        public double YMin
-        {
-            get
-            {
-                return _yMin;
-            }
-            set
-            {
-                _yMin = value;
-            }
-        }
-    
-        /// <summary>
-        /// The upper value of Y used to linearly scale the input coordinate to.
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("y_max", Required=Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DescriptionAttribute("The upper value of Y used to linearly scale the input coordinate to.")]
-        public double YMax
-        {
-            get
-            {
-                return _yMax;
-            }
-            set
-            {
-                _yMax = value;
-            }
-        }
-    
-        /// <summary>
-        /// The value given to X < XMin. if null it will default to XMin.
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("x_min_bound_to")]
-        [System.ComponentModel.DescriptionAttribute("The value given to X < XMin. if null it will default to XMin.")]
-        public double? XMinBoundTo
-        {
-            get
-            {
-                return _xMinBoundTo;
-            }
-            set
-            {
-                _xMinBoundTo = value;
-            }
-        }
-    
-        /// <summary>
-        /// The value given to X > XMax. if null it will default to XMax.
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("x_max_bound_to")]
-        [System.ComponentModel.DescriptionAttribute("The value given to X > XMax. if null it will default to XMax.")]
-        public double? XMaxBoundTo
-        {
-            get
-            {
-                return _xMaxBoundTo;
-            }
-            set
-            {
-                _xMaxBoundTo = value;
-            }
-        }
-    
-        /// <summary>
-        /// The value given to Y < YMin. if null it will default to YMin.
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("y_min_bound_to")]
-        [System.ComponentModel.DescriptionAttribute("The value given to Y < YMin. if null it will default to YMin.")]
-        public double? YMinBoundTo
-        {
-            get
-            {
-                return _yMinBoundTo;
-            }
-            set
-            {
-                _yMinBoundTo = value;
-            }
-        }
-    
-        /// <summary>
-        /// The value given to Y > YMax. if null it will default to YMax.
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("y_max_bound_to")]
-        [System.ComponentModel.DescriptionAttribute("The value given to Y > YMax. if null it will default to YMax.")]
-        public double? YMaxBoundTo
-        {
-            get
-            {
-                return _yMaxBoundTo;
-            }
-            set
-            {
-                _yMaxBoundTo = value;
-            }
-        }
-    
-        /// <summary>
-        /// LUT for force projection. Must be a MxN matrix, where N, M > 1
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("lut", Required=Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DescriptionAttribute("LUT for force projection. Must be a MxN matrix, where N, M > 1")]
-        public System.Collections.Generic.List<System.Collections.Generic.List<double>> Lut
-        {
-            get
-            {
-                return _lut;
-            }
-            set
-            {
-                _lut = value;
-            }
-        }
-    
-        public System.IObservable<LUTByValue> Process()
-        {
-            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new LUTByValue(this)));
-        }
-    
-        public System.IObservable<LUTByValue> Process<TSource>(System.IObservable<TSource> source)
-        {
-            return System.Reactive.Linq.Observable.Select(source, _ => new LUTByValue(this));
-        }
-    
-        protected override bool PrintMembers(System.Text.StringBuilder stringBuilder)
-        {
-            if (base.PrintMembers(stringBuilder))
-            {
-                stringBuilder.Append(", ");
-            }
-            stringBuilder.Append("x_min = " + _xMin + ", ");
-            stringBuilder.Append("x_max = " + _xMax + ", ");
-            stringBuilder.Append("y_min = " + _yMin + ", ");
-            stringBuilder.Append("y_max = " + _yMax + ", ");
-            stringBuilder.Append("x_min_bound_to = " + _xMinBoundTo + ", ");
-            stringBuilder.Append("x_max_bound_to = " + _xMaxBoundTo + ", ");
-            stringBuilder.Append("y_min_bound_to = " + _yMinBoundTo + ", ");
-            stringBuilder.Append("y_max_bound_to = " + _yMaxBoundTo + ", ");
-            stringBuilder.Append("lut = " + _lut);
-            return true;
         }
     }
 
@@ -5030,47 +4761,6 @@ namespace AindForceForagingDataSchema.TaskLogic
     }
 
 
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
-    [System.ComponentModel.DefaultPropertyAttribute("Type")]
-    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Combinator)]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LUTByValue>))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LUTByReference>))]
-    public partial class MatchForceLUT : Bonsai.Expressions.SingleArgumentExpressionBuilder
-    {
-    
-        public Bonsai.Expressions.TypeMapping Type { get; set; }
-
-        public override System.Linq.Expressions.Expression Build(System.Collections.Generic.IEnumerable<System.Linq.Expressions.Expression> arguments)
-        {
-            var typeMapping = Type;
-            var returnType = typeMapping != null ? typeMapping.GetType().GetGenericArguments()[0] : typeof(ForceLUT);
-            return System.Linq.Expressions.Expression.Call(
-                typeof(MatchForceLUT),
-                "Process",
-                new System.Type[] { returnType },
-                System.Linq.Enumerable.Single(arguments));
-        }
-
-    
-        private static System.IObservable<TResult> Process<TResult>(System.IObservable<ForceLUT> source)
-            where TResult : ForceLUT
-        {
-            return System.Reactive.Linq.Observable.Create<TResult>(observer =>
-            {
-                var sourceObserver = System.Reactive.Observer.Create<ForceLUT>(
-                    value =>
-                    {
-                        var match = value as TResult;
-                        if (match != null) observer.OnNext(match);
-                    },
-                    observer.OnError,
-                    observer.OnCompleted);
-                return System.ObservableExtensions.SubscribeSafe(source, sourceObserver);
-            });
-        }
-    }
-
-
     /// <summary>
     /// Serializes a sequence of data model objects into JSON strings.
     /// </summary>
@@ -5156,9 +4846,9 @@ namespace AindForceForagingDataSchema.TaskLogic
             return Process<ExponentialDistributionParameters>(source);
         }
 
-        public System.IObservable<string> Process(System.IObservable<ForceLUT> source)
+        public System.IObservable<string> Process(System.IObservable<ForceLookUpTable> source)
         {
-            return Process<ForceLUT>(source);
+            return Process<ForceLookUpTable>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<ForceOperationControl> source)
@@ -5184,16 +4874,6 @@ namespace AindForceForagingDataSchema.TaskLogic
         public System.IObservable<string> Process(System.IObservable<InitiationPeriod> source)
         {
             return Process<InitiationPeriod>(source);
-        }
-
-        public System.IObservable<string> Process(System.IObservable<LUTByReference> source)
-        {
-            return Process<LUTByReference>(source);
-        }
-
-        public System.IObservable<string> Process(System.IObservable<LUTByValue> source)
-        {
-            return Process<LUTByValue>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<LogNormalDistribution> source)
@@ -5324,14 +5004,12 @@ namespace AindForceForagingDataSchema.TaskLogic
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Environment>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ExponentialDistribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ExponentialDistributionParameters>))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ForceLUT>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ForceLookUpTable>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ForceOperationControl>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<GammaDistribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<GammaDistributionParameters>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<HarvestAction>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<InitiationPeriod>))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LUTByReference>))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LUTByValue>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LogNormalDistribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LogNormalDistributionParameters>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NormalDistribution>))]
