@@ -556,33 +556,33 @@
     "ForceLookUpTable": {
       "properties": {
         "path": {
-          "description": "Reference to the look up table image.",
+          "description": "Reference to the look up table image. Should be a 1 channel image. Value = LUT[Left, Right]",
           "title": "Path",
           "type": "string"
         },
-        "x_min": {
-          "description": "The lower value of X used to linearly scale the input coordinate to.",
-          "title": "X Min",
+        "left_min": {
+          "description": "The lower value of Left force used to linearly scale the input coordinate to.",
+          "title": "Left Min",
           "type": "number"
         },
-        "x_max": {
-          "description": "The upper value of X used to linearly scale the input coordinate to.",
-          "title": "X Max",
+        "left_max": {
+          "description": "The upper value of Left force used to linearly scale the input coordinate to.",
+          "title": "Left Max",
           "type": "number"
         },
-        "y_min": {
-          "description": "The lower value of Y used to linearly scale the input coordinate to.",
-          "title": "Y Min",
+        "right_min": {
+          "description": "The lower value of Right force used to linearly scale the input coordinate to.",
+          "title": "Right Min",
           "type": "number"
         },
-        "y_max": {
-          "description": "The upper value of Y used to linearly scale the input coordinate to.",
-          "title": "Y Max",
+        "right_max": {
+          "description": "The upper value of Right force used to linearly scale the input coordinate to.",
+          "title": "Right Max",
           "type": "number"
         },
-        "x_min_bound_to": {
+        "left_min_bound_to": {
           "default": null,
-          "description": "The value given to X < XMin. if null it will default to XMin.",
+          "description": "The value given to Left < left_min. if null it will default to left_min.",
           "oneOf": [
             {
               "type": "number"
@@ -591,11 +591,11 @@
               "type": "null"
             }
           ],
-          "title": "X Min Bound To"
+          "title": "Left Min Bound To"
         },
-        "x_max_bound_to": {
+        "left_max_bound_to": {
           "default": null,
-          "description": "The value given to X > XMax. if null it will default to XMax.",
+          "description": "The value given to Left > left_max. if null it will default to left_max.",
           "oneOf": [
             {
               "type": "number"
@@ -604,11 +604,11 @@
               "type": "null"
             }
           ],
-          "title": "X Max Bound To"
+          "title": "Left Max Bound To"
         },
-        "y_min_bound_to": {
+        "right_min_bound_to": {
           "default": null,
-          "description": "The value given to Y < YMin. if null it will default to YMin.",
+          "description": "The value given to Right < right_min. if null it will default to right_min.",
           "oneOf": [
             {
               "type": "number"
@@ -617,11 +617,11 @@
               "type": "null"
             }
           ],
-          "title": "Y Min Bound To"
+          "title": "Right Min Bound To"
         },
-        "y_max_bound_to": {
+        "right_max_bound_to": {
           "default": null,
-          "description": "The value given to Y > YMax. if null it will default to YMax.",
+          "description": "The value given to Right > right_max. if null it will default to right_max.",
           "oneOf": [
             {
               "type": "number"
@@ -630,15 +630,15 @@
               "type": "null"
             }
           ],
-          "title": "Y Max Bound To"
+          "title": "Right Max Bound To"
         }
       },
       "required": [
         "path",
-        "x_min",
-        "x_max",
-        "y_min",
-        "y_max"
+        "left_min",
+        "left_max",
+        "right_min",
+        "right_max"
       ],
       "title": "ForceLookUpTable",
       "type": "object"

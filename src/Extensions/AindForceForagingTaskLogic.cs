@@ -1394,21 +1394,21 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         private string _path;
     
-        private double _xMin;
+        private double _leftMin;
     
-        private double _xMax;
+        private double _leftMax;
     
-        private double _yMin;
+        private double _rightMin;
     
-        private double _yMax;
+        private double _rightMax;
     
-        private double? _xMinBoundTo;
+        private double? _leftMinBoundTo;
     
-        private double? _xMaxBoundTo;
+        private double? _leftMaxBoundTo;
     
-        private double? _yMinBoundTo;
+        private double? _rightMinBoundTo;
     
-        private double? _yMaxBoundTo;
+        private double? _rightMaxBoundTo;
     
         public ForceLookUpTable()
         {
@@ -1417,21 +1417,22 @@ namespace AindForceForagingDataSchema.TaskLogic
         protected ForceLookUpTable(ForceLookUpTable other)
         {
             _path = other._path;
-            _xMin = other._xMin;
-            _xMax = other._xMax;
-            _yMin = other._yMin;
-            _yMax = other._yMax;
-            _xMinBoundTo = other._xMinBoundTo;
-            _xMaxBoundTo = other._xMaxBoundTo;
-            _yMinBoundTo = other._yMinBoundTo;
-            _yMaxBoundTo = other._yMaxBoundTo;
+            _leftMin = other._leftMin;
+            _leftMax = other._leftMax;
+            _rightMin = other._rightMin;
+            _rightMax = other._rightMax;
+            _leftMinBoundTo = other._leftMinBoundTo;
+            _leftMaxBoundTo = other._leftMaxBoundTo;
+            _rightMinBoundTo = other._rightMinBoundTo;
+            _rightMaxBoundTo = other._rightMaxBoundTo;
         }
     
         /// <summary>
-        /// Reference to the look up table image.
+        /// Reference to the look up table image. Should be a 1 channel image. Value = LUT[Left, Right]
         /// </summary>
         [Newtonsoft.Json.JsonPropertyAttribute("path", Required=Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DescriptionAttribute("Reference to the look up table image.")]
+        [System.ComponentModel.DescriptionAttribute("Reference to the look up table image. Should be a 1 channel image. Value = LUT[Le" +
+            "ft, Right]")]
         public string Path
         {
             get
@@ -1445,142 +1446,142 @@ namespace AindForceForagingDataSchema.TaskLogic
         }
     
         /// <summary>
-        /// The lower value of X used to linearly scale the input coordinate to.
+        /// The lower value of Left force used to linearly scale the input coordinate to.
         /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("x_min", Required=Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DescriptionAttribute("The lower value of X used to linearly scale the input coordinate to.")]
-        public double XMin
+        [Newtonsoft.Json.JsonPropertyAttribute("left_min", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("The lower value of Left force used to linearly scale the input coordinate to.")]
+        public double LeftMin
         {
             get
             {
-                return _xMin;
+                return _leftMin;
             }
             set
             {
-                _xMin = value;
+                _leftMin = value;
             }
         }
     
         /// <summary>
-        /// The upper value of X used to linearly scale the input coordinate to.
+        /// The upper value of Left force used to linearly scale the input coordinate to.
         /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("x_max", Required=Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DescriptionAttribute("The upper value of X used to linearly scale the input coordinate to.")]
-        public double XMax
+        [Newtonsoft.Json.JsonPropertyAttribute("left_max", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("The upper value of Left force used to linearly scale the input coordinate to.")]
+        public double LeftMax
         {
             get
             {
-                return _xMax;
+                return _leftMax;
             }
             set
             {
-                _xMax = value;
+                _leftMax = value;
             }
         }
     
         /// <summary>
-        /// The lower value of Y used to linearly scale the input coordinate to.
+        /// The lower value of Right force used to linearly scale the input coordinate to.
         /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("y_min", Required=Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DescriptionAttribute("The lower value of Y used to linearly scale the input coordinate to.")]
-        public double YMin
+        [Newtonsoft.Json.JsonPropertyAttribute("right_min", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("The lower value of Right force used to linearly scale the input coordinate to.")]
+        public double RightMin
         {
             get
             {
-                return _yMin;
+                return _rightMin;
             }
             set
             {
-                _yMin = value;
+                _rightMin = value;
             }
         }
     
         /// <summary>
-        /// The upper value of Y used to linearly scale the input coordinate to.
+        /// The upper value of Right force used to linearly scale the input coordinate to.
         /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("y_max", Required=Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DescriptionAttribute("The upper value of Y used to linearly scale the input coordinate to.")]
-        public double YMax
+        [Newtonsoft.Json.JsonPropertyAttribute("right_max", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("The upper value of Right force used to linearly scale the input coordinate to.")]
+        public double RightMax
         {
             get
             {
-                return _yMax;
+                return _rightMax;
             }
             set
             {
-                _yMax = value;
+                _rightMax = value;
             }
         }
     
         /// <summary>
-        /// The value given to X < XMin. if null it will default to XMin.
+        /// The value given to Left < left_min. if null it will default to left_min.
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("x_min_bound_to")]
-        [System.ComponentModel.DescriptionAttribute("The value given to X < XMin. if null it will default to XMin.")]
-        public double? XMinBoundTo
+        [Newtonsoft.Json.JsonPropertyAttribute("left_min_bound_to")]
+        [System.ComponentModel.DescriptionAttribute("The value given to Left < left_min. if null it will default to left_min.")]
+        public double? LeftMinBoundTo
         {
             get
             {
-                return _xMinBoundTo;
+                return _leftMinBoundTo;
             }
             set
             {
-                _xMinBoundTo = value;
+                _leftMinBoundTo = value;
             }
         }
     
         /// <summary>
-        /// The value given to X > XMax. if null it will default to XMax.
+        /// The value given to Left > left_max. if null it will default to left_max.
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("x_max_bound_to")]
-        [System.ComponentModel.DescriptionAttribute("The value given to X > XMax. if null it will default to XMax.")]
-        public double? XMaxBoundTo
+        [Newtonsoft.Json.JsonPropertyAttribute("left_max_bound_to")]
+        [System.ComponentModel.DescriptionAttribute("The value given to Left > left_max. if null it will default to left_max.")]
+        public double? LeftMaxBoundTo
         {
             get
             {
-                return _xMaxBoundTo;
+                return _leftMaxBoundTo;
             }
             set
             {
-                _xMaxBoundTo = value;
+                _leftMaxBoundTo = value;
             }
         }
     
         /// <summary>
-        /// The value given to Y < YMin. if null it will default to YMin.
+        /// The value given to Right < right_min. if null it will default to right_min.
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("y_min_bound_to")]
-        [System.ComponentModel.DescriptionAttribute("The value given to Y < YMin. if null it will default to YMin.")]
-        public double? YMinBoundTo
+        [Newtonsoft.Json.JsonPropertyAttribute("right_min_bound_to")]
+        [System.ComponentModel.DescriptionAttribute("The value given to Right < right_min. if null it will default to right_min.")]
+        public double? RightMinBoundTo
         {
             get
             {
-                return _yMinBoundTo;
+                return _rightMinBoundTo;
             }
             set
             {
-                _yMinBoundTo = value;
+                _rightMinBoundTo = value;
             }
         }
     
         /// <summary>
-        /// The value given to Y > YMax. if null it will default to YMax.
+        /// The value given to Right > right_max. if null it will default to right_max.
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("y_max_bound_to")]
-        [System.ComponentModel.DescriptionAttribute("The value given to Y > YMax. if null it will default to YMax.")]
-        public double? YMaxBoundTo
+        [Newtonsoft.Json.JsonPropertyAttribute("right_max_bound_to")]
+        [System.ComponentModel.DescriptionAttribute("The value given to Right > right_max. if null it will default to right_max.")]
+        public double? RightMaxBoundTo
         {
             get
             {
-                return _yMaxBoundTo;
+                return _rightMaxBoundTo;
             }
             set
             {
-                _yMaxBoundTo = value;
+                _rightMaxBoundTo = value;
             }
         }
     
@@ -1597,14 +1598,14 @@ namespace AindForceForagingDataSchema.TaskLogic
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
             stringBuilder.Append("path = " + _path + ", ");
-            stringBuilder.Append("x_min = " + _xMin + ", ");
-            stringBuilder.Append("x_max = " + _xMax + ", ");
-            stringBuilder.Append("y_min = " + _yMin + ", ");
-            stringBuilder.Append("y_max = " + _yMax + ", ");
-            stringBuilder.Append("x_min_bound_to = " + _xMinBoundTo + ", ");
-            stringBuilder.Append("x_max_bound_to = " + _xMaxBoundTo + ", ");
-            stringBuilder.Append("y_min_bound_to = " + _yMinBoundTo + ", ");
-            stringBuilder.Append("y_max_bound_to = " + _yMaxBoundTo);
+            stringBuilder.Append("left_min = " + _leftMin + ", ");
+            stringBuilder.Append("left_max = " + _leftMax + ", ");
+            stringBuilder.Append("right_min = " + _rightMin + ", ");
+            stringBuilder.Append("right_max = " + _rightMax + ", ");
+            stringBuilder.Append("left_min_bound_to = " + _leftMinBoundTo + ", ");
+            stringBuilder.Append("left_max_bound_to = " + _leftMaxBoundTo + ", ");
+            stringBuilder.Append("right_min_bound_to = " + _rightMinBoundTo + ", ");
+            stringBuilder.Append("right_max_bound_to = " + _rightMaxBoundTo);
             return true;
         }
     

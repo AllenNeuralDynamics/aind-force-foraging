@@ -281,30 +281,40 @@ class PressMode(str, Enum):
 
 
 class ForceLookUpTable(BaseModel):
-    path: str = Field(..., description="Reference to the look up table image.")
-    x_min: float = Field(..., description="The lower value of X used to linearly scale the input coordinate to.")
-    x_max: float = Field(..., description="The upper value of X used to linearly scale the input coordinate to.")
-    y_min: float = Field(..., description="The lower value of Y used to linearly scale the input coordinate to.")
-    y_max: float = Field(..., description="The upper value of Y used to linearly scale the input coordinate to.")
-    x_min_bound_to: Optional[float] = Field(
-        None, description="The value given to X < XMin. if null it will default to XMin."
+    path: str = Field(
+        ..., description="Reference to the look up table image. Should be a 1 channel image. Value = LUT[Left, Right]"
     )
-    x_max_bound_to: Optional[float] = Field(
-        None, description="The value given to X > XMax. if null it will default to XMax."
+    left_min: float = Field(
+        ..., description="The lower value of Left force used to linearly scale the input coordinate to."
     )
-    y_min_bound_to: Optional[float] = Field(
-        None, description="The value given to Y < YMin. if null it will default to YMin."
+    left_max: float = Field(
+        ..., description="The upper value of Left force used to linearly scale the input coordinate to."
     )
-    y_max_bound_to: Optional[float] = Field(
-        None, description="The value given to Y > YMax. if null it will default to YMax."
+    right_min: float = Field(
+        ..., description="The lower value of Right force used to linearly scale the input coordinate to."
+    )
+    right_max: float = Field(
+        ..., description="The upper value of Right force used to linearly scale the input coordinate to."
+    )
+    left_min_bound_to: Optional[float] = Field(
+        None, description="The value given to Left < left_min. if null it will default to left_min."
+    )
+    left_max_bound_to: Optional[float] = Field(
+        None, description="The value given to Left > left_max. if null it will default to left_max."
+    )
+    right_min_bound_to: Optional[float] = Field(
+        None, description="The value given to Right < right_min. if null it will default to right_min."
+    )
+    right_max_bound_to: Optional[float] = Field(
+        None, description="The value given to Right > right_max. if null it will default to right_max."
     )
 
     @model_validator(mode="after")
     def _validate_bounds(self) -> Self:
-        if self.x_min < self.x_max:
-            raise ValueError("x_min must be less than x_max")
-        if self.y_min < self.y_max:
-            raise ValueError("y_min must be less than y_max")
+        if self.left_min < self.left_max:
+            raise ValueError("Left min must be greater than left max")
+        if self.right_min < self.right_max:
+            raise ValueError("Right min must be greater than right max")
         return self
 
 
