@@ -775,7 +775,7 @@
               "$ref": "#/definitions/TrialType"
             }
           ],
-          "default": "RegionOfInterest",
+          "default": "None",
           "description": "Type of the trial"
         },
         "probability": {
@@ -1401,7 +1401,7 @@
         "left_harvest": {
           "default": {
             "action": "Left",
-            "trial_type": "RegionOfInterest",
+            "trial_type": "None",
             "probability": 1.0,
             "amount": 1.0,
             "delay": 0.0,
@@ -1425,7 +1425,7 @@
         "right_harvest": {
           "default": {
             "action": "Right",
-            "trial_type": "RegionOfInterest",
+            "trial_type": "None",
             "probability": 1.0,
             "amount": 1.0,
             "delay": 0.0,
@@ -1453,6 +1453,7 @@
     "TrialType": {
       "description": "Defines the trial types",
       "enum": [
+        "None",
         "Accumulation",
         "RegionOfInterest"
       ],

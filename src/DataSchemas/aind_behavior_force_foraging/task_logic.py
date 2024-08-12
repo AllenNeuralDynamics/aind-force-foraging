@@ -125,6 +125,7 @@ class ActionUpdater(BaseModel):
 class TrialType(str, Enum):
     """Defines the trial types"""
 
+    NONE = "None"
     ACCUMULATION = "Accumulation"
     ROI = "RegionOfInterest"
 
@@ -133,7 +134,7 @@ class HarvestAction(BaseModel):
     """Defines an abstract class for an harvest action"""
 
     action: HarvestActionLabel = Field(default=HarvestActionLabel.NONE, description="Label of the action")
-    trial_type: TrialType = Field(default=TrialType.ROI, description="Type of the trial")
+    trial_type: TrialType = Field(default=TrialType.NONE, description="Type of the trial")
     probability: float = Field(default=1, description="Probability of reward")
     amount: float = Field(default=1, description="Amount of reward to be delivered")
     delay: float = Field(default=0, description="Delay between successful harvest and reward delivery")

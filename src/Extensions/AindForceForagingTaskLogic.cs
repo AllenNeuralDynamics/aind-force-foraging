@@ -1971,7 +1971,7 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         private HarvestActionLabel _action = AindForceForagingDataSchema.TaskLogic.HarvestActionLabel.None;
     
-        private TrialType _trialType = AindForceForagingDataSchema.TaskLogic.TrialType.RegionOfInterest;
+        private TrialType _trialType = AindForceForagingDataSchema.TaskLogic.TrialType.None;
     
         private double _probability = 1D;
     
@@ -3972,11 +3972,14 @@ namespace AindForceForagingDataSchema.TaskLogic
     public enum TrialType
     {
     
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="None")]
+        None = 0,
+    
         [System.Runtime.Serialization.EnumMemberAttribute(Value="Accumulation")]
-        Accumulation = 0,
+        Accumulation = 1,
     
         [System.Runtime.Serialization.EnumMemberAttribute(Value="RegionOfInterest")]
-        RegionOfInterest = 1,
+        RegionOfInterest = 2,
     }
 
 
