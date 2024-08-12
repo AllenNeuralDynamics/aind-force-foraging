@@ -29,7 +29,7 @@
             <Expression xsi:type="MemberSelector">
               <Selector>LeftHarvest</Selector>
             </Expression>
-            <Expression xsi:type="IncludeWorkflow" Path="Extensions\ObserveRoiAction.bonsai" />
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\ObserveAccumulationAction.bonsai" />
             <Expression xsi:type="SubscribeSubject">
               <Name>LeftHasReward</Name>
             </Expression>
@@ -42,7 +42,7 @@
             <Expression xsi:type="MemberSelector">
               <Selector>RightHarvest</Selector>
             </Expression>
-            <Expression xsi:type="IncludeWorkflow" Path="Extensions\ObserveRoiAction.bonsai" />
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\ObserveAccumulationAction.bonsai" />
             <Expression xsi:type="SubscribeSubject">
               <Name>RightHasReward</Name>
             </Expression>
