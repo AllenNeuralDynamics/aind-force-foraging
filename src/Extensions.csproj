@@ -11,6 +11,7 @@
     <PackageReference Include="Bonsai.Spinnaker" Version="0.7.1" />
     <PackageReference Include="Harp.Behavior" Version="0.1.0" />
     <PackageReference Include="Harp.Olfactometer" Version="0.1.0-build231127" />
+    <PackageReference Include="Harp.StepperDriver" Version="0.3.0" />
     <PackageReference Include="MathNet.Numerics" Version="4.15.0" />
     <PackageReference Include="Bonsai.Design.Visualizers" Version="2.8.0" />
     <PackageReference Include="AllenNeuralDynamics.Core" Version="0.2.2" />
