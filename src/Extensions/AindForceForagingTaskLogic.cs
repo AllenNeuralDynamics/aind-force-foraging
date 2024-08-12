@@ -1394,6 +1394,10 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         private string _path;
     
+        private double _offset = 0D;
+    
+        private double _scale = 1D;
+    
         private double _leftMin;
     
         private double _leftMax;
@@ -1417,6 +1421,8 @@ namespace AindForceForagingDataSchema.TaskLogic
         protected ForceLookUpTable(ForceLookUpTable other)
         {
             _path = other._path;
+            _offset = other._offset;
+            _scale = other._scale;
             _leftMin = other._leftMin;
             _leftMax = other._leftMax;
             _rightMin = other._rightMin;
@@ -1442,6 +1448,40 @@ namespace AindForceForagingDataSchema.TaskLogic
             set
             {
                 _path = value;
+            }
+        }
+    
+        /// <summary>
+        /// Offset to add to the look up table value
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("offset")]
+        [System.ComponentModel.DescriptionAttribute("Offset to add to the look up table value")]
+        public double Offset
+        {
+            get
+            {
+                return _offset;
+            }
+            set
+            {
+                _offset = value;
+            }
+        }
+    
+        /// <summary>
+        /// Scale to multiply the look up table value
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("scale")]
+        [System.ComponentModel.DescriptionAttribute("Scale to multiply the look up table value")]
+        public double Scale
+        {
+            get
+            {
+                return _scale;
+            }
+            set
+            {
+                _scale = value;
             }
         }
     
@@ -1598,6 +1638,8 @@ namespace AindForceForagingDataSchema.TaskLogic
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
             stringBuilder.Append("path = " + _path + ", ");
+            stringBuilder.Append("offset = " + _offset + ", ");
+            stringBuilder.Append("scale = " + _scale + ", ");
             stringBuilder.Append("left_min = " + _leftMin + ", ");
             stringBuilder.Append("left_max = " + _leftMax + ", ");
             stringBuilder.Append("right_min = " + _rightMin + ", ");
@@ -1971,6 +2013,8 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         private HarvestActionLabel _action = AindForceForagingDataSchema.TaskLogic.HarvestActionLabel.None;
     
+        private TrialType _trialType = AindForceForagingDataSchema.TaskLogic.TrialType.None;
+    
         private double _probability = 1D;
     
         private double _amount = 1D;
@@ -1996,6 +2040,7 @@ namespace AindForceForagingDataSchema.TaskLogic
         protected HarvestAction(HarvestAction other)
         {
             _action = other._action;
+            _trialType = other._trialType;
             _probability = other._probability;
             _amount = other._amount;
             _delay = other._delay;
@@ -2022,6 +2067,24 @@ namespace AindForceForagingDataSchema.TaskLogic
             set
             {
                 _action = value;
+            }
+        }
+    
+        /// <summary>
+        /// Type of the trial
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("trial_type")]
+        [System.ComponentModel.DescriptionAttribute("Type of the trial")]
+        public TrialType TrialType
+        {
+            get
+            {
+                return _trialType;
+            }
+            set
+            {
+                _trialType = value;
             }
         }
     
@@ -2094,10 +2157,10 @@ namespace AindForceForagingDataSchema.TaskLogic
         }
     
         /// <summary>
-        /// Upper bound of the force target region.
+        /// Upper bound of the force target region or the target cached force required.
         /// </summary>
         [Newtonsoft.Json.JsonPropertyAttribute("upper_force_threshold")]
-        [System.ComponentModel.DescriptionAttribute("Upper bound of the force target region.")]
+        [System.ComponentModel.DescriptionAttribute("Upper bound of the force target region or the target cached force required.")]
         public double UpperForceThreshold
         {
             get
@@ -2194,6 +2257,7 @@ namespace AindForceForagingDataSchema.TaskLogic
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
             stringBuilder.Append("action = " + _action + ", ");
+            stringBuilder.Append("trial_type = " + _trialType + ", ");
             stringBuilder.Append("probability = " + _probability + ", ");
             stringBuilder.Append("amount = " + _amount + ", ");
             stringBuilder.Append("delay = " + _delay + ", ");
@@ -3939,6 +4003,25 @@ namespace AindForceForagingDataSchema.TaskLogic
             stringBuilder.Append("}");
             return stringBuilder.ToString();
         }
+    }
+
+
+    /// <summary>
+    /// Defines the trial types
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+    public enum TrialType
+    {
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="None")]
+        None = 0,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="Accumulation")]
+        Accumulation = 1,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="RegionOfInterest")]
+        RegionOfInterest = 2,
     }
 
 

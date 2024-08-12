@@ -7,7 +7,6 @@ using AindForceForagingDataSchema.TaskLogic;
 using System.Xml.Serialization;
 using System.ComponentModel;
 using OpenCV.Net;
-using System.Drawing;
 
 public class ParseForce : Transform<Timestamped<short[]>, Force>
 {

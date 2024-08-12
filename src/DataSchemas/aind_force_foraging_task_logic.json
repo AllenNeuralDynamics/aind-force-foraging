@@ -560,6 +560,18 @@
           "title": "Path",
           "type": "string"
         },
+        "offset": {
+          "default": 0,
+          "description": "Offset to add to the look up table value",
+          "title": "Offset",
+          "type": "number"
+        },
+        "scale": {
+          "default": 1,
+          "description": "Scale to multiply the look up table value",
+          "title": "Scale",
+          "type": "number"
+        },
         "left_min": {
           "description": "The lower value of Left force used to linearly scale the input coordinate to.",
           "title": "Left Min",
@@ -769,6 +781,15 @@
           "default": "None",
           "description": "Label of the action"
         },
+        "trial_type": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/TrialType"
+            }
+          ],
+          "default": "None",
+          "description": "Type of the trial"
+        },
         "probability": {
           "default": 1,
           "description": "Probability of reward",
@@ -795,7 +816,7 @@
         },
         "upper_force_threshold": {
           "default": 32768,
-          "description": "Upper bound of the force target region.",
+          "description": "Upper bound of the force target region or the target cached force required.",
           "maximum": 32768.0,
           "minimum": -32768.0,
           "title": "Upper Force Threshold",
@@ -1392,6 +1413,7 @@
         "left_harvest": {
           "default": {
             "action": "Left",
+            "trial_type": "None",
             "probability": 1.0,
             "amount": 1.0,
             "delay": 0.0,
@@ -1415,6 +1437,7 @@
         "right_harvest": {
           "default": {
             "action": "Right",
+            "trial_type": "None",
             "probability": 1.0,
             "amount": 1.0,
             "delay": 0.0,
@@ -1438,6 +1461,16 @@
       },
       "title": "Trial",
       "type": "object"
+    },
+    "TrialType": {
+      "description": "Defines the trial types",
+      "enum": [
+        "None",
+        "Accumulation",
+        "RegionOfInterest"
+      ],
+      "title": "TrialType",
+      "type": "string"
     },
     "TruncationParameters": {
       "properties": {

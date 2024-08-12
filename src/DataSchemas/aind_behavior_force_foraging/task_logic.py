@@ -93,6 +93,14 @@ class NumericalUpdater(BaseModel):
     )
 
 
+class UpdateTargetParameterBy(str, Enum):
+    """Defines the independent variable used for the update"""
+
+    TIME = "Time"
+    REWARD = "Reward"
+    TRIAL = "Trial"
+
+
 class UpdateTargetParameter(str, Enum):
     """Defines the target parameters"""
 
@@ -102,14 +110,6 @@ class UpdateTargetParameter(str, Enum):
     AMOUNT = "Amount"
     FORCE_DURATION = "ForceDuration"
     DELAY = "Delay"
-
-
-class UpdateTargetParameterBy(str, Enum):
-    """Defines the independent variable used for the update"""
-
-    TIME = "Time"
-    REWARD = "Reward"
-    TRIAL = "Trial"
 
 
 class ActionUpdater(BaseModel):
@@ -122,10 +122,19 @@ class ActionUpdater(BaseModel):
     updater: NumericalUpdater = Field(..., description="Updater")
 
 
+class TrialType(str, Enum):
+    """Defines the trial types"""
+
+    NONE = "None"
+    ACCUMULATION = "Accumulation"
+    ROI = "RegionOfInterest"
+
+
 class HarvestAction(BaseModel):
     """Defines an abstract class for an harvest action"""
 
     action: HarvestActionLabel = Field(default=HarvestActionLabel.NONE, description="Label of the action")
+    trial_type: TrialType = Field(default=TrialType.NONE, description="Type of the trial")
     probability: float = Field(default=1, description="Probability of reward")
     amount: float = Field(default=1, description="Amount of reward to be delivered")
     delay: float = Field(default=0, description="Delay between successful harvest and reward delivery")
@@ -134,7 +143,7 @@ class HarvestAction(BaseModel):
         default=MAX_LOAD_CELL_FORCE,
         le=MAX_LOAD_CELL_FORCE,
         ge=-MAX_LOAD_CELL_FORCE,
-        description="Upper bound of the force target region.",
+        description="Upper bound of the force target region or the target cached force required.",
     )
     lower_force_threshold: float = Field(
         default=5000,
@@ -153,12 +162,28 @@ class HarvestAction(BaseModel):
     )
 
     @model_validator(mode="after")
-    def check_passwords_match(self) -> Self:
+    def _validate_thresholds(self) -> Self:
         if self.upper_force_threshold < self.lower_force_threshold:
             raise ValueError(
                 f"Upper force threshold ({self.upper_force_threshold}) must be greater than lower force threshold({self.lower_force_threshold})"
             )
         return self
+
+    @model_validator(mode="after")
+    def _validate_trial_type(self) -> Self:
+        if self.trial_type == TrialType.ROI:
+            if not all(
+                [
+                    self._between_thresholds(self.upper_force_threshold),
+                    self._between_thresholds(self.lower_force_threshold),
+                ]
+            ):
+                raise ValueError("Force thresholds must be between -32768 and 32768 for ROI trials")
+        return self
+
+    @staticmethod
+    def _between_thresholds(value: float) -> bool:
+        return value <= MAX_LOAD_CELL_FORCE and value >= -MAX_LOAD_CELL_FORCE
 
 
 class QuiescencePeriod(BaseModel):
@@ -284,6 +309,11 @@ class ForceLookUpTable(BaseModel):
     path: str = Field(
         ..., description="Reference to the look up table image. Should be a 1 channel image. Value = LUT[Left, Right]"
     )
+
+    offset: float = Field(default=0, description="Offset to add to the look up table value")
+
+    scale: float = Field(default=1, description="Scale to multiply the look up table value")
+
     left_min: float = Field(
         ..., description="The lower value of Left force used to linearly scale the input coordinate to."
     )
