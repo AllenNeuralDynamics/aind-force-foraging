@@ -113,8 +113,8 @@
               <Combinator xsi:type="rx:Zip" />
             </Expression>
             <Expression xsi:type="scr:ExpressionTransform">
-              <scr:Name>DeltaPerSecond</scr:Name>
-              <scr:Expression>(it.Item2.Value - it.Item1.Value) / (it.Item2.Seconds - it.Item1.Seconds)</scr:Expression>
+              <scr:Name>Force/Second</scr:Name>
+              <scr:Expression>(it.Item2.Value) / (it.Item2.Seconds - it.Item1.Seconds)</scr:Expression>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>lowerBound</Name>
