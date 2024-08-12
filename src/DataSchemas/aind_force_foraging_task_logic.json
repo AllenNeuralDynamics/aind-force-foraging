@@ -560,6 +560,18 @@
           "title": "Path",
           "type": "string"
         },
+        "offset": {
+          "default": 0,
+          "description": "Offset to add to the look up table value",
+          "title": "Offset",
+          "type": "number"
+        },
+        "scale": {
+          "default": 1,
+          "description": "Scale to multiply the look up table value",
+          "title": "Scale",
+          "type": "number"
+        },
         "left_min": {
           "description": "The lower value of Left force used to linearly scale the input coordinate to.",
           "title": "Left Min",

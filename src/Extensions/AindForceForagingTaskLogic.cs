@@ -1394,6 +1394,10 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         private string _path;
     
+        private double _offset = 0D;
+    
+        private double _scale = 1D;
+    
         private double _leftMin;
     
         private double _leftMax;
@@ -1417,6 +1421,8 @@ namespace AindForceForagingDataSchema.TaskLogic
         protected ForceLookUpTable(ForceLookUpTable other)
         {
             _path = other._path;
+            _offset = other._offset;
+            _scale = other._scale;
             _leftMin = other._leftMin;
             _leftMax = other._leftMax;
             _rightMin = other._rightMin;
@@ -1442,6 +1448,40 @@ namespace AindForceForagingDataSchema.TaskLogic
             set
             {
                 _path = value;
+            }
+        }
+    
+        /// <summary>
+        /// Offset to add to the look up table value
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("offset")]
+        [System.ComponentModel.DescriptionAttribute("Offset to add to the look up table value")]
+        public double Offset
+        {
+            get
+            {
+                return _offset;
+            }
+            set
+            {
+                _offset = value;
+            }
+        }
+    
+        /// <summary>
+        /// Scale to multiply the look up table value
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("scale")]
+        [System.ComponentModel.DescriptionAttribute("Scale to multiply the look up table value")]
+        public double Scale
+        {
+            get
+            {
+                return _scale;
+            }
+            set
+            {
+                _scale = value;
             }
         }
     
@@ -1598,6 +1638,8 @@ namespace AindForceForagingDataSchema.TaskLogic
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
             stringBuilder.Append("path = " + _path + ", ");
+            stringBuilder.Append("offset = " + _offset + ", ");
+            stringBuilder.Append("scale = " + _scale + ", ");
             stringBuilder.Append("left_min = " + _leftMin + ", ");
             stringBuilder.Append("left_max = " + _leftMax + ", ");
             stringBuilder.Append("right_min = " + _rightMin + ", ");

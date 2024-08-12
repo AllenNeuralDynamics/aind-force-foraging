@@ -172,10 +172,12 @@ class HarvestAction(BaseModel):
     @model_validator(mode="after")
     def _validate_trial_type(self) -> Self:
         if self.trial_type == TrialType.ROI:
-            if not all([
+            if not all(
+                [
                     self._between_thresholds(self.upper_force_threshold),
                     self._between_thresholds(self.lower_force_threshold),
-                    ]):
+                ]
+            ):
                 raise ValueError("Force thresholds must be between -32768 and 32768 for ROI trials")
         return self
 
@@ -307,6 +309,11 @@ class ForceLookUpTable(BaseModel):
     path: str = Field(
         ..., description="Reference to the look up table image. Should be a 1 channel image. Value = LUT[Left, Right]"
     )
+
+    offset: float = Field(default=0, description="Offset to add to the look up table value")
+
+    scale: float = Field(default=1, description="Scale to multiply the look up table value")
+
     left_min: float = Field(
         ..., description="The lower value of Left force used to linearly scale the input coordinate to."
     )
