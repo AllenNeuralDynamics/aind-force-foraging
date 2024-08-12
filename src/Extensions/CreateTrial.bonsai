@@ -765,7 +765,7 @@
                           <Selector>LeftHarvest</Selector>
                         </Expression>
                         <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:FilterNotNull.bonsai" />
-                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\ObserveHarvestAction.bonsai" />
+                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\ObserveRoiAction.bonsai" />
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="rx:WithLatestFrom" />
                         </Expression>
@@ -824,7 +824,7 @@
                           <Selector>RightHarvest</Selector>
                         </Expression>
                         <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:FilterNotNull.bonsai" />
-                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\ObserveHarvestAction.bonsai" />
+                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\ObserveRoiAction.bonsai" />
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="rx:WithLatestFrom" />
                         </Expression>
