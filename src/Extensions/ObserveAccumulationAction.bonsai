@@ -13,6 +13,41 @@
       <Expression xsi:type="WorkflowInput">
         <Name>Source1</Name>
       </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:FilterNotNull.bonsai" />
+      <Expression xsi:type="rx:Condition">
+        <Name>CheckTrialType</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>TrialType</Selector>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>trialType</Name>
+            </Expression>
+            <Expression xsi:type="PropertyMapping">
+              <PropertyMappings>
+                <Property Name="Value" />
+              </PropertyMappings>
+            </Expression>
+            <Expression xsi:type="Equal">
+              <Operand xsi:type="WorkflowProperty" TypeArguments="p1:TrialType">
+                <Value>Accumulation</Value>
+              </Operand>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="4" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="3" To="4" Label="Source2" />
+            <Edge From="4" To="5" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
       <Expression xsi:type="rx:SelectMany">
         <Name>ObserveHarvestAction</Name>
         <Workflow>
@@ -229,11 +264,62 @@
           </Edges>
         </Workflow>
       </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:WithLatestFrom" />
+      </Expression>
+      <Expression xsi:type="MemberSelector">
+        <Selector>Item2</Selector>
+      </Expression>
+      <Expression xsi:type="rx:SelectMany">
+        <Name>TriggerFeedback</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+            <Expression xsi:type="SubscribeSubject">
+              <Name>ThisPeriod</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>HasFeedback</Selector>
+            </Expression>
+            <Expression xsi:type="rx:Condition">
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="WorkflowInput">
+                    <Name>Source1</Name>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="MulticastSubject">
+              <Name>TriggerFeedbackCue</Name>
+            </Expression>
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
       <Expression xsi:type="WorkflowOutput" />
     </Nodes>
     <Edges>
       <Edge From="0" To="1" Label="Source1" />
       <Edge From="1" To="2" Label="Source1" />
+      <Edge From="2" To="3" Label="Source1" />
+      <Edge From="2" To="4" Label="Source2" />
+      <Edge From="3" To="4" Label="Source1" />
+      <Edge From="4" To="5" Label="Source1" />
+      <Edge From="5" To="6" Label="Source1" />
+      <Edge From="6" To="7" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
