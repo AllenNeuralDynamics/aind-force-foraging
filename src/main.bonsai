@@ -2804,7 +2804,7 @@
                     <Workflow>
                       <Nodes>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="FloatProperty">
+                          <Combinator xsi:type="DoubleProperty">
                             <Value>0</Value>
                           </Combinator>
                         </Expression>
