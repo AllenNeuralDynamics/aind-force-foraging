@@ -130,6 +130,50 @@ class TrialType(str, Enum):
     ROI = "RegionOfInterest"
 
 
+class ContinuousFeedbackMode(str, Enum):
+    """Defines the feedback mode"""
+
+    NONE = "None"
+    AUDIO = "Audio"
+    VISUAL = "Visual"
+    MANIPULATOR = "Manipulator"
+
+
+ValuePair = Annotated[List[float], Field(min_length=2, max_length=2, description="A tuple of two values")]
+
+
+class _ContinuousFeedbackBase(BaseModel):
+    continuous_feedback_mode: ContinuousFeedbackMode = Field(
+        default=ContinuousFeedbackMode.NONE, description="Continuous feedback mode"
+    )
+    converter_lut_input: List[Annotated[float, Field(ge=0, le=1)]] = Field(
+        default=[0, 1], min_length=2, description="Input domain. All values should be between 0 and 1"
+    )
+    converter_lut_output: List[float] = Field(
+        default=[0, 1],
+        min_length=2,
+        description="Output domain used to linearly interpolate the input values to the output values",
+    )
+
+    @model_validator(mode="after")
+    def _validate_lut(self) -> Self:
+        if len(self.converter_lut_input) != len(self.converter_lut_output):
+            raise ValueError("Input and output LUT must have the same length")
+        return self
+
+
+class ManipulatorFeedback(_ContinuousFeedbackBase):
+    continuous_feedback_mode: Literal[ContinuousFeedbackMode.MANIPULATOR] = ContinuousFeedbackMode.MANIPULATOR
+
+
+class AudioFeedback(_ContinuousFeedbackBase):
+    continuous_feedback_mode: Literal[ContinuousFeedbackMode.AUDIO] = ContinuousFeedbackMode.AUDIO
+
+
+class ContinuousFeedback(RootModel):
+    root: Annotated[Union[ManipulatorFeedback, AudioFeedback], Field(discriminator="continuous_feedback_mode")]
+
+
 class HarvestAction(BaseModel):
     """Defines an abstract class for an harvest action"""
 
@@ -160,6 +204,7 @@ class HarvestAction(BaseModel):
     action_updaters: List[ActionUpdater] = Field(
         default=[], description="List of action updaters. All updaters are called at the start of a new trial."
     )
+    continuous_feedback: Optional[ContinuousFeedback] = Field(default=None, description="Continuous feedback settings")
 
     @model_validator(mode="after")
     def _validate_thresholds(self) -> Self:
