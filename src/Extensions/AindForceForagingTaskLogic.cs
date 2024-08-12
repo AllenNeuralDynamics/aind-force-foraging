@@ -3299,6 +3299,8 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         private ForceOperationControl _force;
     
+        private SpoutOperationControl _spout;
+    
         public OperationControl()
         {
         }
@@ -3306,6 +3308,7 @@ namespace AindForceForagingDataSchema.TaskLogic
         protected OperationControl(OperationControl other)
         {
             _force = other._force;
+            _spout = other._spout;
         }
     
         /// <summary>
@@ -3326,6 +3329,24 @@ namespace AindForceForagingDataSchema.TaskLogic
             }
         }
     
+        /// <summary>
+        /// Operation control for spout
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("spout")]
+        [System.ComponentModel.DescriptionAttribute("Operation control for spout")]
+        public SpoutOperationControl Spout
+        {
+            get
+            {
+                return _spout;
+            }
+            set
+            {
+                _spout = value;
+            }
+        }
+    
         public System.IObservable<OperationControl> Process()
         {
             return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new OperationControl(this)));
@@ -3338,7 +3359,8 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
-            stringBuilder.Append("force = " + _force);
+            stringBuilder.Append("force = " + _force + ", ");
+            stringBuilder.Append("spout = " + _spout);
             return true;
         }
     
@@ -4038,6 +4060,113 @@ namespace AindForceForagingDataSchema.TaskLogic
         {
             stringBuilder.Append("scale = " + _scale + ", ");
             stringBuilder.Append("offset = " + _offset);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Bonsai.CombinatorAttribute()]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    public partial class SpoutOperationControl
+    {
+    
+        private double _defaultRetractedPosition = 0D;
+    
+        private double _defaultExtendedPosition = 0D;
+    
+        private bool _enabled = true;
+    
+        public SpoutOperationControl()
+        {
+        }
+    
+        protected SpoutOperationControl(SpoutOperationControl other)
+        {
+            _defaultRetractedPosition = other._defaultRetractedPosition;
+            _defaultExtendedPosition = other._defaultExtendedPosition;
+            _enabled = other._enabled;
+        }
+    
+        /// <summary>
+        /// Default retracted position (mm)
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("default_retracted_position")]
+        [System.ComponentModel.DescriptionAttribute("Default retracted position (mm)")]
+        public double DefaultRetractedPosition
+        {
+            get
+            {
+                return _defaultRetractedPosition;
+            }
+            set
+            {
+                _defaultRetractedPosition = value;
+            }
+        }
+    
+        /// <summary>
+        /// Default extended position (mm)
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("default_extended_position")]
+        [System.ComponentModel.DescriptionAttribute("Default extended position (mm)")]
+        public double DefaultExtendedPosition
+        {
+            get
+            {
+                return _defaultExtendedPosition;
+            }
+            set
+            {
+                _defaultExtendedPosition = value;
+            }
+        }
+    
+        /// <summary>
+        /// Whether the spout control is enabled
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("enabled")]
+        [System.ComponentModel.DescriptionAttribute("Whether the spout control is enabled")]
+        public bool Enabled
+        {
+            get
+            {
+                return _enabled;
+            }
+            set
+            {
+                _enabled = value;
+            }
+        }
+    
+        public System.IObservable<SpoutOperationControl> Process()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new SpoutOperationControl(this)));
+        }
+    
+        public System.IObservable<SpoutOperationControl> Process<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new SpoutOperationControl(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("default_retracted_position = " + _defaultRetractedPosition + ", ");
+            stringBuilder.Append("default_extended_position = " + _defaultExtendedPosition + ", ");
+            stringBuilder.Append("enabled = " + _enabled);
             return true;
         }
     
@@ -5315,6 +5444,11 @@ namespace AindForceForagingDataSchema.TaskLogic
             return Process<ScalingParameters>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<SpoutOperationControl> source)
+        {
+            return Process<SpoutOperationControl>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<Trial> source)
         {
             return Process<Trial>(source);
@@ -5396,6 +5530,7 @@ namespace AindForceForagingDataSchema.TaskLogic
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Scalar>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ScalarDistributionParameter>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ScalingParameters>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<SpoutOperationControl>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Trial>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<TruncationParameters>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<UniformDistribution>))]

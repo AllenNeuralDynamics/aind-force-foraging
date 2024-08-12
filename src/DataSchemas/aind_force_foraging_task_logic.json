@@ -79,6 +79,11 @@
               "left_index": 0,
               "press_mode": "Double",
               "right_index": 1
+            },
+            "spout": {
+              "default_extended_position": 0.0,
+              "default_retracted_position": 0.0,
+              "enabled": true
             }
           },
           "description": "Operation control"
@@ -1259,6 +1264,19 @@
             "force_lookup_table": null
           },
           "description": "Operation control for force sensor"
+        },
+        "spout": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/SpoutOperationControl"
+            }
+          ],
+          "default": {
+            "default_retracted_position": 0.0,
+            "default_extended_position": 0.0,
+            "enabled": true
+          },
+          "description": "Operation control for spout"
         }
       },
       "title": "OperationControl",
@@ -1469,6 +1487,30 @@
         }
       },
       "title": "ScalingParameters",
+      "type": "object"
+    },
+    "SpoutOperationControl": {
+      "properties": {
+        "default_retracted_position": {
+          "default": 0,
+          "description": "Default retracted position (mm)",
+          "title": "Default Retracted Position",
+          "type": "number"
+        },
+        "default_extended_position": {
+          "default": 0,
+          "description": "Default extended position (mm)",
+          "title": "Default Extended Position",
+          "type": "number"
+        },
+        "enabled": {
+          "default": true,
+          "description": "Whether the spout control is enabled",
+          "title": "Enabled",
+          "type": "boolean"
+        }
+      },
+      "title": "SpoutOperationControl",
       "type": "object"
     },
     "Trial": {

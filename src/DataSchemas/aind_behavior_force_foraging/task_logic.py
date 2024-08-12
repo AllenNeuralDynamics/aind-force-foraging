@@ -412,9 +412,18 @@ class ForceOperationControl(BaseModel):
         return self
 
 
+class SpoutOperationControl(BaseModel):
+    default_retracted_position: float = Field(default=0, description="Default retracted position (mm)")
+    default_extended_position: float = Field(default=0, description="Default extended position (mm)")
+    enabled: bool = Field(default=True, description="Whether the spout control is enabled")
+
+
 class OperationControl(BaseModel):
     force: ForceOperationControl = Field(
         default=ForceOperationControl(), validate_default=True, description="Operation control for force sensor"
+    )
+    spout: SpoutOperationControl = Field(
+        default=SpoutOperationControl(), validate_default=True, description="Operation control for spout"
     )
 
 
