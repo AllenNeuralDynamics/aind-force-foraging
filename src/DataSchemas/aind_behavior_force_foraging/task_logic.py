@@ -248,7 +248,7 @@ class BlockStatisticsMode(str, Enum):
     """Defines the mode of the environment"""
 
     BLOCK = "Block"
-    BROWNIAN = "BownianRandomWalk"
+    BROWNIAN = "BrownianRandomWalk"
     BLOCK_GENERATOR = "BlockGenerator"
 
 

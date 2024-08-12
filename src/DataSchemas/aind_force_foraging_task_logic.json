@@ -339,7 +339,7 @@
         "mapping": {
           "Block": "#/definitions/Block",
           "BlockGenerator": "#/definitions/BlockGenerator",
-          "BownianRandomWalk": "#/definitions/BrownianRandomWalk"
+          "BrownianRandomWalk": "#/definitions/BrownianRandomWalk"
         },
         "propertyName": "mode"
       },
@@ -359,8 +359,8 @@
     "BrownianRandomWalk": {
       "properties": {
         "mode": {
-          "const": "BownianRandomWalk",
-          "default": "BownianRandomWalk",
+          "const": "BrownianRandomWalk",
+          "default": "BrownianRandomWalk",
           "title": "Mode",
           "type": "string"
         },

@@ -889,7 +889,7 @@ namespace AindForceForagingDataSchema.TaskLogic
     [Newtonsoft.Json.JsonConverter(typeof(JsonInheritanceConverter), "mode")]
     [JsonInheritanceAttribute("Block", typeof(Block))]
     [JsonInheritanceAttribute("BlockGenerator", typeof(BlockGenerator))]
-    [JsonInheritanceAttribute("BownianRandomWalk", typeof(BrownianRandomWalk))]
+    [JsonInheritanceAttribute("BrownianRandomWalk", typeof(BrownianRandomWalk))]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     public partial class BlockStatistics
