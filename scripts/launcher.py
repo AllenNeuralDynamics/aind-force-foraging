@@ -1,7 +1,7 @@
 from aind_behavior_force_foraging.rig import AindForceForagingRig
-from aind_behavior_services.session import AindBehaviorSessionModel
 from aind_behavior_force_foraging.task_logic import AindForceForagingTaskLogic
 from aind_behavior_services.launcher import LauncherCli
+from aind_behavior_services.session import AindBehaviorSessionModel
 
 if __name__ == "__main__":
     launcher_cli = LauncherCli(
