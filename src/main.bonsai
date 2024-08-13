@@ -29,11 +29,12 @@
                  xmlns:p13="clr-namespace:AllenNeuralDynamics.LicketySplit;assembly=AllenNeuralDynamics.LicketySplit"
                  xmlns:cv="clr-namespace:Bonsai.Vision;assembly=Bonsai.Vision"
                  xmlns:p14="clr-namespace:;assembly=Extensions"
-                 xmlns:p15="clr-namespace:AllenNeuralDynamics.HarpUtils;assembly=AllenNeuralDynamics.HarpUtils"
+                 xmlns:p15="clr-namespace:OpenCV.Net;assembly=OpenCV.Net"
+                 xmlns:p16="clr-namespace:AllenNeuralDynamics.HarpUtils;assembly=AllenNeuralDynamics.HarpUtils"
                  xmlns:gui="clr-namespace:Bonsai.Gui;assembly=Bonsai.Gui"
                  xmlns:gli="clr-namespace:Bonsai.Shaders.Input;assembly=Bonsai.Shaders"
                  xmlns:viz="clr-namespace:Bonsai.Design.Visualizers;assembly=Bonsai.Design.Visualizers"
-                 xmlns:p16="clr-namespace:Bonsai.Vision.Design;assembly=Bonsai.Vision.Design"
+                 xmlns:p17="clr-namespace:Bonsai.Vision.Design;assembly=Bonsai.Vision.Design"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Workflow>
     <Nodes>
@@ -1343,6 +1344,50 @@
             <Expression xsi:type="rx:BehaviorSubject">
               <Name>ExperimentState</Name>
             </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>TrialNumber</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p7:CreateSoftwareEvent">
+                <p7:EventName>TrialNumber</p7:EventName>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="MulticastSubject">
+              <Name>SoftwareEvents</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>LeftHasReward</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p7:CreateSoftwareEvent">
+                <p7:EventName>LeftHasReward</p7:EventName>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="MulticastSubject">
+              <Name>SoftwareEvents</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>RightHasReward</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p7:CreateSoftwareEvent">
+                <p7:EventName>RightHasReward</p7:EventName>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="MulticastSubject">
+              <Name>SoftwareEvents</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>IsBaitedMode</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p7:CreateSoftwareEvent">
+                <p7:EventName>IsBaitedMode</p7:EventName>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="MulticastSubject">
+              <Name>SoftwareEvents</Name>
+            </Expression>
           </Nodes>
           <Edges>
             <Edge From="7" To="8" Label="Source1" />
@@ -1358,6 +1403,14 @@
             <Edge From="21" To="22" Label="Source1" />
             <Edge From="22" To="23" Label="Source3" />
             <Edge From="23" To="24" Label="Source1" />
+            <Edge From="25" To="26" Label="Source1" />
+            <Edge From="26" To="27" Label="Source1" />
+            <Edge From="28" To="29" Label="Source1" />
+            <Edge From="29" To="30" Label="Source1" />
+            <Edge From="31" To="32" Label="Source1" />
+            <Edge From="32" To="33" Label="Source1" />
+            <Edge From="34" To="35" Label="Source1" />
+            <Edge From="35" To="36" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -2548,7 +2601,7 @@
                     </Workflow>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
-                    <Name>HarpBehaviorHeartBeat</Name>
+                    <Name>HarpBehaviorEvents</Name>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:Take">
@@ -2650,6 +2703,9 @@
                                   <cv:Mode>Unchanged</cv:Mode>
                                 </Combinator>
                               </Expression>
+                              <Expression xsi:type="MulticastSubject">
+                                <Name>CurrentForceLut</Name>
+                              </Expression>
                               <Expression xsi:type="Combinator">
                                 <Combinator xsi:type="dsp:ConvertToMat" />
                               </Expression>
@@ -2663,6 +2719,7 @@
                               <Edge From="5" To="6" Label="Source1" />
                               <Edge From="6" To="7" Label="Source1" />
                               <Edge From="7" To="8" Label="Source1" />
+                              <Edge From="8" To="9" Label="Source1" />
                             </Edges>
                           </Workflow>
                         </Expression>
@@ -2758,6 +2815,9 @@
                   <Expression xsi:type="rx:PublishSubject">
                     <Name>CurrentForce</Name>
                   </Expression>
+                  <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p15:Mat">
+                    <rx:Name>CurrentForceLut</rx:Name>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="1" Label="Source1" />
@@ -2814,6 +2874,20 @@
                     <Combinator xsi:type="rx:Zip" />
                   </Expression>
                   <Expression xsi:type="rx:BehaviorSubject">
+                    <Name>ContinuousFeedbackProcess</Name>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Item1</Selector>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="p7:CreateSoftwareEvent">
+                      <p7:EventName>ContinuousFeedbackProcess</p7:EventName>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="MulticastSubject">
+                    <Name>SoftwareEvents</Name>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
                     <Name>ContinuousFeedbackProcess</Name>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
@@ -2970,13 +3044,16 @@
                   <Edge From="4" To="5" Label="Source1" />
                   <Edge From="5" To="6" Label="Source2" />
                   <Edge From="6" To="7" Label="Source1" />
+                  <Edge From="7" To="8" Label="Source1" />
                   <Edge From="8" To="9" Label="Source1" />
-                  <Edge From="8" To="11" Label="Source1" />
                   <Edge From="9" To="10" Label="Source1" />
-                  <Edge From="10" To="12" Label="Source1" />
-                  <Edge From="11" To="12" Label="Source2" />
                   <Edge From="12" To="13" Label="Source1" />
+                  <Edge From="12" To="15" Label="Source1" />
                   <Edge From="13" To="14" Label="Source1" />
+                  <Edge From="14" To="16" Label="Source1" />
+                  <Edge From="15" To="16" Label="Source2" />
+                  <Edge From="16" To="17" Label="Source1" />
+                  <Edge From="17" To="18" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -3395,6 +3472,9 @@
             </Expression>
             <Expression xsi:type="rx:BehaviorSubject">
               <Name>ActiveBlock</Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\CreateSoftwareEventInline.bonsai">
+              <EventName />
             </Expression>
             <Expression xsi:type="p3:MatchBlockStatistics">
               <p3:Type xsi:type="TypeMapping" TypeArguments="p3:Block" />
@@ -3909,23 +3989,24 @@
             <Edge From="10" To="11" Label="Source1" />
             <Edge From="11" To="12" Label="Source1" />
             <Edge From="12" To="13" Label="Source1" />
-            <Edge From="12" To="15" Label="Source1" />
-            <Edge From="12" To="17" Label="Source1" />
             <Edge From="13" To="14" Label="Source1" />
-            <Edge From="14" To="19" Label="Source1" />
-            <Edge From="15" To="16" Label="Source1" />
-            <Edge From="16" To="19" Label="Source2" />
-            <Edge From="17" To="18" Label="Source1" />
-            <Edge From="18" To="19" Label="Source3" />
-            <Edge From="19" To="20" Label="Source1" />
-            <Edge From="20" To="27" Label="Source1" />
-            <Edge From="21" To="22" Label="Source1" />
-            <Edge From="22" To="25" Label="Source1" />
-            <Edge From="23" To="24" Label="Source1" />
-            <Edge From="24" To="25" Label="Source2" />
-            <Edge From="25" To="26" Label="Source1" />
-            <Edge From="26" To="27" Label="Source2" />
-            <Edge From="27" To="28" Label="Source1" />
+            <Edge From="13" To="16" Label="Source1" />
+            <Edge From="13" To="18" Label="Source1" />
+            <Edge From="14" To="15" Label="Source1" />
+            <Edge From="15" To="20" Label="Source1" />
+            <Edge From="16" To="17" Label="Source1" />
+            <Edge From="17" To="20" Label="Source2" />
+            <Edge From="18" To="19" Label="Source1" />
+            <Edge From="19" To="20" Label="Source3" />
+            <Edge From="20" To="21" Label="Source1" />
+            <Edge From="21" To="28" Label="Source1" />
+            <Edge From="22" To="23" Label="Source1" />
+            <Edge From="23" To="26" Label="Source1" />
+            <Edge From="24" To="25" Label="Source1" />
+            <Edge From="25" To="26" Label="Source2" />
+            <Edge From="26" To="27" Label="Source1" />
+            <Edge From="27" To="28" Label="Source2" />
+            <Edge From="28" To="29" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -4123,9 +4204,9 @@
                           <Combinator xsi:type="rx:WithLatestFrom" />
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p15:ModifyMessage">
-                            <p15:Address xsi:nil="true" />
-                            <p15:MessageTypeModified xsi:nil="true" />
+                          <Combinator xsi:type="p16:ModifyMessage">
+                            <p16:Address xsi:nil="true" />
+                            <p16:MessageTypeModified xsi:nil="true" />
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
@@ -4152,9 +4233,9 @@
                           <Combinator xsi:type="rx:WithLatestFrom" />
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p15:ModifyMessage">
-                            <p15:Address xsi:nil="true" />
-                            <p15:MessageTypeModified xsi:nil="true" />
+                          <Combinator xsi:type="p16:ModifyMessage">
+                            <p16:Address xsi:nil="true" />
+                            <p16:MessageTypeModified xsi:nil="true" />
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
@@ -4181,9 +4262,9 @@
                           <Combinator xsi:type="rx:WithLatestFrom" />
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p15:ModifyMessage">
-                            <p15:Address xsi:nil="true" />
-                            <p15:MessageTypeModified xsi:nil="true" />
+                          <Combinator xsi:type="p16:ModifyMessage">
+                            <p16:Address xsi:nil="true" />
+                            <p16:MessageTypeModified xsi:nil="true" />
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
@@ -4210,9 +4291,9 @@
                           <Combinator xsi:type="rx:WithLatestFrom" />
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p15:ModifyMessage">
-                            <p15:Address xsi:nil="true" />
-                            <p15:MessageTypeModified xsi:nil="true" />
+                          <Combinator xsi:type="p16:ModifyMessage">
+                            <p16:Address xsi:nil="true" />
+                            <p16:MessageTypeModified xsi:nil="true" />
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
@@ -4239,9 +4320,9 @@
                           <Combinator xsi:type="rx:WithLatestFrom" />
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p15:ModifyMessage">
-                            <p15:Address xsi:nil="true" />
-                            <p15:MessageTypeModified xsi:nil="true" />
+                          <Combinator xsi:type="p16:ModifyMessage">
+                            <p16:Address xsi:nil="true" />
+                            <p16:MessageTypeModified xsi:nil="true" />
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
@@ -4268,9 +4349,9 @@
                           <Combinator xsi:type="rx:WithLatestFrom" />
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p15:ModifyMessage">
-                            <p15:Address xsi:nil="true" />
-                            <p15:MessageTypeModified xsi:nil="true" />
+                          <Combinator xsi:type="p16:ModifyMessage">
+                            <p16:Address xsi:nil="true" />
+                            <p16:MessageTypeModified xsi:nil="true" />
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
@@ -4620,11 +4701,68 @@ it.SyncQuadValue.Value as SyncQuadValue)</scr:Expression>
                       </Edges>
                     </Workflow>
                   </Expression>
-                  <Expression xsi:type="GroupWorkflow">
+                  <Expression xsi:type="rx:Defer">
                     <Name>OperationControl</Name>
                     <Workflow>
-                      <Nodes />
-                      <Edges />
+                      <Nodes>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="StringProperty">
+                            <Value>OperationControl</Value>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:Take">
+                            <rx:Count>1</rx:Count>
+                          </Combinator>
+                        </Expression>
+                        <Expression xsi:type="rx:AsyncSubject">
+                          <Name>deviceName</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>CurrentForceLut</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>Modality</Name>
+                        </Expression>
+                        <Expression xsi:type="PropertyMapping">
+                          <PropertyMappings>
+                            <Property Name="Modality" />
+                          </PropertyMappings>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>deviceName</Name>
+                        </Expression>
+                        <Expression xsi:type="PropertyMapping">
+                          <PropertyMappings>
+                            <Property Name="DeviceName" />
+                          </PropertyMappings>
+                        </Expression>
+                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\LogImage.bonsai">
+                          <SubjectName>LoggingRootPath</SubjectName>
+                          <Modality xsi:nil="true" />
+                          <LogName>ForceLut</LogName>
+                          <DeviceName />
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>CurrentForce</Name>
+                        </Expression>
+                        <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:LogCsv.bonsai">
+                          <SubjectName>LoggingRootPath</SubjectName>
+                          <Modality>Behavior</Modality>
+                          <LogName xsi:nil="true" />
+                          <DeviceName>CurrentForce</DeviceName>
+                        </Expression>
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="1" Label="Source1" />
+                        <Edge From="1" To="2" Label="Source1" />
+                        <Edge From="3" To="8" Label="Source1" />
+                        <Edge From="4" To="5" Label="Source1" />
+                        <Edge From="5" To="8" Label="Source2" />
+                        <Edge From="6" To="7" Label="Source1" />
+                        <Edge From="7" To="8" Label="Source3" />
+                        <Edge From="9" To="10" Label="Source1" />
+                      </Edges>
                     </Workflow>
                   </Expression>
                 </Nodes>
@@ -5813,7 +5951,7 @@ Value as Image)
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="p7:CreateSoftwareEvent">
-                            <p7:EventName>SoftwareEvent</p7:EventName>
+                            <p7:EventName>ExperimentCompleted</p7:EventName>
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
@@ -6708,7 +6846,7 @@ Value as Image)
                     <Selector>Value.Image</Selector>
                   </Expression>
                   <Expression xsi:type="VisualizerMapping">
-                    <VisualizerType xsi:type="TypeMapping" TypeArguments="p16:IplImageVisualizer" />
+                    <VisualizerType xsi:type="TypeMapping" TypeArguments="p17:IplImageVisualizer" />
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
                     <Name>TriggeredCamerasControllerExists</Name>
