@@ -113,8 +113,14 @@
               <Combinator xsi:type="rx:Zip" />
             </Expression>
             <Expression xsi:type="scr:ExpressionTransform">
-              <scr:Name>DeltaPerSecond</scr:Name>
-              <scr:Expression>(it.Item2.Value - it.Item1.Value) / (it.Item2.Seconds - it.Item1.Seconds)</scr:Expression>
+              <scr:Name>Force/Second</scr:Name>
+              <scr:Expression>(it.Item2.Value) / (it.Item2.Seconds - it.Item1.Seconds)</scr:Expression>
+            </Expression>
+            <Expression xsi:type="rx:PublishSubject">
+              <Name>ForcePerSecond</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>ForcePerSecond</Name>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>lowerBound</Name>
@@ -152,18 +158,18 @@
                 </Edges>
               </Workflow>
             </Expression>
+            <Expression xsi:type="rx:PublishSubject">
+              <Name>cachedForce</Name>
+            </Expression>
             <Expression xsi:type="SubscribeSubject">
               <Name>targetThreshold</Name>
             </Expression>
-            <Expression xsi:type="PropertyMapping">
-              <PropertyMappings>
-                <Property Name="Value" />
-              </PropertyMappings>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:WithLatestFrom" />
             </Expression>
-            <Expression xsi:type="GreaterThanOrEqual">
-              <Operand xsi:type="DoubleProperty">
-                <Value>0</Value>
-              </Operand>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Name>GreaterOrEqualThan</scr:Name>
+              <scr:Expression>Item1 &gt;= Item2</scr:Expression>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="rx:DistinctUntilChanged" />
@@ -232,6 +238,46 @@
               </Workflow>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
+            <Expression xsi:type="SubscribeSubject">
+              <Name>ThisHarvest</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>ContinuousFeedback</Selector>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:FilterNotNull.bonsai" />
+            <Expression xsi:type="rx:CreateObservable">
+              <Name>feedbackSourceObservable</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>cachedForce</Name>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>ThisHarvest</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="scr:ExpressionTransform">
+                    <scr:Name>Normalize</scr:Name>
+                    <scr:Expression>(Item1 - Item2.LowerForceThreshold) / (Item2.UpperForceThreshold - Item2.LowerForceThreshold)</scr:Expression>
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="2" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source2" />
+                  <Edge From="2" To="3" Label="Source1" />
+                  <Edge From="3" To="4" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Zip" />
+            </Expression>
+            <Expression xsi:type="MulticastSubject">
+              <Name>ContinuousFeedbackProcess</Name>
+            </Expression>
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
@@ -251,16 +297,24 @@
             <Edge From="15" To="17" Label="Source1" />
             <Edge From="16" To="17" Label="Source2" />
             <Edge From="17" To="18" Label="Source1" />
-            <Edge From="18" To="20" Label="Source1" />
-            <Edge From="19" To="20" Label="Source2" />
-            <Edge From="20" To="23" Label="Source1" />
-            <Edge From="21" To="22" Label="Source1" />
-            <Edge From="22" To="23" Label="Source2" />
-            <Edge From="23" To="24" Label="Source1" />
-            <Edge From="24" To="25" Label="Source1" />
+            <Edge From="18" To="19" Label="Source1" />
+            <Edge From="20" To="22" Label="Source1" />
+            <Edge From="21" To="22" Label="Source2" />
+            <Edge From="22" To="23" Label="Source1" />
+            <Edge From="23" To="25" Label="Source1" />
+            <Edge From="24" To="25" Label="Source2" />
             <Edge From="25" To="26" Label="Source1" />
             <Edge From="26" To="27" Label="Source1" />
             <Edge From="27" To="28" Label="Source1" />
+            <Edge From="28" To="29" Label="Source1" />
+            <Edge From="29" To="30" Label="Source1" />
+            <Edge From="30" To="31" Label="Source1" />
+            <Edge From="32" To="33" Label="Source1" />
+            <Edge From="33" To="34" Label="Source1" />
+            <Edge From="34" To="35" Label="Source1" />
+            <Edge From="34" To="36" Label="Source1" />
+            <Edge From="35" To="36" Label="Source2" />
+            <Edge From="36" To="37" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>

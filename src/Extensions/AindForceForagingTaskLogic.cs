@@ -254,6 +254,86 @@ namespace AindForceForagingDataSchema.TaskLogic
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    public partial class AudioFeedback : ContinuousFeedback
+    {
+    
+        private System.Collections.Generic.List<double> _converterLutInput = new System.Collections.Generic.List<double>();
+    
+        private System.Collections.Generic.List<double> _converterLutOutput = new System.Collections.Generic.List<double>();
+    
+        public AudioFeedback()
+        {
+        }
+    
+        protected AudioFeedback(AudioFeedback other) : 
+                base(other)
+        {
+            _converterLutInput = other._converterLutInput;
+            _converterLutOutput = other._converterLutOutput;
+        }
+    
+        /// <summary>
+        /// Input domain. All values should be between 0 and 1
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("converter_lut_input")]
+        [System.ComponentModel.DescriptionAttribute("Input domain. All values should be between 0 and 1")]
+        public System.Collections.Generic.List<double> ConverterLutInput
+        {
+            get
+            {
+                return _converterLutInput;
+            }
+            set
+            {
+                _converterLutInput = value;
+            }
+        }
+    
+        /// <summary>
+        /// Output domain used to linearly interpolate the input values to the output values
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("converter_lut_output")]
+        [System.ComponentModel.DescriptionAttribute("Output domain used to linearly interpolate the input values to the output values")]
+        public System.Collections.Generic.List<double> ConverterLutOutput
+        {
+            get
+            {
+                return _converterLutOutput;
+            }
+            set
+            {
+                _converterLutOutput = value;
+            }
+        }
+    
+        public System.IObservable<AudioFeedback> Process()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new AudioFeedback(this)));
+        }
+    
+        public System.IObservable<AudioFeedback> Process<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new AudioFeedback(this));
+        }
+    
+        protected override bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            if (base.PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(", ");
+            }
+            stringBuilder.Append("converter_lut_input = " + _converterLutInput + ", ");
+            stringBuilder.Append("converter_lut_output = " + _converterLutOutput);
+            return true;
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Bonsai.CombinatorAttribute()]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     public partial class BetaDistribution : Distribution
     {
     
@@ -889,7 +969,7 @@ namespace AindForceForagingDataSchema.TaskLogic
     [Newtonsoft.Json.JsonConverter(typeof(JsonInheritanceConverter), "mode")]
     [JsonInheritanceAttribute("Block", typeof(Block))]
     [JsonInheritanceAttribute("BlockGenerator", typeof(BlockGenerator))]
-    [JsonInheritanceAttribute("BownianRandomWalk", typeof(BrownianRandomWalk))]
+    [JsonInheritanceAttribute("BrownianRandomWalk", typeof(BrownianRandomWalk))]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     public partial class BlockStatistics
@@ -1030,6 +1110,53 @@ namespace AindForceForagingDataSchema.TaskLogic
             stringBuilder.Append("block_size = " + _blockSize + ", ");
             stringBuilder.Append("trial_statistics = " + _trialStatistics);
             return true;
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Newtonsoft.Json.JsonConverter(typeof(JsonInheritanceConverter), "continuous_feedback_mode")]
+    [JsonInheritanceAttribute("Manipulator", typeof(ManipulatorFeedback))]
+    [JsonInheritanceAttribute("Audio", typeof(AudioFeedback))]
+    [Bonsai.CombinatorAttribute()]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    public partial class ContinuousFeedback
+    {
+    
+        public ContinuousFeedback()
+        {
+        }
+    
+        protected ContinuousFeedback(ContinuousFeedback other)
+        {
+        }
+    
+        public System.IObservable<ContinuousFeedback> Process()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new ContinuousFeedback(this)));
+        }
+    
+        public System.IObservable<ContinuousFeedback> Process<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new ContinuousFeedback(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            return false;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
         }
     }
 
@@ -2033,6 +2160,8 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         private System.Collections.Generic.List<ActionUpdater> _actionUpdaters = new System.Collections.Generic.List<ActionUpdater>();
     
+        private ContinuousFeedback _continuousFeedback;
+    
         public HarvestAction()
         {
         }
@@ -2050,6 +2179,7 @@ namespace AindForceForagingDataSchema.TaskLogic
             _isOperant = other._isOperant;
             _timeToCollect = other._timeToCollect;
             _actionUpdaters = other._actionUpdaters;
+            _continuousFeedback = other._continuousFeedback;
         }
     
         /// <summary>
@@ -2244,6 +2374,24 @@ namespace AindForceForagingDataSchema.TaskLogic
             }
         }
     
+        /// <summary>
+        /// Continuous feedback settings
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("continuous_feedback")]
+        [System.ComponentModel.DescriptionAttribute("Continuous feedback settings")]
+        public ContinuousFeedback ContinuousFeedback
+        {
+            get
+            {
+                return _continuousFeedback;
+            }
+            set
+            {
+                _continuousFeedback = value;
+            }
+        }
+    
         public System.IObservable<HarvestAction> Process()
         {
             return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new HarvestAction(this)));
@@ -2266,7 +2414,8 @@ namespace AindForceForagingDataSchema.TaskLogic
             stringBuilder.Append("lower_force_threshold = " + _lowerForceThreshold + ", ");
             stringBuilder.Append("is_operant = " + _isOperant + ", ");
             stringBuilder.Append("time_to_collect = " + _timeToCollect + ", ");
-            stringBuilder.Append("action_updaters = " + _actionUpdaters);
+            stringBuilder.Append("action_updaters = " + _actionUpdaters + ", ");
+            stringBuilder.Append("continuous_feedback = " + _continuousFeedback);
             return true;
         }
     
@@ -2637,6 +2786,86 @@ namespace AindForceForagingDataSchema.TaskLogic
             }
             stringBuilder.Append("}");
             return stringBuilder.ToString();
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Bonsai.CombinatorAttribute()]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    public partial class ManipulatorFeedback : ContinuousFeedback
+    {
+    
+        private System.Collections.Generic.List<double> _converterLutInput = new System.Collections.Generic.List<double>();
+    
+        private System.Collections.Generic.List<double> _converterLutOutput = new System.Collections.Generic.List<double>();
+    
+        public ManipulatorFeedback()
+        {
+        }
+    
+        protected ManipulatorFeedback(ManipulatorFeedback other) : 
+                base(other)
+        {
+            _converterLutInput = other._converterLutInput;
+            _converterLutOutput = other._converterLutOutput;
+        }
+    
+        /// <summary>
+        /// Input domain. All values should be between 0 and 1
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("converter_lut_input")]
+        [System.ComponentModel.DescriptionAttribute("Input domain. All values should be between 0 and 1")]
+        public System.Collections.Generic.List<double> ConverterLutInput
+        {
+            get
+            {
+                return _converterLutInput;
+            }
+            set
+            {
+                _converterLutInput = value;
+            }
+        }
+    
+        /// <summary>
+        /// Output domain used to linearly interpolate the input values to the output values
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("converter_lut_output")]
+        [System.ComponentModel.DescriptionAttribute("Output domain used to linearly interpolate the input values to the output values")]
+        public System.Collections.Generic.List<double> ConverterLutOutput
+        {
+            get
+            {
+                return _converterLutOutput;
+            }
+            set
+            {
+                _converterLutOutput = value;
+            }
+        }
+    
+        public System.IObservable<ManipulatorFeedback> Process()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new ManipulatorFeedback(this)));
+        }
+    
+        public System.IObservable<ManipulatorFeedback> Process<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new ManipulatorFeedback(this));
+        }
+    
+        protected override bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            if (base.PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(", ");
+            }
+            stringBuilder.Append("converter_lut_input = " + _converterLutInput + ", ");
+            stringBuilder.Append("converter_lut_output = " + _converterLutOutput);
+            return true;
         }
     }
 
@@ -3070,6 +3299,8 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         private ForceOperationControl _force;
     
+        private SpoutOperationControl _spout;
+    
         public OperationControl()
         {
         }
@@ -3077,6 +3308,7 @@ namespace AindForceForagingDataSchema.TaskLogic
         protected OperationControl(OperationControl other)
         {
             _force = other._force;
+            _spout = other._spout;
         }
     
         /// <summary>
@@ -3097,6 +3329,24 @@ namespace AindForceForagingDataSchema.TaskLogic
             }
         }
     
+        /// <summary>
+        /// Operation control for spout
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("spout")]
+        [System.ComponentModel.DescriptionAttribute("Operation control for spout")]
+        public SpoutOperationControl Spout
+        {
+            get
+            {
+                return _spout;
+            }
+            set
+            {
+                _spout = value;
+            }
+        }
+    
         public System.IObservable<OperationControl> Process()
         {
             return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new OperationControl(this)));
@@ -3109,7 +3359,8 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
-            stringBuilder.Append("force = " + _force);
+            stringBuilder.Append("force = " + _force + ", ");
+            stringBuilder.Append("spout = " + _spout);
             return true;
         }
     
@@ -3809,6 +4060,113 @@ namespace AindForceForagingDataSchema.TaskLogic
         {
             stringBuilder.Append("scale = " + _scale + ", ");
             stringBuilder.Append("offset = " + _offset);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Bonsai.CombinatorAttribute()]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    public partial class SpoutOperationControl
+    {
+    
+        private double _defaultRetractedPosition = 0D;
+    
+        private double _defaultExtendedPosition = 0D;
+    
+        private bool _enabled = true;
+    
+        public SpoutOperationControl()
+        {
+        }
+    
+        protected SpoutOperationControl(SpoutOperationControl other)
+        {
+            _defaultRetractedPosition = other._defaultRetractedPosition;
+            _defaultExtendedPosition = other._defaultExtendedPosition;
+            _enabled = other._enabled;
+        }
+    
+        /// <summary>
+        /// Default retracted position (mm)
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("default_retracted_position")]
+        [System.ComponentModel.DescriptionAttribute("Default retracted position (mm)")]
+        public double DefaultRetractedPosition
+        {
+            get
+            {
+                return _defaultRetractedPosition;
+            }
+            set
+            {
+                _defaultRetractedPosition = value;
+            }
+        }
+    
+        /// <summary>
+        /// Default extended position (mm)
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("default_extended_position")]
+        [System.ComponentModel.DescriptionAttribute("Default extended position (mm)")]
+        public double DefaultExtendedPosition
+        {
+            get
+            {
+                return _defaultExtendedPosition;
+            }
+            set
+            {
+                _defaultExtendedPosition = value;
+            }
+        }
+    
+        /// <summary>
+        /// Whether the spout control is enabled
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("enabled")]
+        [System.ComponentModel.DescriptionAttribute("Whether the spout control is enabled")]
+        public bool Enabled
+        {
+            get
+            {
+                return _enabled;
+            }
+            set
+            {
+                _enabled = value;
+            }
+        }
+    
+        public System.IObservable<SpoutOperationControl> Process()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new SpoutOperationControl(this)));
+        }
+    
+        public System.IObservable<SpoutOperationControl> Process<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new SpoutOperationControl(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("default_retracted_position = " + _defaultRetractedPosition + ", ");
+            stringBuilder.Append("default_extended_position = " + _defaultExtendedPosition + ", ");
+            stringBuilder.Append("enabled = " + _enabled);
             return true;
         }
     
@@ -4800,6 +5158,47 @@ namespace AindForceForagingDataSchema.TaskLogic
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [System.ComponentModel.DefaultPropertyAttribute("Type")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Combinator)]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ManipulatorFeedback>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AudioFeedback>))]
+    public partial class MatchContinuousFeedback : Bonsai.Expressions.SingleArgumentExpressionBuilder
+    {
+    
+        public Bonsai.Expressions.TypeMapping Type { get; set; }
+
+        public override System.Linq.Expressions.Expression Build(System.Collections.Generic.IEnumerable<System.Linq.Expressions.Expression> arguments)
+        {
+            var typeMapping = Type;
+            var returnType = typeMapping != null ? typeMapping.GetType().GetGenericArguments()[0] : typeof(ContinuousFeedback);
+            return System.Linq.Expressions.Expression.Call(
+                typeof(MatchContinuousFeedback),
+                "Process",
+                new System.Type[] { returnType },
+                System.Linq.Enumerable.Single(arguments));
+        }
+
+    
+        private static System.IObservable<TResult> Process<TResult>(System.IObservable<ContinuousFeedback> source)
+            where TResult : ContinuousFeedback
+        {
+            return System.Reactive.Linq.Observable.Create<TResult>(observer =>
+            {
+                var sourceObserver = System.Reactive.Observer.Create<ContinuousFeedback>(
+                    value =>
+                    {
+                        var match = value as TResult;
+                        if (match != null) observer.OnNext(match);
+                    },
+                    observer.OnError,
+                    observer.OnCompleted);
+                return System.ObservableExtensions.SubscribeSafe(source, sourceObserver);
+            });
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.ComponentModel.DefaultPropertyAttribute("Type")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Combinator)]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Scalar>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NormalDistribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LogNormalDistribution>))]
@@ -4870,6 +5269,11 @@ namespace AindForceForagingDataSchema.TaskLogic
             return Process<AindForceForagingTaskParameters>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<AudioFeedback> source)
+        {
+            return Process<AudioFeedback>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<BetaDistribution> source)
         {
             return Process<BetaDistribution>(source);
@@ -4908,6 +5312,11 @@ namespace AindForceForagingDataSchema.TaskLogic
         public System.IObservable<string> Process(System.IObservable<BrownianRandomWalk> source)
         {
             return Process<BrownianRandomWalk>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<ContinuousFeedback> source)
+        {
+            return Process<ContinuousFeedback>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<Distribution> source)
@@ -4970,6 +5379,11 @@ namespace AindForceForagingDataSchema.TaskLogic
             return Process<LogNormalDistributionParameters>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<ManipulatorFeedback> source)
+        {
+            return Process<ManipulatorFeedback>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<NormalDistribution> source)
         {
             return Process<NormalDistribution>(source);
@@ -5030,6 +5444,11 @@ namespace AindForceForagingDataSchema.TaskLogic
             return Process<ScalingParameters>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<SpoutOperationControl> source)
+        {
+            return Process<SpoutOperationControl>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<Trial> source)
         {
             return Process<Trial>(source);
@@ -5076,6 +5495,7 @@ namespace AindForceForagingDataSchema.TaskLogic
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Transform)]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ActionUpdater>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AindForceForagingTaskParameters>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AudioFeedback>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BetaDistribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BetaDistributionParameters>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BinomialDistribution>))]
@@ -5084,6 +5504,7 @@ namespace AindForceForagingDataSchema.TaskLogic
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BlockGenerator>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BlockStatistics>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BrownianRandomWalk>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ContinuousFeedback>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Distribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Environment>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ExponentialDistribution>))]
@@ -5096,6 +5517,7 @@ namespace AindForceForagingDataSchema.TaskLogic
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<InitiationPeriod>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LogNormalDistribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<LogNormalDistributionParameters>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ManipulatorFeedback>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NormalDistribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NormalDistributionParameters>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<NumericalUpdater>))]
@@ -5108,6 +5530,7 @@ namespace AindForceForagingDataSchema.TaskLogic
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Scalar>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ScalarDistributionParameter>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ScalingParameters>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<SpoutOperationControl>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Trial>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<TruncationParameters>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<UniformDistribution>))]

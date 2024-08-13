@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.8.5"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:p1="clr-namespace:AindForceForagingDataSchema.TaskLogic;assembly=Extensions"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="WorkflowInput">
+        <Name>Source1</Name>
+      </Expression>
+      <Expression xsi:type="rx:CreateObservable">
+        <Name>ContinuousFeedbackMotorSolver</Name>
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Take">
+                <rx:Count>1</rx:Count>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="rx:AsyncSubject">
+              <Name>thisFeedback</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>thisFeedback</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Item1</Selector>
+            </Expression>
+            <Expression xsi:type="p1:MatchContinuousFeedback">
+              <p1:Type xsi:type="TypeMapping" TypeArguments="p1:ManipulatorFeedback" />
+            </Expression>
+            <Expression xsi:type="rx:AsyncSubject">
+              <Name>manipulatorFeedback</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>thisFeedback</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>Item2</Selector>
+            </Expression>
+            <Expression xsi:type="rx:AsyncSubject">
+              <Name>feedbackSource</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>feedbackSource</Name>
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>manipulatorFeedback</Name>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>ConverterLutInput</Selector>
+            </Expression>
+            <Expression xsi:type="MemberSelector">
+              <Selector>ConverterLutOutput</Selector>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\InterpolateContinuousFeedback.bonsai" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="5" To="6" Label="Source1" />
+            <Edge From="7" To="8" Label="Source1" />
+            <Edge From="8" To="9" Label="Source1" />
+            <Edge From="10" To="14" Label="Source1" />
+            <Edge From="11" To="12" Label="Source1" />
+            <Edge From="11" To="13" Label="Source1" />
+            <Edge From="12" To="14" Label="Source2" />
+            <Edge From="13" To="14" Label="Source3" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="WorkflowOutput" />
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="1" Label="Source1" />
+      <Edge From="1" To="2" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>
