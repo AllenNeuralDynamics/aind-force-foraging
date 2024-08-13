@@ -114,7 +114,7 @@
             </Expression>
             <Expression xsi:type="scr:ExpressionTransform">
               <scr:Name>Force/Second</scr:Name>
-              <scr:Expression>(it.Item2.Value) / (it.Item2.Seconds - it.Item1.Seconds)</scr:Expression>
+              <scr:Expression>0.5 * (it.Item2.Value + it.Item1.Value) * (it.Item2.Seconds - it.Item1.Seconds)</scr:Expression>
             </Expression>
             <Expression xsi:type="rx:PublishSubject">
               <Name>ForcePerSecond</Name>
