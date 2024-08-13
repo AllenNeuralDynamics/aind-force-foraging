@@ -11,7 +11,7 @@ from aind_behavior_services.utils import run_bonsai_process
 from pydantic import ValidationError
 
 sys.path.append(".")
-from examples import examples  # isort:skip # pylint: disable=wrong-import-position
+from examples import example_roi_trial_type  # isort:skip # pylint: disable=wrong-import-position
 from tests import JSON_ROOT  # isort:skip # pylint: disable=wrong-import-position
 
 TModel = TypeVar("TModel", bound=Union[AindForceForagingRig, AindForceForagingTaskLogic, AindBehaviorSessionModel])
@@ -19,7 +19,7 @@ TModel = TypeVar("TModel", bound=Union[AindForceForagingRig, AindForceForagingTa
 
 class BonsaiTests(unittest.TestCase):
     def test_deserialization(self):
-        examples.main("./local/{schema}.json")
+        example_roi_trial_type.main("./local/{schema}.json")
 
         models_to_test = [
             TestModel(bonsai_property="SessionPath", json_root=JSON_ROOT, model=AindBehaviorSessionModel),

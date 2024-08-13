@@ -12,7 +12,7 @@ class ExampleTests(unittest.TestCase):
     """tests for examples"""
 
     def test_examples(self):
-        for script_path in glob.glob(str(EXAMPLES_DIR / "*.py")):
+        for script_path in glob.glob(str(EXAMPLES_DIR / "example_*.py")):
             with self.subTest(script_path=script_path):
                 module = build_example(script_path)
                 # Check if the module executed successfully
