@@ -233,45 +233,7 @@
       <Expression xsi:type="MemberSelector">
         <Selector>Item2</Selector>
       </Expression>
-      <Expression xsi:type="rx:SelectMany">
-        <Name>TriggerFeedback</Name>
-        <Workflow>
-          <Nodes>
-            <Expression xsi:type="WorkflowInput">
-              <Name>Source1</Name>
-            </Expression>
-            <Expression xsi:type="WorkflowOutput" />
-            <Expression xsi:type="SubscribeSubject">
-              <Name>ThisPeriod</Name>
-            </Expression>
-            <Expression xsi:type="MemberSelector">
-              <Selector>HasFeedback</Selector>
-            </Expression>
-            <Expression xsi:type="rx:Condition">
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="WorkflowInput">
-                    <Name>Source1</Name>
-                  </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
-                </Nodes>
-                <Edges>
-                  <Edge From="0" To="1" Label="Source1" />
-                </Edges>
-              </Workflow>
-            </Expression>
-            <Expression xsi:type="MulticastSubject">
-              <Name>TriggerFeedbackCue</Name>
-            </Expression>
-          </Nodes>
-          <Edges>
-            <Edge From="0" To="1" Label="Source1" />
-            <Edge From="2" To="3" Label="Source1" />
-            <Edge From="3" To="4" Label="Source1" />
-            <Edge From="4" To="5" Label="Source1" />
-          </Edges>
-        </Workflow>
-      </Expression>
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\TriggerOutcomeFeedback.bonsai" />
       <Expression xsi:type="WorkflowOutput" />
     </Nodes>
     <Edges>
