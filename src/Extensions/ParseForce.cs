@@ -20,31 +20,29 @@ public class ParseForce : Transform<Timestamped<short[]>, Force>
 
     public override IObservable<Force> Process(IObservable<Timestamped<short[]>> source)
     {
-        Mat lookUpTable = LookUpTable.Clone();
+        Mat lookUpTable;
         ForceOperationControl forceOperationControl = ForceOperationControl;
         SubPixelBilinearInterpolator interpolator = new SubPixelBilinearInterpolator();
 
         if (forceOperationControl.PressMode == PressMode.SingleLookupTable)
         {
-            if (lookUpTable == null)
+            if (LookUpTable == null)
             {
                 throw new InvalidOperationException("Look-up table must be specified for SingleLookupTable mode.");
             }
-            else
-            {
-                var forceLutSettings = forceOperationControl.ForceLookupTable;
-                interpolator = new SubPixelBilinearInterpolator(
-                    new ForceLookUpTable
-                    {
-                        LeftMin = forceLutSettings.LeftMin,
-                        LeftMax = forceLutSettings.LeftMax,
-                        RightMin = forceLutSettings.RightMin,
-                        RightMax = forceLutSettings.RightMax,
-                    },
-                    LookUpTable = lookUpTable
-                );
-                interpolator.Validate();
-            }
+            lookUpTable = LookUpTable.Clone();
+            var forceLutSettings = forceOperationControl.ForceLookupTable;
+            interpolator = new SubPixelBilinearInterpolator(
+                new ForceLookUpTable
+                {
+                    LeftMin = forceLutSettings.LeftMin,
+                    LeftMax = forceLutSettings.LeftMax,
+                    RightMin = forceLutSettings.RightMin,
+                    RightMax = forceLutSettings.RightMax,
+                },
+                LookUpTable = lookUpTable
+            );
+            interpolator.Validate();
         }
 
         return source.Select(value =>
