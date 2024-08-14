@@ -160,7 +160,7 @@
                     <Combinator xsi:type="gl:CreateWindow">
                       <gl:Width>1000</gl:Width>
                       <gl:Height>1000</gl:Height>
-                      <gl:Title>VrForaging</gl:Title>
+                      <gl:Title>ForceForaging</gl:Title>
                       <gl:VSync>Off</gl:VSync>
                       <gl:SwapSync>false</gl:SwapSync>
                       <gl:ClearColor>Black</gl:ClearColor>
@@ -168,7 +168,7 @@
                       <gl:CursorVisible>false</gl:CursorVisible>
                       <gl:Location xsi:nil="true" />
                       <gl:WindowBorder>Resizable</gl:WindowBorder>
-                      <gl:WindowState>Fullscreen</gl:WindowState>
+                      <gl:WindowState>Minimized</gl:WindowState>
                       <gl:DisplayDevice>Second</gl:DisplayDevice>
                       <gl:TargetRenderFrequency>60</gl:TargetRenderFrequency>
                       <gl:TargetUpdateFrequency>120</gl:TargetUpdateFrequency>
