@@ -6,7 +6,7 @@ from typing import Annotated, Dict, List, Literal, Optional, Self, Union
 
 import aind_behavior_services.task_logic.distributions as distributions
 from aind_behavior_services.task_logic import AindBehaviorTaskLogicModel, TaskParameters
-from pydantic import BaseModel, Field, RootModel, model_validator
+from pydantic import BaseModel, Field, RootModel, field_validator, model_validator
 
 from aind_behavior_force_foraging import __version__
 
@@ -287,6 +287,26 @@ class Trial(BaseModel):
     right_harvest: Optional[HarvestAction] = Field(
         default=RightHarvestAction(), validate_default=True, description="Specification of the right action"
     )
+
+    @field_validator("left_harvest", mode="after")
+    @classmethod
+    def _validate_left_harvest(cls, value: Optional[HarvestAction]) -> Optional[HarvestAction]:
+        return cls._validate_harvest(value, HarvestActionLabel.LEFT)
+
+    @field_validator("right_harvest", mode="after")
+    @classmethod
+    def _validate_right_harvest(cls, value: Optional[HarvestAction]) -> Optional[HarvestAction]:
+        return cls._validate_harvest(value, HarvestActionLabel.RIGHT)
+
+    @staticmethod
+    def _validate_harvest(value: Optional[HarvestAction], harvest_label: HarvestActionLabel) -> Optional[HarvestAction]:
+        if value is None:
+            return value
+        if value.action == HarvestActionLabel.NONE:
+            return HarvestAction(action=harvest_label)
+        if value.action != harvest_label:
+            raise ValueError(f"Harvest action must be of type {harvest_label}")
+        return value
 
 
 class BlockStatisticsMode(str, Enum):
