@@ -386,10 +386,10 @@ class ForceLookUpTable(BaseModel):
 
     @model_validator(mode="after")
     def _validate_bounds(self) -> Self:
-        if self.left_min < self.left_max:
-            raise ValueError("Left min must be greater than left max")
-        if self.right_min < self.right_max:
-            raise ValueError("Right min must be greater than right max")
+        if self.left_min > self.left_max:
+            raise ValueError("Left min must be less than left max")
+        if self.right_min > self.right_max:
+            raise ValueError("Right min must be less than right max")
         return self
 
 
