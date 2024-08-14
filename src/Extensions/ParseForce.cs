@@ -126,6 +126,11 @@ public class Force
         }
     }
 
+    public override string ToString()
+    {
+        return string.Format("LeftForce={0}, RightForce={1} @ {2}", LeftForce, RightForce, Seconds);
+    }
+
 }
 
 public class SubPixelBilinearInterpolator
