@@ -163,8 +163,8 @@ public class SubPixelBilinearInterpolator
         leftValue = Rescale(leftValue, Limits.LeftMin, Limits.LeftMax, 0, LookUpTable.Size.Height);
         rightValue = Rescale(rightValue, Limits.RightMin, Limits.RightMax, 0, LookUpTable.Size.Width);
 
-        leftValue = ClampValue(leftValue, Limits.LeftMin, Limits.LeftMax);
-        rightValue = ClampValue(rightValue, Limits.RightMin, Limits.RightMax);
+        leftValue = ClampValue(leftValue, 0, LookUpTable.Size.Height);
+        rightValue = ClampValue(rightValue, 0, LookUpTable.Size.Width);
 
         return GetSubPixel(LookUpTable, leftValue, rightValue);
     }
