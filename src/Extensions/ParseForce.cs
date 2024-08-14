@@ -17,12 +17,12 @@ public class ParseForce : Transform<Timestamped<short[]>, Force>
     [TypeConverter("Bonsai.Dsp.MatConverter, Bonsai.Dsp")]
     public Mat LookUpTable { get; set; }
 
-    private SubPixelBilinearInterpolator interpolator;
 
     public override IObservable<Force> Process(IObservable<Timestamped<short[]>> source)
     {
-        var lookUpTable = LookUpTable.Clone();
-        var forceOperationControl = ForceOperationControl;
+        Mat lookUpTable = LookUpTable.Clone();
+        ForceOperationControl forceOperationControl = ForceOperationControl;
+        SubPixelBilinearInterpolator interpolator = new SubPixelBilinearInterpolator();
 
         if (forceOperationControl.PressMode == PressMode.SingleLookupTable)
         {
@@ -33,9 +33,8 @@ public class ParseForce : Transform<Timestamped<short[]>, Force>
             else
             {
                 var forceLutSettings = forceOperationControl.ForceLookupTable;
-                interpolator = new SubPixelBilinearInterpolator
-                {
-                    Limits = new ForceLookUpTable
+                interpolator = new SubPixelBilinearInterpolator(
+                    new ForceLookUpTable
                     {
                         LeftMin = forceLutSettings.LeftMin,
                         LeftMax = forceLutSettings.LeftMax,
@@ -47,18 +46,18 @@ public class ParseForce : Transform<Timestamped<short[]>, Force>
                         RightMaxBoundTo = forceLutSettings.RightMaxBoundTo
                     },
                     LookUpTable = lookUpTable
-                };
+                );
+                interpolator.Validate();
             }
         }
 
         return source.Select(value =>
         {
-            var force = new Force
-            {
-                Seconds = value.Seconds,
-                LeftForce = value.Value[ForceOperationControl.LeftIndex],
-                RightForce = value.Value[ForceOperationControl.RightIndex]
-            };
+            var force = new Force(
+                value.Seconds,
+                value.Value[forceOperationControl.LeftIndex],
+                value.Value[forceOperationControl.RightIndex]
+            );
             return SolveMode(force, forceOperationControl.PressMode, interpolator);
         });
     }
@@ -110,6 +109,13 @@ public class Force
 
     public float RightForce { get; set; }
 
+    public Force(double seconds, float leftForce, float rightForce)
+    {
+        Seconds = seconds;
+        LeftForce = leftForce;
+        RightForce = rightForce;
+    }
+
     public float this[HarvestActionLabel key]
     {
         get
@@ -126,13 +132,21 @@ public class Force
 
 }
 
-class SubPixelBilinearInterpolator
+public class SubPixelBilinearInterpolator
 {
-    public ForceLookUpTable Limits { get; set; }
+    public SubPixelBilinearInterpolator(ForceLookUpTable limits, Mat lookUpTable)
+    {
+        Limits = limits;
+        LookUpTable = lookUpTable;
+    }
 
-    public Mat LookUpTable { get; set; }
+    public SubPixelBilinearInterpolator(){}
 
-    private void Validate()
+    public ForceLookUpTable Limits { get; private set; }
+
+    public Mat LookUpTable { get; private set; }
+
+    public void Validate()
     {
         if (Limits == null)
         {
@@ -163,14 +177,16 @@ class SubPixelBilinearInterpolator
         return GetSubPixel(LookUpTable, leftValue, rightValue);
     }
 
-    static private float Rescale(float value, float minFrom, float maxFrom, float minTo, float maxTo)
+    private static float Rescale(float value, float minFrom, float maxFrom, float minTo, float maxTo)
     {
         return (value - minFrom) / (maxFrom - minFrom) * (maxTo - minTo) + minTo;
     }
+
     private static float ClampValue(float value, float MinBoundTo, float MaxBoundTo)
     {
         return Math.Min(Math.Max(value, MinBoundTo), MaxBoundTo);
     }
+
     private static float GetSubPixel(Mat src, float leftValue, float rightValue)
     {
         var idxL = (int)leftValue;
