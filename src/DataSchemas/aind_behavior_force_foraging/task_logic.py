@@ -371,18 +371,6 @@ class ForceLookUpTable(BaseModel):
     right_max: float = Field(
         ..., description="The upper value of Right force used to linearly scale the input coordinate to."
     )
-    left_min_bound_to: Optional[float] = Field(
-        None, description="The value given to Left < left_min. if null it will default to left_min."
-    )
-    left_max_bound_to: Optional[float] = Field(
-        None, description="The value given to Left > left_max. if null it will default to left_max."
-    )
-    right_min_bound_to: Optional[float] = Field(
-        None, description="The value given to Right < right_min. if null it will default to right_min."
-    )
-    right_max_bound_to: Optional[float] = Field(
-        None, description="The value given to Right > right_max. if null it will default to right_max."
-    )
 
     @model_validator(mode="after")
     def _validate_bounds(self) -> Self:

@@ -1533,14 +1533,6 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         private double _rightMax;
     
-        private double? _leftMinBoundTo;
-    
-        private double? _leftMaxBoundTo;
-    
-        private double? _rightMinBoundTo;
-    
-        private double? _rightMaxBoundTo;
-    
         public ForceLookUpTable()
         {
         }
@@ -1554,10 +1546,6 @@ namespace AindForceForagingDataSchema.TaskLogic
             _leftMax = other._leftMax;
             _rightMin = other._rightMin;
             _rightMax = other._rightMax;
-            _leftMinBoundTo = other._leftMinBoundTo;
-            _leftMaxBoundTo = other._leftMaxBoundTo;
-            _rightMinBoundTo = other._rightMinBoundTo;
-            _rightMaxBoundTo = other._rightMaxBoundTo;
         }
     
         /// <summary>
@@ -1680,78 +1668,6 @@ namespace AindForceForagingDataSchema.TaskLogic
             }
         }
     
-        /// <summary>
-        /// The value given to Left < left_min. if null it will default to left_min.
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("left_min_bound_to")]
-        [System.ComponentModel.DescriptionAttribute("The value given to Left < left_min. if null it will default to left_min.")]
-        public double? LeftMinBoundTo
-        {
-            get
-            {
-                return _leftMinBoundTo;
-            }
-            set
-            {
-                _leftMinBoundTo = value;
-            }
-        }
-    
-        /// <summary>
-        /// The value given to Left > left_max. if null it will default to left_max.
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("left_max_bound_to")]
-        [System.ComponentModel.DescriptionAttribute("The value given to Left > left_max. if null it will default to left_max.")]
-        public double? LeftMaxBoundTo
-        {
-            get
-            {
-                return _leftMaxBoundTo;
-            }
-            set
-            {
-                _leftMaxBoundTo = value;
-            }
-        }
-    
-        /// <summary>
-        /// The value given to Right < right_min. if null it will default to right_min.
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("right_min_bound_to")]
-        [System.ComponentModel.DescriptionAttribute("The value given to Right < right_min. if null it will default to right_min.")]
-        public double? RightMinBoundTo
-        {
-            get
-            {
-                return _rightMinBoundTo;
-            }
-            set
-            {
-                _rightMinBoundTo = value;
-            }
-        }
-    
-        /// <summary>
-        /// The value given to Right > right_max. if null it will default to right_max.
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("right_max_bound_to")]
-        [System.ComponentModel.DescriptionAttribute("The value given to Right > right_max. if null it will default to right_max.")]
-        public double? RightMaxBoundTo
-        {
-            get
-            {
-                return _rightMaxBoundTo;
-            }
-            set
-            {
-                _rightMaxBoundTo = value;
-            }
-        }
-    
         public System.IObservable<ForceLookUpTable> Process()
         {
             return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new ForceLookUpTable(this)));
@@ -1770,11 +1686,7 @@ namespace AindForceForagingDataSchema.TaskLogic
             stringBuilder.Append("left_min = " + _leftMin + ", ");
             stringBuilder.Append("left_max = " + _leftMax + ", ");
             stringBuilder.Append("right_min = " + _rightMin + ", ");
-            stringBuilder.Append("right_max = " + _rightMax + ", ");
-            stringBuilder.Append("left_min_bound_to = " + _leftMinBoundTo + ", ");
-            stringBuilder.Append("left_max_bound_to = " + _leftMaxBoundTo + ", ");
-            stringBuilder.Append("right_min_bound_to = " + _rightMinBoundTo + ", ");
-            stringBuilder.Append("right_max_bound_to = " + _rightMaxBoundTo);
+            stringBuilder.Append("right_max = " + _rightMax);
             return true;
         }
     

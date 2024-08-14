@@ -654,58 +654,6 @@
           "description": "The upper value of Right force used to linearly scale the input coordinate to.",
           "title": "Right Max",
           "type": "number"
-        },
-        "left_min_bound_to": {
-          "default": null,
-          "description": "The value given to Left < left_min. if null it will default to left_min.",
-          "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Left Min Bound To"
-        },
-        "left_max_bound_to": {
-          "default": null,
-          "description": "The value given to Left > left_max. if null it will default to left_max.",
-          "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Left Max Bound To"
-        },
-        "right_min_bound_to": {
-          "default": null,
-          "description": "The value given to Right < right_min. if null it will default to right_min.",
-          "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Right Min Bound To"
-        },
-        "right_max_bound_to": {
-          "default": null,
-          "description": "The value given to Right > right_max. if null it will default to right_max.",
-          "oneOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Right Max Bound To"
         }
       },
       "required": [

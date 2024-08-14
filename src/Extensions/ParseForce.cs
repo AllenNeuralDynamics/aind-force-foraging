@@ -40,10 +40,6 @@ public class ParseForce : Transform<Timestamped<short[]>, Force>
                         LeftMax = forceLutSettings.LeftMax,
                         RightMin = forceLutSettings.RightMin,
                         RightMax = forceLutSettings.RightMax,
-                        LeftMinBoundTo = forceLutSettings.LeftMinBoundTo.HasValue ? forceLutSettings.LeftMinBoundTo.Value : forceLutSettings.LeftMin,
-                        LeftMaxBoundTo = forceLutSettings.LeftMaxBoundTo.HasValue ? forceLutSettings.LeftMaxBoundTo.Value : forceLutSettings.LeftMax,
-                        RightMinBoundTo = forceLutSettings.RightMinBoundTo.HasValue ? forceLutSettings.RightMinBoundTo.Value : forceLutSettings.RightMin,
-                        RightMaxBoundTo = forceLutSettings.RightMaxBoundTo.HasValue ? forceLutSettings.RightMaxBoundTo.Value : forceLutSettings.RightMax
                     },
                     LookUpTable = lookUpTable
                 );
@@ -156,10 +152,6 @@ public class SubPixelBilinearInterpolator
         {
             throw new ArgumentException("Minimum must be strictly lower than maximum.");
         }
-        if (Limits.LeftMinBoundTo >= Limits.LeftMaxBoundTo || Limits.RightMinBoundTo >= Limits.RightMaxBoundTo)
-        {
-            throw new ArgumentException("The minimum bound must be less than the maximum bound.");
-        }
         if (LookUpTable.Channels > 1)
         {
             throw new ArgumentException("Input matrix must have a single channel");
@@ -168,23 +160,23 @@ public class SubPixelBilinearInterpolator
 
     public float LookUp(float leftValue, float rightValue)
     {
-        leftValue = Rescale(leftValue, (float)Limits.LeftMin, (float)Limits.LeftMax, 0, LookUpTable.Size.Height);
-        rightValue = Rescale(rightValue, (float)Limits.RightMin, (float)Limits.RightMax, 0, LookUpTable.Size.Width);
+        leftValue = Rescale(leftValue, Limits.LeftMin, Limits.LeftMax, 0, LookUpTable.Size.Height);
+        rightValue = Rescale(rightValue, Limits.RightMin, Limits.RightMax, 0, LookUpTable.Size.Width);
 
-        leftValue = ClampValue(leftValue, (float)Limits.LeftMinBoundTo, (float)Limits.LeftMaxBoundTo);
-        rightValue = ClampValue(rightValue, (float)Limits.RightMinBoundTo, (float)Limits.RightMaxBoundTo);
+        leftValue = ClampValue(leftValue, Limits.LeftMin, Limits.LeftMax);
+        rightValue = ClampValue(rightValue, Limits.RightMin, Limits.RightMax);
 
         return GetSubPixel(LookUpTable, leftValue, rightValue);
     }
 
-    private static float Rescale(float value, float minFrom, float maxFrom, float minTo, float maxTo)
+    private static float Rescale(float value, double minFrom, double maxFrom, double minTo, double maxTo)
     {
-        return (value - minFrom) / (maxFrom - minFrom) * (maxTo - minTo) + minTo;
+        return (float) ((value - minFrom) / (maxFrom - minFrom) * (maxTo - minTo) + minTo);
     }
 
-    private static float ClampValue(float value, float MinBoundTo, float MaxBoundTo)
+    private static float ClampValue(float value, double MinBoundTo, double MaxBoundTo)
     {
-        return Math.Min(Math.Max(value, MinBoundTo), MaxBoundTo);
+        return (float) Math.Min(Math.Max(value, MinBoundTo), MaxBoundTo);
     }
 
     private static float GetSubPixel(Mat src, float leftValue, float rightValue)
@@ -193,6 +185,9 @@ public class SubPixelBilinearInterpolator
         var idxR = (int)rightValue;
         float dL = leftValue - idxL;
         float dR = rightValue - idxR;
+
+        idxL = Math.Min(idxL, src.Size.Height - 2);
+        idxR = Math.Min(idxR, src.Size.Width - 2);
 
         var p00 = src[idxL, idxR];
         var p01 = src[idxL, idxR + 1];
