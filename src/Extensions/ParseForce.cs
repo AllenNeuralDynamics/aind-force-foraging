@@ -40,10 +40,10 @@ public class ParseForce : Transform<Timestamped<short[]>, Force>
                         LeftMax = forceLutSettings.LeftMax,
                         RightMin = forceLutSettings.RightMin,
                         RightMax = forceLutSettings.RightMax,
-                        LeftMinBoundTo = forceLutSettings.LeftMinBoundTo,
-                        LeftMaxBoundTo = forceLutSettings.LeftMaxBoundTo,
-                        RightMinBoundTo = forceLutSettings.RightMinBoundTo,
-                        RightMaxBoundTo = forceLutSettings.RightMaxBoundTo
+                        LeftMinBoundTo = forceLutSettings.LeftMinBoundTo.HasValue ? forceLutSettings.LeftMinBoundTo.Value : forceLutSettings.LeftMin,
+                        LeftMaxBoundTo = forceLutSettings.LeftMaxBoundTo.HasValue ? forceLutSettings.LeftMaxBoundTo.Value : forceLutSettings.LeftMax,
+                        RightMinBoundTo = forceLutSettings.RightMinBoundTo.HasValue ? forceLutSettings.RightMinBoundTo.Value : forceLutSettings.RightMin,
+                        RightMaxBoundTo = forceLutSettings.RightMaxBoundTo.HasValue ? forceLutSettings.RightMaxBoundTo.Value : forceLutSettings.RightMax
                     },
                     LookUpTable = lookUpTable
                 );
