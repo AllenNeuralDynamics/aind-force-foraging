@@ -2875,6 +2875,23 @@
                   <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p15:Mat">
                     <rx:Name>CurrentForceLut</rx:Name>
                   </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>LoadCellCalibration</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Merge" />
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Value</Selector>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="p7:CreateSoftwareEvent">
+                      <p7:EventName>LoadCellCalibratio</p7:EventName>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="MulticastSubject">
+                    <Name>SoftwareEvents</Name>
+                  </Expression>
                 </Nodes>
                 <Edges>
                   <Edge From="0" To="1" Label="Source1" />
@@ -2884,6 +2901,10 @@
                   <Edge From="5" To="6" Label="Source1" />
                   <Edge From="6" To="7" Label="Source1" />
                   <Edge From="7" To="8" Label="Source1" />
+                  <Edge From="10" To="11" Label="Source1" />
+                  <Edge From="11" To="12" Label="Source1" />
+                  <Edge From="12" To="13" Label="Source1" />
+                  <Edge From="13" To="14" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
