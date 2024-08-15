@@ -4905,6 +4905,14 @@ it.SyncQuadValue.Value as SyncQuadValue)</scr:Expression>
                         <Expression xsi:type="SubscribeSubject">
                           <Name>CurrentForce</Name>
                         </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>deviceName</Name>
+                        </Expression>
+                        <Expression xsi:type="PropertyMapping">
+                          <PropertyMappings>
+                            <Property Name="DeviceName" />
+                          </PropertyMappings>
+                        </Expression>
                         <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:LogCsv.bonsai">
                           <SubjectName>LoggingRootPath</SubjectName>
                           <Modality>Behavior</Modality>
@@ -4913,6 +4921,29 @@ it.SyncQuadValue.Value as SyncQuadValue)</scr:Expression>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
                           <Name>SpoutPosition</Name>
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>HarpTimestampSource</Name>
+                        </Expression>
+                        <Expression xsi:type="harp:Parse">
+                          <harp:Register xsi:type="harp:ParseMessagePayload">
+                            <harp:PayloadType>Timestamp</harp:PayloadType>
+                            <harp:IsArray>false</harp:IsArray>
+                          </harp:Register>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:WithLatestFrom" />
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="harp:CreateTimestamped" />
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>deviceName</Name>
+                        </Expression>
+                        <Expression xsi:type="PropertyMapping">
+                          <PropertyMappings>
+                            <Property Name="DeviceName" />
+                          </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:LogCsv.bonsai">
                           <SubjectName>LoggingRootPath</SubjectName>
@@ -4930,8 +4961,16 @@ it.SyncQuadValue.Value as SyncQuadValue)</scr:Expression>
                         <Edge From="6" To="9" Label="Source2" />
                         <Edge From="7" To="8" Label="Source1" />
                         <Edge From="8" To="9" Label="Source3" />
-                        <Edge From="10" To="11" Label="Source1" />
-                        <Edge From="12" To="13" Label="Source1" />
+                        <Edge From="10" To="13" Label="Source1" />
+                        <Edge From="11" To="12" Label="Source1" />
+                        <Edge From="12" To="13" Label="Source2" />
+                        <Edge From="14" To="17" Label="Source1" />
+                        <Edge From="15" To="16" Label="Source1" />
+                        <Edge From="16" To="17" Label="Source2" />
+                        <Edge From="17" To="18" Label="Source1" />
+                        <Edge From="18" To="21" Label="Source1" />
+                        <Edge From="19" To="20" Label="Source1" />
+                        <Edge From="20" To="21" Label="Source2" />
                       </Edges>
                     </Workflow>
                   </Expression>
