@@ -2047,15 +2047,6 @@
         <Name>OperationControl</Name>
         <Workflow>
           <Nodes>
-            <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p10:Unit">
-              <rx:Name>TriggerStartCue</rx:Name>
-            </Expression>
-            <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p10:Unit">
-              <rx:Name>TriggerGoCue</rx:Name>
-            </Expression>
-            <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Boolean">
-              <rx:Name>TriggerFeedbackCue</rx:Name>
-            </Expression>
             <Expression xsi:type="GroupWorkflow">
               <Name>RewardControl</Name>
               <Workflow>
@@ -3332,8 +3323,33 @@
                 </Edges>
               </Workflow>
             </Expression>
+            <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p10:Unit">
+              <rx:Name>TriggerGoCue</rx:Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\PlayAudioCue.bonsai">
+              <Duration>0.1</Duration>
+              <Frequency>300</Frequency>
+            </Expression>
+            <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Boolean">
+              <rx:Name>TriggerFeedbackCue</rx:Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\PlayAudioCue.bonsai">
+              <Duration>0.1</Duration>
+              <Frequency>1000</Frequency>
+            </Expression>
+            <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p10:Unit">
+              <rx:Name>TriggerStartCue</rx:Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\PlayAudioCue.bonsai">
+              <Duration>0.1</Duration>
+              <Frequency>500</Frequency>
+            </Expression>
           </Nodes>
-          <Edges />
+          <Edges>
+            <Edge From="7" To="8" Label="Source1" />
+            <Edge From="9" To="10" Label="Source1" />
+            <Edge From="11" To="12" Label="Source1" />
+          </Edges>
         </Workflow>
       </Expression>
       <Expression xsi:type="rx:Defer">
