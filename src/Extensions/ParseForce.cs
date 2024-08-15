@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 using System.ComponentModel;
 using OpenCV.Net;
 
-public class ParseForce : Transform<Timestamped<short[]>, Force>
+public class ParseForce : Transform<Timestamped<short[]>, Timestamped<Force>>
 {
 
     public ForceOperationControl ForceOperationControl { get; set; }
@@ -18,7 +18,7 @@ public class ParseForce : Transform<Timestamped<short[]>, Force>
     public Mat LookUpTable { get; set; }
 
 
-    public override IObservable<Force> Process(IObservable<Timestamped<short[]>> source)
+    public override IObservable<Timestamped<Force>> Process(IObservable<Timestamped<short[]>> source)
     {
         Mat lookUpTable;
         ForceOperationControl forceOperationControl = ForceOperationControl;
@@ -48,11 +48,10 @@ public class ParseForce : Transform<Timestamped<short[]>, Force>
         return source.Select(value =>
         {
             var force = new Force(
-                value.Seconds,
                 value.Value[forceOperationControl.LeftIndex],
                 value.Value[forceOperationControl.RightIndex]
             );
-            return SolveMode(force, forceOperationControl.PressMode, interpolator);
+            return Timestamped.Create(SolveMode(force, forceOperationControl.PressMode, interpolator), value.Seconds);
         });
     }
 
@@ -94,18 +93,14 @@ public class ParseForce : Transform<Timestamped<short[]>, Force>
     }
 }
 
-
 public class Force
 {
-    public double Seconds { get; set; }
-
     public float LeftForce { get; set; }
 
     public float RightForce { get; set; }
 
-    public Force(double seconds, float leftForce, float rightForce)
+    public Force(float leftForce, float rightForce)
     {
-        Seconds = seconds;
         LeftForce = leftForce;
         RightForce = rightForce;
     }
@@ -126,7 +121,7 @@ public class Force
 
     public override string ToString()
     {
-        return string.Format("LeftForce={0}, RightForce={1} @ {2}", LeftForce, RightForce, Seconds);
+        return string.Format("L={0}, R={1}", LeftForce, RightForce);
     }
 
 }

@@ -7599,7 +7599,7 @@ Value as Image)
             </Expression>
             <Expression xsi:type="viz:RollingGraphBuilder">
               <viz:IndexSelector>Seconds</viz:IndexSelector>
-              <viz:ValueSelector>LeftForce,RightForce</viz:ValueSelector>
+              <viz:ValueSelector>Value.LeftForce,Value.RightForce</viz:ValueSelector>
               <viz:SymbolType>None</viz:SymbolType>
               <viz:LineWidth>1</viz:LineWidth>
               <viz:Capacity>2000</viz:Capacity>
