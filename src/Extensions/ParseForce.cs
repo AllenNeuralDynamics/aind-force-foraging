@@ -135,8 +135,8 @@ public class Force
 public class ForceDiagnosis
 {
 
-    public ushort RawLeftForce { get; set; }
-    public ushort RawRightForce { get; set; }
+    public short RawLeftForce { get; set; }
+    public short RawRightForce { get; set; }
 
     public float LookUpIndexLeftForce { get; set; }
     public float LookUpIndexRightForce { get; set; }
@@ -183,13 +183,13 @@ public class SubPixelBilinearInterpolator
 
         diagnosis = new ForceDiagnosis()
         {
-            RawLeftForce = (ushort)leftValue,
-            RawRightForce = (ushort)rightValue,
+            RawLeftForce = (short)leftValue,
+            RawRightForce = (short)rightValue,
             LookUpIndexLeftForce = clamped_leftValue,
             LookUpIndexRightForce = clamped_rightValue
         };
 
-        return GetSubPixel(LookUpTable, leftValue, rightValue);
+        return GetSubPixel(LookUpTable, clamped_leftValue, clamped_rightValue);
     }
 
     private static float Rescale(float value, double minFrom, double maxFrom, double minTo, double maxTo)
