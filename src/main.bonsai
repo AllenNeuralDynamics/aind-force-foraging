@@ -4855,8 +4855,17 @@ it.SyncQuadValue.Value as SyncQuadValue)</scr:Expression>
                         <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:LogCsv.bonsai">
                           <SubjectName>LoggingRootPath</SubjectName>
                           <Modality>Behavior</Modality>
-                          <LogName xsi:nil="true" />
-                          <DeviceName>CurrentForce</DeviceName>
+                          <LogName>CurrentForce</LogName>
+                          <DeviceName />
+                        </Expression>
+                        <Expression xsi:type="SubscribeSubject">
+                          <Name>SpoutPosition</Name>
+                        </Expression>
+                        <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:LogCsv.bonsai">
+                          <SubjectName>LoggingRootPath</SubjectName>
+                          <Modality>Behavior</Modality>
+                          <LogName>SpoutPosition</LogName>
+                          <DeviceName xsi:nil="true" />
                         </Expression>
                       </Nodes>
                       <Edges>
@@ -4868,6 +4877,7 @@ it.SyncQuadValue.Value as SyncQuadValue)</scr:Expression>
                         <Edge From="6" To="7" Label="Source1" />
                         <Edge From="7" To="8" Label="Source3" />
                         <Edge From="9" To="10" Label="Source1" />
+                        <Edge From="11" To="12" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
