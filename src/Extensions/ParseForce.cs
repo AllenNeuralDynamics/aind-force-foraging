@@ -84,9 +84,12 @@ public class ParseForce : Transform<Timestamped<short[]>, Timestamped<Force>>
                 {
                     throw new InvalidOperationException("Interpolator must be specified for SingleLookupTable mode.");
                 }
-                value.LeftForce = interpolator.LookUp(value.LeftForce, value.RightForce);
-                value.RightForce = value.LeftForce;
-                return value;
+                ForceDiagnosis diagnosis;
+                var force = interpolator.LookUp(value.LeftForce, value.RightForce, out diagnosis);
+                return new Force(force, force)
+                {
+                    Diagnosis = diagnosis
+                };
             default:
                 throw new ArgumentOutOfRangeException("Unknown press mode.");
         }
@@ -99,10 +102,13 @@ public class Force
 
     public float RightForce { get; set; }
 
+    public ForceDiagnosis Diagnosis { get; set; }
+
     public Force(float leftForce, float rightForce)
     {
         LeftForce = leftForce;
         RightForce = rightForce;
+        Diagnosis = null;
     }
 
     public float this[HarvestActionLabel key]
@@ -126,6 +132,17 @@ public class Force
 
 }
 
+public class ForceDiagnosis
+{
+
+    public ushort RawLeftForce { get; set; }
+    public ushort RawRightForce { get; set; }
+
+    public float LookUpIndexLeftForce { get; set; }
+    public float LookUpIndexRightForce { get; set; }
+}
+
+
 public class SubPixelBilinearInterpolator
 {
     public SubPixelBilinearInterpolator(ForceLookUpTable limits, Mat lookUpTable)
@@ -134,7 +151,7 @@ public class SubPixelBilinearInterpolator
         LookUpTable = lookUpTable;
     }
 
-    public SubPixelBilinearInterpolator(){}
+    public SubPixelBilinearInterpolator() { }
 
     public ForceLookUpTable Limits { get; private set; }
 
@@ -156,25 +173,33 @@ public class SubPixelBilinearInterpolator
         }
     }
 
-    public float LookUp(float leftValue, float rightValue)
+    public float LookUp(float leftValue, float rightValue, out ForceDiagnosis diagnosis)
     {
-        leftValue = Rescale(leftValue, Limits.LeftMin, Limits.LeftMax, 0, LookUpTable.Size.Height);
-        rightValue = Rescale(rightValue, Limits.RightMin, Limits.RightMax, 0, LookUpTable.Size.Width);
+        var rescaled_leftValue = Rescale(leftValue, Limits.LeftMin, Limits.LeftMax, 0, LookUpTable.Size.Height);
+        var rescaled_rightValue = Rescale(rightValue, Limits.RightMin, Limits.RightMax, 0, LookUpTable.Size.Width);
 
-        leftValue = ClampValue(leftValue, 0, LookUpTable.Size.Height);
-        rightValue = ClampValue(rightValue, 0, LookUpTable.Size.Width);
+        var clamped_leftValue = ClampValue(rescaled_leftValue, 0, LookUpTable.Size.Height);
+        var clamped_rightValue = ClampValue(rescaled_rightValue, 0, LookUpTable.Size.Width);
+
+        diagnosis = new ForceDiagnosis()
+        {
+            RawLeftForce = (ushort)leftValue,
+            RawRightForce = (ushort)rightValue,
+            LookUpIndexLeftForce = clamped_leftValue,
+            LookUpIndexRightForce = clamped_rightValue
+        };
 
         return GetSubPixel(LookUpTable, leftValue, rightValue);
     }
 
     private static float Rescale(float value, double minFrom, double maxFrom, double minTo, double maxTo)
     {
-        return (float) ((value - minFrom) / (maxFrom - minFrom) * (maxTo - minTo) + minTo);
+        return (float)((value - minFrom) / (maxFrom - minFrom) * (maxTo - minTo) + minTo);
     }
 
     private static float ClampValue(float value, double MinBoundTo, double MaxBoundTo)
     {
-        return (float) Math.Min(Math.Max(value, MinBoundTo), MaxBoundTo);
+        return (float)Math.Min(Math.Max(value, MinBoundTo), MaxBoundTo);
     }
 
     private static float GetSubPixel(Mat src, float leftValue, float rightValue)
