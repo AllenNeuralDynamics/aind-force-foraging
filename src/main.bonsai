@@ -3589,7 +3589,7 @@
               <Name>ActiveBlock</Name>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\CreateSoftwareEventInline.bonsai">
-              <EventName />
+              <EventName>ActiveBlock</EventName>
             </Expression>
             <Expression xsi:type="p3:MatchBlockStatistics">
               <p3:Type xsi:type="TypeMapping" TypeArguments="p3:Block" />
