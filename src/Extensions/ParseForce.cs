@@ -98,20 +98,20 @@ public class ParseForce : Transform<Timestamped<short[]>, Timestamped<Force>>
 
 public class Force
 {
-    public float LeftForce { get; set; }
+    public double LeftForce { get; set; }
 
-    public float RightForce { get; set; }
+    public double RightForce { get; set; }
 
     public ForceDiagnosis Diagnosis { get; set; }
 
-    public Force(float leftForce, float rightForce)
+    public Force(double leftForce, double rightForce)
     {
         LeftForce = leftForce;
         RightForce = rightForce;
         Diagnosis = null;
     }
 
-    public float this[HarvestActionLabel key]
+    public double this[HarvestActionLabel key]
     {
         get
         {
@@ -138,8 +138,8 @@ public class ForceDiagnosis
     public short RawLeftForce { get; set; }
     public short RawRightForce { get; set; }
 
-    public float LookUpIndexLeftForce { get; set; }
-    public float LookUpIndexRightForce { get; set; }
+    public double LookUpIndexLeftForce { get; set; }
+    public double LookUpIndexRightForce { get; set; }
 }
 
 
@@ -173,7 +173,7 @@ public class SubPixelBilinearInterpolator
         }
     }
 
-    public float LookUp(float leftValue, float rightValue, out ForceDiagnosis diagnosis)
+    public double LookUp(double leftValue, double rightValue, out ForceDiagnosis diagnosis)
     {
         var rescaled_leftValue = Rescale(leftValue, Limits.LeftMin, Limits.LeftMax, 0, LookUpTable.Size.Height);
         var rescaled_rightValue = Rescale(rightValue, Limits.RightMin, Limits.RightMax, 0, LookUpTable.Size.Width);
@@ -192,22 +192,22 @@ public class SubPixelBilinearInterpolator
         return GetSubPixel(LookUpTable, clamped_leftValue, clamped_rightValue);
     }
 
-    private static float Rescale(float value, double minFrom, double maxFrom, double minTo, double maxTo)
+    private static double Rescale(double value, double minFrom, double maxFrom, double minTo, double maxTo)
     {
-        return (float)((value - minFrom) / (maxFrom - minFrom) * (maxTo - minTo) + minTo);
+        return (value - minFrom) / (maxFrom - minFrom) * (maxTo - minTo) + minTo;
     }
 
-    private static float ClampValue(float value, double MinBoundTo, double MaxBoundTo)
+    private static double ClampValue(double value, double MinBoundTo, double MaxBoundTo)
     {
-        return (float)Math.Min(Math.Max(value, MinBoundTo), MaxBoundTo);
+        return Math.Min(Math.Max(value, MinBoundTo), MaxBoundTo);
     }
 
-    private static float GetSubPixel(Mat src, float leftValue, float rightValue)
+    private static double GetSubPixel(Mat src, double leftValue, double rightValue)
     {
         var idxL = (int)leftValue;
         var idxR = (int)rightValue;
-        float dL = leftValue - idxL;
-        float dR = rightValue - idxR;
+        var dL = leftValue - idxL;
+        var dR = rightValue - idxR;
 
         idxL = Math.Min(idxL, src.Size.Height - 2);
         idxR = Math.Min(idxR, src.Size.Width - 2);
@@ -216,7 +216,7 @@ public class SubPixelBilinearInterpolator
         var p01 = src[idxL, idxR + 1];
         var p10 = src[idxL + 1, idxR];
         var p11 = src[idxL + 1, idxR + 1];
-        return (float)(p00.Val0 * (1 - dR) * (1 - dL) + p01.Val0 * dR * (1 - dL) + p10.Val0 * (1 - dR) * dL + p11.Val0 * dR * dL);
+        return (double)(p00.Val0 * (1 - dR) * (1 - dL) + p01.Val0 * dR * (1 - dL) + p10.Val0 * (1 - dR) * dL + p11.Val0 * dR * dL);
     }
 }
 
