@@ -13,6 +13,11 @@
       <Expression xsi:type="WorkflowInput">
         <Name>Source1</Name>
       </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Take">
+          <rx:Count>1</rx:Count>
+        </Combinator>
+      </Expression>
       <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:FilterNotNull.bonsai" />
       <Expression xsi:type="rx:Condition">
         <Name>CheckTrialType</Name>
@@ -261,6 +266,11 @@
                 </Edges>
               </Workflow>
             </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Take">
+                <rx:Count>1</rx:Count>
+              </Combinator>
+            </Expression>
             <Expression xsi:type="WorkflowOutput" />
             <Expression xsi:type="SubscribeSubject">
               <Name>cachedForce</Name>
@@ -354,15 +364,16 @@
             <Edge From="36" To="37" Label="Source1" />
             <Edge From="37" To="38" Label="Source1" />
             <Edge From="38" To="39" Label="Source1" />
-            <Edge From="40" To="42" Label="Source1" />
-            <Edge From="41" To="42" Label="Source2" />
-            <Edge From="42" To="43" Label="Source1" />
-            <Edge From="44" To="45" Label="Source1" />
+            <Edge From="39" To="40" Label="Source1" />
+            <Edge From="41" To="43" Label="Source1" />
+            <Edge From="42" To="43" Label="Source2" />
+            <Edge From="43" To="44" Label="Source1" />
             <Edge From="45" To="46" Label="Source1" />
             <Edge From="46" To="47" Label="Source1" />
-            <Edge From="46" To="48" Label="Source1" />
-            <Edge From="47" To="48" Label="Source2" />
-            <Edge From="48" To="49" Label="Source1" />
+            <Edge From="47" To="48" Label="Source1" />
+            <Edge From="47" To="49" Label="Source1" />
+            <Edge From="48" To="49" Label="Source2" />
+            <Edge From="49" To="50" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -379,11 +390,12 @@
       <Edge From="0" To="1" Label="Source1" />
       <Edge From="1" To="2" Label="Source1" />
       <Edge From="2" To="3" Label="Source1" />
-      <Edge From="2" To="4" Label="Source2" />
       <Edge From="3" To="4" Label="Source1" />
+      <Edge From="3" To="5" Label="Source2" />
       <Edge From="4" To="5" Label="Source1" />
       <Edge From="5" To="6" Label="Source1" />
       <Edge From="6" To="7" Label="Source1" />
+      <Edge From="7" To="8" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
