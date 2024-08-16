@@ -33,8 +33,8 @@
                  xmlns:p16="clr-namespace:AllenNeuralDynamics.HarpUtils;assembly=AllenNeuralDynamics.HarpUtils"
                  xmlns:gui="clr-namespace:Bonsai.Gui;assembly=Bonsai.Gui"
                  xmlns:gli="clr-namespace:Bonsai.Shaders.Input;assembly=Bonsai.Shaders"
-                 xmlns:viz="clr-namespace:Bonsai.Design.Visualizers;assembly=Bonsai.Design.Visualizers"
                  xmlns:p17="clr-namespace:Bonsai.Vision.Design;assembly=Bonsai.Vision.Design"
+                 xmlns:zg="clr-namespace:Bonsai.Gui.ZedGraph;assembly=Bonsai.Gui.ZedGraph"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Workflow>
     <Nodes>
@@ -6949,165 +6949,6 @@ Value as Image)
         <Name>Visualizers</Name>
         <Workflow>
           <Nodes>
-            <Expression xsi:type="GroupWorkflow">
-              <Name>AccumulationTrialVisualizer</Name>
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>CurrentForce</Name>
-                  </Expression>
-                  <Expression xsi:type="viz:RollingGraphBuilder">
-                    <viz:IndexSelector>Seconds</viz:IndexSelector>
-                    <viz:ValueSelector>Value.LeftForce,Value.RightForce</viz:ValueSelector>
-                    <viz:SymbolType>None</viz:SymbolType>
-                    <viz:LineWidth>1</viz:LineWidth>
-                    <viz:Capacity>2000</viz:Capacity>
-                    <viz:Min xsi:nil="true" />
-                    <viz:Max xsi:nil="true" />
-                  </Expression>
-                  <Expression xsi:type="VisualizerMapping">
-                    <VisualizerType xsi:type="TypeMapping" TypeArguments="viz:RollingGraphVisualizer" />
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>CurrentForce</Name>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:Slice">
-                      <rx:Start>0</rx:Start>
-                      <rx:Step>25</rx:Step>
-                      <rx:Stop xsi:nil="true" />
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="rx:Condition">
-                    <Workflow>
-                      <Nodes>
-                        <Expression xsi:type="WorkflowInput">
-                          <Name>Source1</Name>
-                        </Expression>
-                        <Expression xsi:type="MemberSelector">
-                          <Selector>Value.Diagnosis</Selector>
-                        </Expression>
-                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\IsNull.bonsai" />
-                        <Expression xsi:type="BitwiseNot" />
-                        <Expression xsi:type="WorkflowOutput" />
-                      </Nodes>
-                      <Edges>
-                        <Edge From="0" To="1" Label="Source1" />
-                        <Edge From="1" To="2" Label="Source1" />
-                        <Edge From="2" To="3" Label="Source1" />
-                        <Edge From="3" To="4" Label="Source1" />
-                      </Edges>
-                    </Workflow>
-                  </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>Value.Diagnosis.LookUpIndexLeftForce,Value.Diagnosis.LookUpIndexRightForce</Selector>
-                  </Expression>
-                  <Expression xsi:type="InputMapping">
-                    <PropertyMappings>
-                      <Property Name="X" Selector="Item1" />
-                      <Property Name="Y" Selector="Item2" />
-                    </PropertyMappings>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="cv:CreatePoint2f">
-                      <cv:X>0</cv:X>
-                      <cv:Y>0</cv:Y>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>CurrentForceLut</Name>
-                  </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>Item1</Selector>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="cv:ConvertToImage" />
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:WithLatestFrom" />
-                  </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>Item1</Selector>
-                  </Expression>
-                  <Expression xsi:type="VisualizerMapping" />
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>Item2</Selector>
-                  </Expression>
-                  <Expression xsi:type="VisualizerMapping" />
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>CurrentForce</Name>
-                  </Expression>
-                  <Expression xsi:type="rx:Condition">
-                    <Workflow>
-                      <Nodes>
-                        <Expression xsi:type="WorkflowInput">
-                          <Name>Source1</Name>
-                        </Expression>
-                        <Expression xsi:type="MemberSelector">
-                          <Selector>Value.Diagnosis</Selector>
-                        </Expression>
-                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\IsNull.bonsai" />
-                        <Expression xsi:type="BitwiseNot" />
-                        <Expression xsi:type="WorkflowOutput" />
-                      </Nodes>
-                      <Edges>
-                        <Edge From="0" To="1" Label="Source1" />
-                        <Edge From="1" To="2" Label="Source1" />
-                        <Edge From="2" To="3" Label="Source1" />
-                        <Edge From="3" To="4" Label="Source1" />
-                      </Edges>
-                    </Workflow>
-                  </Expression>
-                  <Expression xsi:type="viz:RollingGraphBuilder">
-                    <viz:IndexSelector>Seconds</viz:IndexSelector>
-                    <viz:ValueSelector>Value.Diagnosis.RawLeftForce,Value.Diagnosis.RawRightForce</viz:ValueSelector>
-                    <viz:SymbolType>None</viz:SymbolType>
-                    <viz:LineWidth>1</viz:LineWidth>
-                    <viz:Capacity>2000</viz:Capacity>
-                    <viz:Min xsi:nil="true" />
-                    <viz:Max xsi:nil="true" />
-                  </Expression>
-                  <Expression xsi:type="VisualizerMapping">
-                    <VisualizerType xsi:type="TypeMapping" TypeArguments="viz:RollingGraphVisualizer" />
-                  </Expression>
-                  <Expression xsi:type="viz:TableLayoutPanelBuilder">
-                    <viz:Name>ForceVisualization</viz:Name>
-                    <viz:ColumnCount>2</viz:ColumnCount>
-                    <viz:RowCount>2</viz:RowCount>
-                    <viz:ColumnStyles />
-                    <viz:RowStyles />
-                    <viz:CellSpans />
-                  </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
-                </Nodes>
-                <Edges>
-                  <Edge From="0" To="1" Label="Source1" />
-                  <Edge From="1" To="2" Label="Source1" />
-                  <Edge From="2" To="21" Label="Source1" />
-                  <Edge From="3" To="4" Label="Source1" />
-                  <Edge From="4" To="5" Label="Source1" />
-                  <Edge From="5" To="6" Label="Source1" />
-                  <Edge From="6" To="7" Label="Source1" />
-                  <Edge From="7" To="8" Label="Source1" />
-                  <Edge From="8" To="12" Label="Source1" />
-                  <Edge From="9" To="10" Label="Source1" />
-                  <Edge From="10" To="11" Label="Source1" />
-                  <Edge From="11" To="12" Label="Source2" />
-                  <Edge From="12" To="13" Label="Source1" />
-                  <Edge From="12" To="15" Label="Source1" />
-                  <Edge From="13" To="14" Label="Source1" />
-                  <Edge From="14" To="15" Label="Source2" />
-                  <Edge From="15" To="16" Label="Source1" />
-                  <Edge From="16" To="21" Label="Source2" />
-                  <Edge From="17" To="18" Label="Source1" />
-                  <Edge From="18" To="19" Label="Source1" />
-                  <Edge From="19" To="20" Label="Source1" />
-                  <Edge From="20" To="21" Label="Source3" />
-                  <Edge From="21" To="22" Label="Source1" />
-                </Edges>
-              </Workflow>
-            </Expression>
-            <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="IntProperty">
                 <Value>0</Value>
@@ -7308,17 +7149,333 @@ Value as Image)
             <Expression xsi:type="VisualizerMapping">
               <VisualizerType xsi:type="TypeMapping" TypeArguments="gui:TableLayoutPanelVisualizer" />
             </Expression>
+            <Expression xsi:type="GroupWorkflow">
+              <Name>TrialVisualizer</Name>
+              <Workflow>
+                <Nodes>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>CurrentForce</Name>
+                  </Expression>
+                  <Expression xsi:type="zg:RollingGraphBuilder">
+                    <zg:IndexSelector>Seconds</zg:IndexSelector>
+                    <zg:ValueSelector>Value.LeftForce,Value.RightForce</zg:ValueSelector>
+                    <zg:SymbolType>None</zg:SymbolType>
+                    <zg:LineWidth>2</zg:LineWidth>
+                    <zg:CurveSettings>
+                      <zg:CurveConfiguration>
+                        <zg:Label>Left</zg:Label>
+                        <zg:Color>Blue</zg:Color>
+                      </zg:CurveConfiguration>
+                      <zg:CurveConfiguration>
+                        <zg:Label>Right</zg:Label>
+                        <zg:Color>Red</zg:Color>
+                      </zg:CurveConfiguration>
+                    </zg:CurveSettings>
+                    <zg:Capacity>2000</zg:Capacity>
+                    <zg:Min xsi:nil="true" />
+                    <zg:Max xsi:nil="true" />
+                  </Expression>
+                  <Expression xsi:type="VisualizerMapping" />
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>CurrentForce</Name>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Slice">
+                      <rx:Start>0</rx:Start>
+                      <rx:Step>25</rx:Step>
+                      <rx:Stop xsi:nil="true" />
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="rx:Condition">
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="MemberSelector">
+                          <Selector>Value.Diagnosis</Selector>
+                        </Expression>
+                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\IsNull.bonsai" />
+                        <Expression xsi:type="BitwiseNot" />
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="1" Label="Source1" />
+                        <Edge From="1" To="2" Label="Source1" />
+                        <Edge From="2" To="3" Label="Source1" />
+                        <Edge From="3" To="4" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Value.Diagnosis.LookUpIndexLeftForce,Value.Diagnosis.LookUpIndexRightForce</Selector>
+                  </Expression>
+                  <Expression xsi:type="InputMapping">
+                    <PropertyMappings>
+                      <Property Name="X" Selector="Item1" />
+                      <Property Name="Y" Selector="Item2" />
+                    </PropertyMappings>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="cv:CreatePoint2f">
+                      <cv:X>0</cv:X>
+                      <cv:Y>0</cv:Y>
+                    </Combinator>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>CurrentForceLut</Name>
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Item1</Selector>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="cv:ConvertToImage" />
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:WithLatestFrom" />
+                  </Expression>
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Item1</Selector>
+                  </Expression>
+                  <Expression xsi:type="VisualizerMapping" />
+                  <Expression xsi:type="MemberSelector">
+                    <Selector>Item2</Selector>
+                  </Expression>
+                  <Expression xsi:type="VisualizerMapping" />
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>CurrentForce</Name>
+                  </Expression>
+                  <Expression xsi:type="rx:Condition">
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="MemberSelector">
+                          <Selector>Value.Diagnosis</Selector>
+                        </Expression>
+                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\IsNull.bonsai" />
+                        <Expression xsi:type="BitwiseNot" />
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="1" Label="Source1" />
+                        <Edge From="1" To="2" Label="Source1" />
+                        <Edge From="2" To="3" Label="Source1" />
+                        <Edge From="3" To="4" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="zg:RollingGraphBuilder">
+                    <zg:IndexSelector>Seconds</zg:IndexSelector>
+                    <zg:ValueSelector>Value.Diagnosis.RawLeftForce,Value.Diagnosis.RawRightForce</zg:ValueSelector>
+                    <zg:SymbolType>None</zg:SymbolType>
+                    <zg:LineWidth>2</zg:LineWidth>
+                    <zg:CurveSettings>
+                      <zg:CurveConfiguration>
+                        <zg:Label>Left</zg:Label>
+                        <zg:Color>Blue</zg:Color>
+                      </zg:CurveConfiguration>
+                      <zg:CurveConfiguration>
+                        <zg:Label>Right</zg:Label>
+                        <zg:Color>Red</zg:Color>
+                      </zg:CurveConfiguration>
+                    </zg:CurveSettings>
+                    <zg:Capacity>2000</zg:Capacity>
+                    <zg:Min xsi:nil="true" />
+                    <zg:Max xsi:nil="true" />
+                  </Expression>
+                  <Expression xsi:type="VisualizerMapping" />
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>LiveHarvestOutcome</Name>
+                  </Expression>
+                  <Expression xsi:type="rx:GroupBy">
+                    <rx:KeySelector>Item2.Action</rx:KeySelector>
+                  </Expression>
+                  <Expression xsi:type="rx:Condition">
+                    <Name>LeftHarvest</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="MemberSelector">
+                          <Selector>Key</Selector>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="Value" />
+                        </Expression>
+                        <Expression xsi:type="Equal">
+                          <Operand xsi:type="WorkflowProperty" TypeArguments="p3:HarvestActionLabel">
+                            <Value>Left</Value>
+                          </Operand>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="1" Label="Source1" />
+                        <Edge From="1" To="3" Label="Source1" />
+                        <Edge From="2" To="3" Label="Source2" />
+                        <Edge From="3" To="4" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Merge" />
+                  </Expression>
+                  <Expression xsi:type="zg:RollingGraphBuilder">
+                    <zg:IndexSelector>Item1.Seconds</zg:IndexSelector>
+                    <zg:ValueSelector>Item1.Value,Item2.UpperForceThreshold,Item2.LowerForceThreshold</zg:ValueSelector>
+                    <zg:SymbolType>None</zg:SymbolType>
+                    <zg:LineWidth>2</zg:LineWidth>
+                    <zg:CurveSettings>
+                      <zg:CurveConfiguration>
+                        <zg:Label>Left</zg:Label>
+                        <zg:Color>Blue</zg:Color>
+                      </zg:CurveConfiguration>
+                      <zg:CurveConfiguration>
+                        <zg:Color>Black</zg:Color>
+                      </zg:CurveConfiguration>
+                      <zg:CurveConfiguration>
+                        <zg:Color>Black</zg:Color>
+                      </zg:CurveConfiguration>
+                    </zg:CurveSettings>
+                    <zg:Capacity>2000</zg:Capacity>
+                    <zg:Min xsi:nil="true" />
+                    <zg:Max xsi:nil="true" />
+                  </Expression>
+                  <Expression xsi:type="VisualizerMapping" />
+                  <Expression xsi:type="rx:Condition">
+                    <Name>RightHarvest</Name>
+                    <Workflow>
+                      <Nodes>
+                        <Expression xsi:type="WorkflowInput">
+                          <Name>Source1</Name>
+                        </Expression>
+                        <Expression xsi:type="MemberSelector">
+                          <Selector>Key</Selector>
+                        </Expression>
+                        <Expression xsi:type="ExternalizedMapping">
+                          <Property Name="Value" />
+                        </Expression>
+                        <Expression xsi:type="Equal">
+                          <Operand xsi:type="WorkflowProperty" TypeArguments="p3:HarvestActionLabel">
+                            <Value>Right</Value>
+                          </Operand>
+                        </Expression>
+                        <Expression xsi:type="WorkflowOutput" />
+                      </Nodes>
+                      <Edges>
+                        <Edge From="0" To="1" Label="Source1" />
+                        <Edge From="1" To="3" Label="Source1" />
+                        <Edge From="2" To="3" Label="Source2" />
+                        <Edge From="3" To="4" Label="Source1" />
+                      </Edges>
+                    </Workflow>
+                  </Expression>
+                  <Expression xsi:type="Combinator">
+                    <Combinator xsi:type="rx:Merge" />
+                  </Expression>
+                  <Expression xsi:type="zg:RollingGraphBuilder">
+                    <zg:IndexSelector>Item1.Seconds</zg:IndexSelector>
+                    <zg:ValueSelector>Item1.Value,Item2.UpperForceThreshold,Item2.LowerForceThreshold</zg:ValueSelector>
+                    <zg:SymbolType>None</zg:SymbolType>
+                    <zg:LineWidth>2</zg:LineWidth>
+                    <zg:CurveSettings>
+                      <zg:CurveConfiguration>
+                        <zg:Label>Right</zg:Label>
+                        <zg:Color>Red</zg:Color>
+                      </zg:CurveConfiguration>
+                      <zg:CurveConfiguration>
+                        <zg:Color>Black</zg:Color>
+                      </zg:CurveConfiguration>
+                      <zg:CurveConfiguration>
+                        <zg:Color>Black</zg:Color>
+                      </zg:CurveConfiguration>
+                    </zg:CurveSettings>
+                    <zg:Capacity>2000</zg:Capacity>
+                    <zg:Min xsi:nil="true" />
+                    <zg:Max xsi:nil="true" />
+                  </Expression>
+                  <Expression xsi:type="VisualizerMapping" />
+                  <Expression xsi:type="zg:RollingGraphPanelBuilder">
+                    <zg:Name>LiveHarvestOutcome</zg:Name>
+                    <zg:ReverseX>false</zg:ReverseX>
+                    <zg:ReverseY>false</zg:ReverseY>
+                    <zg:Span>5</zg:Span>
+                    <zg:Capacity xsi:nil="true" />
+                    <zg:BaseAxis>X</zg:BaseAxis>
+                    <zg:BarType>Cluster</zg:BarType>
+                    <zg:Min xsi:nil="true" />
+                    <zg:Max xsi:nil="true" />
+                  </Expression>
+                  <Expression xsi:type="VisualizerMapping" />
+                  <Expression xsi:type="gui:TableLayoutPanelBuilder">
+                    <gui:Name>ForceVisualization</gui:Name>
+                    <gui:Enabled>true</gui:Enabled>
+                    <gui:Visible>true</gui:Visible>
+                    <gui:ColumnCount>2</gui:ColumnCount>
+                    <gui:RowCount>2</gui:RowCount>
+                    <gui:ColumnStyles />
+                    <gui:RowStyles />
+                    <gui:CellSpans />
+                  </Expression>
+                  <Expression xsi:type="WorkflowOutput" />
+                </Nodes>
+                <Edges>
+                  <Edge From="0" To="1" Label="Source1" />
+                  <Edge From="1" To="2" Label="Source1" />
+                  <Edge From="2" To="33" Label="Source1" />
+                  <Edge From="3" To="4" Label="Source1" />
+                  <Edge From="4" To="5" Label="Source1" />
+                  <Edge From="5" To="6" Label="Source1" />
+                  <Edge From="6" To="7" Label="Source1" />
+                  <Edge From="7" To="8" Label="Source1" />
+                  <Edge From="8" To="12" Label="Source1" />
+                  <Edge From="9" To="10" Label="Source1" />
+                  <Edge From="10" To="11" Label="Source1" />
+                  <Edge From="11" To="12" Label="Source2" />
+                  <Edge From="12" To="13" Label="Source1" />
+                  <Edge From="12" To="15" Label="Source1" />
+                  <Edge From="13" To="14" Label="Source1" />
+                  <Edge From="14" To="15" Label="Source2" />
+                  <Edge From="15" To="16" Label="Source1" />
+                  <Edge From="16" To="33" Label="Source2" />
+                  <Edge From="17" To="18" Label="Source1" />
+                  <Edge From="18" To="19" Label="Source1" />
+                  <Edge From="19" To="20" Label="Source1" />
+                  <Edge From="20" To="33" Label="Source3" />
+                  <Edge From="21" To="22" Label="Source1" />
+                  <Edge From="22" To="23" Label="Source1" />
+                  <Edge From="22" To="27" Label="Source1" />
+                  <Edge From="23" To="24" Label="Source1" />
+                  <Edge From="24" To="25" Label="Source1" />
+                  <Edge From="25" To="26" Label="Source1" />
+                  <Edge From="26" To="31" Label="Source1" />
+                  <Edge From="27" To="28" Label="Source1" />
+                  <Edge From="28" To="29" Label="Source1" />
+                  <Edge From="29" To="30" Label="Source1" />
+                  <Edge From="30" To="31" Label="Source2" />
+                  <Edge From="31" To="32" Label="Source1" />
+                  <Edge From="32" To="33" Label="Source4" />
+                  <Edge From="33" To="34" Label="Source1" />
+                </Edges>
+              </Workflow>
+            </Expression>
+            <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="SubscribeSubject">
               <Name>SoftwareEvents</Name>
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
-            <Expression xsi:type="viz:TableLayoutPanelBuilder">
-              <viz:Name>SoftwareEvents</viz:Name>
-              <viz:ColumnCount>1</viz:ColumnCount>
-              <viz:RowCount>1</viz:RowCount>
-              <viz:ColumnStyles />
-              <viz:RowStyles />
-              <viz:CellSpans />
+            <Expression xsi:type="gui:TableLayoutPanelBuilder">
+              <gui:Name>SoftwareEvents</gui:Name>
+              <gui:Enabled>true</gui:Enabled>
+              <gui:Visible>true</gui:Visible>
+              <gui:ColumnCount>1</gui:ColumnCount>
+              <gui:RowCount>1</gui:RowCount>
+              <gui:ColumnStyles />
+              <gui:RowStyles />
+              <gui:CellSpans />
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:TabControlBuilder">
@@ -7329,8 +7486,8 @@ Value as Image)
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
-            <Edge From="1" To="9" Label="Source1" />
-            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="1" To="2" Label="Source1" />
+            <Edge From="2" To="9" Label="Source1" />
             <Edge From="3" To="4" Label="Source1" />
             <Edge From="4" To="9" Label="Source2" />
             <Edge From="5" To="6" Label="Source1" />
