@@ -7476,8 +7476,8 @@ Value as Image)
             <Expression xsi:type="gui:TableLayoutPanelBuilder">
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
-              <gui:ColumnCount>3</gui:ColumnCount>
-              <gui:RowCount>1</gui:RowCount>
+              <gui:ColumnCount>1</gui:ColumnCount>
+              <gui:RowCount>3</gui:RowCount>
               <gui:ColumnStyles />
               <gui:RowStyles>
                 <gui:RowStyle>
