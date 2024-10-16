@@ -906,66 +906,6 @@
       "title": "HarpLickometer",
       "type": "object"
     },
-    "HarpLoadCells": {
-      "properties": {
-        "device_type": {
-          "const": "loadcells",
-          "default": "loadcells",
-          "title": "Device Type",
-          "type": "string"
-        },
-        "additional_settings": {
-          "default": null,
-          "description": "Additional settings",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/BaseModel"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "calibration": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/LoadCellsCalibration"
-            }
-          ],
-          "description": "Load cells calibration"
-        },
-        "who_am_i": {
-          "const": 1232,
-          "default": 1232,
-          "title": "Who Am I",
-          "type": "integer"
-        },
-        "serial_number": {
-          "default": null,
-          "description": "Device serial number",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Serial Number"
-        },
-        "port_name": {
-          "description": "Device port name",
-          "title": "Port Name",
-          "type": "string"
-        }
-      },
-      "required": [
-        "calibration",
-        "port_name"
-      ],
-      "title": "HarpLoadCells",
-      "type": "object"
-    },
     "LoadCellCalibrationInput": {
       "properties": {
         "channel": {
@@ -1047,6 +987,69 @@
         "channel"
       ],
       "title": "LoadCellCalibrationOutput",
+      "type": "object"
+    },
+    "LoadCells": {
+      "properties": {
+        "device_type": {
+          "const": "loadcells",
+          "default": "loadcells",
+          "title": "Device Type",
+          "type": "string"
+        },
+        "additional_settings": {
+          "default": null,
+          "description": "Additional settings",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/BaseModel"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "calibration": {
+          "default": null,
+          "oneOf": [
+            {
+              "$ref": "#/definitions/LoadCellsCalibration"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Calibration of the load cells"
+        },
+        "who_am_i": {
+          "const": 1232,
+          "default": 1232,
+          "title": "Who Am I",
+          "type": "integer"
+        },
+        "serial_number": {
+          "default": null,
+          "description": "Device serial number",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Serial Number"
+        },
+        "port_name": {
+          "description": "Device port name",
+          "title": "Port Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "port_name"
+      ],
+      "title": "LoadCells",
       "type": "object"
     },
     "LoadCellsCalibration": {
@@ -1987,7 +1990,7 @@
     "harp_load_cells": {
       "allOf": [
         {
-          "$ref": "#/definitions/HarpLoadCells"
+          "$ref": "#/definitions/LoadCells"
         }
       ],
       "description": "Harp load cells"
