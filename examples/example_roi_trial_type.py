@@ -6,7 +6,7 @@ import aind_behavior_force_foraging.task_logic as task_logic
 import aind_behavior_services.calibration.load_cells as lcc
 import aind_behavior_services.rig as rig
 import aind_behavior_services.task_logic.distributions as distributions
-from aind_behavior_force_foraging.rig import AindForceForagingRig, AindManipulatorDevice, HarpLoadCells, RigCalibration
+from aind_behavior_force_foraging.rig import AindForceForagingRig, AindManipulatorDevice, RigCalibration
 from aind_behavior_force_foraging.task_logic import (
     AindForceForagingTaskLogic,
     AindForceForagingTaskParameters,
@@ -35,7 +35,6 @@ def mock_session() -> AindBehaviorSessionModel:
         date=datetime.datetime.now(tz=datetime.timezone.utc),
         experiment="ForceForaging",
         root_path="c://",
-        remote_path="c://remote",
         subject="test",
         notes="test session",
         experiment_version="0.1.0",
@@ -70,7 +69,7 @@ def mock_rig() -> AindForceForagingRig:
         ]
     )
     water_valve_calibration = WaterValveCalibration(
-        input=water_valve_input, output=water_valve_input.calibrate_output(), calibration_date=datetime.datetime.now()
+        input=water_valve_input, output=water_valve_input.calibrate_output(), date=datetime.datetime.now()
     )
     water_valve_calibration.output = WaterValveCalibrationOutput(slope=1, offset=0)  # For testing purposes
 
@@ -96,7 +95,7 @@ def mock_rig() -> AindForceForagingRig:
                 ),
             },
         ),
-        harp_load_cells=HarpLoadCells(port_name="COM4", calibration=load_cells_calibration),
+        harp_load_cells=lcc.LoadCells(port_name="COM4", calibration=load_cells_calibration),
         monitoring_camera_controller=rig.CameraController[rig.WebCamera](cameras={"WebCam0": rig.WebCamera(index=0)}),
         harp_behavior=rig.HarpBehavior(port_name="COM3"),
         harp_lickometer=rig.HarpLickometer(port_name="COM5"),

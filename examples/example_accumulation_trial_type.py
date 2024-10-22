@@ -5,7 +5,7 @@ import aind_behavior_force_foraging.task_logic as task_logic
 import aind_behavior_services.calibration.load_cells as lcc
 import aind_behavior_services.rig as rig
 import aind_behavior_services.task_logic.distributions as distributions
-from aind_behavior_force_foraging.rig import AindForceForagingRig, AindManipulatorDevice, HarpLoadCells, RigCalibration
+from aind_behavior_force_foraging.rig import AindForceForagingRig, AindManipulatorDevice, RigCalibration
 from aind_behavior_force_foraging.task_logic import (
     AindForceForagingTaskLogic,
     AindForceForagingTaskParameters,
@@ -34,7 +34,6 @@ def mock_session() -> AindBehaviorSessionModel:
         date=datetime.datetime.now(tz=datetime.timezone.utc),
         experiment="ForceForaging",
         root_path="c://",
-        remote_path="c://remote",
         subject="test",
         notes="test session",
         experiment_version="0.1.0",
@@ -50,14 +49,14 @@ def mock_rig() -> AindForceForagingRig:
     manipulator_calibration = AindManipulatorCalibration(
         output=AindManipulatorCalibrationOutput(),
         input=AindManipulatorCalibrationInput(
-            full_step_to_mm=(ManipulatorPosition(x=0.010, y1=0.010, z=0.010)),
+            full_step_to_mm=(ManipulatorPosition(x=0.010, y1=0.010, z=0.010, y2=0.010)),
             axis_configuration=[
                 AxisConfiguration(axis=Axis.Y1, min_limit=-1, max_limit=15000),
                 AxisConfiguration(axis=Axis.X, min_limit=-1, max_limit=15000),
                 AxisConfiguration(axis=Axis.Z, min_limit=-1, max_limit=15000),
             ],
             homing_order=[Axis.Y1, Axis.X, Axis.Z],
-            initial_position=ManipulatorPosition(y1=0, x=0, z=0),
+            initial_position=ManipulatorPosition(y1=0, x=0, z=0, y2=0),
         ),
     )
 
@@ -68,7 +67,7 @@ def mock_rig() -> AindForceForagingRig:
         ]
     )
     water_valve_calibration = WaterValveCalibration(
-        input=water_valve_input, output=water_valve_input.calibrate_output(), calibration_date=datetime.datetime.now()
+        input=water_valve_input, output=water_valve_input.calibrate_output(), date=datetime.datetime.now()
     )
     water_valve_calibration.output = WaterValveCalibrationOutput(slope=1, offset=0)  # For testing purposes
 
@@ -96,7 +95,7 @@ def mock_rig() -> AindForceForagingRig:
                 ),
             },
         ),
-        harp_load_cells=HarpLoadCells(port_name="COM4", calibration=load_cells_calibration),
+        harp_load_cells=lcc.LoadCells(port_name="COM4", calibration=load_cells_calibration),
         monitoring_camera_controller=None,
         harp_behavior=rig.HarpBehavior(port_name="COM3"),
         harp_lickometer=rig.HarpLickometer(port_name="COM5"),
