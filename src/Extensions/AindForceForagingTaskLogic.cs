@@ -290,11 +290,11 @@ namespace AindForceForagingDataSchema.TaskLogic
         }
     
         /// <summary>
-        /// Input domain. All values should be between 0 and 1
+        /// Normalized input domain. All values should be between 0 and 1
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("converter_lut_input")]
-        [System.ComponentModel.DescriptionAttribute("Input domain. All values should be between 0 and 1")]
+        [System.ComponentModel.DescriptionAttribute("Normalized input domain. All values should be between 0 and 1")]
         public System.Collections.Generic.List<double> ConverterLutInput
         {
             get
@@ -986,7 +986,6 @@ namespace AindForceForagingDataSchema.TaskLogic
     [Newtonsoft.Json.JsonConverter(typeof(JsonInheritanceConverter), "mode")]
     [JsonInheritanceAttribute("Block", typeof(Block))]
     [JsonInheritanceAttribute("BlockGenerator", typeof(BlockGenerator))]
-    [JsonInheritanceAttribute("BrownianRandomWalk", typeof(BrownianRandomWalk))]
     [Bonsai.CombinatorAttribute()]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     public partial class BlockStatistics
@@ -1026,107 +1025,6 @@ namespace AindForceForagingDataSchema.TaskLogic
             }
             stringBuilder.Append("}");
             return stringBuilder.ToString();
-        }
-    }
-
-
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
-    [Bonsai.CombinatorAttribute()]
-    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
-    public partial class BrownianRandomWalk : BlockStatistics
-    {
-    
-        private bool _isBaited = false;
-    
-        private Distribution _blockSize;
-    
-        private Trial _trialStatistics = new Trial();
-    
-        public BrownianRandomWalk()
-        {
-        }
-    
-        protected BrownianRandomWalk(BrownianRandomWalk other) : 
-                base(other)
-        {
-            _isBaited = other._isBaited;
-            _blockSize = other._blockSize;
-            _trialStatistics = other._trialStatistics;
-        }
-    
-        /// <summary>
-        /// Whether the trials are baited
-        /// </summary>
-        [Newtonsoft.Json.JsonPropertyAttribute("is_baited")]
-        [System.ComponentModel.DescriptionAttribute("Whether the trials are baited")]
-        public bool IsBaited
-        {
-            get
-            {
-                return _isBaited;
-            }
-            set
-            {
-                _isBaited = value;
-            }
-        }
-    
-        /// <summary>
-        /// Size of the block
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("block_size")]
-        [System.ComponentModel.DescriptionAttribute("Size of the block")]
-        public Distribution BlockSize
-        {
-            get
-            {
-                return _blockSize;
-            }
-            set
-            {
-                _blockSize = value;
-            }
-        }
-    
-        /// <summary>
-        /// Statistics of the trials in the block
-        /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("trial_statistics", Required=Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DescriptionAttribute("Statistics of the trials in the block")]
-        public Trial TrialStatistics
-        {
-            get
-            {
-                return _trialStatistics;
-            }
-            set
-            {
-                _trialStatistics = value;
-            }
-        }
-    
-        public System.IObservable<BrownianRandomWalk> Process()
-        {
-            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new BrownianRandomWalk(this)));
-        }
-    
-        public System.IObservable<BrownianRandomWalk> Process<TSource>(System.IObservable<TSource> source)
-        {
-            return System.Reactive.Linq.Observable.Select(source, _ => new BrownianRandomWalk(this));
-        }
-    
-        protected override bool PrintMembers(System.Text.StringBuilder stringBuilder)
-        {
-            if (base.PrintMembers(stringBuilder))
-            {
-                stringBuilder.Append(", ");
-            }
-            stringBuilder.Append("is_baited = " + _isBaited + ", ");
-            stringBuilder.Append("block_size = " + _blockSize + ", ");
-            stringBuilder.Append("trial_statistics = " + _trialStatistics);
-            return true;
         }
     }
 
@@ -2742,11 +2640,11 @@ namespace AindForceForagingDataSchema.TaskLogic
         }
     
         /// <summary>
-        /// Input domain. All values should be between 0 and 1
+        /// Normalized input domain. All values should be between 0 and 1
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("converter_lut_input")]
-        [System.ComponentModel.DescriptionAttribute("Input domain. All values should be between 0 and 1")]
+        [System.ComponentModel.DescriptionAttribute("Normalized input domain. All values should be between 0 and 1")]
         public System.Collections.Generic.List<double> ConverterLutInput
         {
             get
@@ -5255,7 +5153,6 @@ namespace AindForceForagingDataSchema.TaskLogic
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Combinator)]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Block>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BlockGenerator>))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BrownianRandomWalk>))]
     public partial class MatchBlockStatistics : Bonsai.Expressions.SingleArgumentExpressionBuilder
     {
     
@@ -5445,11 +5342,6 @@ namespace AindForceForagingDataSchema.TaskLogic
         public System.IObservable<string> Process(System.IObservable<BlockStatistics> source)
         {
             return Process<BlockStatistics>(source);
-        }
-
-        public System.IObservable<string> Process(System.IObservable<BrownianRandomWalk> source)
-        {
-            return Process<BrownianRandomWalk>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<ContinuousFeedback> source)
@@ -5651,7 +5543,6 @@ namespace AindForceForagingDataSchema.TaskLogic
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Block>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BlockGenerator>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BlockStatistics>))]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BrownianRandomWalk>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ContinuousFeedback>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Distribution>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Environment>))]

@@ -114,7 +114,7 @@
             0,
             1
           ],
-          "description": "Input domain. All values should be between 0 and 1",
+          "description": "Normalized input domain. All values should be between 0 and 1",
           "items": {
             "maximum": 1.0,
             "minimum": 0.0,
@@ -389,8 +389,7 @@
       "discriminator": {
         "mapping": {
           "Block": "#/definitions/Block",
-          "BlockGenerator": "#/definitions/BlockGenerator",
-          "BrownianRandomWalk": "#/definitions/BrownianRandomWalk"
+          "BlockGenerator": "#/definitions/BlockGenerator"
         },
         "propertyName": "mode"
       },
@@ -400,59 +399,9 @@
         },
         {
           "$ref": "#/definitions/BlockGenerator"
-        },
-        {
-          "$ref": "#/definitions/BrownianRandomWalk"
         }
       ],
       "title": "BlockStatistics"
-    },
-    "BrownianRandomWalk": {
-      "properties": {
-        "mode": {
-          "const": "BrownianRandomWalk",
-          "default": "BrownianRandomWalk",
-          "title": "Mode",
-          "type": "string"
-        },
-        "is_baited": {
-          "default": false,
-          "description": "Whether the trials are baited",
-          "title": "Is Baited",
-          "type": "boolean"
-        },
-        "block_size": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/Distribution"
-            }
-          ],
-          "default": {
-            "family": "Uniform",
-            "distribution_parameters": {
-              "family": "Uniform",
-              "max": 60.0,
-              "min": 50.0
-            },
-            "truncation_parameters": null,
-            "scaling_parameters": null
-          },
-          "description": "Size of the block"
-        },
-        "trial_statistics": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/Trial"
-            }
-          ],
-          "description": "Statistics of the trials in the block"
-        }
-      },
-      "required": [
-        "trial_statistics"
-      ],
-      "title": "BrownianRandomWalk",
-      "type": "object"
     },
     "ContinuousFeedback": {
       "discriminator": {
@@ -1026,7 +975,7 @@
             0,
             1
           ],
-          "description": "Input domain. All values should be between 0 and 1",
+          "description": "Normalized input domain. All values should be between 0 and 1",
           "items": {
             "maximum": 1.0,
             "minimum": 0.0,
