@@ -135,11 +135,7 @@ class ContinuousFeedbackMode(str, Enum):
 
     NONE = "None"
     AUDIO = "Audio"
-    VISUAL = "Visual"
     MANIPULATOR = "Manipulator"
-
-
-ValuePair = Annotated[List[float], Field(min_length=2, max_length=2, description="A tuple of two values")]
 
 
 class _ContinuousFeedbackBase(BaseModel):
@@ -147,7 +143,7 @@ class _ContinuousFeedbackBase(BaseModel):
         default=ContinuousFeedbackMode.NONE, description="Continuous feedback mode"
     )
     converter_lut_input: List[Annotated[float, Field(ge=0, le=1)]] = Field(
-        default=[0, 1], min_length=2, description="Input domain. All values should be between 0 and 1"
+        default=[0, 1], min_length=2, description="Normalized input domain. All values should be between 0 and 1"
     )
     converter_lut_output: List[float] = Field(
         default=[0, 1],
@@ -313,7 +309,6 @@ class BlockStatisticsMode(str, Enum):
     """Defines the mode of the environment"""
 
     BLOCK = "Block"
-    BROWNIAN = "BrownianRandomWalk"
     BLOCK_GENERATOR = "BlockGenerator"
 
 
@@ -336,17 +331,8 @@ class BlockGenerator(BaseModel):
     trial_statistics: Trial = Field(..., description="Statistics of the trials in the block")
 
 
-class BrownianRandomWalk(BaseModel):
-    mode: Literal[BlockStatisticsMode.BROWNIAN] = BlockStatisticsMode.BROWNIAN
-    is_baited: bool = Field(default=False, description="Whether the trials are baited")
-    block_size: distributions.Distribution = Field(
-        default=uniform_distribution_value(min=50, max=60), validate_default=True, description="Size of the block"
-    )
-    trial_statistics: Trial = Field(..., description="Statistics of the trials in the block")
-
-
 class BlockStatistics(RootModel):
-    root: Annotated[Union[Block, BlockGenerator, BrownianRandomWalk], Field(discriminator="mode")]
+    root: Annotated[Union[Block, BlockGenerator], Field(discriminator="mode")]
 
 
 class Environment(BaseModel):
