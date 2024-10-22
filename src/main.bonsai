@@ -3387,7 +3387,7 @@ Item3 as Right)</scr:Expression>
               </Workflow>
             </Expression>
             <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p10:Unit">
-              <rx:Name>TriggerGoCue</rx:Name>
+              <rx:Name>TriggerResponseCue</rx:Name>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\PlayAudioCue.bonsai">
               <Duration>0.1</Duration>
@@ -3401,7 +3401,14 @@ Item3 as Right)</scr:Expression>
               <Frequency>1000</Frequency>
             </Expression>
             <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p10:Unit">
-              <rx:Name>TriggerStartCue</rx:Name>
+              <rx:Name>TriggerInitiationCue</rx:Name>
+            </Expression>
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\PlayAudioCue.bonsai">
+              <Duration>0.1</Duration>
+              <Frequency>500</Frequency>
+            </Expression>
+            <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p10:Unit">
+              <rx:Name>TriggerQuiescencePeriodCue</rx:Name>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\PlayAudioCue.bonsai">
               <Duration>0.1</Duration>
@@ -3412,6 +3419,7 @@ Item3 as Right)</scr:Expression>
             <Edge From="7" To="8" Label="Source1" />
             <Edge From="9" To="10" Label="Source1" />
             <Edge From="11" To="12" Label="Source1" />
+            <Edge From="13" To="14" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -3723,136 +3731,6 @@ Item3 as Right)</scr:Expression>
                   <Expression xsi:type="rx:AsyncSubject">
                     <Name>TrialBlueprint</Name>
                   </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>ThisBlock</Name>
-                  </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>BlockSize</Selector>
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>RngSeed</Name>
-                  </Expression>
-                  <Expression xsi:type="PropertyMapping">
-                    <PropertyMappings>
-                      <Property Name="RandomSource" />
-                    </PropertyMappings>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="p3:SampleDistribution" />
-                  </Expression>
-                  <Expression xsi:type="scr:ExpressionTransform">
-                    <scr:Name>ToInt32</scr:Name>
-                    <scr:Expression>Convert.ToInt32(it)</scr:Expression>
-                  </Expression>
-                  <Expression xsi:type="rx:AsyncSubject">
-                    <Name>BlockLength</Name>
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>ThisBlock</Name>
-                  </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>IsBaited</Selector>
-                  </Expression>
-                  <Expression xsi:type="MulticastSubject">
-                    <Name>IsBaitedMode</Name>
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>TrialBlueprint</Name>
-                  </Expression>
-                  <Expression xsi:type="IncludeWorkflow" Path="Extensions\CreateTrial.bonsai" />
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:Concat" />
-                  </Expression>
-                  <Expression xsi:type="rx:SelectMany">
-                    <Name>TrialNumber++</Name>
-                    <Workflow>
-                      <Nodes>
-                        <Expression xsi:type="SubscribeSubject">
-                          <Name>TrialNumber</Name>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="rx:Take">
-                            <rx:Count>1</rx:Count>
-                          </Combinator>
-                        </Expression>
-                        <Expression xsi:type="Add">
-                          <Operand xsi:type="IntProperty">
-                            <Value>1</Value>
-                          </Operand>
-                        </Expression>
-                        <Expression xsi:type="MulticastSubject">
-                          <Name>TrialNumber</Name>
-                        </Expression>
-                        <Expression xsi:type="WorkflowOutput" />
-                      </Nodes>
-                      <Edges>
-                        <Edge From="0" To="1" Label="Source1" />
-                        <Edge From="1" To="2" Label="Source1" />
-                        <Edge From="2" To="3" Label="Source1" />
-                        <Edge From="3" To="4" Label="Source1" />
-                      </Edges>
-                    </Workflow>
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>BlockLength</Name>
-                  </Expression>
-                  <Expression xsi:type="PropertyMapping">
-                    <PropertyMappings>
-                      <Property Name="Count" />
-                    </PropertyMappings>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:RepeatCount">
-                      <rx:Count>0</rx:Count>
-                    </Combinator>
-                  </Expression>
-                  <Expression xsi:type="Combinator">
-                    <Combinator xsi:type="rx:Last" />
-                  </Expression>
-                  <Expression xsi:type="WorkflowOutput" />
-                </Nodes>
-                <Edges>
-                  <Edge From="0" To="1" Label="Source1" />
-                  <Edge From="1" To="2" Label="Source1" />
-                  <Edge From="2" To="3" Label="Source1" />
-                  <Edge From="4" To="5" Label="Source1" />
-                  <Edge From="5" To="8" Label="Source1" />
-                  <Edge From="6" To="7" Label="Source1" />
-                  <Edge From="7" To="8" Label="Source2" />
-                  <Edge From="8" To="9" Label="Source1" />
-                  <Edge From="9" To="10" Label="Source1" />
-                  <Edge From="11" To="12" Label="Source1" />
-                  <Edge From="12" To="13" Label="Source1" />
-                  <Edge From="14" To="15" Label="Source1" />
-                  <Edge From="15" To="16" Label="Source1" />
-                  <Edge From="16" To="17" Label="Source1" />
-                  <Edge From="17" To="20" Label="Source1" />
-                  <Edge From="18" To="19" Label="Source1" />
-                  <Edge From="19" To="20" Label="Source2" />
-                  <Edge From="20" To="21" Label="Source1" />
-                  <Edge From="21" To="22" Label="Source1" />
-                </Edges>
-              </Workflow>
-            </Expression>
-            <Expression xsi:type="p3:MatchBlockStatistics">
-              <p3:Type xsi:type="TypeMapping" TypeArguments="p3:BrownianRandomWalk" />
-            </Expression>
-            <Expression xsi:type="rx:SelectMany">
-              <Name>CreateRandomWalk</Name>
-              <Workflow>
-                <Nodes>
-                  <Expression xsi:type="WorkflowInput">
-                    <Name>Source1</Name>
-                  </Expression>
-                  <Expression xsi:type="rx:AsyncSubject">
-                    <Name>ThisBlock</Name>
-                  </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>TrialStatistics</Selector>
-                  </Expression>
-                  <Expression xsi:type="rx:AsyncSubject">
-                    <Name>TrialBlueprint</Name>
-                  </Expression>
                   <Expression xsi:type="rx:BehaviorSubject">
                     <Name>CurrentTrial</Name>
                   </Expression>
@@ -3932,88 +3810,124 @@ Item3 as Right)</scr:Expression>
                         <Expression xsi:type="MulticastSubject">
                           <Name>TrialNumber</Name>
                         </Expression>
-                        <Expression xsi:type="SubscribeSubject">
-                          <Name>CurrentTrial</Name>
+                        <Expression xsi:type="rx:Defer">
+                          <Name>RunUpdaters</Name>
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="SubscribeSubject">
+                                <Name>CurrentTrial</Name>
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>RightHarvest</Selector>
+                              </Expression>
+                              <Expression xsi:type="IncludeWorkflow" Path="Extensions\UpdateAction.bonsai" />
+                              <Expression xsi:type="SubscribeSubject">
+                                <Name>CurrentTrial</Name>
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>LeftHarvest</Selector>
+                              </Expression>
+                              <Expression xsi:type="IncludeWorkflow" Path="Extensions\UpdateAction.bonsai" />
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:Zip" />
+                              </Expression>
+                              <Expression xsi:type="scr:ExpressionTransform">
+                                <scr:Name>Rename</scr:Name>
+                                <scr:Expression>new(Item1 as RightHarvest, Item2 as LeftHarvest)</scr:Expression>
+                              </Expression>
+                              <Expression xsi:type="WorkflowOutput" />
+                            </Nodes>
+                            <Edges>
+                              <Edge From="0" To="1" Label="Source1" />
+                              <Edge From="1" To="2" Label="Source1" />
+                              <Edge From="2" To="6" Label="Source1" />
+                              <Edge From="3" To="4" Label="Source1" />
+                              <Edge From="4" To="5" Label="Source1" />
+                              <Edge From="5" To="6" Label="Source2" />
+                              <Edge From="6" To="7" Label="Source1" />
+                              <Edge From="7" To="8" Label="Source1" />
+                            </Edges>
+                          </Workflow>
                         </Expression>
-                        <Expression xsi:type="MemberSelector">
-                          <Selector>RightHarvest</Selector>
-                        </Expression>
-                        <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:FilterNotNull.bonsai" />
-                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\UpdateAction.bonsai" />
-                        <Expression xsi:type="rx:AsyncSubject">
-                          <Name>RightAction</Name>
-                        </Expression>
-                        <Expression xsi:type="SubscribeSubject">
-                          <Name>CurrentTrial</Name>
-                        </Expression>
-                        <Expression xsi:type="MemberSelector">
-                          <Selector>LeftHarvest</Selector>
-                        </Expression>
-                        <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:FilterNotNull.bonsai" />
-                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\UpdateAction.bonsai" />
-                        <Expression xsi:type="rx:AsyncSubject">
-                          <Name>LeftAction</Name>
-                        </Expression>
-                        <Expression xsi:type="SubscribeSubject">
-                          <Name>LeftAction</Name>
-                        </Expression>
-                        <Expression xsi:type="SubscribeSubject">
-                          <Name>RightAction</Name>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="rx:Zip" />
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="rx:LastOrDefault" />
-                        </Expression>
-                        <Expression xsi:type="SubscribeSubject">
-                          <Name>CurrentTrial</Name>
-                        </Expression>
-                        <Expression xsi:type="PropertyMapping">
-                          <PropertyMappings>
-                            <Property Name="InterTrialInterval" Selector="InterTrialInterval" />
-                            <Property Name="QuiescencePeriod" Selector="QuiescencePeriod" />
-                            <Property Name="InitiationPeriod" Selector="InitiationPeriod" />
-                            <Property Name="ResponsePeriod" Selector="ResponsePeriod" />
-                          </PropertyMappings>
-                        </Expression>
-                        <Expression xsi:type="SubscribeSubject">
-                          <Name>LeftAction</Name>
-                        </Expression>
-                        <Expression xsi:type="PropertyMapping">
-                          <PropertyMappings>
-                            <Property Name="LeftHarvest" />
-                          </PropertyMappings>
-                        </Expression>
-                        <Expression xsi:type="SubscribeSubject">
-                          <Name>RightAction</Name>
-                        </Expression>
-                        <Expression xsi:type="PropertyMapping">
-                          <PropertyMappings>
-                            <Property Name="RightHarvest" />
-                          </PropertyMappings>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p3:Trial">
-                            <p3:InterTrialInterval>0</p3:InterTrialInterval>
-                          </Combinator>
+                        <Expression xsi:type="rx:SelectMany">
+                          <Name>CreateNewTrial</Name>
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="WorkflowInput">
+                                <Name>Source1</Name>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:Take">
+                                  <rx:Count>1</rx:Count>
+                                </Combinator>
+                              </Expression>
+                              <Expression xsi:type="rx:AsyncSubject">
+                                <Name>UpdatedHarvestActions</Name>
+                              </Expression>
+                              <Expression xsi:type="SubscribeSubject">
+                                <Name>CurrentTrial</Name>
+                              </Expression>
+                              <Expression xsi:type="PropertyMapping">
+                                <PropertyMappings>
+                                  <Property Name="InterTrialInterval" Selector="InterTrialInterval" />
+                                  <Property Name="QuiescencePeriod" Selector="QuiescencePeriod" />
+                                  <Property Name="InitiationPeriod" Selector="InitiationPeriod" />
+                                  <Property Name="ResponsePeriod" Selector="ResponsePeriod" />
+                                </PropertyMappings>
+                              </Expression>
+                              <Expression xsi:type="SubscribeSubject">
+                                <Name>UpdatedHarvestActions</Name>
+                              </Expression>
+                              <Expression xsi:type="PropertyMapping">
+                                <PropertyMappings>
+                                  <Property Name="LeftHarvest" Selector="LeftHarvest" />
+                                  <Property Name="RightHarvest" Selector="RightHarvest" />
+                                </PropertyMappings>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="p3:Trial">
+                                  <p3:InterTrialInterval>0</p3:InterTrialInterval>
+                                </Combinator>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:Take">
+                                  <rx:Count>1</rx:Count>
+                                </Combinator>
+                              </Expression>
+                              <Expression xsi:type="MulticastSubject">
+                                <Name>CurrentTrial</Name>
+                              </Expression>
+                              <Expression xsi:type="SubscribeSubject">
+                                <Name>TrialNumber</Name>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:WithLatestFrom" />
+                              </Expression>
+                              <Expression xsi:type="MemberSelector">
+                                <Selector>Item2</Selector>
+                              </Expression>
+                              <Expression xsi:type="WorkflowOutput" />
+                            </Nodes>
+                            <Edges>
+                              <Edge From="0" To="1" Label="Source1" />
+                              <Edge From="1" To="2" Label="Source1" />
+                              <Edge From="3" To="4" Label="Source1" />
+                              <Edge From="4" To="7" Label="Source1" />
+                              <Edge From="5" To="6" Label="Source1" />
+                              <Edge From="6" To="7" Label="Source2" />
+                              <Edge From="7" To="8" Label="Source1" />
+                              <Edge From="8" To="9" Label="Source1" />
+                              <Edge From="9" To="11" Label="Source1" />
+                              <Edge From="10" To="11" Label="Source2" />
+                              <Edge From="11" To="12" Label="Source1" />
+                              <Edge From="12" To="13" Label="Source1" />
+                            </Edges>
+                          </Workflow>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="rx:Take">
                             <rx:Count>1</rx:Count>
                           </Combinator>
-                        </Expression>
-                        <Expression xsi:type="MulticastSubject">
-                          <Name>CurrentTrial</Name>
-                        </Expression>
-                        <Expression xsi:type="SubscribeSubject">
-                          <Name>TrialNumber</Name>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="rx:WithLatestFrom" />
-                        </Expression>
-                        <Expression xsi:type="MemberSelector">
-                          <Selector>Item2</Selector>
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
                       </Nodes>
@@ -4026,27 +3940,6 @@ Item3 as Right)</scr:Expression>
                         <Edge From="7" To="8" Label="Source1" />
                         <Edge From="8" To="9" Label="Source1" />
                         <Edge From="9" To="10" Label="Source1" />
-                        <Edge From="10" To="11" Label="Source1" />
-                        <Edge From="12" To="13" Label="Source1" />
-                        <Edge From="13" To="14" Label="Source1" />
-                        <Edge From="14" To="15" Label="Source1" />
-                        <Edge From="15" To="16" Label="Source1" />
-                        <Edge From="17" To="19" Label="Source1" />
-                        <Edge From="18" To="19" Label="Source2" />
-                        <Edge From="19" To="20" Label="Source1" />
-                        <Edge From="20" To="27" Label="Source1" />
-                        <Edge From="21" To="22" Label="Source1" />
-                        <Edge From="22" To="27" Label="Source2" />
-                        <Edge From="23" To="24" Label="Source1" />
-                        <Edge From="24" To="27" Label="Source3" />
-                        <Edge From="25" To="26" Label="Source1" />
-                        <Edge From="26" To="27" Label="Source4" />
-                        <Edge From="27" To="28" Label="Source1" />
-                        <Edge From="28" To="29" Label="Source1" />
-                        <Edge From="29" To="31" Label="Source1" />
-                        <Edge From="30" To="31" Label="Source2" />
-                        <Edge From="31" To="32" Label="Source1" />
-                        <Edge From="32" To="33" Label="Source1" />
                       </Edges>
                     </Workflow>
                   </Expression>
@@ -4180,18 +4073,15 @@ Item3 as Right)</scr:Expression>
             <Edge From="12" To="13" Label="Source1" />
             <Edge From="13" To="14" Label="Source1" />
             <Edge From="13" To="16" Label="Source1" />
-            <Edge From="13" To="18" Label="Source1" />
             <Edge From="14" To="15" Label="Source1" />
-            <Edge From="15" To="20" Label="Source1" />
+            <Edge From="15" To="18" Label="Source1" />
             <Edge From="16" To="17" Label="Source1" />
-            <Edge From="17" To="20" Label="Source2" />
+            <Edge From="17" To="18" Label="Source2" />
             <Edge From="18" To="19" Label="Source1" />
-            <Edge From="19" To="20" Label="Source3" />
+            <Edge From="19" To="20" Label="Source1" />
             <Edge From="20" To="21" Label="Source1" />
             <Edge From="21" To="22" Label="Source1" />
             <Edge From="22" To="23" Label="Source1" />
-            <Edge From="23" To="24" Label="Source1" />
-            <Edge From="24" To="25" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
@@ -4203,10 +4093,6 @@ Item3 as Right)</scr:Expression>
       </Expression>
       <Expression xsi:type="SubscribeSubject">
         <Name>StartExperiment</Name>
-      </Expression>
-      <Expression xsi:type="Annotation">
-        <Name>TODO</Name>
-        <Text><![CDATA[Consider automatically ending session when trials finish]]></Text>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="rx:SubscribeWhen" />
@@ -7946,19 +7832,18 @@ Value as Image)
       <Edge From="3" To="4" Label="Source1" />
       <Edge From="10" To="12" Label="Source1" />
       <Edge From="11" To="12" Label="Source2" />
-      <Edge From="12" To="15" Label="Source1" />
-      <Edge From="13" To="15" Label="Source2" />
-      <Edge From="14" To="15" Label="Source3" />
-      <Edge From="16" To="19" Label="Source1" />
-      <Edge From="17" To="18" Label="Source1" />
-      <Edge From="18" To="19" Label="Source2" />
-      <Edge From="19" To="21" Label="Source1" />
-      <Edge From="20" To="21" Label="Source2" />
+      <Edge From="12" To="14" Label="Source1" />
+      <Edge From="13" To="14" Label="Source2" />
+      <Edge From="15" To="18" Label="Source1" />
+      <Edge From="16" To="17" Label="Source1" />
+      <Edge From="17" To="18" Label="Source2" />
+      <Edge From="18" To="20" Label="Source1" />
+      <Edge From="19" To="20" Label="Source2" />
+      <Edge From="24" To="25" Label="Source1" />
       <Edge From="25" To="26" Label="Source1" />
       <Edge From="26" To="27" Label="Source1" />
       <Edge From="27" To="28" Label="Source1" />
       <Edge From="28" To="29" Label="Source1" />
-      <Edge From="29" To="30" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
