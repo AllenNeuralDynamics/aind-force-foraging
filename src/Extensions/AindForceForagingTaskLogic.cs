@@ -1984,7 +1984,7 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         private bool _isOperant = true;
     
-        private double? _timeToCollect;
+        private Distribution _timeToCollect;
     
         private System.Collections.Generic.List<ActionUpdater> _actionUpdaters = new System.Collections.Generic.List<ActionUpdater>();
     
@@ -2172,7 +2172,7 @@ namespace AindForceForagingDataSchema.TaskLogic
         [Newtonsoft.Json.JsonPropertyAttribute("time_to_collect")]
         [System.ComponentModel.DescriptionAttribute("Time to collect the reward after it is available. If null, the reward will be ava" +
             "ilable indefinitely.")]
-        public double? TimeToCollect
+        public Distribution TimeToCollect
         {
             get
             {
@@ -2291,7 +2291,7 @@ namespace AindForceForagingDataSchema.TaskLogic
     public partial class InitiationPeriod
     {
     
-        private double _duration = 0D;
+        private Distribution _duration;
     
         private bool _hasCue = true;
     
@@ -2314,9 +2314,10 @@ namespace AindForceForagingDataSchema.TaskLogic
         /// <summary>
         /// Duration of the initiation period
         /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("duration")]
         [System.ComponentModel.DescriptionAttribute("Duration of the initiation period")]
-        public double Duration
+        public Distribution Duration
         {
             get
             {
@@ -3639,7 +3640,7 @@ namespace AindForceForagingDataSchema.TaskLogic
     public partial class QuiescencePeriod
     {
     
-        private double _duration = 0D;
+        private Distribution _duration;
     
         private double _forceThreshold = 0D;
     
@@ -3659,9 +3660,10 @@ namespace AindForceForagingDataSchema.TaskLogic
         /// <summary>
         /// Duration of the quiescence period
         /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("duration")]
         [System.ComponentModel.DescriptionAttribute("Duration of the quiescence period")]
-        public double Duration
+        public Distribution Duration
         {
             get
             {
@@ -3750,7 +3752,7 @@ namespace AindForceForagingDataSchema.TaskLogic
     public partial class ResponsePeriod
     {
     
-        private double _duration = 0D;
+        private Distribution _duration;
     
         private bool _hasCue = true;
     
@@ -3770,9 +3772,10 @@ namespace AindForceForagingDataSchema.TaskLogic
         /// <summary>
         /// Duration of the response period. I.e. the time the animal has to make a choice.
         /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("duration")]
         [System.ComponentModel.DescriptionAttribute("Duration of the response period. I.e. the time the animal has to make a choice.")]
-        public double Duration
+        public Distribution Duration
         {
             get
             {
@@ -4230,7 +4233,7 @@ namespace AindForceForagingDataSchema.TaskLogic
     public partial class Trial
     {
     
-        private double _interTrialInterval = 0D;
+        private Distribution _interTrialInterval;
     
         private QuiescencePeriod _quiescencePeriod;
     
@@ -4259,9 +4262,10 @@ namespace AindForceForagingDataSchema.TaskLogic
         /// <summary>
         /// Time between trials
         /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("inter_trial_interval")]
         [System.ComponentModel.DescriptionAttribute("Time between trials")]
-        public double InterTrialInterval
+        public Distribution InterTrialInterval
         {
             get
             {

@@ -809,14 +809,12 @@
           "description": "Time to collect the reward after it is available. If null, the reward will be available indefinitely.",
           "oneOf": [
             {
-              "minimum": 0.0,
-              "type": "number"
+              "$ref": "#/definitions/Distribution"
             },
             {
               "type": "null"
             }
-          ],
-          "title": "Time To Collect"
+          ]
         },
         "action_updaters": {
           "default": [],
@@ -857,11 +855,21 @@
       "description": "Defines an initiation period",
       "properties": {
         "duration": {
-          "default": 0,
-          "description": "Duration of the initiation period",
-          "minimum": 0.0,
-          "title": "Duration",
-          "type": "number"
+          "allOf": [
+            {
+              "$ref": "#/definitions/Distribution"
+            }
+          ],
+          "default": {
+            "family": "Scalar",
+            "distribution_parameters": {
+              "family": "Scalar",
+              "value": 0.5
+            },
+            "truncation_parameters": null,
+            "scaling_parameters": null
+          },
+          "description": "Duration of the initiation period"
         },
         "has_cue": {
           "default": true,
@@ -1360,11 +1368,21 @@
       "description": "Defines a quiescence settings",
       "properties": {
         "duration": {
-          "default": 0,
-          "description": "Duration of the quiescence period",
-          "minimum": 0.0,
-          "title": "Duration",
-          "type": "number"
+          "allOf": [
+            {
+              "$ref": "#/definitions/Distribution"
+            }
+          ],
+          "default": {
+            "family": "Scalar",
+            "distribution_parameters": {
+              "family": "Scalar",
+              "value": 0.5
+            },
+            "truncation_parameters": null,
+            "scaling_parameters": null
+          },
+          "description": "Duration of the quiescence period"
         },
         "force_threshold": {
           "default": 0,
@@ -1388,11 +1406,21 @@
       "description": "Defines a response period",
       "properties": {
         "duration": {
-          "default": 0,
-          "description": "Duration of the response period. I.e. the time the animal has to make a choice.",
-          "minimum": 0.0,
-          "title": "Duration",
-          "type": "number"
+          "allOf": [
+            {
+              "$ref": "#/definitions/Distribution"
+            }
+          ],
+          "default": {
+            "family": "Scalar",
+            "distribution_parameters": {
+              "family": "Scalar",
+              "value": 0.5
+            },
+            "truncation_parameters": null,
+            "scaling_parameters": null
+          },
+          "description": "Duration of the response period. I.e. the time the animal has to make a choice."
         },
         "has_cue": {
           "default": true,
@@ -1510,11 +1538,21 @@
       "description": "Defines a trial",
       "properties": {
         "inter_trial_interval": {
-          "default": 0,
-          "description": "Time between trials",
-          "minimum": 0.0,
-          "title": "Inter Trial Interval",
-          "type": "number"
+          "allOf": [
+            {
+              "$ref": "#/definitions/Distribution"
+            }
+          ],
+          "default": {
+            "family": "Scalar",
+            "distribution_parameters": {
+              "family": "Scalar",
+              "value": 0.5
+            },
+            "truncation_parameters": null,
+            "scaling_parameters": null
+          },
+          "description": "Time between trials"
         },
         "quiescence_period": {
           "default": null,
@@ -1535,7 +1573,15 @@
             }
           ],
           "default": {
-            "duration": 0.0,
+            "duration": {
+              "distribution_parameters": {
+                "family": "Scalar",
+                "value": 0.5
+              },
+              "family": "Scalar",
+              "scaling_parameters": null,
+              "truncation_parameters": null
+            },
             "has_cue": true,
             "abort_on_force": false,
             "abort_on_force_threshold": 0.0
@@ -1549,7 +1595,15 @@
             }
           ],
           "default": {
-            "duration": 0.0,
+            "duration": {
+              "distribution_parameters": {
+                "family": "Scalar",
+                "value": 0.5
+              },
+              "family": "Scalar",
+              "scaling_parameters": null,
+              "truncation_parameters": null
+            },
             "has_cue": true,
             "has_feedback": false
           },

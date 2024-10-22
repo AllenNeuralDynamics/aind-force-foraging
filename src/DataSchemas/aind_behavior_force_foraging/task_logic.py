@@ -27,7 +27,7 @@ def scalar_value(value: float) -> distributions.Scalar:
     return distributions.Scalar(distribution_parameters=distributions.ScalarDistributionParameter(value=value))
 
 
-def uniform_distribution_value(min: float, max: float) -> distributions.Uniform:
+def uniform_distribution_value(min: float, max: float) -> distributions.UniformDistribution:
     """
     Helper function to create a uniform distribution for a given range.
 
@@ -195,10 +195,10 @@ class HarvestAction(BaseModel):
         description="Lower bound of the force target region.",
     )
     is_operant: bool = Field(default=True, description="Whether the reward delivery is contingent on licking.")
-    time_to_collect: Optional[float] = Field(
+    time_to_collect: Optional[distributions.Distribution] = Field(
         default=None,
-        ge=0,
         description="Time to collect the reward after it is available. If null, the reward will be available indefinitely.",
+        validate_default=True,
     )
     action_updaters: List[ActionUpdater] = Field(
         default=[], description="List of action updaters. All updaters are called at the start of a new trial."
@@ -233,7 +233,9 @@ class HarvestAction(BaseModel):
 class QuiescencePeriod(BaseModel):
     """Defines a quiescence settings"""
 
-    duration: float = Field(default=0, ge=0, description="Duration of the quiescence period")
+    duration: distributions.Distribution = Field(
+        default=scalar_value(0.5), description="Duration of the quiescence period", validate_default=True
+    )
     force_threshold: float = Field(
         default=0, le=MAX_LOAD_CELL_FORCE, ge=-MAX_LOAD_CELL_FORCE, description="Time out for the quiescence period"
     )
@@ -243,7 +245,9 @@ class QuiescencePeriod(BaseModel):
 class InitiationPeriod(BaseModel):
     """Defines an initiation period"""
 
-    duration: float = Field(default=0, ge=0, description="Duration of the initiation period")
+    duration: distributions.Distribution = Field(
+        default=scalar_value(0.5), description="Duration of the initiation period", validate_default=True
+    )
     has_cue: bool = Field(default=True, description="Whether to use a cue to signal the start of the period.")
     abort_on_force: bool = Field(
         default=False, description="Whether to abort the trial if a choice is made during the initiation period."
@@ -256,8 +260,10 @@ class InitiationPeriod(BaseModel):
 class ResponsePeriod(BaseModel):
     """Defines a response period"""
 
-    duration: float = Field(
-        default=0, ge=0, description="Duration of the response period. I.e. the time the animal has to make a choice."
+    duration: distributions.Distribution = Field(
+        default=scalar_value(0.5),
+        description="Duration of the response period. I.e. the time the animal has to make a choice.",
+        validate_default=True,
     )
     has_cue: bool = Field(default=True, description="Whether to use a cue to signal the start of the period.")
     has_feedback: bool = Field(
@@ -272,7 +278,9 @@ LeftHarvestAction = partial(HarvestAction, action=HarvestActionLabel.LEFT)
 class Trial(BaseModel):
     """Defines a trial"""
 
-    inter_trial_interval: float = Field(default=0, ge=0, description="Time between trials")
+    inter_trial_interval: distributions.Distribution = Field(
+        default=scalar_value(0.5), description="Time between trials", validate_default=True
+    )
     quiescence_period: Optional[QuiescencePeriod] = Field(default=None, description="Quiescence settings")
     initiation_period: InitiationPeriod = Field(
         default=InitiationPeriod(), validate_default=True, description="Initiation settings"
