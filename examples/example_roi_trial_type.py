@@ -10,6 +10,7 @@ from aind_behavior_force_foraging.rig import AindForceForagingRig, AindManipulat
 from aind_behavior_force_foraging.task_logic import (
     AindForceForagingTaskLogic,
     AindForceForagingTaskParameters,
+    scalar_value,
 )
 from aind_behavior_services import db_utils as db
 from aind_behavior_services.calibration.aind_manipulator import (
@@ -135,7 +136,7 @@ def mock_task_logic() -> AindForceForagingTaskLogic:
             task_logic.BlockGenerator(
                 is_baited=True,
                 trial_statistics=task_logic.Trial(
-                    inter_trial_interval=10,
+                    inter_trial_interval=scalar_value(10),
                     left_harvest=None,
                     right_harvest=task_logic.HarvestAction(
                         probability=1.0,
@@ -145,7 +146,7 @@ def mock_task_logic() -> AindForceForagingTaskLogic:
                         upper_force_threshold=20000,
                         lower_force_threshold=10000,
                         is_operant=True,
-                        time_to_collect=1.0,
+                        time_to_collect=scalar_value(1.0),
                         action_updaters=[],
                     ),
                 ),
