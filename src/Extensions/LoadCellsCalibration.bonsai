@@ -690,7 +690,7 @@
               <Name>HarpLoadCellsCommands</Name>
             </Expression>
             <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Last" />
+              <Combinator xsi:type="rx:LastOrDefault" />
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="BooleanProperty">
