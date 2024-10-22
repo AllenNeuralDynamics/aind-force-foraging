@@ -6,7 +6,8 @@ from typing import Annotated, Dict, List, Literal, Optional, Self, Union
 
 import aind_behavior_services.task_logic.distributions as distributions
 from aind_behavior_services.task_logic import AindBehaviorTaskLogicModel, TaskParameters
-from pydantic import BaseModel, Field, RootModel, field_validator, model_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
+from typing_extensions import TypeAliasType
 
 __version__ = "0.1.0"
 
@@ -166,8 +167,10 @@ class AudioFeedback(_ContinuousFeedbackBase):
     continuous_feedback_mode: Literal[ContinuousFeedbackMode.AUDIO] = ContinuousFeedbackMode.AUDIO
 
 
-class ContinuousFeedback(RootModel):
-    root: Annotated[Union[ManipulatorFeedback, AudioFeedback], Field(discriminator="continuous_feedback_mode")]
+ContinuousFeedback = TypeAliasType(
+    "ContinuousFeedback",
+    Annotated[Union[ManipulatorFeedback, AudioFeedback], Field(discriminator="continuous_feedback_mode")],
+)
 
 
 class HarvestAction(BaseModel):
@@ -331,8 +334,7 @@ class BlockGenerator(BaseModel):
     trial_statistics: Trial = Field(..., description="Statistics of the trials in the block")
 
 
-class BlockStatistics(RootModel):
-    root: Annotated[Union[Block, BlockGenerator], Field(discriminator="mode")]
+BlockStatistics = TypeAliasType("BlockStatistics", Annotated[Union[Block, BlockGenerator], Field(discriminator="mode")])
 
 
 class Environment(BaseModel):

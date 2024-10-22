@@ -400,8 +400,7 @@
         {
           "$ref": "#/definitions/BlockGenerator"
         }
-      ],
-      "title": "BlockStatistics"
+      ]
     },
     "ContinuousFeedback": {
       "discriminator": {
@@ -418,8 +417,7 @@
         {
           "$ref": "#/definitions/AudioFeedback"
         }
-      ],
-      "title": "ContinuousFeedback"
+      ]
     },
     "Distribution": {
       "description": "Available distributions",
