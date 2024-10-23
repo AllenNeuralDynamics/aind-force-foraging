@@ -1968,7 +1968,7 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         private HarvestActionLabel _action = AindForceForagingDataSchema.TaskLogic.HarvestActionLabel.None;
     
-        private TrialType _trialType = AindForceForagingDataSchema.TaskLogic.TrialType.None;
+        private HarvestMode _harvestMode;
     
         private double _probability = 1D;
     
@@ -1997,7 +1997,7 @@ namespace AindForceForagingDataSchema.TaskLogic
         protected HarvestAction(HarvestAction other)
         {
             _action = other._action;
-            _trialType = other._trialType;
+            _harvestMode = other._harvestMode;
             _probability = other._probability;
             _amount = other._amount;
             _delay = other._delay;
@@ -2032,17 +2032,17 @@ namespace AindForceForagingDataSchema.TaskLogic
         /// Type of the trial
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
-        [Newtonsoft.Json.JsonPropertyAttribute("trial_type")]
+        [Newtonsoft.Json.JsonPropertyAttribute("harvest_mode", Required=Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DescriptionAttribute("Type of the trial")]
-        public TrialType TrialType
+        public HarvestMode HarvestMode
         {
             get
             {
-                return _trialType;
+                return _harvestMode;
             }
             set
             {
-                _trialType = value;
+                _harvestMode = value;
             }
         }
     
@@ -2233,7 +2233,7 @@ namespace AindForceForagingDataSchema.TaskLogic
         protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
         {
             stringBuilder.Append("action = " + _action + ", ");
-            stringBuilder.Append("trial_type = " + _trialType + ", ");
+            stringBuilder.Append("harvest_mode = " + _harvestMode + ", ");
             stringBuilder.Append("probability = " + _probability + ", ");
             stringBuilder.Append("amount = " + _amount + ", ");
             stringBuilder.Append("delay = " + _delay + ", ");
@@ -2278,6 +2278,25 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         [System.Runtime.Serialization.EnumMemberAttribute(Value="None")]
         None = 2,
+    }
+
+
+    /// <summary>
+    /// Defines the trial types
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+    public enum HarvestMode
+    {
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="None")]
+        None = 0,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="Accumulation")]
+        Accumulation = 1,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="RegionOfInterest")]
+        RegionOfInterest = 2,
     }
 
 
@@ -4400,25 +4419,6 @@ namespace AindForceForagingDataSchema.TaskLogic
             stringBuilder.Append("}");
             return stringBuilder.ToString();
         }
-    }
-
-
-    /// <summary>
-    /// Defines the trial types
-    /// </summary>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.3.0.0 (Newtonsoft.Json v13.0.0.0)")]
-    [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-    public enum TrialType
-    {
-    
-        [System.Runtime.Serialization.EnumMemberAttribute(Value="None")]
-        None = 0,
-    
-        [System.Runtime.Serialization.EnumMemberAttribute(Value="Accumulation")]
-        Accumulation = 1,
-    
-        [System.Runtime.Serialization.EnumMemberAttribute(Value="RegionOfInterest")]
-        RegionOfInterest = 2,
     }
 
 

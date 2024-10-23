@@ -138,7 +138,8 @@ def mock_task_logic() -> AindForceForagingTaskLogic:
                 trial_statistics=task_logic.Trial(
                     inter_trial_interval=scalar_value(10),
                     left_harvest=None,
-                    right_harvest=task_logic.HarvestAction(
+                    right_harvest=task_logic.RightHarvestAction(
+                        harvest_mode=task_logic.HarvestMode.ROI,
                         probability=1.0,
                         amount=1.0,
                         delay=0.0,

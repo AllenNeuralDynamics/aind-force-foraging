@@ -123,7 +123,7 @@ class ActionUpdater(BaseModel):
     updater: NumericalUpdater = Field(..., description="Updater")
 
 
-class TrialType(str, Enum):
+class HarvestMode(str, Enum):
     """Defines the trial types"""
 
     NONE = "None"
@@ -177,7 +177,7 @@ class HarvestAction(BaseModel):
     """Defines an abstract class for an harvest action"""
 
     action: HarvestActionLabel = Field(default=HarvestActionLabel.NONE, description="Label of the action")
-    trial_type: TrialType = Field(default=TrialType.NONE, description="Type of the trial")
+    harvest_mode: HarvestMode = Field(..., description="Type of the trial")
     probability: float = Field(default=1, description="Probability of reward")
     amount: float = Field(default=1, description="Amount of reward to be delivered")
     delay: float = Field(default=0, description="Delay between successful harvest and reward delivery")
@@ -215,7 +215,7 @@ class HarvestAction(BaseModel):
 
     @model_validator(mode="after")
     def _validate_trial_type(self) -> Self:
-        if self.trial_type == TrialType.ROI:
+        if self.harvest_mode == HarvestMode.ROI:
             if not all(
                 [
                     self._between_thresholds(self.upper_force_threshold),
@@ -289,10 +289,10 @@ class Trial(BaseModel):
         default=ResponsePeriod(), validate_default=True, description="Response settings"
     )
     left_harvest: Optional[HarvestAction] = Field(
-        default=LeftHarvestAction(), validate_default=True, description="Specification of the left action"
+        default=None, validate_default=True, description="Specification of the left action"
     )
     right_harvest: Optional[HarvestAction] = Field(
-        default=RightHarvestAction(), validate_default=True, description="Specification of the right action"
+        default=None, validate_default=True, description="Specification of the right action"
     )
 
     @field_validator("left_harvest", mode="after")
@@ -309,8 +309,6 @@ class Trial(BaseModel):
     def _validate_harvest(value: Optional[HarvestAction], harvest_label: HarvestActionLabel) -> Optional[HarvestAction]:
         if value is None:
             return value
-        if value.action == HarvestActionLabel.NONE:
-            return HarvestAction(action=harvest_label)
         if value.action != harvest_label:
             raise ValueError(f"Harvest action must be of type {harvest_label}")
         return value

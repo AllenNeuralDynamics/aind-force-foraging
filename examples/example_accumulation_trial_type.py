@@ -143,8 +143,8 @@ def mock_task_logic() -> AindForceForagingTaskLogic:
                         duration=scalar_value(0.5), abort_on_force=False, has_cue=True
                     ),
                     response_period=task_logic.ResponsePeriod(duration=scalar_value(1.0), has_cue=True),
-                    right_harvest=task_logic.HarvestAction(
-                        trial_type=task_logic.TrialType.ACCUMULATION,
+                    right_harvest=task_logic.RightHarvestAction(
+                        harvest_mode=task_logic.HarvestMode.ACCUMULATION,
                         probability=1.0,
                         amount=1.0,
                         delay=0.0,

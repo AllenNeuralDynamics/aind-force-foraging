@@ -749,13 +749,12 @@
           "default": "None",
           "description": "Label of the action"
         },
-        "trial_type": {
+        "harvest_mode": {
           "allOf": [
             {
-              "$ref": "#/definitions/TrialType"
+              "$ref": "#/definitions/HarvestMode"
             }
           ],
-          "default": "None",
           "description": "Type of the trial"
         },
         "probability": {
@@ -838,6 +837,9 @@
           ]
         }
       },
+      "required": [
+        "harvest_mode"
+      ],
       "title": "HarvestAction",
       "type": "object"
     },
@@ -849,6 +851,16 @@
         "None"
       ],
       "title": "HarvestActionLabel",
+      "type": "string"
+    },
+    "HarvestMode": {
+      "description": "Defines the trial types",
+      "enum": [
+        "None",
+        "Accumulation",
+        "RegionOfInterest"
+      ],
+      "title": "HarvestMode",
       "type": "string"
     },
     "InitiationPeriod": {
@@ -1610,20 +1622,7 @@
           "description": "Response settings"
         },
         "left_harvest": {
-          "default": {
-            "action": "Left",
-            "trial_type": "None",
-            "probability": 1.0,
-            "amount": 1.0,
-            "delay": 0.0,
-            "force_duration": 0.5,
-            "upper_force_threshold": 32768.0,
-            "lower_force_threshold": 5000.0,
-            "is_operant": true,
-            "time_to_collect": null,
-            "action_updaters": [],
-            "continuous_feedback": null
-          },
+          "default": null,
           "description": "Specification of the left action",
           "oneOf": [
             {
@@ -1635,20 +1634,7 @@
           ]
         },
         "right_harvest": {
-          "default": {
-            "action": "Right",
-            "trial_type": "None",
-            "probability": 1.0,
-            "amount": 1.0,
-            "delay": 0.0,
-            "force_duration": 0.5,
-            "upper_force_threshold": 32768.0,
-            "lower_force_threshold": 5000.0,
-            "is_operant": true,
-            "time_to_collect": null,
-            "action_updaters": [],
-            "continuous_feedback": null
-          },
+          "default": null,
           "description": "Specification of the right action",
           "oneOf": [
             {
@@ -1662,16 +1648,6 @@
       },
       "title": "Trial",
       "type": "object"
-    },
-    "TrialType": {
-      "description": "Defines the trial types",
-      "enum": [
-        "None",
-        "Accumulation",
-        "RegionOfInterest"
-      ],
-      "title": "TrialType",
-      "type": "string"
     },
     "TruncationParameters": {
       "properties": {

@@ -859,16 +859,16 @@
                   <Expression xsi:type="MulticastSubject">
                     <Name>outcome</Name>
                   </Expression>
-                  <Expression xsi:type="PropertySource" TypeArguments="p2:HarvestAction,p2:TrialType">
-                    <MemberName>TrialType</MemberName>
+                  <Expression xsi:type="PropertySource" TypeArguments="p2:HarvestAction,p2:HarvestMode">
+                    <MemberName>HarvestMode</MemberName>
                     <Value>RegionOfInterest</Value>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="Extensions\RoiTrialTypeResponse.bonsai" />
                   <Expression xsi:type="MulticastSubject">
                     <Name>outcome</Name>
                   </Expression>
-                  <Expression xsi:type="PropertySource" TypeArguments="p2:HarvestAction,p2:TrialType">
-                    <MemberName>TrialType</MemberName>
+                  <Expression xsi:type="PropertySource" TypeArguments="p2:HarvestAction,p2:HarvestMode">
+                    <MemberName>HarvestMode</MemberName>
                     <Value>Accumulation</Value>
                   </Expression>
                   <Expression xsi:type="IncludeWorkflow" Path="Extensions\AccumulationTrialTypeResponse.bonsai" />
