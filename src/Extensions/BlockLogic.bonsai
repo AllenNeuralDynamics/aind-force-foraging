@@ -380,6 +380,13 @@
                   <Expression xsi:type="rx:AsyncSubject">
                     <Name>TrialOutcome</Name>
                   </Expression>
+                  <Expression xsi:type="Annotation">
+                    <Name>Ensure trial update</Name>
+                    <Text><![CDATA[Ensure trial update]]></Text>
+                  </Expression>
+                  <Expression xsi:type="SubscribeSubject">
+                    <Name>TrialUpdated</Name>
+                  </Expression>
                   <Expression xsi:type="rx:Defer">
                     <Name>TrialNumber++</Name>
                     <Workflow>
@@ -451,13 +458,6 @@
                         <Edge From="4" To="5" Label="Source1" />
                       </Edges>
                     </Workflow>
-                  </Expression>
-                  <Expression xsi:type="Annotation">
-                    <Name>Ensure trial update</Name>
-                    <Text><![CDATA[Ensure trial update]]></Text>
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
-                    <Name>TrialUpdated</Name>
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="rx:Zip" />
