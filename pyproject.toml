@@ -37,6 +37,7 @@ docs = [
 
 [project.scripts]
 clabe = "aind_behavior_force_foraging.launcher:main"
+regenerate = "aind_behavior_force_foraging.regenerate:main"
 
 [tool.setuptools.packages.find]
 where = ["src/DataSchemas"]
