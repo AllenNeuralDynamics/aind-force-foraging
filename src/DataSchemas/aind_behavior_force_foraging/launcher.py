@@ -13,7 +13,7 @@ from aind_behavior_force_foraging.task_logic import AindForceForagingTaskLogic
 
 def make_launcher():
     data_dir = r"C:/Data"
-    remote_dir = r"\\allen\aind\scratch\vr-foraging"
+    remote_dir = r"\\allen\aind\scratch\force-foraging\data"
     srv = behavior_launcher.BehaviorServicesFactoryManager()
     srv.bonsai_app = BonsaiApp(r"./src/main.bonsai")
     srv.data_transfer = behavior_launcher.robocopy_data_transfer_factory(remote_dir)
