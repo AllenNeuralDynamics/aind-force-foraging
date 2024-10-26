@@ -35,6 +35,9 @@ docs = [
     'sphinx-jsonschema'
 ]
 
+[project.scripts]
+clabe = "aind_behavior_force_foraging.launcher:main"
+
 [tool.setuptools.packages.find]
 where = ["src/DataSchemas"]
 

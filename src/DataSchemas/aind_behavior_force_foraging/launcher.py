@@ -11,7 +11,7 @@ from aind_behavior_force_foraging.rig import AindForceForagingRig
 from aind_behavior_force_foraging.task_logic import AindForceForagingTaskLogic
 
 
-def make_launcher():
+def make_launcher() -> behavior_launcher.BehaviorLauncher:
     data_dir = r"C:/Data"
     remote_dir = r"\\allen\aind\scratch\force-foraging\data"
     srv = behavior_launcher.BehaviorServicesFactoryManager()
@@ -41,6 +41,11 @@ def make_launcher():
     )
 
 
-if __name__ == "__main__":
+def main():
     launcher = make_launcher()
     launcher.main()
+    return None
+
+
+if __name__ == "__main__":
+    main()
