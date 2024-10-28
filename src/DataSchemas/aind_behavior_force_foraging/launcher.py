@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import aind_behavior_experiment_launcher.launcher.behavior_launcher as behavior_launcher
 from aind_behavior_experiment_launcher.apps.app_service import BonsaiApp
 from aind_behavior_experiment_launcher.resource_monitor.resource_monitor_service import (
@@ -15,13 +17,15 @@ def make_launcher() -> behavior_launcher.BehaviorLauncher:
     data_dir = r"C:/Data"
     remote_dir = r"\\allen\aind\scratch\force-foraging\data"
     srv = behavior_launcher.BehaviorServicesFactoryManager()
-    srv.bonsai_app = BonsaiApp(r"./src/main.bonsai")
-    srv.data_transfer = behavior_launcher.robocopy_data_transfer_factory(remote_dir)
-    srv.resource_monitor = ResourceMonitor(
-        constrains=[
-            available_storage_constraint_factory(data_dir, 2e11),
-            remote_dir_exists_constraint_factory(remote_dir),
-        ]
+    srv.attach_bonsai_app(BonsaiApp(Path(r"./src/main.bonsai")))
+    srv.attach_data_transfer(behavior_launcher.robocopy_data_transfer_factory(Path(remote_dir)))
+    srv.attach_resource_monitor(
+        ResourceMonitor(
+            constrains=[
+                available_storage_constraint_factory(data_dir, 2e11),
+                remote_dir_exists_constraint_factory(Path(remote_dir)),
+            ]
+        )
     )
 
     return behavior_launcher.BehaviorLauncher(
