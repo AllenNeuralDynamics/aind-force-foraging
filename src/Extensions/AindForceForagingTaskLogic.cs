@@ -127,7 +127,7 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         private double? _rngSeed;
     
-        private string _aindBehaviorServicesPkgVersion = "0.8.2";
+        private string _aindBehaviorServicesPkgVersion = "0.8.3";
     
         private Environment _environment = new Environment();
     

@@ -4,11 +4,7 @@
       "description": "Additional settings for the manipulator device",
       "properties": {
         "spout_axis": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/Axis"
-            }
-          ],
+          "$ref": "#/definitions/Axis",
           "default": 2,
           "description": "Spout axis"
         }
@@ -26,19 +22,11 @@
           "type": "string"
         },
         "input": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/AindManipulatorCalibrationInput"
-            }
-          ],
+          "$ref": "#/definitions/AindManipulatorCalibrationInput",
           "title": "Input of the calibration"
         },
         "output": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/AindManipulatorCalibrationOutput"
-            }
-          ],
+          "$ref": "#/definitions/AindManipulatorCalibrationOutput",
           "title": "Output of the calibration."
         },
         "date": {
@@ -83,11 +71,7 @@
     "AindManipulatorCalibrationInput": {
       "properties": {
         "full_step_to_mm": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/ManipulatorPosition"
-            }
-          ],
+          "$ref": "#/definitions/ManipulatorPosition",
           "default": {
             "x": 0.01,
             "y1": 0.01,
@@ -159,11 +143,7 @@
           "type": "array"
         },
         "initial_position": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/ManipulatorPosition"
-            }
-          ],
+          "$ref": "#/definitions/ManipulatorPosition",
           "default": {
             "x": 0.0,
             "y1": 0.0,
@@ -190,11 +170,7 @@
           "type": "string"
         },
         "additional_settings": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/AindManipulatorAdditionalSettings"
-            }
-          ],
+          "$ref": "#/definitions/AindManipulatorAdditionalSettings",
           "default": {
             "spout_axis": 2
           },
@@ -266,11 +242,7 @@
       "description": "Axis configuration",
       "properties": {
         "axis": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/Axis"
-            }
-          ],
+          "$ref": "#/definitions/Axis",
           "title": "Axis to be configured"
         },
         "step_acceleration_interval": {
@@ -290,11 +262,7 @@
           "type": "integer"
         },
         "microstep_resolution": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/MicrostepResolution"
-            }
-          ],
+          "$ref": "#/definitions/MicrostepResolution",
           "default": 0,
           "title": "Microstep resolution"
         },
@@ -306,11 +274,7 @@
           "type": "integer"
         },
         "motor_operation_mode": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/MotorOperationMode"
-            }
-          ],
+          "$ref": "#/definitions/MotorOperationMode",
           "default": 0,
           "title": "Motor operation mode"
         },
@@ -461,11 +425,7 @@
     "DisplayCalibration": {
       "properties": {
         "intrinsics": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/DisplayIntrinsics"
-            }
-          ],
+          "$ref": "#/definitions/DisplayIntrinsics",
           "default": {
             "frame_width": 1920,
             "frame_height": 1080,
@@ -475,11 +435,7 @@
           "description": "Intrinsics"
         },
         "extrinsics": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/DisplayExtrinsics"
-            }
-          ],
+          "$ref": "#/definitions/DisplayExtrinsics",
           "default": {
             "rotation": {
               "x": 0.0,
@@ -501,11 +457,7 @@
     "DisplayExtrinsics": {
       "properties": {
         "rotation": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/Vector3"
-            }
-          ],
+          "$ref": "#/definitions/Vector3",
           "default": {
             "x": 0.0,
             "y": 0.0,
@@ -514,11 +466,7 @@
           "description": "Rotation vector (radians)"
         },
         "translation": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/Vector3"
-            }
-          ],
+          "$ref": "#/definitions/Vector3",
           "default": {
             "x": 0.0,
             "y": 1.309016,
@@ -567,11 +515,7 @@
     "DisplaysCalibration": {
       "properties": {
         "left": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/DisplayCalibration"
-            }
-          ],
+          "$ref": "#/definitions/DisplayCalibration",
           "default": {
             "intrinsics": {
               "display_height": 15.0,
@@ -595,11 +539,7 @@
           "description": "Left display calibration"
         },
         "center": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/DisplayCalibration"
-            }
-          ],
+          "$ref": "#/definitions/DisplayCalibration",
           "default": {
             "intrinsics": {
               "display_height": 15.0,
@@ -623,11 +563,7 @@
           "description": "Center display calibration"
         },
         "right": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/DisplayCalibration"
-            }
-          ],
+          "$ref": "#/definitions/DisplayCalibration",
           "default": {
             "intrinsics": {
               "display_height": 15.0,
@@ -1062,19 +998,11 @@
           "type": "string"
         },
         "input": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/LoadCellsCalibrationInput"
-            }
-          ],
+          "$ref": "#/definitions/LoadCellsCalibrationInput",
           "title": "Input of the calibration"
         },
         "output": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/LoadCellsCalibrationOutput"
-            }
-          ],
+          "$ref": "#/definitions/LoadCellsCalibrationOutput",
           "title": "Output of the calibration."
         },
         "date": {
@@ -1320,11 +1248,7 @@
     "RigCalibration": {
       "properties": {
         "water_valve": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/WaterValveCalibration"
-            }
-          ],
+          "$ref": "#/definitions/WaterValveCalibration",
           "description": "Water valve calibration"
         }
       },
@@ -1356,11 +1280,7 @@
           ]
         },
         "calibration": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/DisplaysCalibration"
-            }
-          ],
+          "$ref": "#/definitions/DisplaysCalibration",
           "default": {
             "left": {
               "extrinsics": {
@@ -1565,11 +1485,7 @@
           ]
         },
         "region_of_interest": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/Rect"
-            }
-          ],
+          "$ref": "#/definitions/Rect",
           "default": {
             "x": 0,
             "y": 0,
@@ -1731,19 +1647,11 @@
           "type": "string"
         },
         "input": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/WaterValveCalibrationInput"
-            }
-          ],
+          "$ref": "#/definitions/WaterValveCalibrationInput",
           "title": "Input of the calibration"
         },
         "output": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/WaterValveCalibrationOutput"
-            }
-          ],
+          "$ref": "#/definitions/WaterValveCalibrationOutput",
           "title": "Output of the calibration."
         },
         "date": {
@@ -1930,7 +1838,7 @@
   },
   "properties": {
     "aind_behavior_services_pkg_version": {
-      "default": "0.8.2",
+      "default": "0.8.3",
       "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$",
       "title": "aind_behavior_services package version",
       "type": "string"
@@ -1952,11 +1860,7 @@
       "type": "string"
     },
     "triggered_camera_controller": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/CameraController_SpinnakerCamera_"
-        }
-      ],
+      "$ref": "#/definitions/CameraController_SpinnakerCamera_",
       "description": "Required camera controller to triggered cameras."
     },
     "monitoring_camera_controller": {
@@ -1972,35 +1876,19 @@
       ]
     },
     "harp_behavior": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/HarpBehavior"
-        }
-      ],
+      "$ref": "#/definitions/HarpBehavior",
       "description": "Harp behavior"
     },
     "harp_lickometer": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/HarpLickometer"
-        }
-      ],
+      "$ref": "#/definitions/HarpLickometer",
       "description": "Harp lickometer"
     },
     "harp_load_cells": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/LoadCells"
-        }
-      ],
+      "$ref": "#/definitions/LoadCells",
       "description": "Harp load cells"
     },
     "harp_clock_generator": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/HarpClockGenerator"
-        }
-      ],
+      "$ref": "#/definitions/HarpClockGenerator",
       "description": "Harp clock generator"
     },
     "harp_clock_repeaters": {
@@ -2025,19 +1913,11 @@
       ]
     },
     "manipulator": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/AindManipulatorDevice"
-        }
-      ],
+      "$ref": "#/definitions/AindManipulatorDevice",
       "description": "Manipulator"
     },
     "screen": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/Screen"
-        }
-      ],
+      "$ref": "#/definitions/Screen",
       "default": {
         "device_type": "Screen",
         "additional_settings": null,
@@ -2113,11 +1993,7 @@
       "description": "Screen settings"
     },
     "calibration": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/RigCalibration"
-        }
-      ],
+      "$ref": "#/definitions/RigCalibration",
       "default": null,
       "description": "Load cells calibration"
     }

@@ -3,29 +3,17 @@
     "ActionUpdater": {
       "properties": {
         "target_parameter": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/UpdateTargetParameter"
-            }
-          ],
+          "$ref": "#/definitions/UpdateTargetParameter",
           "default": "Probability",
           "description": "Target parameter"
         },
         "updated_by": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/UpdateTargetParameterBy"
-            }
-          ],
+          "$ref": "#/definitions/UpdateTargetParameterBy",
           "default": "Time",
           "description": "Independent variable"
         },
         "updater": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/NumericalUpdater"
-            }
-          ],
+          "$ref": "#/definitions/NumericalUpdater",
           "description": "Updater"
         }
       },
@@ -52,17 +40,13 @@
           "title": "Rng Seed"
         },
         "aind_behavior_services_pkg_version": {
-          "default": "0.8.2",
+          "default": "0.8.3",
           "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$",
           "title": "aind_behavior_services package version",
           "type": "string"
         },
         "environment": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/Environment"
-            }
-          ],
+          "$ref": "#/definitions/Environment",
           "description": "Environment settings"
         },
         "updaters": {
@@ -74,11 +58,7 @@
           "type": "object"
         },
         "operation_control": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/OperationControl"
-            }
-          ],
+          "$ref": "#/definitions/OperationControl",
           "default": {
             "force": {
               "force_lookup_table": null,
@@ -150,11 +130,7 @@
           "type": "string"
         },
         "distribution_parameters": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/BetaDistributionParameters"
-            }
-          ],
+          "$ref": "#/definitions/BetaDistributionParameters",
           "default": {
             "family": "Beta",
             "alpha": 5.0,
@@ -225,11 +201,7 @@
           "type": "string"
         },
         "distribution_parameters": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/BinomialDistributionParameters"
-            }
-          ],
+          "$ref": "#/definitions/BinomialDistributionParameters",
           "default": {
             "family": "Binomial",
             "n": 1,
@@ -353,11 +325,7 @@
           "type": "boolean"
         },
         "block_size": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/Distribution"
-            }
-          ],
+          "$ref": "#/definitions/Distribution",
           "default": {
             "family": "Uniform",
             "distribution_parameters": {
@@ -371,11 +339,7 @@
           "description": "Size of the block"
         },
         "trial_statistics": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/Trial"
-            }
-          ],
+          "$ref": "#/definitions/Trial",
           "description": "Statistics of the trials in the block"
         }
       },
@@ -515,11 +479,7 @@
           "type": "string"
         },
         "distribution_parameters": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/ExponentialDistributionParameters"
-            }
-          ],
+          "$ref": "#/definitions/ExponentialDistributionParameters",
           "default": {
             "family": "Exponential",
             "rate": 0.0
@@ -626,11 +586,7 @@
     "ForceOperationControl": {
       "properties": {
         "press_mode": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/PressMode"
-            }
-          ],
+          "$ref": "#/definitions/PressMode",
           "default": "Double",
           "description": "Defines the press mode. Default is to use both sensors individually"
         },
@@ -671,11 +627,7 @@
           "type": "string"
         },
         "distribution_parameters": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/GammaDistributionParameters"
-            }
-          ],
+          "$ref": "#/definitions/GammaDistributionParameters",
           "default": {
             "family": "Gamma",
             "shape": 1.0,
@@ -741,20 +693,12 @@
       "description": "Defines an abstract class for an harvest action",
       "properties": {
         "action": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/HarvestActionLabel"
-            }
-          ],
+          "$ref": "#/definitions/HarvestActionLabel",
           "default": "None",
           "description": "Label of the action"
         },
         "harvest_mode": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/HarvestMode"
-            }
-          ],
+          "$ref": "#/definitions/HarvestMode",
           "description": "Type of the trial"
         },
         "probability": {
@@ -867,11 +811,7 @@
       "description": "Defines an initiation period",
       "properties": {
         "duration": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/Distribution"
-            }
-          ],
+          "$ref": "#/definitions/Distribution",
           "default": {
             "family": "Scalar",
             "distribution_parameters": {
@@ -916,11 +856,7 @@
           "type": "string"
         },
         "distribution_parameters": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/LogNormalDistributionParameters"
-            }
-          ],
+          "$ref": "#/definitions/LogNormalDistributionParameters",
           "default": {
             "family": "LogNormal",
             "mean": 0.0,
@@ -1029,11 +965,7 @@
           "type": "string"
         },
         "distribution_parameters": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/NormalDistributionParameters"
-            }
-          ],
+          "$ref": "#/definitions/NormalDistributionParameters",
           "default": {
             "family": "Normal",
             "mean": 0.0,
@@ -1096,20 +1028,12 @@
     "NumericalUpdater": {
       "properties": {
         "operation": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/NumericalUpdaterOperation"
-            }
-          ],
+          "$ref": "#/definitions/NumericalUpdaterOperation",
           "default": "None",
           "description": "Operation to perform on the parameter"
         },
         "parameters": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/NumericalUpdaterParameters"
-            }
-          ],
+          "$ref": "#/definitions/NumericalUpdaterParameters",
           "default": {
             "value": {
               "distribution_parameters": {
@@ -1142,11 +1066,7 @@
     "NumericalUpdaterParameters": {
       "properties": {
         "value": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/Distribution"
-            }
-          ],
+          "$ref": "#/definitions/Distribution",
           "default": {
             "family": "Scalar",
             "distribution_parameters": {
@@ -1177,11 +1097,7 @@
     "OperationControl": {
       "properties": {
         "force": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/ForceOperationControl"
-            }
-          ],
+          "$ref": "#/definitions/ForceOperationControl",
           "default": {
             "press_mode": "Double",
             "left_index": 0,
@@ -1191,11 +1107,7 @@
           "description": "Operation control for force sensor"
         },
         "spout": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/SpoutOperationControl"
-            }
-          ],
+          "$ref": "#/definitions/SpoutOperationControl",
           "default": {
             "default_retracted_position": 0.0,
             "default_extended_position": 0.0,
@@ -1216,11 +1128,7 @@
           "type": "string"
         },
         "distribution_parameters": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/PdfDistributionParameters"
-            }
-          ],
+          "$ref": "#/definitions/PdfDistributionParameters",
           "default": {
             "family": "Pdf",
             "pdf": [
@@ -1304,11 +1212,7 @@
           "type": "string"
         },
         "distribution_parameters": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/PoissonDistributionParameters"
-            }
-          ],
+          "$ref": "#/definitions/PoissonDistributionParameters",
           "default": {
             "family": "Poisson",
             "rate": 1.0
@@ -1380,11 +1284,7 @@
       "description": "Defines a quiescence settings",
       "properties": {
         "duration": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/Distribution"
-            }
-          ],
+          "$ref": "#/definitions/Distribution",
           "default": {
             "family": "Scalar",
             "distribution_parameters": {
@@ -1418,11 +1318,7 @@
       "description": "Defines a response period",
       "properties": {
         "duration": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/Distribution"
-            }
-          ],
+          "$ref": "#/definitions/Distribution",
           "default": {
             "family": "Scalar",
             "distribution_parameters": {
@@ -1459,11 +1355,7 @@
           "type": "string"
         },
         "distribution_parameters": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/ScalarDistributionParameter"
-            }
-          ],
+          "$ref": "#/definitions/ScalarDistributionParameter",
           "default": {
             "family": "Scalar",
             "value": 0.0
@@ -1550,11 +1442,7 @@
       "description": "Defines a trial",
       "properties": {
         "inter_trial_interval": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/Distribution"
-            }
-          ],
+          "$ref": "#/definitions/Distribution",
           "default": {
             "family": "Scalar",
             "distribution_parameters": {
@@ -1579,11 +1467,7 @@
           ]
         },
         "initiation_period": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/InitiationPeriod"
-            }
-          ],
+          "$ref": "#/definitions/InitiationPeriod",
           "default": {
             "duration": {
               "distribution_parameters": {
@@ -1601,11 +1485,7 @@
           "description": "Initiation settings"
         },
         "response_period": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/ResponsePeriod"
-            }
-          ],
+          "$ref": "#/definitions/ResponsePeriod",
           "default": {
             "duration": {
               "distribution_parameters": {
@@ -1682,11 +1562,7 @@
           "type": "string"
         },
         "distribution_parameters": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/UniformDistributionParameters"
-            }
-          ],
+          "$ref": "#/definitions/UniformDistributionParameters",
           "default": {
             "family": "Uniform",
             "min": 0.0,
@@ -1785,11 +1661,7 @@
       "type": "string"
     },
     "task_parameters": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/AindForceForagingTaskParameters"
-        }
-      ],
+      "$ref": "#/definitions/AindForceForagingTaskParameters",
       "description": "Parameters of the task logic"
     },
     "version": {
