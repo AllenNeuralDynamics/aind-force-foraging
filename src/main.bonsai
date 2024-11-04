@@ -5290,6 +5290,16 @@ Value.RightForce as RightForce) as Force)</scr:Expression>
                                   <Property Name="Modality" />
                                 </PropertyMappings>
                               </Expression>
+                              <Expression xsi:type="SubscribeSubject">
+                                <Name>ThisWriter</Name>
+                              </Expression>
+                              <Expression xsi:type="PropertyMapping">
+                                <PropertyMappings>
+                                  <Property Name="OutputArguments" Selector="OutputArguments" />
+                                  <Property Name="InputArguments" Selector="InputArguments" />
+                                  <Property Name="FrameRate" Selector="FrameRate" />
+                                </PropertyMappings>
+                              </Expression>
                               <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:LogSpinnakerFfmpeg.bonsai">
                                 <Modality>BehaviorVideos</Modality>
                                 <LogName>FaceCamera</LogName>
@@ -5310,14 +5320,16 @@ Value.RightForce as RightForce) as Force)</scr:Expression>
                               <Edge From="9" To="10" Label="Source1" />
                               <Edge From="10" To="11" Label="Source1" />
                               <Edge From="11" To="12" Label="Source1" />
-                              <Edge From="12" To="20" Label="Source1" />
+                              <Edge From="12" To="22" Label="Source1" />
                               <Edge From="13" To="14" Label="Source1" />
-                              <Edge From="14" To="20" Label="Source2" />
+                              <Edge From="14" To="22" Label="Source2" />
                               <Edge From="15" To="16" Label="Source1" />
                               <Edge From="16" To="17" Label="Source1" />
-                              <Edge From="17" To="20" Label="Source3" />
+                              <Edge From="17" To="22" Label="Source3" />
                               <Edge From="18" To="19" Label="Source1" />
-                              <Edge From="19" To="20" Label="Source4" />
+                              <Edge From="19" To="22" Label="Source4" />
+                              <Edge From="20" To="21" Label="Source1" />
+                              <Edge From="21" To="22" Label="Source5" />
                             </Edges>
                           </Workflow>
                         </Expression>
@@ -5448,6 +5460,15 @@ Value.RightForce as RightForce) as Force)</scr:Expression>
                                   <Property Name="Modality" />
                                 </PropertyMappings>
                               </Expression>
+                              <Expression xsi:type="SubscribeSubject">
+                                <Name>ThisWriter</Name>
+                              </Expression>
+                              <Expression xsi:type="PropertyMapping">
+                                <PropertyMappings>
+                                  <Property Name="FrameRate" Selector="FrameRate" />
+                                  <Property Name="FourCC" Selector="FourCc" />
+                                </PropertyMappings>
+                              </Expression>
                               <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:LogSpinnakerOpenCv.bonsai">
                                 <Modality>BehaviorVideos</Modality>
                                 <LogName>FaceCamera</LogName>
@@ -5466,14 +5487,16 @@ Value.RightForce as RightForce) as Force)</scr:Expression>
                               <Edge From="9" To="10" Label="Source1" />
                               <Edge From="10" To="11" Label="Source1" />
                               <Edge From="11" To="12" Label="Source1" />
-                              <Edge From="12" To="20" Label="Source1" />
+                              <Edge From="12" To="22" Label="Source1" />
                               <Edge From="13" To="14" Label="Source1" />
-                              <Edge From="14" To="20" Label="Source2" />
+                              <Edge From="14" To="22" Label="Source2" />
                               <Edge From="15" To="16" Label="Source1" />
                               <Edge From="16" To="17" Label="Source1" />
-                              <Edge From="17" To="20" Label="Source3" />
+                              <Edge From="17" To="22" Label="Source3" />
                               <Edge From="18" To="19" Label="Source1" />
-                              <Edge From="19" To="20" Label="Source4" />
+                              <Edge From="19" To="22" Label="Source4" />
+                              <Edge From="20" To="21" Label="Source1" />
+                              <Edge From="21" To="22" Label="Source5" />
                             </Edges>
                           </Workflow>
                         </Expression>
