@@ -17,12 +17,12 @@ public class ApplyLoadCellsCalibration
     public IObservable<Timestamped<double[]>> Process(IObservable<Timestamped<short[]>> source)
     {
         return source.Select(value => {
-            if (Calibration == null) return Timestamped.Create(value.Value.Select(v => (double) v).ToArray(), value.Seconds);
+            var data = value.Value.Select(v => (double) v).ToArray();
+            if (Calibration == null) return Timestamped.Create(data, value.Seconds);
 
-            var data = new double[value.Value.Length];
             foreach (var loadCell in Calibration)
             {
-                data[loadCell.LoadCellIndex] = (value.Value[loadCell.LoadCellIndex] - loadCell.Baseline) * loadCell.Slope;
+                data[loadCell.LoadCellIndex] = (data[loadCell.LoadCellIndex] - loadCell.Baseline) * loadCell.Slope;
             }
             return Timestamped.Create(data, value.Seconds);
         });
