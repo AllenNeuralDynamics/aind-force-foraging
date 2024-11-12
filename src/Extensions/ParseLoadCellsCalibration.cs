@@ -39,7 +39,8 @@ public class ParseLoadCellsCalibration
                 {
                     Offset = calibration.Offset.HasValue ? calibration.Offset.Value : 0,
                     Baseline = (int)(calibration.Baseline.HasValue ? calibration.Baseline.Value : 0),
-                    LoadCellIndex = calibration.Channel
+                    LoadCellIndex = calibration.Channel,
+                    Slope = calibration.Slope.HasValue ? calibration.Slope.Value : 1,
                 });
             }
             return calibrations;
@@ -53,6 +54,7 @@ public class LoadCellCalibration{
     public int Offset { get; set; }
     public int Baseline { get; set; }
     public int LoadCellIndex { get; set; }
+    public double Slope { get; set; }
 }
 
 public class LoadCellsCalibrations : KeyedCollection<int, LoadCellCalibration>

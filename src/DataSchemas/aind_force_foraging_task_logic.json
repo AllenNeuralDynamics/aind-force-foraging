@@ -40,7 +40,7 @@
           "title": "Rng Seed"
         },
         "aind_behavior_services_pkg_version": {
-          "default": "0.8.6",
+          "default": "0.8.7",
           "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$",
           "title": "aind_behavior_services package version",
           "type": "string"
@@ -724,18 +724,14 @@
           "type": "number"
         },
         "upper_force_threshold": {
-          "default": 32768,
+          "default": 30000,
           "description": "Upper bound of the force target region or the target cached force required.",
-          "maximum": 32768.0,
-          "minimum": -32768.0,
           "title": "Upper Force Threshold",
           "type": "number"
         },
         "lower_force_threshold": {
           "default": 5000,
           "description": "Lower bound of the force target region.",
-          "maximum": 32768.0,
-          "minimum": -32768.0,
           "title": "Lower Force Threshold",
           "type": "number"
         },
@@ -836,8 +832,6 @@
         "abort_on_force_threshold": {
           "default": 0,
           "description": "Time out for the quiescence period",
-          "maximum": 32768.0,
-          "minimum": -32768.0,
           "title": "Abort On Force Threshold",
           "type": "number"
         }
@@ -1297,8 +1291,6 @@
         "force_threshold": {
           "default": 0,
           "description": "Time out for the quiescence period",
-          "maximum": 32768.0,
-          "minimum": -32768.0,
           "title": "Force Threshold",
           "type": "number"
         },

@@ -14,15 +14,15 @@ public class ApplyLoadCellsCalibration
     [XmlIgnore]
     public LoadCellsCalibrations Calibration {get; set;}
 
-    public IObservable<Timestamped<short[]>> Process(IObservable<Timestamped<short[]>> source)
+    public IObservable<Timestamped<double[]>> Process(IObservable<Timestamped<short[]>> source)
     {
         return source.Select(value => {
-            if (Calibration == null) return value;
+            if (Calibration == null) return Timestamped.Create(value.Value.Select(v => (double) v).ToArray(), value.Seconds);
 
-            short[] data = value.Value;
+            var data = new double[value.Value.Length];
             foreach (var loadCell in Calibration)
             {
-                data[loadCell.LoadCellIndex] = (short)(data[loadCell.LoadCellIndex] - loadCell.Baseline);
+                data[loadCell.LoadCellIndex] = (value.Value[loadCell.LoadCellIndex] - loadCell.Baseline) * loadCell.Slope;
             }
             return Timestamped.Create(data, value.Seconds);
         });

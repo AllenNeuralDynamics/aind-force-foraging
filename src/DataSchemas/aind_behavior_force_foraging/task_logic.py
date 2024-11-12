@@ -11,8 +11,6 @@ from typing_extensions import TypeAliasType
 
 __version__ = "0.1.0"
 
-MAX_LOAD_CELL_FORCE = 32768
-
 
 def scalar_value(value: float) -> distributions.Scalar:
     """
@@ -183,15 +181,11 @@ class HarvestAction(BaseModel):
     delay: float = Field(default=0, description="Delay between successful harvest and reward delivery")
     force_duration: float = Field(default=0.5, description="Duration that the force much stay above threshold")
     upper_force_threshold: float = Field(
-        default=MAX_LOAD_CELL_FORCE,
-        le=MAX_LOAD_CELL_FORCE,
-        ge=-MAX_LOAD_CELL_FORCE,
+        default=30000,
         description="Upper bound of the force target region or the target cached force required.",
     )
     lower_force_threshold: float = Field(
         default=5000,
-        le=MAX_LOAD_CELL_FORCE,
-        ge=-MAX_LOAD_CELL_FORCE,
         description="Lower bound of the force target region.",
     )
     is_operant: bool = Field(default=True, description="Whether the reward delivery is contingent on licking.")
@@ -213,22 +207,6 @@ class HarvestAction(BaseModel):
             )
         return self
 
-    @model_validator(mode="after")
-    def _validate_trial_type(self) -> Self:
-        if self.harvest_mode == HarvestMode.ROI:
-            if not all(
-                [
-                    self._between_thresholds(self.upper_force_threshold),
-                    self._between_thresholds(self.lower_force_threshold),
-                ]
-            ):
-                raise ValueError("Force thresholds must be between -32768 and 32768 for ROI trials")
-        return self
-
-    @staticmethod
-    def _between_thresholds(value: float) -> bool:
-        return value <= MAX_LOAD_CELL_FORCE and value >= -MAX_LOAD_CELL_FORCE
-
 
 class QuiescencePeriod(BaseModel):
     """Defines a quiescence settings"""
@@ -237,7 +215,7 @@ class QuiescencePeriod(BaseModel):
         default=scalar_value(0.5), description="Duration of the quiescence period", validate_default=True
     )
     force_threshold: float = Field(
-        default=0, le=MAX_LOAD_CELL_FORCE, ge=-MAX_LOAD_CELL_FORCE, description="Time out for the quiescence period"
+        default=0, description="Time out for the quiescence period"
     )
     has_cue: bool = Field(default=False, description="Whether to use a cue to signal the start of the period.")
 
@@ -253,7 +231,7 @@ class InitiationPeriod(BaseModel):
         default=False, description="Whether to abort the trial if a choice is made during the initiation period."
     )
     abort_on_force_threshold: float = Field(
-        default=0, le=MAX_LOAD_CELL_FORCE, ge=-MAX_LOAD_CELL_FORCE, description="Time out for the quiescence period"
+        default=0, description="Time out for the quiescence period"
     )
 
 

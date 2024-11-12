@@ -2577,6 +2577,8 @@ namespace AindForceForagingDataSchema.Rig
     
         private double? _baseline;
     
+        private double? _slope;
+    
         private System.Collections.Generic.List<MeasuredWeight> _weightLookup = new System.Collections.Generic.List<MeasuredWeight>();
     
         public LoadCellCalibrationOutput()
@@ -2588,6 +2590,7 @@ namespace AindForceForagingDataSchema.Rig
             _channel = other._channel;
             _offset = other._offset;
             _baseline = other._baseline;
+            _slope = other._slope;
             _weightLookup = other._weightLookup;
         }
     
@@ -2637,6 +2640,20 @@ namespace AindForceForagingDataSchema.Rig
         }
     
         [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("slope")]
+        public double? Slope
+        {
+            get
+            {
+                return _slope;
+            }
+            set
+            {
+                _slope = value;
+            }
+        }
+    
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("weight_lookup")]
         public System.Collections.Generic.List<MeasuredWeight> WeightLookup
         {
@@ -2665,6 +2682,7 @@ namespace AindForceForagingDataSchema.Rig
             stringBuilder.Append("channel = " + _channel + ", ");
             stringBuilder.Append("offset = " + _offset + ", ");
             stringBuilder.Append("baseline = " + _baseline + ", ");
+            stringBuilder.Append("slope = " + _slope + ", ");
             stringBuilder.Append("weight_lookup = " + _weightLookup);
             return true;
         }
@@ -5230,7 +5248,7 @@ namespace AindForceForagingDataSchema.Rig
     public partial class AindForceForagingRig
     {
     
-        private string _aindBehaviorServicesPkgVersion = "0.8.6";
+        private string _aindBehaviorServicesPkgVersion = "0.8.7";
     
         private string _version = "0.2.0";
     
