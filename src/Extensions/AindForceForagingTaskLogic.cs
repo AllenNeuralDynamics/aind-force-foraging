@@ -1974,7 +1974,7 @@ namespace AindForceForagingDataSchema.TaskLogic
     
         private double _forceDuration = 0.5D;
     
-        private double _upperForceThreshold = 32768D;
+        private double _upperForceThreshold = 30000D;
     
         private double _lowerForceThreshold = 5000D;
     

@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 using System.ComponentModel;
 using OpenCV.Net;
 
-public class ParseForce : Transform<Timestamped<short[]>, Timestamped<Force>>
+public class ParseForce : Transform<Timestamped<double[]>, Timestamped<Force>>
 {
 
     public ForceOperationControl ForceOperationControl { get; set; }
@@ -18,7 +18,7 @@ public class ParseForce : Transform<Timestamped<short[]>, Timestamped<Force>>
     public Mat LookUpTable { get; set; }
 
 
-    public override IObservable<Timestamped<Force>> Process(IObservable<Timestamped<short[]>> source)
+    public override IObservable<Timestamped<Force>> Process(IObservable<Timestamped<double[]>> source)
     {
         Mat lookUpTable;
         ForceOperationControl forceOperationControl = ForceOperationControl;
@@ -131,8 +131,8 @@ public class Force
 public class ForceDiagnosis
 {
 
-    public short RawLeftForce { get; set; }
-    public short RawRightForce { get; set; }
+    public double RawLeftForce { get; set; }
+    public double RawRightForce { get; set; }
 
     public double LookUpIndexLeftForce { get; set; }
     public double LookUpIndexRightForce { get; set; }
@@ -179,8 +179,8 @@ public class SubPixelBilinearInterpolator
 
         diagnosis = new ForceDiagnosis()
         {
-            RawLeftForce = (short)leftValue,
-            RawRightForce = (short)rightValue,
+            RawLeftForce = leftValue,
+            RawRightForce = rightValue,
             LookUpIndexLeftForce = clamped_leftValue,
             LookUpIndexRightForce = clamped_rightValue
         };
