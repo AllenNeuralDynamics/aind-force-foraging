@@ -61,15 +61,8 @@
       <Expression xsi:type="MulticastSubject">
         <Name>HarpLoadCellsCommands</Name>
       </Expression>
-      <Expression xsi:type="ExternalizedMapping">
-        <Property Name="Name" DisplayName="StartExperimentSubjectName" />
-      </Expression>
       <Expression xsi:type="SubscribeSubject">
-        <Name>StartExperiment</Name>
-      </Expression>
-      <Expression xsi:type="Annotation">
-        <Name>ForceRegisterDump</Name>
-        <Text><![CDATA[]]></Text>
+        <Name>TriggerHarpReadDump</Name>
       </Expression>
       <Expression xsi:type="harp:CreateMessage">
         <harp:MessageType>Write</harp:MessageType>
@@ -81,11 +74,6 @@
           <harp:OperationLed>Off</harp:OperationLed>
           <harp:Heartbeat>Enabled</harp:Heartbeat>
         </harp:Payload>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:Take">
-          <rx:Count>1</rx:Count>
-        </Combinator>
       </Expression>
       <Expression xsi:type="MulticastSubject">
         <Name>HarpLoadCellsCommands</Name>
@@ -104,10 +92,7 @@
       <Edge From="9" To="10" Label="Source1" />
       <Edge From="10" To="11" Label="Source1" />
       <Edge From="12" To="13" Label="Source1" />
-      <Edge From="13" To="15" Label="Source1" />
-      <Edge From="14" To="15" Label="Source2" />
-      <Edge From="15" To="16" Label="Source1" />
-      <Edge From="16" To="17" Label="Source1" />
+      <Edge From="13" To="14" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>

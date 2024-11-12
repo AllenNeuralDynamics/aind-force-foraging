@@ -46,6 +46,9 @@ class AindForceForagingRig(AindBehaviorRigModel):
     harp_clock_generator: rig.HarpClockGenerator = Field(..., description="Harp clock generator")
     harp_clock_repeaters: List[rig.HarpClockGenerator] = Field(default=[], description="Harp clock repeaters")
     harp_analog_input: Optional[rig.HarpAnalogInput] = Field(default=None, description="Harp analog input")
+    harp_environment_sensor: Optional[rig.HarpEnvironmentSensor] = Field(
+        default=None, description="Harp Environment sensor"
+    )
     manipulator: AindManipulatorDevice = Field(..., description="Manipulator")
     screen: rig.Screen = Field(default=rig.Screen(), description="Screen settings")
     calibration: RigCalibration = Field(default=None, description="Load cells calibration")
