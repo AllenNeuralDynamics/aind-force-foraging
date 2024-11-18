@@ -30,12 +30,13 @@ Changelog = "https://github.com/AllenNeuralDynamics/Aind.Behavior.ForceForaging/
 
 [project.optional-dependencies]
 
-linters = [
+launcher = ["aind_behavior_experiment_launcher[aind-services]>=0.2, <0.3"]
+
+dev = [
+    "aind_behavior_force_foraging[launcher]",
     'ruff',
     'codespell'
 ]
-
-launcher = ["aind_behavior_experiment_launcher[aind-services]>=0.2, <0.3"]
 
 docs = [
     'Sphinx<7.3',

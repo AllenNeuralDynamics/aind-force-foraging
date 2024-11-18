@@ -52,6 +52,11 @@ dependencies = [
 ]
 
 [package.optional-dependencies]
+dev = [
+    { name = "aind-behavior-experiment-launcher", extra = ["aind-services"] },
+    { name = "codespell" },
+    { name = "ruff" },
+]
 docs = [
     { name = "autodoc-pydantic", extra = ["erdantic"] },
     { name = "furo" },
@@ -63,20 +68,17 @@ docs = [
 launcher = [
     { name = "aind-behavior-experiment-launcher", extra = ["aind-services"] },
 ]
-linters = [
-    { name = "codespell" },
-    { name = "ruff" },
-]
 
 [package.metadata]
 requires-dist = [
     { name = "aind-behavior-experiment-launcher", extras = ["aind-services"], marker = "extra == 'launcher'", specifier = ">=0.2,<0.3" },
+    { name = "aind-behavior-force-foraging", extras = ["launcher"], marker = "extra == 'dev'" },
     { name = "aind-behavior-services", specifier = ">=0.8,<0.9" },
     { name = "autodoc-pydantic", extras = ["erdantic"], marker = "extra == 'docs'" },
-    { name = "codespell", marker = "extra == 'linters'" },
+    { name = "codespell", marker = "extra == 'dev'" },
     { name = "furo", marker = "extra == 'docs'" },
     { name = "myst-parser", marker = "extra == 'docs'" },
-    { name = "ruff", marker = "extra == 'linters'" },
+    { name = "ruff", marker = "extra == 'dev'" },
     { name = "sphinx", marker = "extra == 'docs'", specifier = "<7.3" },
     { name = "sphinx-jinja", marker = "extra == 'docs'" },
     { name = "sphinx-jsonschema", marker = "extra == 'docs'" },
