@@ -42,6 +42,9 @@ public class UpdateHarvestAction
                 case UpdateTargetParameter.Probability:
                     action.Probability = Update(action.Probability, updater.Updater, event_value);
                     break;
+                case UpdateTargetParameter.ForceDuration:
+                    action.ForceDuration = Update(action.ForceDuration, updater.Updater, event_value);
+                    break;
                 default:
                     throw new NotImplementedException("Invalid target parameter.");
             }
