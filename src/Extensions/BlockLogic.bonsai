@@ -94,15 +94,6 @@
                     <Name>CurrentTrial</Name>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
-                    <Name>_ThisBlock</Name>
-                  </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>IsBaited</Selector>
-                  </Expression>
-                  <Expression xsi:type="MulticastSubject">
-                    <Name>IsBaitedMode</Name>
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
                     <Name>CurrentTrial</Name>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -126,9 +117,7 @@
                   <Edge From="9" To="10" Label="Source1" />
                   <Edge From="11" To="12" Label="Source1" />
                   <Edge From="12" To="13" Label="Source1" />
-                  <Edge From="14" To="15" Label="Source1" />
-                  <Edge From="15" To="16" Label="Source1" />
-                  <Edge From="16" To="17" Label="Source1" />
+                  <Edge From="13" To="14" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
@@ -274,15 +263,6 @@
                     <Name>CurrentTrial</Name>
                   </Expression>
                   <Expression xsi:type="SubscribeSubject">
-                    <Name>_ThisBlock</Name>
-                  </Expression>
-                  <Expression xsi:type="MemberSelector">
-                    <Selector>IsBaited</Selector>
-                  </Expression>
-                  <Expression xsi:type="MulticastSubject">
-                    <Name>IsBaitedMode</Name>
-                  </Expression>
-                  <Expression xsi:type="SubscribeSubject">
                     <Name>_TrialList</Name>
                   </Expression>
                   <Expression xsi:type="WorkflowOutput" />
@@ -300,8 +280,6 @@
                   <Edge From="11" To="12" Label="Source1" />
                   <Edge From="12" To="13" Label="Source1" />
                   <Edge From="14" To="15" Label="Source1" />
-                  <Edge From="15" To="16" Label="Source1" />
-                  <Edge From="17" To="18" Label="Source1" />
                 </Edges>
               </Workflow>
             </Expression>
