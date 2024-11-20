@@ -272,12 +272,6 @@
           "title": "Mode",
           "type": "string"
         },
-        "is_baited": {
-          "default": false,
-          "description": "Whether the trials are baited",
-          "title": "Is Baited",
-          "type": "boolean"
-        },
         "trials": {
           "default": [],
           "description": "List of trials in the block",
@@ -317,12 +311,6 @@
           "default": "BlockGenerator",
           "title": "Mode",
           "type": "string"
-        },
-        "is_baited": {
-          "default": false,
-          "description": "Whether the trials are baited",
-          "title": "Is Baited",
-          "type": "boolean"
         },
         "block_size": {
           "$ref": "#/definitions/Distribution",

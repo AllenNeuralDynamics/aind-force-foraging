@@ -301,7 +301,6 @@ class BlockStatisticsMode(str, Enum):
 
 class Block(BaseModel):
     mode: Literal[BlockStatisticsMode.BLOCK] = BlockStatisticsMode.BLOCK
-    is_baited: bool = Field(default=False, description="Whether the trials are baited")
     trials: List[Trial] = Field(default=[], description="List of trials in the block")
     shuffle: bool = Field(default=False, description="Whether to shuffle the trials in the block")
     repeat_count: Optional[int] = Field(
@@ -311,7 +310,6 @@ class Block(BaseModel):
 
 class BlockGenerator(BaseModel):
     mode: Literal[BlockStatisticsMode.BLOCK_GENERATOR] = BlockStatisticsMode.BLOCK_GENERATOR
-    is_baited: bool = Field(default=False, description="Whether the trials are baited")
     block_size: distributions.Distribution = Field(
         default=uniform_distribution_value(min=50, max=60), validate_default=True, description="Size of the block"
     )
