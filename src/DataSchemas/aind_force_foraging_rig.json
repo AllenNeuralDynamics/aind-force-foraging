@@ -744,78 +744,6 @@
       "title": "HarpBehavior",
       "type": "object"
     },
-    "HarpClockGenerator": {
-      "properties": {
-        "device_type": {
-          "const": "clockgenerator",
-          "default": "clockgenerator",
-          "title": "Device Type",
-          "type": "string"
-        },
-        "additional_settings": {
-          "default": null,
-          "description": "Additional settings",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/BaseModel"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "calibration": {
-          "default": null,
-          "description": "Calibration",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/BaseModel"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "who_am_i": {
-          "const": 1158,
-          "default": 1158,
-          "title": "Who Am I",
-          "type": "integer"
-        },
-        "serial_number": {
-          "default": null,
-          "description": "Device serial number",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Serial Number"
-        },
-        "port_name": {
-          "description": "Device port name",
-          "title": "Port Name",
-          "type": "string"
-        },
-        "connected_clock_outputs": {
-          "default": [],
-          "description": "Connected clock outputs",
-          "items": {
-            "$ref": "#/definitions/ConnectedClockOutput"
-          },
-          "title": "Connected Clock Outputs",
-          "type": "array"
-        }
-      },
-      "required": [
-        "port_name"
-      ],
-      "title": "HarpClockGenerator",
-      "type": "object"
-    },
     "HarpEnvironmentSensor": {
       "properties": {
         "device_type": {
@@ -940,6 +868,78 @@
         "port_name"
       ],
       "title": "HarpLickometer",
+      "type": "object"
+    },
+    "HarpWhiteRabbit": {
+      "properties": {
+        "device_type": {
+          "const": "whiterabbit",
+          "default": "whiterabbit",
+          "title": "Device Type",
+          "type": "string"
+        },
+        "additional_settings": {
+          "default": null,
+          "description": "Additional settings",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/BaseModel"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "calibration": {
+          "default": null,
+          "description": "Calibration",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/BaseModel"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "who_am_i": {
+          "const": 1404,
+          "default": 1404,
+          "title": "Who Am I",
+          "type": "integer"
+        },
+        "serial_number": {
+          "default": null,
+          "description": "Device serial number",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Serial Number"
+        },
+        "port_name": {
+          "description": "Device port name",
+          "title": "Port Name",
+          "type": "string"
+        },
+        "connected_clock_outputs": {
+          "default": [],
+          "description": "Connected clock outputs",
+          "items": {
+            "$ref": "#/definitions/ConnectedClockOutput"
+          },
+          "title": "Connected Clock Outputs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "port_name"
+      ],
+      "title": "HarpWhiteRabbit",
       "type": "object"
     },
     "LoadCellCalibrationInput": {
@@ -2307,17 +2307,8 @@
       "description": "Harp load cells"
     },
     "harp_clock_generator": {
-      "$ref": "#/definitions/HarpClockGenerator",
+      "$ref": "#/definitions/HarpWhiteRabbit",
       "description": "Harp clock generator"
-    },
-    "harp_clock_repeaters": {
-      "default": [],
-      "description": "Harp clock repeaters",
-      "items": {
-        "$ref": "#/definitions/HarpClockGenerator"
-      },
-      "title": "Harp Clock Repeaters",
-      "type": "array"
     },
     "harp_analog_input": {
       "default": null,

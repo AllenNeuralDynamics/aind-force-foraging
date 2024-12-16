@@ -214,9 +214,7 @@ class QuiescencePeriod(BaseModel):
     duration: distributions.Distribution = Field(
         default=scalar_value(0.5), description="Duration of the quiescence period", validate_default=True
     )
-    force_threshold: float = Field(
-        default=0, description="Time out for the quiescence period"
-    )
+    force_threshold: float = Field(default=0, description="Time out for the quiescence period")
     has_cue: bool = Field(default=False, description="Whether to use a cue to signal the start of the period.")
 
 
@@ -230,9 +228,7 @@ class InitiationPeriod(BaseModel):
     abort_on_force: bool = Field(
         default=False, description="Whether to abort the trial if a choice is made during the initiation period."
     )
-    abort_on_force_threshold: float = Field(
-        default=0, description="Time out for the quiescence period"
-    )
+    abort_on_force_threshold: float = Field(default=0, description="Time out for the quiescence period")
 
 
 class ResponsePeriod(BaseModel):

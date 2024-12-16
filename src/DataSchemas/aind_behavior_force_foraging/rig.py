@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 # Import core types
-from typing import List, Literal, Optional
+from typing import Literal, Optional
 
 import aind_behavior_services.calibration.load_cells as lcc
 import aind_behavior_services.calibration.water_valve as wvc
@@ -43,8 +43,7 @@ class AindForceForagingRig(AindBehaviorRigModel):
     harp_behavior: rig.HarpBehavior = Field(..., description="Harp behavior")
     harp_lickometer: rig.HarpLickometer = Field(..., description="Harp lickometer")
     harp_load_cells: lcc.LoadCells = Field(..., description="Harp load cells")
-    harp_clock_generator: rig.HarpClockGenerator = Field(..., description="Harp clock generator")
-    harp_clock_repeaters: List[rig.HarpClockGenerator] = Field(default=[], description="Harp clock repeaters")
+    harp_clock_generator: rig.HarpWhiteRabbit = Field(..., description="Harp clock generator")
     harp_analog_input: Optional[rig.HarpAnalogInput] = Field(default=None, description="Harp analog input")
     harp_environment_sensor: Optional[rig.HarpEnvironmentSensor] = Field(
         default=None, description="Harp Environment sensor"
