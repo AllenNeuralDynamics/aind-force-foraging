@@ -1627,6 +1627,7 @@
   "additionalProperties": false,
   "properties": {
     "name": {
+      "const": "AindForceForaging",
       "default": "AindForceForaging",
       "description": "Name of the task logic",
       "title": "Name",

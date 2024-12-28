@@ -411,5 +411,5 @@ class AindForceForagingTaskParameters(TaskParameters):
 
 class AindForceForagingTaskLogic(AindBehaviorTaskLogicModel):
     version: Literal[__version__] = __version__
-    name: str = Field(default="AindForceForaging", description="Name of the task logic", frozen=True)
+    name: Literal["AindForceForaging"] = Field(default="AindForceForaging", description="Name of the task logic")
     task_parameters: AindForceForagingTaskParameters = Field(..., description="Parameters of the task logic")
