@@ -74,9 +74,7 @@ def mock_rig() -> AindForceForagingRig:
     )
     water_valve_calibration.output = WaterValveCalibrationOutput(slope=1, offset=0)  # For testing purposes
 
-    video_writer = rig.VideoWriterFfmpeg(
-        frame_rate=120, container_extension="mp4", output_arguments="-c:v h264_nvenc -vsync 0 -2pass "
-    )
+    video_writer = rig.VideoWriterFfmpeg(frame_rate=120, container_extension="mp4")
 
     load_cells_calibration = lcc.LoadCellsCalibration(
         output=lcc.LoadCellsCalibrationOutput(),
