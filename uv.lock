@@ -23,7 +23,7 @@ wheels = [
 
 [[package]]
 name = "aind-behavior-experiment-launcher"
-version = "0.2.2"
+version = "0.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aind-behavior-services" },
@@ -32,9 +32,9 @@ dependencies = [
     { name = "pydantic" },
     { name = "semver" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/66/9f/b6bf913094fa62fca4c3c68dde030c3e516c9c4e265c3b2141e4fbeb617b/aind_behavior_experiment_launcher-0.2.2.tar.gz", hash = "sha256:7d1c52f52a168af99360dbca485ea56b855031effd3553f5cc9d43b4b8472b0e", size = 60285 }
+sdist = { url = "https://files.pythonhosted.org/packages/9d/ab/21f987696ab81333c211a274e28b2a0b4c17d5b6462f1a37b952b4da3ddb/aind_behavior_experiment_launcher-0.3.1.tar.gz", hash = "sha256:65fc2b424791f3702c5ae7a145f1b26e3ec517ccec42419ab7e09aa5d3c36178", size = 120450 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/72/f0/44fe308cfbcbd478d93abfff3f14bdfe2bed850e5662ea41dea9e3ddbbd7/aind_behavior_experiment_launcher-0.2.2-py3-none-any.whl", hash = "sha256:2f78a9fa1477f069c9b208c9df1790a9ab8c82811c60f7274a415be1111b0a16", size = 28134 },
+    { url = "https://files.pythonhosted.org/packages/7c/3e/1c97990a8a50d6b94f30eb68f8f21dd2200d627f6bca05c2501d755ee5fa/aind_behavior_experiment_launcher-0.3.1-py3-none-any.whl", hash = "sha256:a3da47f64b7a4696be121ebb86a7c8a4c1b9c706b864480eee27ea71f8ad2ea3", size = 31598 },
 ]
 
 [package.optional-dependencies]
@@ -45,7 +45,6 @@ aind-services = [
 
 [[package]]
 name = "aind-behavior-force-foraging"
-version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "aind-behavior-services" },
@@ -71,9 +70,9 @@ launcher = [
 
 [package.metadata]
 requires-dist = [
-    { name = "aind-behavior-experiment-launcher", extras = ["aind-services"], marker = "extra == 'launcher'", specifier = ">=0.2,<0.3" },
+    { name = "aind-behavior-experiment-launcher", extras = ["aind-services"], marker = "extra == 'launcher'", specifier = ">=0.3,<0.4" },
     { name = "aind-behavior-force-foraging", extras = ["launcher"], marker = "extra == 'dev'" },
-    { name = "aind-behavior-services", specifier = ">=0.8,<0.9" },
+    { name = "aind-behavior-services", specifier = ">=0.9,<0.10" },
     { name = "autodoc-pydantic", extras = ["erdantic"], marker = "extra == 'docs'" },
     { name = "codespell", marker = "extra == 'dev'" },
     { name = "furo", marker = "extra == 'docs'" },
@@ -86,7 +85,7 @@ requires-dist = [
 
 [[package]]
 name = "aind-behavior-services"
-version = "0.8.9"
+version = "0.9.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aind-behavior-curriculum" },
@@ -96,9 +95,9 @@ dependencies = [
     { name = "scikit-learn" },
     { name = "semver" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/bb/97/a0bac65bcc2f617c12741e03501275ee132770458e42ab0a9d8f84cc7239/aind_behavior_services-0.8.9.tar.gz", hash = "sha256:101c488ecb460e86e0013c100ec049936025c52fc6c500fb7ae0f4004d00cd9a", size = 167377 }
+sdist = { url = "https://files.pythonhosted.org/packages/90/80/d1cd200bb33646f349e3022c9535b38075297ada53b5ca46c13deed93d52/aind_behavior_services-0.9.0.tar.gz", hash = "sha256:98b90a941eb77a7997ecdc9aa535202adfcf4776422aaeb8320c4aee5197025e", size = 132343 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/eb/79/1eb0c2dfbc865be966a6b96aac8fd92f18cf45b7e7dd7f943b63e86fc67b/aind_behavior_services-0.8.9-py3-none-any.whl", hash = "sha256:9ce8c0e750f51e30470fe2aff056852ac98745572cdc6e162f05b46371d2d95e", size = 84075 },
+    { url = "https://files.pythonhosted.org/packages/fb/b6/5e52385734b15ce277154f8426fd7a8339833d038306bca59333b4fc5109/aind_behavior_services-0.9.0-py3-none-any.whl", hash = "sha256:fbbbb7c16b34957ba7e47aabaf503af4788683278ddfc14a22a1fa6f7ac96d54", size = 44208 },
 ]
 
 [[package]]

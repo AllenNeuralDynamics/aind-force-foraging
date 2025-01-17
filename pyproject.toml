@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "aind-behavior-force-foraging"
-description = "A library that defines AIND data schema for the Aind Behavior Force Foraing experiment."
+description = "A library that defines AIND data schema for the Aind Behavior Force Foraging experiment."
 authors = [
     { name = "Bruno Cruz", email = "bruno.cruz@alleninstitute.org" },
 ]
@@ -19,7 +19,7 @@ readme = "README.md"
 dynamic = ["version"]
 
 dependencies = [
-  "aind_behavior_services>=0.8, <0.9",
+  "aind_behavior_services>=0.9, <0.10",
 ]
 
 [project.urls]
@@ -30,7 +30,7 @@ Changelog = "https://github.com/AllenNeuralDynamics/Aind.Behavior.ForceForaging/
 
 [project.optional-dependencies]
 
-launcher = ["aind_behavior_experiment_launcher[aind-services]>=0.2, <0.3"]
+launcher = ["aind_behavior_experiment_launcher[aind-services]>=0.3, <0.4"]
 
 dev = [
     "aind_behavior_force_foraging[launcher]",
