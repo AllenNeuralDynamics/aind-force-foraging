@@ -5590,7 +5590,7 @@ Value.RightForce as RightForce) as Force)</scr:Expression>
                     <zg:SymbolType>None</zg:SymbolType>
                     <zg:LineWidth>1</zg:LineWidth>
                     <zg:CurveSettings />
-                    <zg:Capacity xsi:nil="true" />
+                    <zg:Capacity>5000</zg:Capacity>
                     <zg:Min xsi:nil="true" />
                     <zg:Max xsi:nil="true" />
                   </Expression>
@@ -6249,23 +6249,54 @@ it.Item1.Value[Item2.RightIndex] as RightLoadCell)
                 </Edges>
               </Workflow>
             </Expression>
-            <Expression xsi:type="VisualizerMapping" />
+            <Expression xsi:type="VisualizerMapping">
+              <VisualizerType xsi:type="TypeMapping" TypeArguments="gui:TableLayoutPanelVisualizer" />
+            </Expression>
             <Expression xsi:type="SubscribeSubject">
-              <Name>SoftwareEvents</Name>
+              <Name>LickEvent</Name>
             </Expression>
-            <Expression xsi:type="VisualizerMapping" />
-            <Expression xsi:type="gui:TableLayoutPanelBuilder">
-              <gui:Name>SoftwareEvents</gui:Name>
-              <gui:Enabled>true</gui:Enabled>
-              <gui:Visible>true</gui:Visible>
-              <gui:ColumnCount>1</gui:ColumnCount>
-              <gui:RowCount>1</gui:RowCount>
-              <gui:ColumnStyles />
-              <gui:RowStyles />
-              <gui:CellSpans />
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="IntProperty">
+                <Value>1</Value>
+              </Combinator>
             </Expression>
-            <Expression xsi:type="VisualizerMapping" />
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Zip" />
+            </Expression>
+            <Expression xsi:type="zg:RollingGraphBuilder">
+              <zg:IndexSelector>Item2</zg:IndexSelector>
+              <zg:ValueSelector>Item1</zg:ValueSelector>
+              <zg:SymbolType>Circle</zg:SymbolType>
+              <zg:LineWidth>0</zg:LineWidth>
+              <zg:CurveSettings>
+                <zg:CurveConfiguration>
+                  <zg:Label>Licks</zg:Label>
+                  <zg:Color>Blue</zg:Color>
+                </zg:CurveConfiguration>
+              </zg:CurveSettings>
+              <zg:Capacity xsi:nil="true" />
+              <zg:Min xsi:nil="true" />
+              <zg:Max xsi:nil="true" />
+            </Expression>
+            <Expression xsi:type="VisualizerMapping">
+              <VisualizerType xsi:type="TypeMapping" TypeArguments="zg:RollingGraphVisualizer" />
+            </Expression>
+            <Expression xsi:type="zg:RollingGraphPanelBuilder">
+              <zg:Name>Lickometer</zg:Name>
+              <zg:ReverseX>false</zg:ReverseX>
+              <zg:ReverseY>false</zg:ReverseY>
+              <zg:Span>20</zg:Span>
+              <zg:Capacity xsi:nil="true" />
+              <zg:BaseAxis>X</zg:BaseAxis>
+              <zg:BarType>Cluster</zg:BarType>
+              <zg:Min>0</zg:Min>
+              <zg:Max>2</zg:Max>
+            </Expression>
+            <Expression xsi:type="VisualizerMapping">
+              <VisualizerType xsi:type="TypeMapping" TypeArguments="zg:RollingGraphPanelVisualizer" />
+            </Expression>
             <Expression xsi:type="gui:TableLayoutPanelBuilder">
+              <gui:Name>Monitoring</gui:Name>
               <gui:Enabled>true</gui:Enabled>
               <gui:Visible>true</gui:Visible>
               <gui:ColumnCount>1</gui:ColumnCount>
@@ -6287,19 +6318,53 @@ it.Item1.Value[Item2.RightIndex] as RightLoadCell)
               </gui:RowStyles>
               <gui:CellSpans />
             </Expression>
+            <Expression xsi:type="VisualizerMapping">
+              <VisualizerType xsi:type="TypeMapping" TypeArguments="gui:TableLayoutPanelVisualizer" />
+            </Expression>
+            <Expression xsi:type="SubscribeSubject">
+              <Name>SoftwareEvents</Name>
+            </Expression>
+            <Expression xsi:type="VisualizerMapping" />
+            <Expression xsi:type="gui:TableLayoutPanelBuilder">
+              <gui:Name>SoftwareEvents</gui:Name>
+              <gui:Enabled>true</gui:Enabled>
+              <gui:Visible>true</gui:Visible>
+              <gui:ColumnCount>1</gui:ColumnCount>
+              <gui:RowCount>1</gui:RowCount>
+              <gui:ColumnStyles />
+              <gui:RowStyles />
+              <gui:CellSpans />
+            </Expression>
+            <Expression xsi:type="VisualizerMapping">
+              <VisualizerType xsi:type="TypeMapping" TypeArguments="gui:TableLayoutPanelVisualizer" />
+            </Expression>
+            <Expression xsi:type="gui:TabControlBuilder">
+              <gui:Enabled>true</gui:Enabled>
+              <gui:Visible>true</gui:Visible>
+            </Expression>
             <Expression xsi:type="WorkflowOutput" />
           </Nodes>
           <Edges>
             <Edge From="0" To="1" Label="Source1" />
             <Edge From="1" To="2" Label="Source1" />
-            <Edge From="2" To="9" Label="Source1" />
+            <Edge From="2" To="12" Label="Source1" />
             <Edge From="3" To="4" Label="Source1" />
-            <Edge From="4" To="9" Label="Source2" />
+            <Edge From="4" To="12" Label="Source2" />
             <Edge From="5" To="6" Label="Source1" />
+            <Edge From="5" To="7" Label="Source2" />
             <Edge From="6" To="7" Label="Source1" />
             <Edge From="7" To="8" Label="Source1" />
-            <Edge From="8" To="9" Label="Source3" />
+            <Edge From="8" To="9" Label="Source1" />
             <Edge From="9" To="10" Label="Source1" />
+            <Edge From="10" To="11" Label="Source1" />
+            <Edge From="11" To="12" Label="Source3" />
+            <Edge From="12" To="13" Label="Source1" />
+            <Edge From="13" To="18" Label="Source1" />
+            <Edge From="14" To="15" Label="Source1" />
+            <Edge From="15" To="16" Label="Source1" />
+            <Edge From="16" To="17" Label="Source1" />
+            <Edge From="17" To="18" Label="Source2" />
+            <Edge From="18" To="19" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
