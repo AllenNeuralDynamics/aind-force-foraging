@@ -165,8 +165,8 @@
                       <gl:ClearMask>DepthBufferBit ColorBufferBit</gl:ClearMask>
                       <gl:CursorVisible>false</gl:CursorVisible>
                       <gl:Location xsi:nil="true" />
-                      <gl:WindowBorder>Resizable</gl:WindowBorder>
-                      <gl:WindowState>Minimized</gl:WindowState>
+                      <gl:WindowBorder>Fixed</gl:WindowBorder>
+                      <gl:WindowState>Maximized</gl:WindowState>
                       <gl:DisplayDevice>Second</gl:DisplayDevice>
                       <gl:TargetRenderFrequency>60</gl:TargetRenderFrequency>
                       <gl:TargetUpdateFrequency>120</gl:TargetUpdateFrequency>
