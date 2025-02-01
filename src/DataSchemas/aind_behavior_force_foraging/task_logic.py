@@ -6,11 +6,10 @@ from typing import Annotated, Dict, List, Literal, Optional, Self, Union
 
 import aind_behavior_services.task_logic.distributions as distributions
 from aind_behavior_services.task_logic import AindBehaviorTaskLogicModel, TaskParameters
-from pydantic import BaseModel, Field, RootModel, field_validator, model_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
+from typing_extensions import TypeAliasType
 
-from aind_behavior_force_foraging import __version__
-
-MAX_LOAD_CELL_FORCE = 32768
+__version__ = "0.1.0"
 
 
 def scalar_value(value: float) -> distributions.Scalar:
@@ -26,7 +25,7 @@ def scalar_value(value: float) -> distributions.Scalar:
     return distributions.Scalar(distribution_parameters=distributions.ScalarDistributionParameter(value=value))
 
 
-def uniform_distribution_value(min: float, max: float) -> distributions.Uniform:
+def uniform_distribution_value(min: float, max: float) -> distributions.UniformDistribution:
     """
     Helper function to create a uniform distribution for a given range.
 
@@ -122,7 +121,7 @@ class ActionUpdater(BaseModel):
     updater: NumericalUpdater = Field(..., description="Updater")
 
 
-class TrialType(str, Enum):
+class HarvestMode(str, Enum):
     """Defines the trial types"""
 
     NONE = "None"
@@ -135,11 +134,7 @@ class ContinuousFeedbackMode(str, Enum):
 
     NONE = "None"
     AUDIO = "Audio"
-    VISUAL = "Visual"
     MANIPULATOR = "Manipulator"
-
-
-ValuePair = Annotated[List[float], Field(min_length=2, max_length=2, description="A tuple of two values")]
 
 
 class _ContinuousFeedbackBase(BaseModel):
@@ -147,7 +142,7 @@ class _ContinuousFeedbackBase(BaseModel):
         default=ContinuousFeedbackMode.NONE, description="Continuous feedback mode"
     )
     converter_lut_input: List[Annotated[float, Field(ge=0, le=1)]] = Field(
-        default=[0, 1], min_length=2, description="Input domain. All values should be between 0 and 1"
+        default=[0, 1], min_length=2, description="Normalized input domain. All values should be between 0 and 1"
     )
     converter_lut_output: List[float] = Field(
         default=[0, 1],
@@ -170,36 +165,34 @@ class AudioFeedback(_ContinuousFeedbackBase):
     continuous_feedback_mode: Literal[ContinuousFeedbackMode.AUDIO] = ContinuousFeedbackMode.AUDIO
 
 
-class ContinuousFeedback(RootModel):
-    root: Annotated[Union[ManipulatorFeedback, AudioFeedback], Field(discriminator="continuous_feedback_mode")]
+ContinuousFeedback = TypeAliasType(
+    "ContinuousFeedback",
+    Annotated[Union[ManipulatorFeedback, AudioFeedback], Field(discriminator="continuous_feedback_mode")],
+)
 
 
 class HarvestAction(BaseModel):
     """Defines an abstract class for an harvest action"""
 
     action: HarvestActionLabel = Field(default=HarvestActionLabel.NONE, description="Label of the action")
-    trial_type: TrialType = Field(default=TrialType.NONE, description="Type of the trial")
+    harvest_mode: HarvestMode = Field(..., description="Type of the trial")
     probability: float = Field(default=1, description="Probability of reward")
     amount: float = Field(default=1, description="Amount of reward to be delivered")
     delay: float = Field(default=0, description="Delay between successful harvest and reward delivery")
     force_duration: float = Field(default=0.5, description="Duration that the force much stay above threshold")
     upper_force_threshold: float = Field(
-        default=MAX_LOAD_CELL_FORCE,
-        le=MAX_LOAD_CELL_FORCE,
-        ge=-MAX_LOAD_CELL_FORCE,
+        default=30000,
         description="Upper bound of the force target region or the target cached force required.",
     )
     lower_force_threshold: float = Field(
         default=5000,
-        le=MAX_LOAD_CELL_FORCE,
-        ge=-MAX_LOAD_CELL_FORCE,
         description="Lower bound of the force target region.",
     )
     is_operant: bool = Field(default=True, description="Whether the reward delivery is contingent on licking.")
-    time_to_collect: Optional[float] = Field(
+    time_to_collect: Optional[distributions.Distribution] = Field(
         default=None,
-        ge=0,
         description="Time to collect the reward after it is available. If null, the reward will be available indefinitely.",
+        validate_default=True,
     )
     action_updaters: List[ActionUpdater] = Field(
         default=[], description="List of action updaters. All updaters are called at the start of a new trial."
@@ -214,51 +207,37 @@ class HarvestAction(BaseModel):
             )
         return self
 
-    @model_validator(mode="after")
-    def _validate_trial_type(self) -> Self:
-        if self.trial_type == TrialType.ROI:
-            if not all(
-                [
-                    self._between_thresholds(self.upper_force_threshold),
-                    self._between_thresholds(self.lower_force_threshold),
-                ]
-            ):
-                raise ValueError("Force thresholds must be between -32768 and 32768 for ROI trials")
-        return self
-
-    @staticmethod
-    def _between_thresholds(value: float) -> bool:
-        return value <= MAX_LOAD_CELL_FORCE and value >= -MAX_LOAD_CELL_FORCE
-
 
 class QuiescencePeriod(BaseModel):
     """Defines a quiescence settings"""
 
-    duration: float = Field(default=0, ge=0, description="Duration of the quiescence period")
-    force_threshold: float = Field(
-        default=0, le=MAX_LOAD_CELL_FORCE, ge=-MAX_LOAD_CELL_FORCE, description="Time out for the quiescence period"
+    duration: distributions.Distribution = Field(
+        default=scalar_value(0.5), description="Duration of the quiescence period", validate_default=True
     )
+    force_threshold: float = Field(default=0, description="Time out for the quiescence period")
     has_cue: bool = Field(default=False, description="Whether to use a cue to signal the start of the period.")
 
 
 class InitiationPeriod(BaseModel):
     """Defines an initiation period"""
 
-    duration: float = Field(default=0, ge=0, description="Duration of the initiation period")
+    duration: distributions.Distribution = Field(
+        default=scalar_value(0.5), description="Duration of the initiation period", validate_default=True
+    )
     has_cue: bool = Field(default=True, description="Whether to use a cue to signal the start of the period.")
     abort_on_force: bool = Field(
         default=False, description="Whether to abort the trial if a choice is made during the initiation period."
     )
-    abort_on_force_threshold: float = Field(
-        default=0, le=MAX_LOAD_CELL_FORCE, ge=-MAX_LOAD_CELL_FORCE, description="Time out for the quiescence period"
-    )
+    abort_on_force_threshold: float = Field(default=0, description="Time out for the quiescence period")
 
 
 class ResponsePeriod(BaseModel):
     """Defines a response period"""
 
-    duration: float = Field(
-        default=0, ge=0, description="Duration of the response period. I.e. the time the animal has to make a choice."
+    duration: distributions.Distribution = Field(
+        default=scalar_value(0.5),
+        description="Duration of the response period. I.e. the time the animal has to make a choice.",
+        validate_default=True,
     )
     has_cue: bool = Field(default=True, description="Whether to use a cue to signal the start of the period.")
     has_feedback: bool = Field(
@@ -273,7 +252,9 @@ LeftHarvestAction = partial(HarvestAction, action=HarvestActionLabel.LEFT)
 class Trial(BaseModel):
     """Defines a trial"""
 
-    inter_trial_interval: float = Field(default=0, ge=0, description="Time between trials")
+    inter_trial_interval: distributions.Distribution = Field(
+        default=scalar_value(0.5), description="Time between trials", validate_default=True
+    )
     quiescence_period: Optional[QuiescencePeriod] = Field(default=None, description="Quiescence settings")
     initiation_period: InitiationPeriod = Field(
         default=InitiationPeriod(), validate_default=True, description="Initiation settings"
@@ -282,10 +263,10 @@ class Trial(BaseModel):
         default=ResponsePeriod(), validate_default=True, description="Response settings"
     )
     left_harvest: Optional[HarvestAction] = Field(
-        default=LeftHarvestAction(), validate_default=True, description="Specification of the left action"
+        default=None, validate_default=True, description="Specification of the left action"
     )
     right_harvest: Optional[HarvestAction] = Field(
-        default=RightHarvestAction(), validate_default=True, description="Specification of the right action"
+        default=None, validate_default=True, description="Specification of the right action"
     )
 
     @field_validator("left_harvest", mode="after")
@@ -302,8 +283,6 @@ class Trial(BaseModel):
     def _validate_harvest(value: Optional[HarvestAction], harvest_label: HarvestActionLabel) -> Optional[HarvestAction]:
         if value is None:
             return value
-        if value.action == HarvestActionLabel.NONE:
-            return HarvestAction(action=harvest_label)
         if value.action != harvest_label:
             raise ValueError(f"Harvest action must be of type {harvest_label}")
         return value
@@ -313,13 +292,11 @@ class BlockStatisticsMode(str, Enum):
     """Defines the mode of the environment"""
 
     BLOCK = "Block"
-    BROWNIAN = "BrownianRandomWalk"
     BLOCK_GENERATOR = "BlockGenerator"
 
 
 class Block(BaseModel):
     mode: Literal[BlockStatisticsMode.BLOCK] = BlockStatisticsMode.BLOCK
-    is_baited: bool = Field(default=False, description="Whether the trials are baited")
     trials: List[Trial] = Field(default=[], description="List of trials in the block")
     shuffle: bool = Field(default=False, description="Whether to shuffle the trials in the block")
     repeat_count: Optional[int] = Field(
@@ -329,24 +306,13 @@ class Block(BaseModel):
 
 class BlockGenerator(BaseModel):
     mode: Literal[BlockStatisticsMode.BLOCK_GENERATOR] = BlockStatisticsMode.BLOCK_GENERATOR
-    is_baited: bool = Field(default=False, description="Whether the trials are baited")
     block_size: distributions.Distribution = Field(
         default=uniform_distribution_value(min=50, max=60), validate_default=True, description="Size of the block"
     )
     trial_statistics: Trial = Field(..., description="Statistics of the trials in the block")
 
 
-class BrownianRandomWalk(BaseModel):
-    mode: Literal[BlockStatisticsMode.BROWNIAN] = BlockStatisticsMode.BROWNIAN
-    is_baited: bool = Field(default=False, description="Whether the trials are baited")
-    block_size: distributions.Distribution = Field(
-        default=uniform_distribution_value(min=50, max=60), validate_default=True, description="Size of the block"
-    )
-    trial_statistics: Trial = Field(..., description="Statistics of the trials in the block")
-
-
-class BlockStatistics(RootModel):
-    root: Annotated[Union[Block, BlockGenerator, BrownianRandomWalk], Field(discriminator="mode")]
+BlockStatistics = TypeAliasType("BlockStatistics", Annotated[Union[Block, BlockGenerator], Field(discriminator="mode")])
 
 
 class Environment(BaseModel):
@@ -445,5 +411,5 @@ class AindForceForagingTaskParameters(TaskParameters):
 
 class AindForceForagingTaskLogic(AindBehaviorTaskLogicModel):
     version: Literal[__version__] = __version__
-    name: str = Field(default="AindForceForaging", description="Name of the task logic", frozen=True)
+    name: Literal["AindForceForaging"] = Field(default="AindForceForaging", description="Name of the task logic")
     task_parameters: AindForceForagingTaskParameters = Field(..., description="Parameters of the task logic")

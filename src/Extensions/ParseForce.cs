@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 using System.ComponentModel;
 using OpenCV.Net;
 
-public class ParseForce : Transform<Timestamped<short[]>, Timestamped<Force>>
+public class ParseForce : Transform<Timestamped<double[]>, Timestamped<Force>>
 {
 
     public ForceOperationControl ForceOperationControl { get; set; }
@@ -18,7 +18,7 @@ public class ParseForce : Transform<Timestamped<short[]>, Timestamped<Force>>
     public Mat LookUpTable { get; set; }
 
 
-    public override IObservable<Timestamped<Force>> Process(IObservable<Timestamped<short[]>> source)
+    public override IObservable<Timestamped<Force>> Process(IObservable<Timestamped<double[]>> source)
     {
         Mat lookUpTable;
         ForceOperationControl forceOperationControl = ForceOperationControl;
@@ -86,10 +86,7 @@ public class ParseForce : Transform<Timestamped<short[]>, Timestamped<Force>>
                 }
                 ForceDiagnosis diagnosis;
                 var force = interpolator.LookUp(value.LeftForce, value.RightForce, out diagnosis);
-                return new Force(force, force)
-                {
-                    Diagnosis = diagnosis
-                };
+                return new Force(force, force, diagnosis);
             default:
                 throw new ArgumentOutOfRangeException("Unknown press mode.");
         }
@@ -104,11 +101,10 @@ public class Force
 
     public ForceDiagnosis Diagnosis { get; set; }
 
-    public Force(double leftForce, double rightForce)
-    {
+    public Force(double leftForce, double rightForce, ForceDiagnosis forceDiagnosis = null){
         LeftForce = leftForce;
         RightForce = rightForce;
-        Diagnosis = null;
+        Diagnosis = forceDiagnosis;
     }
 
     public double this[HarvestActionLabel key]
@@ -135,8 +131,8 @@ public class Force
 public class ForceDiagnosis
 {
 
-    public short RawLeftForce { get; set; }
-    public short RawRightForce { get; set; }
+    public double RawLeftForce { get; set; }
+    public double RawRightForce { get; set; }
 
     public double LookUpIndexLeftForce { get; set; }
     public double LookUpIndexRightForce { get; set; }
@@ -183,8 +179,8 @@ public class SubPixelBilinearInterpolator
 
         diagnosis = new ForceDiagnosis()
         {
-            RawLeftForce = (short)leftValue,
-            RawRightForce = (short)rightValue,
+            RawLeftForce = leftValue,
+            RawRightForce = rightValue,
             LookUpIndexLeftForce = clamped_leftValue,
             LookUpIndexRightForce = clamped_rightValue
         };
@@ -219,8 +215,3 @@ public class SubPixelBilinearInterpolator
         return (double)(p00.Val0 * (1 - dR) * (1 - dL) + p01.Val0 * dR * (1 - dL) + p10.Val0 * (1 - dR) * dL + p11.Val0 * dR * dL);
     }
 }
-
-
-
-
-

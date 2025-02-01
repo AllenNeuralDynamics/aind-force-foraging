@@ -19,28 +19,31 @@ public class UpdateHarvestAction
         get { return random; }
         set { random = value; }
     }
-    public IObservable<HarvestAction> Process(IObservable<Tuple<HarvestAction, ActionUpdater, float?>> source)
+    public IObservable<HarvestAction> Process(IObservable<Tuple<HarvestAction, ActionUpdater, double>> source)
     {
         return source.Select(value => {
             var action = value.Item1;
             var updater = value.Item2;
-            var event_value = value.Item3.HasValue ? value.Item3.Value : 1.0;
+            var eventValue = value.Item3;
             switch (updater.TargetParameter)
             {
                 case UpdateTargetParameter.Delay:
-                    action.Delay = Update(action.Delay, updater.Updater, event_value);
+                    action.Delay = Update(action.Delay, updater.Updater, eventValue);
                     break;
                 case UpdateTargetParameter.LowerForceThreshold:
-                    action.LowerForceThreshold = Update(action.LowerForceThreshold, updater.Updater, event_value);
+                    action.LowerForceThreshold = Update(action.LowerForceThreshold, updater.Updater, eventValue);
                     break;
                 case UpdateTargetParameter.UpperForceThreshold:
-                    action.UpperForceThreshold = Update(action.UpperForceThreshold, updater.Updater, event_value);
+                    action.UpperForceThreshold = Update(action.UpperForceThreshold, updater.Updater, eventValue);
                     break;
                 case UpdateTargetParameter.Amount:
-                    action.Amount = Update(action.Amount, updater.Updater, event_value);
+                    action.Amount = Update(action.Amount, updater.Updater, eventValue);
                     break;
                 case UpdateTargetParameter.Probability:
-                    action.Probability = Update(action.Probability, updater.Updater, event_value);
+                    action.Probability = Update(action.Probability, updater.Updater, eventValue);
+                    break;
+                case UpdateTargetParameter.ForceDuration:
+                    action.ForceDuration = Update(action.ForceDuration, updater.Updater, eventValue);
                     break;
                 default:
                     throw new NotImplementedException("Invalid target parameter.");
@@ -49,25 +52,15 @@ public class UpdateHarvestAction
             });
     }
 
-    public IObservable<HarvestAction> Process(IObservable<Tuple<HarvestAction, ActionUpdater>> source)
-    {
-        return Process(source.Select(input => Tuple.Create(input.Item1, input.Item2, (float?)null)));
-    }
 
-    public IObservable<HarvestAction> Process(IObservable<Tuple<HarvestAction, ActionUpdater, Unit>> source)
+    private double Update(double value, NumericalUpdater updater, double eventValue)
     {
-        return Process(source.Select(input => Tuple.Create(input.Item1, input.Item2, (float?)null)));
-    }
+        if (updater.Operation == NumericalUpdaterOperation.None){return value;}
+        if (double.IsNaN(eventValue)){return value;}
 
-    private double Update(double value, NumericalUpdater updater, double event_value)
-    {
-        if (updater.Operation == NumericalUpdaterOperation.None)
-        {
-            return value;
-        }
         var updaterParams = updater.Parameters;
         double updated_value;
-        var updaterValue = updaterParams.Value.SampleDistribution(Random) * event_value;
+        var updaterValue = updaterParams.Value.SampleDistribution(Random) * eventValue;
         switch (updater.Operation)
         {
             case NumericalUpdaterOperation.Offset:

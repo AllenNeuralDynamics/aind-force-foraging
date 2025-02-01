@@ -5,10 +5,9 @@ Write-Output "Creating a Python environment..."
 if (Test-Path -Path ./.venv) {
     Remove-Item ./.venv -Recurse -Force
 }
-&python -m venv ./.venv
-.\.venv\Scripts\Activate.ps1
+&uv venv
 Write-Output "Installing python packages..."
-&pip install .
+&uv sync --extra launcher
 Write-Output "Creating a Bonsai environment and installing packages..."
 Set-Location "bonsai"
 .\setup.ps1

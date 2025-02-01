@@ -6,10 +6,11 @@ import aind_behavior_force_foraging.task_logic as task_logic
 import aind_behavior_services.calibration.load_cells as lcc
 import aind_behavior_services.rig as rig
 import aind_behavior_services.task_logic.distributions as distributions
-from aind_behavior_force_foraging.rig import AindForceForagingRig, AindManipulatorDevice, HarpLoadCells, RigCalibration
+from aind_behavior_force_foraging.rig import AindForceForagingRig, AindManipulatorDevice, RigCalibration
 from aind_behavior_force_foraging.task_logic import (
     AindForceForagingTaskLogic,
     AindForceForagingTaskParameters,
+    scalar_value,
 )
 from aind_behavior_services import db_utils as db
 from aind_behavior_services.calibration.aind_manipulator import (
@@ -35,7 +36,6 @@ def mock_session() -> AindBehaviorSessionModel:
         date=datetime.datetime.now(tz=datetime.timezone.utc),
         experiment="ForceForaging",
         root_path="c://",
-        remote_path="c://remote",
         subject="test",
         notes="test session",
         experiment_version="0.1.0",
@@ -70,13 +70,11 @@ def mock_rig() -> AindForceForagingRig:
         ]
     )
     water_valve_calibration = WaterValveCalibration(
-        input=water_valve_input, output=water_valve_input.calibrate_output(), calibration_date=datetime.datetime.now()
+        input=water_valve_input, output=water_valve_input.calibrate_output(), date=datetime.datetime.now()
     )
     water_valve_calibration.output = WaterValveCalibrationOutput(slope=1, offset=0)  # For testing purposes
 
-    video_writer = rig.VideoWriterFfmpeg(
-        frame_rate=120, container_extension="mp4", output_arguments="-c:v h264_nvenc -vsync 0 -2pass "
-    )
+    video_writer = rig.VideoWriterFfmpeg(frame_rate=120, container_extension="mp4")
 
     load_cells_calibration = lcc.LoadCellsCalibration(
         output=lcc.LoadCellsCalibrationOutput(),
@@ -96,11 +94,11 @@ def mock_rig() -> AindForceForagingRig:
                 ),
             },
         ),
-        harp_load_cells=HarpLoadCells(port_name="COM4", calibration=load_cells_calibration),
+        harp_load_cells=lcc.LoadCells(port_name="COM4", calibration=load_cells_calibration),
         monitoring_camera_controller=rig.CameraController[rig.WebCamera](cameras={"WebCam0": rig.WebCamera(index=0)}),
         harp_behavior=rig.HarpBehavior(port_name="COM3"),
         harp_lickometer=rig.HarpLickometer(port_name="COM5"),
-        harp_clock_generator=rig.HarpClockGenerator(port_name="COM6"),
+        harp_clock_generator=rig.HarpWhiteRabbit(port_name="COM6"),
         harp_analog_input=None,
         manipulator=AindManipulatorDevice(port_name="COM9", calibration=manipulator_calibration),
         screen=rig.Screen(display_index=1),
@@ -136,9 +134,10 @@ def mock_task_logic() -> AindForceForagingTaskLogic:
             task_logic.BlockGenerator(
                 is_baited=True,
                 trial_statistics=task_logic.Trial(
-                    inter_trial_interval=10,
+                    inter_trial_interval=scalar_value(10),
                     left_harvest=None,
-                    right_harvest=task_logic.HarvestAction(
+                    right_harvest=task_logic.RightHarvestAction(
+                        harvest_mode=task_logic.HarvestMode.ROI,
                         probability=1.0,
                         amount=1.0,
                         delay=0.0,
@@ -146,7 +145,7 @@ def mock_task_logic() -> AindForceForagingTaskLogic:
                         upper_force_threshold=20000,
                         lower_force_threshold=10000,
                         is_operant=True,
-                        time_to_collect=1.0,
+                        time_to_collect=scalar_value(1.0),
                         action_updaters=[],
                     ),
                 ),
