@@ -3172,28 +3172,28 @@ Item3 as Right)</scr:Expression>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\PlayAudioCue.bonsai">
               <Duration>0.1</Duration>
-              <Frequency>300</Frequency>
+              <Frequency>12000</Frequency>
             </Expression>
             <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Boolean">
               <rx:Name>TriggerFeedbackCue</rx:Name>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\PlayAudioCue.bonsai">
               <Duration>0.1</Duration>
-              <Frequency>1000</Frequency>
+              <Frequency>18000</Frequency>
             </Expression>
             <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p10:Unit">
               <rx:Name>TriggerInitiationCue</rx:Name>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\PlayAudioCue.bonsai">
               <Duration>0.1</Duration>
-              <Frequency>500</Frequency>
+              <Frequency>7000</Frequency>
             </Expression>
             <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p10:Unit">
               <rx:Name>TriggerQuiescencePeriodCue</rx:Name>
             </Expression>
             <Expression xsi:type="IncludeWorkflow" Path="Extensions\PlayAudioCue.bonsai">
               <Duration>0.1</Duration>
-              <Frequency>500</Frequency>
+              <Frequency>7000</Frequency>
             </Expression>
           </Nodes>
           <Edges>
